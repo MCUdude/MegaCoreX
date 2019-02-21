@@ -309,7 +309,7 @@ const uint8_t PROGMEM digital_pin_to_timer[] = {
 	NOT_ON_TIMER,	// 8 PE3
 	TIMERA0,		// 9 PB0
 	TIMERA0,		// 10 PB1
-	TIMERB2,		// 11 PE0
+	NOT_ON_TIMER,	// 11 PE0
 	NOT_ON_TIMER,	// 12 PE1
 	NOT_ON_TIMER,	// 13 PE2
 	NOT_ON_TIMER,	// 14 PD0/AI0

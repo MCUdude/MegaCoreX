@@ -26,17 +26,35 @@ void setup_timers() {
 	/* Use DIV64 prescaler (giving 250kHz clock), enable TCA timer */
 	TCA0.SINGLE.CTRLA = (TCA_SINGLE_CLKSEL_DIV64_gc) | (TCA_SINGLE_ENABLE_bm);
 
-
 	/*	TYPE B TIMERS  */
+  
+  // Setup TCB0 routing
+  #if defined(TCB0)
+		PORTMUX.TCBROUTEA |= PORTMUX_TCB0_bm; // Route signal to PF4
+  #endif
+  
+  // Setup TCB1 routing
+  #if defined(TCB1)
+		PORTMUX.TCBROUTEA	|= PORTMUX_TCB1_bm; // Route signal to PF5
+	#endif
 
-	/* PORTMUX alternate location needed for TCB0 & 1, TCB2 is default location */
-	PORTMUX.TCBROUTEA	|= (PORTMUX_TCB0_bm | PORTMUX_TCB1_bm);
-
-	/* Start with TCB0 */
+	// Start with TCB0
 	TCB_t *timer_B = (TCB_t *)&TCB0;
+  
+  // Find end timer
+  #if defined(TCB3)
+		TCB_t *timer_B_end = (TCB_t *)&TCB3;
+	#elif defined(TCB2)
+		TCB_t *timer_B_end = (TCB_t *)&TCB2;
+	#elif defined(TCB1)
+		TCB_t *timer_B_end = (TCB_t *)&TCB1;
+	#else
+		TCB_t *timer_B_end = (TCB_t *)&TCB0;
+	#endif
 
-	/* Timer B Setup loop for TCB[0:2] */
-	do{
+	/* Timer B Setup loop for TCB[0:3] */
+	do
+	{
 		/* 8 bit PWM mode, but do not enable output yet, will do in analogWrite() */
 		timer_B->CTRLB = (TCB_CNTMODE_PWM8_gc);
 
@@ -56,7 +74,7 @@ void setup_timers() {
 		timer_B++;
 
 	/* Stop when pointing to TCB3 */
-	} while (timer_B < (TCB_t *)&TCB3);
+	} while (timer_B <= timer_B_end);
 
 	/* Stuff for synchronizing PWM timers */
 // 	/* Restart TCA to sync TCBs */

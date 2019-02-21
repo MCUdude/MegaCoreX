@@ -22,25 +22,25 @@
 
 #include "wiring_private.h"
 
-// the prescaler is set so that timerb3 ticks every 64 clock cycles, and the
+// the prescaler is set so that timerb0 ticks every 64 clock cycles, and the
 // the overflow handler is called every 256 ticks.
-volatile uint16_t microseconds_per_timerb3_overflow;
-volatile uint16_t microseconds_per_timerb3_tick;
+volatile uint16_t microseconds_per_timerb0_overflow;
+volatile uint16_t microseconds_per_timerb0_tick;
 
 uint32_t F_CPU_CORRECTED = F_CPU;
 
-// the whole number of milliseconds per timerb3 overflow
+// the whole number of milliseconds per timerb0 overflow
 uint16_t millis_inc;
 
-// the fractional number of milliseconds per timerb3 overflow
+// the fractional number of milliseconds per timerb0 overflow
 uint16_t fract_inc;
 #define FRACT_MAX (1000)
 
-// whole number of microseconds per timerb3 tick
+// whole number of microseconds per timerb0 tick
 
-volatile uint32_t timerb3_overflow_count = 0;
-volatile uint32_t timerb3_millis = 0;
-static uint16_t timerb3_fract = 0;
+volatile uint32_t timerb0_overflow_count = 0;
+volatile uint32_t timerb0_millis = 0;
+static uint16_t timerb0_fract = 0;
 
 inline uint16_t clockCyclesPerMicrosecondComp(uint32_t clk){
 	return ( (clk) / 1000000L );
@@ -58,12 +58,12 @@ inline unsigned long microsecondsToClockCycles(unsigned long microseconds){
 	return ( microseconds * clockCyclesPerMicrosecond() );
 }
 
-ISR(TCB3_INT_vect)
+ISR(TCB0_INT_vect)
 {
 	// copy these to local variables so they can be stored in registers
 	// (volatile variables must be read from memory on every access)
-	uint32_t m = timerb3_millis;
-	uint16_t f = timerb3_fract;
+	uint32_t m = timerb0_millis;
+	uint16_t f = timerb0_fract;
 
 	m += millis_inc;
 	f += fract_inc;
@@ -73,12 +73,12 @@ ISR(TCB3_INT_vect)
 		m += 1;
 	}
 
-	timerb3_fract = f;
-	timerb3_millis = m;
-	timerb3_overflow_count++;
+	timerb0_fract = f;
+	timerb0_millis = m;
+	timerb0_overflow_count++;
 
 	/* Clear flag */
-	TCB3.INTFLAGS = TCB_CAPT_bm;
+	TCB0.INTFLAGS = TCB_CAPT_bm;
 }
 
 unsigned long millis()
@@ -89,7 +89,7 @@ unsigned long millis()
 	// inconsistent value (e.g. in the middle of a write to timer0_millis)
 	uint8_t status = SREG;
 	cli();
-	m = timerb3_millis;
+	m = timerb0_millis;
 
 	SREG = status;
 
@@ -105,22 +105,22 @@ unsigned long micros() {
 	cli();
 
 	/* Get current number of overflows and timer count */
-	overflows = timerb3_overflow_count;
-	ticks = TCB3.CNTL;
+	overflows = timerb0_overflow_count;
+	ticks = TCB0.CNTL;
 
 	/* If the timer overflow flag is raised, we just missed it,
 	increment to account for it, & read new ticks */
-	if(TCB3.INTFLAGS & TCB_CAPT_bm){
+	if(TCB0.INTFLAGS & TCB_CAPT_bm){
 		overflows++;
-		ticks = TCB3.CNTL;
+		ticks = TCB0.CNTL;
 	}
 
 	/* Restore state */
 	SREG = status;
 
 	/* Return microseconds of up time  (resets every ~70mins) */
-	microseconds = ((overflows * microseconds_per_timerb3_overflow)
-				+ (ticks * microseconds_per_timerb3_tick));
+	microseconds = ((overflows * microseconds_per_timerb0_overflow)
+				+ (ticks * microseconds_per_timerb0_tick));
 	return microseconds;
 }
 
@@ -355,27 +355,27 @@ void init()
 
 	setup_timers();
 
-	/********************* TCB3 for system time tracking **************************/
+	/********************* TCB0 for system time tracking **************************/
 
 	/* Calculate relevant time tracking values */
-	microseconds_per_timerb3_overflow = clockCyclesToMicroseconds(TIME_TRACKING_CYCLES_PER_OVF);
-	microseconds_per_timerb3_tick = microseconds_per_timerb3_overflow/TIME_TRACKING_TIMER_PERIOD;
+	microseconds_per_timerb0_overflow = clockCyclesToMicroseconds(TIME_TRACKING_CYCLES_PER_OVF);
+	microseconds_per_timerb0_tick = microseconds_per_timerb0_overflow/TIME_TRACKING_TIMER_PERIOD;
 
-	millis_inc = microseconds_per_timerb3_overflow / 1000;
-	fract_inc = ((microseconds_per_timerb3_overflow % 1000));
+	millis_inc = microseconds_per_timerb0_overflow / 1000;
+	fract_inc = ((microseconds_per_timerb0_overflow % 1000));
 
 	/* Default Periodic Interrupt Mode */
 	/* TOP value for overflow every 1024 clock cycles */
-	TCB3.CCMP = TIME_TRACKING_TIMER_PERIOD;
+	TCB0.CCMP = TIME_TRACKING_TIMER_PERIOD;
 
-	/* Enable TCB3 interrupt */
-	TCB3.INTCTRL |= TCB_CAPT_bm;
+	/* Enable TCB0 interrupt */
+	TCB0.INTCTRL |= TCB_CAPT_bm;
 
 	/* Clock selection -> same as TCA (F_CPU/64 -- 250kHz) */
-	TCB3.CTRLA = TCB_CLKSEL_CLKTCA_gc;
+	TCB0.CTRLA = TCB_CLKSEL_CLKTCA_gc;
 
 	/* Enable & start */
-	TCB3.CTRLA |= TCB_ENABLE_bm;	/* Keep this last before enabling interrupts to ensure tracking as accurate as possible */
+	TCB0.CTRLA |= TCB_ENABLE_bm;	/* Keep this last before enabling interrupts to ensure tracking as accurate as possible */
 
 /*************************** ENABLE GLOBAL INTERRUPTS *************************/
 
