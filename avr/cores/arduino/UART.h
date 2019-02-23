@@ -127,8 +127,11 @@ class UartClass : public HardwareSerial
 
     volatile uint8_t const _hwserial_rx_pin;
     volatile uint8_t const _hwserial_tx_pin;
+    volatile uint8_t const _hwserial_rx_pin_swap;
+    volatile uint8_t const _hwserial_tx_pin_swap;
 
     volatile uint8_t const _uart_mux;
+    volatile uint8_t const _uart_mux_swap;
 
     // Has any byte been written to the UART since begin()
     bool _written;
@@ -149,9 +152,10 @@ class UartClass : public HardwareSerial
     unsigned char _tx_buffer[SERIAL_TX_BUFFER_SIZE];
 
   public:
-    inline UartClass(volatile USART_t *hwserial_module, uint8_t hwserial_rx_pin, uint8_t hwserial_tx_pin, uint8_t dre_vect_num, uint8_t uart_mux);
+    inline UartClass(volatile USART_t *hwserial_module, uint8_t hwserial_rx_pin, uint8_t hwserial_tx_pin, uint8_t hwserial_rx_pin_swap, uint8_t hwserial_tx_pin_swap, uint8_t dre_vect_num, uint8_t uart_mux, uint8_t uart_mux_swap);
     void begin(unsigned long baud) { begin(baud, SERIAL_8N1); }
     void begin(unsigned long, uint16_t);
+    void swap(uint8_t shouldSwap = true);
     void end();
     virtual int available(void);
     virtual int peek(void);
