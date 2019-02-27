@@ -19,18 +19,20 @@ menu.emulation=ATmega328 emulation
 4809.build.board=AVR_ATmega4809
 4809.build.mcu=atmega4809
 
-# Fuses we don't need to modify
+# Fuses we don't need to modify in the tools menu
 4809.bootloader.WDTCFG=0x00
 4809.bootloader.TCD0CFG=0x00
 4809.bootloader.SYSCFG0=0xCD
-4809.bootloader.SYSCFG1=0x05
+4809.bootloader.SYSCFG1=0x06
 4809.bootloader.APPEND=0x00
 4809.bootloader.BOOTEND=0x00
 4809.bootloader.LOCKBIT=0xC5
 
 # Pinouts
 4809.menu.pinout.uno_wifi=Uno WiFi
-4809.menu.pinout.uno_wifi.build.variant=uno_wifi
+4809.menu.pinout.uno_wifi.build.variant=uno-wifi
+4809.menu.pinout.48pin_standard=Standard pinout
+4809.menu.pinout.48pin_standard.build.variant=48pin-standard
 
 # Brown out detection
 4809.menu.BOD.2v6=BOD 2.6V
@@ -109,7 +111,7 @@ menu.emulation=ATmega328 emulation
 3209.bootloader.WDTCFG=0x00
 3209.bootloader.TCD0CFG=0x00
 3209.bootloader.SYSCFG0=0xC9
-3209.bootloader.SYSCFG1=0x05
+3209.bootloader.SYSCFG1=0x06
 3209.bootloader.APPEND=0x00
 3209.bootloader.BOOTEND=0x00
 3209.bootloader.LOCKBIT=0xC5
@@ -117,6 +119,8 @@ menu.emulation=ATmega328 emulation
 # Pinouts
 3209.menu.pinout.uno_wifi=Uno WiFi
 3209.menu.pinout.uno_wifi.build.variant=uno_wifi
+3209.menu.pinout.48pin_standard=Standard pinout
+3209.menu.pinout.48pin_standard.build.variant=48pin-standard
 
 # Brown out detection
 3209.menu.BOD.2v6=BOD 2.6V
