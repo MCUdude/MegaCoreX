@@ -48,7 +48,7 @@
 #define SPI_INTERRUPT_DISABLE     0
 #define SPI_INTERRUPT_ENABLE      1
 
-#define EXTERNAL_NUM_INTERRUPTS   NUM_TOTAL_PINS
+//#define EXTERNAL_NUM_INTERRUPTS   NUM_TOTAL_PINS
 
 class SPISettings {
   public:

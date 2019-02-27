@@ -264,5 +264,5 @@ void SPIClass::transfer(void *buf, size_t count)
 }
 
 #if SPI_INTERFACES_COUNT > 0
-  SPIClass SPI (PIN_SPI_MISO,  PIN_SPI_SCK,  PIN_SPI_MOSI,  PIN_SPI_SS,  MUX_SPI);
+  SPIClass SPI (PIN_SPI_MISO,  PIN_SPI_SCK,  PIN_SPI_MOSI,  PIN_SPI_SS,  SPI_MUX);
 #endif
