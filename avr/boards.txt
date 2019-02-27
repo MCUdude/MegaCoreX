@@ -16,7 +16,7 @@ menu.emulation=ATmega328 emulation
 4809.upload.maximum_data_size=6144
 4809.upload.speed=115200
 4809.bootloader.tool=avrdude
-4809.build.core=arduino
+4809.build.core=coreX-corefiles
 4809.build.board=AVR_ATmega4809
 4809.build.mcu=atmega4809
 
@@ -32,7 +32,7 @@ menu.emulation=ATmega328 emulation
 # Pinouts
 4809.menu.pinout.uno_wifi=Uno WiFi
 4809.menu.pinout.uno_wifi.build.variant=uno-wifi
-4809.menu.pinout.48pin_standard=Standard pinout
+4809.menu.pinout.48pin_standard=48 pin standard
 4809.menu.pinout.48pin_standard.build.variant=48pin-standard
 
 # Brown out detection
@@ -104,7 +104,7 @@ menu.emulation=ATmega328 emulation
 4808.upload.maximum_data_size=6144
 4808.upload.speed=115200
 4808.bootloader.tool=avrdude
-4808.build.core=arduino
+4808.build.core=coreX-corefiles
 4808.build.board=AVR_ATmega4808
 4808.build.mcu=atmega4808
 
@@ -118,9 +118,9 @@ menu.emulation=ATmega328 emulation
 4808.bootloader.LOCKBIT=0xC5
 
 # Pinouts
-4808.menu.pinout.32pin_standard=32-pin standard pinout
+4808.menu.pinout.32pin_standard=32 pin standard
 4808.menu.pinout.32pin_standard.build.variant=32pin-standard
-4808.menu.pinout.28pin_standard=28-pin standard pinout
+4808.menu.pinout.28pin_standard=28 pin standard
 4808.menu.pinout.28pin_standard.build.variant=28pin-standard
 
 # Brown out detection
@@ -187,7 +187,7 @@ menu.emulation=ATmega328 emulation
 3209.upload.maximum_data_size=4096
 3209.upload.speed=115200
 3209.bootloader.tool=avrdude
-3209.build.core=arduino
+3209.build.core=coreX-corefiles
 3209.build.board=AVR_ATmega3209
 3209.build.mcu=atmega3209
 
@@ -203,7 +203,7 @@ menu.emulation=ATmega328 emulation
 # Pinouts
 3209.menu.pinout.uno_wifi=Uno WiFi
 3209.menu.pinout.uno_wifi.build.variant=uno_wifi
-3209.menu.pinout.48pin_standard=Standard pinout
+3209.menu.pinout.48pin_standard=48 pin standard
 3209.menu.pinout.48pin_standard.build.variant=48pin-standard
 
 # Brown out detection
@@ -275,7 +275,7 @@ menu.emulation=ATmega328 emulation
 3208.upload.maximum_data_size=4096
 3208.upload.speed=115200
 3208.bootloader.tool=avrdude
-3208.build.core=arduino
+3208.build.core=coreX-corefiles
 3208.build.board=AVR_ATmega3208
 3208.build.mcu=atmega3208
 
@@ -289,9 +289,9 @@ menu.emulation=ATmega328 emulation
 3208.bootloader.LOCKBIT=0xC5
 
 # Pinouts
-3208.menu.pinout.32pin_standard=32-pin standard pinout
+3208.menu.pinout.32pin_standard=32 pin standard
 3208.menu.pinout.32pin_standard.build.variant=32pin-standard
-3208.menu.pinout.28pin_standard=28-pin standard pinout
+3208.menu.pinout.28pin_standard=28 pin standard
 3208.menu.pinout.28pin_standard.build.variant=28pin-standard
 
 # Brown out detection
