@@ -1,7 +1,22 @@
-# MegaCoreX (and TinyCoreX)?
+# MegaCoreX
 
 An Arduino core for the new megaAVR series!
 ATmega3208, ATmega4808, ATmega3209 and ATmega4809.
+
+**TODO:**
+* ~~UART pin swap inegraion~~ **DONE! use Serial.swap()**
+* Get rid of nasty compiler warning chen compiling a blank sketch (or any sketch really..)
+* Add printf to print class
+* Steal 20 MHz accurate timing from MCUdude_corefiles
+* SPI pin swap integration in libraries
+* I2C pin swap integration in libraries
+* Example (library?) for using the 32.768kHz cystal that can be found on Uno Wifi Rev2 and Curiosity Nano 4809
+* Add ArduinoAPI as subtree for easy maintainance
+* Readme
+  - Need some good intro text at the beginning
+  - Getting started section for various HW (Curiosity Nano, AVR-IOT 4808, Uno Wifi Rev2, Xplained pro?)
+  - Minimal setup schematics
+* Proper testing with updated toolchain (I'm experiencing trouble with the 32kB chips)
 
 
 # Table of contents
@@ -9,15 +24,13 @@ ATmega3208, ATmega4808, ATmega3209 and ATmega4809.
 * [Programming](#programming)
 * [Supported clock frequencies](#supported-clock-frequencies)
 * [BOD option](#bod-option)
+* [Pinout](#pinout)
+* [How to install](#how-to-install)
+  - [Boards Manager Installation](#boards-manager-installation)
+  - [Manual Installation](#manual-installation)
 
 
 ## Supported microcontrollers
-* ATmega4809
-* ATmega4808
-* ATmega3209
-* ATmega3208
-
-Can't decide what microcontroller to choose? Have a look at the specification table below:
 
 |                        | ATmega4809       | ATmega4808                  | ATmega3209       | ATmega3208                  |
 |------------------------|------------------|-----------------------------|------------------|-----------------------------|
@@ -35,6 +48,8 @@ Can't decide what microcontroller to choose? Have a look at the specification ta
 
 ## Programming
 Programming must be done with a UPDI compatible programmer, such as the JTAGICE 3 or any of the new EDBG chips that can be found on newer AVR explained and curoisity boards.
+
+Unlike the Arduino UNO WiFi Rev2 boards package MegaCoreX does not auto detect the programmer you're using. You'll have to select the correct programmer in the *Programmers*. If you're using an Arduino Uno Wifi Rev2 board, a Curiosity Nano or an Xplained pro board you'll have to choose mEDBG, nEDBG or EDBG.
 
 
 ## Supported clock frequencies
@@ -65,3 +80,28 @@ Brown out detection, or BOD for short lets the microcontroller sense the input v
 | **2.6 V** (default option)     |
 | 2.1 V                          |
 | 1.8 V                          |
+| Disabled                       |
+
+
+## Pinout
+This core provides several different Arduino pin mappings based on your current hardware
+- **Uno WiFi**: This pinout is 100% compatible with the Arduino Uno WiFi Rev2 hardware. If you have code that's written for the Uno WiFi Rev2 it will work without any modifications if you choose this pinout. Note that this pinout does pin swapping on serial interfaces and PWM pins by default, and some peripherals are renamed to match the original 328P Uno hardware better. Note that this pinout is only available on ATmega3209/ATmega4809.
+- **48 pin standard**: This pinout is much closer to the actual hardware than the Uno WiFi pinout. It will not be compatible with shields or anything like that, but it's much more clean and elegant from a hardware point of view. The only pin swap done by default is the PWM output pins. This is done to prevent them from "colliding" with other peripherals. Note that this pinout is only available on ATmega3209/ATmega4809.
+- **32 pin standard**: This is the pinout for the 32 pin version of the ATmega3208/4808. Again, it will not be compatible with shields or anything like that, but it's clean and elegant from a hardware point of view. The only pin swap done by default is the PWM output pins. This is done to prevent them from "colliding" with other peripherals.
+- **28 pin standard**: This is the pinout for the 28 pin version of the ATmega3208/4808. Will not be compatible with shields or anything like that, but it's still clean and elegant from a hardware point of view. Only pin swap done by default is the PWM output pins. This is done to prevent them from "colliding" with other peripherals.
+
+Please have a look at the pins_arduino.h files for detailed info.<br/> <br/>
+<b>Click to enlarge:</b> 
+
+| **MegaCoreX ATmega3209/4809 pinout**                                                                              | **MegaCoreX ATmega3208/4808 pinout**                                                                                                                 |
+|-------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+|<img src="https://i.imgur.com/q2wB2OW.jpg" width="350"><br/><img src="https://i.imgur.com/7GcHjqk.jpg" width="350">|<img src="https://i.imgur.com/ZaCM75c.jpg" width="350"><br/><img src="https://i.imgur.com/BPg75ib.jpg" width="350"><br/><br/><br/><br/><br/><br/><br/>|
+
+
+## How to install
+#### Boards Manager Installation
+*Not yet implemented*
+
+#### Manual Installation
+Click on the "Download ZIP" button. Extract the ZIP file, and move the extracted folder to the location "**~/Documents/Arduino/hardware**". Create the "hardware" folder if it doesn't exist.
+Open Arduino IDE, and a new category in the boards menu called "MightyCoreX" will show up.
