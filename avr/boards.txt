@@ -4,9 +4,10 @@ menu.pinout=Pinout
 menu.emulation=ATmega328 emulation
 
 
-#####################
+
+####################
 #### ATmega4809 ####
-#####################
+####################
 
 # General
 4809.name=Atmega4809
@@ -92,6 +93,89 @@ menu.emulation=ATmega328 emulation
 
 
 
+####################
+#### ATmega4808 ####
+####################
+
+# General
+4808.name=Atmega4808
+4808.upload.tool=avrdude
+4808.upload.maximum_size=49152
+4808.upload.maximum_data_size=6144
+4808.upload.speed=115200
+4808.bootloader.tool=avrdude
+4808.build.core=arduino
+4808.build.board=AVR_ATmega4808
+4808.build.mcu=atmega4808
+
+# Fuses we don't need to modify in the tools menu
+4808.bootloader.WDTCFG=0x00
+4808.bootloader.TCD0CFG=0x00
+4808.bootloader.SYSCFG0=0xCD
+4808.bootloader.SYSCFG1=0x06
+4808.bootloader.APPEND=0x00
+4808.bootloader.BOOTEND=0x00
+4808.bootloader.LOCKBIT=0xC5
+
+# Pinouts
+4808.menu.pinout.32pin_standard=32-pin standard pinout
+4808.menu.pinout.32pin_standard.build.variant=32pin-standard
+4808.menu.pinout.28pin_standard=28-pin standard pinout
+4808.menu.pinout.28pin_standard.build.variant=28pin-standard
+
+# Brown out detection
+4808.menu.BOD.2v6=BOD 2.6V
+4808.menu.BOD.2v6.bootloader.BODCFG=0x54
+4808.menu.BOD.4v2=BOD 4.2V
+4808.menu.BOD.4v2.bootloader.BODCFG=0xF4
+4808.menu.BOD.4v0=BOD 4.0V
+4808.menu.BOD.4v0.bootloader.BODCFG=0xD4
+4808.menu.BOD.3v7=BOD 3.7V
+4808.menu.BOD.3v7.bootloader.BODCFG=0xB4
+4808.menu.BOD.3v3=BOD 3.3V
+4808.menu.BOD.3v3.bootloader.BODCFG=0x94
+4808.menu.BOD.2v9=BOD 2.9V
+4808.menu.BOD.2v9.bootloader.BODCFG=0x74
+4808.menu.BOD.2v1=BOD 2.1V
+4808.menu.BOD.2v1.bootloader.BODCFG=0x34
+4808.menu.BOD.1v8=BOD 1.8V
+4808.menu.BOD.1v8.bootloader.BODCFG=0x14
+4808.menu.BOD.disabled=BOD disabled
+4808.menu.BOD.disabled.bootloader.BODCFG=0x00
+
+# Clock
+4808.menu.clock.16MHz=16 MHz
+4808.menu.clock.16MHz.upload.speed=115200
+4808.menu.clock.16MHz.bootloader.OSCCFG=0x01
+4808.menu.clock.16MHz.build.f_cpu=16000000L
+
+4808.menu.clock.20MHz=20 MHz
+4808.menu.clock.20MHz.upload.speed=115200
+4808.menu.clock.20MHz.bootloader.OSCCFG=0x02
+4808.menu.clock.20MHz.build.f_cpu=20000000L
+
+4808.menu.clock.8MHz_div=8 MHz (divided)
+4808.menu.clock.8MHz_div.upload.speed=115200
+4808.menu.clock.8MHz_div.bootloader.OSCCFG=0x01
+4808.menu.clock.8MHz_div.build.f_cpu=8000000L
+
+4808.menu.clock.4MHz_div=4 MHz (divided)
+4808.menu.clock.4MHz_div.upload.speed=115200
+4808.menu.clock.4MHz_div.bootloader.OSCCFG=0x01
+4808.menu.clock.4MHz_div.build.f_cpu=4000000L
+
+4808.menu.clock.2MHz_div=2 MHz (divided)
+4808.menu.clock.2MHz_div.upload.speed=115200
+4808.menu.clock.2MHz_div.bootloader.OSCCFG=0x01
+4808.menu.clock.2MHz_div.build.f_cpu=2000000L
+
+4808.menu.clock.1MHz_div=1 MHz (divided)
+4808.menu.clock.1MHz_div.upload.speed=115200
+4808.menu.clock.1MHz_div.bootloader.OSCCFG=0x01
+4808.menu.clock.1MHz_div.build.f_cpu=1000000L
+
+
+
 #####################
 #### ATmega3209 ####
 #####################
@@ -107,7 +191,7 @@ menu.emulation=ATmega328 emulation
 3209.build.board=AVR_ATmega3209
 3209.build.mcu=atmega3209
 
-# Fuses we don't need to modify
+# Fuses we don't need to modify in the tools menu
 3209.bootloader.WDTCFG=0x00
 3209.bootloader.TCD0CFG=0x00
 3209.bootloader.SYSCFG0=0xC9
@@ -177,3 +261,87 @@ menu.emulation=ATmega328 emulation
 3209.menu.emulation.false=No
 3209.menu.emulation.true=Yes
 3209.menu.emulation.true.build.extra_flags=-DUNO_WIFI_REV2_328MODE
+
+
+
+####################
+#### ATmega3208 ####
+####################
+
+# General
+3208.name=Atmega3208
+3208.upload.tool=avrdude
+3208.upload.maximum_size=32768
+3208.upload.maximum_data_size=4096
+3208.upload.speed=115200
+3208.bootloader.tool=avrdude
+3208.build.core=arduino
+3208.build.board=AVR_ATmega3208
+3208.build.mcu=atmega3208
+
+# Fuses we don't need to modify in the tools menu
+3208.bootloader.WDTCFG=0x00
+3208.bootloader.TCD0CFG=0x00
+3208.bootloader.SYSCFG0=0xCD
+3208.bootloader.SYSCFG1=0x06
+3208.bootloader.APPEND=0x00
+3208.bootloader.BOOTEND=0x00
+3208.bootloader.LOCKBIT=0xC5
+
+# Pinouts
+3208.menu.pinout.32pin_standard=32-pin standard pinout
+3208.menu.pinout.32pin_standard.build.variant=32pin-standard
+3208.menu.pinout.28pin_standard=28-pin standard pinout
+3208.menu.pinout.28pin_standard.build.variant=28pin-standard
+
+# Brown out detection
+3208.menu.BOD.2v6=BOD 2.6V
+3208.menu.BOD.2v6.bootloader.BODCFG=0x54
+3208.menu.BOD.4v2=BOD 4.2V
+3208.menu.BOD.4v2.bootloader.BODCFG=0xF4
+3208.menu.BOD.4v0=BOD 4.0V
+3208.menu.BOD.4v0.bootloader.BODCFG=0xD4
+3208.menu.BOD.3v7=BOD 3.7V
+3208.menu.BOD.3v7.bootloader.BODCFG=0xB4
+3208.menu.BOD.3v3=BOD 3.3V
+3208.menu.BOD.3v3.bootloader.BODCFG=0x94
+3208.menu.BOD.2v9=BOD 2.9V
+3208.menu.BOD.2v9.bootloader.BODCFG=0x74
+3208.menu.BOD.2v1=BOD 2.1V
+3208.menu.BOD.2v1.bootloader.BODCFG=0x34
+3208.menu.BOD.1v8=BOD 1.8V
+3208.menu.BOD.1v8.bootloader.BODCFG=0x14
+3208.menu.BOD.disabled=BOD disabled
+3208.menu.BOD.disabled.bootloader.BODCFG=0x00
+
+# Clock
+3208.menu.clock.16MHz=16 MHz
+3208.menu.clock.16MHz.upload.speed=115200
+3208.menu.clock.16MHz.bootloader.OSCCFG=0x01
+3208.menu.clock.16MHz.build.f_cpu=16000000L
+
+3208.menu.clock.20MHz=20 MHz
+3208.menu.clock.20MHz.upload.speed=115200
+3208.menu.clock.20MHz.bootloader.OSCCFG=0x02
+3208.menu.clock.20MHz.build.f_cpu=20000000L
+
+3208.menu.clock.8MHz_div=8 MHz (divided)
+3208.menu.clock.8MHz_div.upload.speed=115200
+3208.menu.clock.8MHz_div.bootloader.OSCCFG=0x01
+3208.menu.clock.8MHz_div.build.f_cpu=8000000L
+
+3208.menu.clock.4MHz_div=4 MHz (divided)
+3208.menu.clock.4MHz_div.upload.speed=115200
+3208.menu.clock.4MHz_div.bootloader.OSCCFG=0x01
+3208.menu.clock.4MHz_div.build.f_cpu=4000000L
+
+3208.menu.clock.2MHz_div=2 MHz (divided)
+3208.menu.clock.2MHz_div.upload.speed=115200
+3208.menu.clock.2MHz_div.bootloader.OSCCFG=0x01
+3208.menu.clock.2MHz_div.build.f_cpu=2000000L
+
+3208.menu.clock.1MHz_div=1 MHz (divided)
+3208.menu.clock.1MHz_div.upload.speed=115200
+3208.menu.clock.1MHz_div.bootloader.OSCCFG=0x01
+3208.menu.clock.1MHz_div.build.f_cpu=1000000L
+
