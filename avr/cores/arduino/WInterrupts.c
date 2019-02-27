@@ -41,7 +41,7 @@ void attachInterrupt(uint8_t pin, void (*userFunc)(void), PinStatus mode) {
   if(bit_pos == NOT_A_PIN) return;
 
   /* Get interrupt number from pin */
-  uint8_t interruptNum = digitalPinToInterrupt(pin);
+  uint8_t interruptNum = (digitalPinToPort(pin) * 8) + bit_pos;
 
   /* Check interrupt number and apply function pointer to correct array index */
   if(interruptNum < EXTERNAL_NUM_INTERRUPTS) {
@@ -90,7 +90,7 @@ void detachInterrupt(uint8_t pin) {
   if(bit_pos == NOT_A_PIN) return;
 
   /* Get interrupt number from pin */
-  uint8_t interruptNum = digitalPinToInterrupt(pin);
+  uint8_t interruptNum = (digitalPinToPort(pin) * 8) + bit_pos;
 
   if(interruptNum < EXTERNAL_NUM_INTERRUPTS) {
     // Disable the interrupt.
