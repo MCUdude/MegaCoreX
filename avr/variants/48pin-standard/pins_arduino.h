@@ -38,6 +38,9 @@
 
 #define digitalPinHasPWM(p)         ((p) == 16 || (p) == 17 || (p) == 18 || (p) == 19 || (p) == 38 || (p) == 39)
 
+// SPI 0
+// No pinswap enabled by default
+// Pinswap 2 not available
 #define SPI_INTERFACES_COUNT   1
 #define SPI_MUX                (PORTMUX_SPI0_DEFAULT_gc)
 #define SPI_MUX_PINSWAP_1      (PORTMUX_SPI0_ALT1_gc)
@@ -59,6 +62,8 @@ static const uint8_t MOSI = PIN_SPI_MOSI;
 static const uint8_t MISO = PIN_SPI_MISO;
 static const uint8_t SCK  = PIN_SPI_SCK;
 
+// TWI 0
+// No pinswap enabled by default
 #define TWI_MUX                (PORTMUX_TWI0_DEFAULT_gc)
 #define TWI_MUX_PINSWAP        (PORTMUX_TWI0_ALT2_gc)
 #define PIN_WIRE_SDA           (2)
