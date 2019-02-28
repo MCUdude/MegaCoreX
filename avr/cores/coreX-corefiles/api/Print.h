@@ -20,7 +20,7 @@
 
 #include <inttypes.h>
 #include <stdio.h> // for size_t
-
+#include <stdarg.h>
 #include "String.h"
 #include "Printable.h"
 
