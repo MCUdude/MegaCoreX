@@ -5,13 +5,13 @@ ATmega3208, ATmega4808, ATmega3209 and ATmega4809.
 
 **TODO:**
 * ~~UART pin swap inegraion~~ **DONE! use Serial.swap()**
-* Get rid of nasty compiler warning chen compiling a blank sketch (or any sketch really..)
-* Add printf to print class
+* ~~Add printf to print class~~ **DONE! use Serial.printf()**
+* Get rid of nasty compiler warning when compiling a blank sketch (or any sketch really..)
 * Steal 20 MHz accurate timing from MCUdude_corefiles
 * SPI pin swap integration in libraries
 * I2C pin swap integration in libraries
 * Example (library?) for using the 32.768kHz cystal that can be found on Uno Wifi Rev2 and Curiosity Nano 4809
-* Add ArduinoAPI as subtree for easy maintainance
+* Add ArduinoAPI as subtree for easy maintainance (just need to get some PRs such as printf functionality merged first)
 * Readme
   - Need some good intro text at the beginning
   - Getting started section for various HW (Curiosity Nano, AVR-IOT 4808, Uno Wifi Rev2, Xplained pro?)
