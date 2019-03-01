@@ -14,7 +14,8 @@ ATmega3208, ATmega4808, ATmega3209 and ATmega4809.
 * Add ArduinoAPI as subtree for easy maintainance (just need to get some PRs such as printf functionality merged first)
 * Readme
   - Need some good intro text at the beginning
-  - Getting started section for various HW (Curiosity Nano, AVR-IOT 4808, Uno Wifi Rev2, Xplained pro?)
+  - Getting started section for various HW (~~Curiosity Nano~~, ~~AVR-IOT WG~~, ~~Uno Wifi Rev2~~, ~~Xplained pro~~)
+    - Add pinout pics for Curiosity Nano and AVR-IOT-WG
   - Minimal setup schematics
 * Proper testing with updated toolchain (I'm experiencing trouble with the 32kB chips)
 
@@ -28,7 +29,10 @@ ATmega3208, ATmega4808, ATmega3209 and ATmega4809.
 * [How to install](#how-to-install)
   - [Boards Manager Installation](#boards-manager-installation)
   - [Manual Installation](#manual-installation)
-
+* [Getting your hardware working](#getting-your-hardware-working)
+  - [Arduino Uno WiFi Rev2](#arduino-uno-wifi-rev2)
+  - [Curiosity Nano](#curiosity-nano)
+  - [AVR-IOT-WG](#avr-iot-wg)
 
 ## Supported microcontrollers
 
@@ -105,3 +109,17 @@ Please have a look at the pins_arduino.h files for detailed info.<br/> <br/>
 #### Manual Installation
 Click on the "Download ZIP" button. Extract the ZIP file, and move the extracted folder to the location "**~/Documents/Arduino/hardware**". Create the "hardware" folder if it doesn't exist.
 Open Arduino IDE, and a new category in the boards menu called "MightyCoreX" will show up.
+
+
+## Getting your hardware working
+### Arduino Uno WiFi Rev2
+[The Arduino Uno WiFi Rev2](https://store.arduino.cc/usa/arduino-uno-wifi-rev2) is the easiest board out of these because it's officially supported by Arduino. It uses an ATmega4809, and recommended pinout is *Uno WiFi*. Printing to the serial monitor on your PC is done by initializing `Serial.begin(baud)`. You'll also have to choose **Atmel mEDBG (ATmega32u4)** as your programmer in order to upload code. For more information about this board please see the product page and its schematic.
+
+### Curiosity Nano
+[The Curiosity nano](https://www.microchip.com/developmenttools/ProductDetails/DM320115) uses an ATmega4809 and but a different pinout than the Uno Wifi Rev2. Recommended pinout for this board is *48 pin standard*. Note that the serial port connected to the nEDBG chip (often refered to as the debug serial port) is UART3. This means You'll have to use `Serial3.begin(baud)` in order to print to the serial monitor. You'll also have to choose **Atmel nEDBG (ATSAMD21E18)** as your programmer in order to upload code. For more information about this board please refer to the userguide and its schematic.
+
+### AVR-IOT WG
+[The AVR-IOT WG](https://www.microchip.com/developmenttools/ProductDetails/AC164160) uses the ATmega4808 in a 32 pin package. *32 pin standard* is the correct pinout for this board. Note that the serial port connected to the nEDBG chip (often refered to as the debug serial port) is UART2. This means You'll have to use `Serial2.begin(baud)` in order to print to the serial monitor. You'll also have to choose **Atmel nEDBG (ATSAMD21E18)** as your programmer in order to upload code. For more information about this board please refer to the userguide and its schematic.
+
+### ATmega4809 Xplained Pro
+[The ATmega4809 Xplaied Pro](https://www.microchip.com/developmenttools/ProductDetails/atmega4809-xpro) uses an ATmega4809. Recommended pinout for this board is *48 pin standard*. Note that the serial port connected to the EDBG chip (often refered to as the debug serial port) is UART1. This means You'll have to use `Serial1.begin(baud)` in order to print to the serial monitor. You'll also have to choose **Atmel EDBG (AT32UC3A4256)** as your programmer in order to upload code. For more information about this board please refer to the userguide and its schematic.
