@@ -23,6 +23,7 @@ ATmega3208, ATmega4808, ATmega3209 and ATmega4809.
 * [Programming](#programming)
 * [Supported clock frequencies](#supported-clock-frequencies)
 * [BOD option](#bod-option)
+* [Reset pin](#reset-pin)
 * [Pinout](#pinout)
 * [How to install](#how-to-install)
   - [Boards Manager Installation](#boards-manager-installation)
@@ -84,6 +85,10 @@ Brown out detection, or BOD for short lets the microcontroller sense the input v
 | 2.1 V                          |
 | 1.8 V                          |
 | Disabled                       |
+
+
+## Reset pin
+None of the megaAVR-0 microcontrollers needs the reset line in order to be reprogrammed over the UPDI interface. This means that the reset pin can be used as a GPIO pin instead! There's no need for a high voltage programmer in order to turn that pin into a reset pin again either. If you have a development board you can instead use the reset button as a general purpose button for your project.
 
 
 ## Pinout
