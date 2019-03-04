@@ -1,8 +1,7 @@
 menu.clock=Clock
 menu.BOD=BOD
 menu.pinout=Pinout
-menu.emulation=ATmega328 emulation
-
+menu.resetpin=Reset pin
 
 
 ####################
@@ -23,7 +22,6 @@ menu.emulation=ATmega328 emulation
 # Fuses we don't need to modify in the tools menu
 4809.bootloader.WDTCFG=0x00
 4809.bootloader.TCD0CFG=0x00
-4809.bootloader.SYSCFG0=0xCD
 4809.bootloader.SYSCFG1=0x06
 4809.bootloader.APPEND=0x00
 4809.bootloader.BOOTEND=0x00
@@ -32,8 +30,15 @@ menu.emulation=ATmega328 emulation
 # Pinouts
 4809.menu.pinout.uno_wifi=Uno WiFi
 4809.menu.pinout.uno_wifi.build.variant=uno-wifi
+4809.menu.pinout.uno_wifi.build.extra_flags=-DUNO_WIFI_REV2_328MODE
 4809.menu.pinout.48pin_standard=48 pin standard
 4809.menu.pinout.48pin_standard.build.variant=48pin-standard
+
+# Reset pin
+4809.menu.resetpin.reset=Reset
+4809.menu.resetpin.reset.bootloader.SYSCFG0=0xC9
+4809.menu.resetpin.gpio=GPIO
+4809.menu.resetpin.gpio.bootloader.SYSCFG0=0xC1
 
 # Brown out detection
 4809.menu.BOD.2v6=BOD 2.6V
@@ -87,9 +92,9 @@ menu.emulation=ATmega328 emulation
 4809.menu.clock.1MHz_div.build.f_cpu=1000000L
 
 # ATmega328 emulation
-4809.menu.emulation.false=No
-4809.menu.emulation.true=Yes
-4809.menu.emulation.true.build.extra_flags=-DUNO_WIFI_REV2_328MODE
+#4809.menu.emulation.false=No
+#4809.menu.emulation.true=Yes
+#4809.menu.emulation.true.build.extra_flags=-DUNO_WIFI_REV2_328MODE
 
 
 
@@ -111,7 +116,6 @@ menu.emulation=ATmega328 emulation
 # Fuses we don't need to modify in the tools menu
 4808.bootloader.WDTCFG=0x00
 4808.bootloader.TCD0CFG=0x00
-4808.bootloader.SYSCFG0=0xCD
 4808.bootloader.SYSCFG1=0x06
 4808.bootloader.APPEND=0x00
 4808.bootloader.BOOTEND=0x00
@@ -122,6 +126,12 @@ menu.emulation=ATmega328 emulation
 4808.menu.pinout.32pin_standard.build.variant=32pin-standard
 4808.menu.pinout.28pin_standard=28 pin standard
 4808.menu.pinout.28pin_standard.build.variant=28pin-standard
+
+# Reset pin
+4808.menu.resetpin.reset=Reset
+4808.menu.resetpin.reset.bootloader.SYSCFG0=0xC9
+4808.menu.resetpin.gpio=GPIO
+4808.menu.resetpin.gpio.bootloader.SYSCFG0=0xC1
 
 # Brown out detection
 4808.menu.BOD.2v6=BOD 2.6V
@@ -194,7 +204,6 @@ menu.emulation=ATmega328 emulation
 # Fuses we don't need to modify in the tools menu
 3209.bootloader.WDTCFG=0x00
 3209.bootloader.TCD0CFG=0x00
-3209.bootloader.SYSCFG0=0xC9
 3209.bootloader.SYSCFG1=0x06
 3209.bootloader.APPEND=0x00
 3209.bootloader.BOOTEND=0x00
@@ -202,9 +211,16 @@ menu.emulation=ATmega328 emulation
 
 # Pinouts
 3209.menu.pinout.uno_wifi=Uno WiFi
-3209.menu.pinout.uno_wifi.build.variant=uno_wifi
+3209.menu.pinout.uno_wifi.build.variant=uno-wifi
+3209.menu.pinout.uno_wifi.build.extra_flags=-DUNO_WIFI_REV2_328MODE
 3209.menu.pinout.48pin_standard=48 pin standard
 3209.menu.pinout.48pin_standard.build.variant=48pin-standard
+
+# Reset pin
+3209.menu.resetpin.reset=Reset
+3209.menu.resetpin.reset.bootloader.SYSCFG0=0xC9
+3209.menu.resetpin.gpio=GPIO
+3209.menu.resetpin.gpio.bootloader.SYSCFG0=0xC1
 
 # Brown out detection
 3209.menu.BOD.2v6=BOD 2.6V
@@ -282,7 +298,6 @@ menu.emulation=ATmega328 emulation
 # Fuses we don't need to modify in the tools menu
 3208.bootloader.WDTCFG=0x00
 3208.bootloader.TCD0CFG=0x00
-3208.bootloader.SYSCFG0=0xCD
 3208.bootloader.SYSCFG1=0x06
 3208.bootloader.APPEND=0x00
 3208.bootloader.BOOTEND=0x00
@@ -293,6 +308,12 @@ menu.emulation=ATmega328 emulation
 3208.menu.pinout.32pin_standard.build.variant=32pin-standard
 3208.menu.pinout.28pin_standard=28 pin standard
 3208.menu.pinout.28pin_standard.build.variant=28pin-standard
+
+# Reset pin
+3208.menu.resetpin.reset=Reset
+3208.menu.resetpin.reset.bootloader.SYSCFG0=0xC9
+3208.menu.resetpin.gpio=GPIO
+3208.menu.resetpin.gpio.bootloader.SYSCFG0=0xC1
 
 # Brown out detection
 3208.menu.BOD.2v6=BOD 2.6V
