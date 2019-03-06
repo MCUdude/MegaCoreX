@@ -341,10 +341,8 @@ void TwoWire::onRequestService(void)
 		return;
 	}
 	
-	// reset tx buffer iterator vars
-	// !!! this will kill any pending pre-master sendTo() activity
-	txBufferIndex = 0;
-	txBufferLength = 0;
+	// reset slave write buffer iterator var
+	slave_bytesToWrite = 0;
   
 	// alert user program
 	user_onRequest();
