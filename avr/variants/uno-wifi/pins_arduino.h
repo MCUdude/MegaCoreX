@@ -40,6 +40,8 @@
 #define ANALOG_INPUT_OFFSET         14
 #define digitalPinToAnalogInput(p)  ((p < NUM_ANALOG_INPUTS) ? (p) : (p) - ANALOG_INPUT_OFFSET)
 
+#define MILLIS_USE_TIMERB3 // Use timerb0 for millis generation
+
 #define EXTERNAL_NUM_INTERRUPTS     (NUM_TOTAL_PINS)
 
 #define digitalPinHasPWM(p)         ((p) == 3 || (p) == 5 || (p) == 6 || (p) == 9 || (p) == 10)

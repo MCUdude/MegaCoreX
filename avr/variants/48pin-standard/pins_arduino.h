@@ -34,6 +34,8 @@
 #define ANALOG_INPUT_OFFSET         0 
 #define digitalPinToAnalogInput(p)  ((p < NUM_ANALOG_INPUTS) ? (p) : (p) - 22) // The user will have to use A0 - A15, NOT 0 - 15
 
+#define MILLIS_USE_TIMERB0 // Use timerb0 f0r millis generation
+
 #define EXTERNAL_NUM_INTERRUPTS     (NUM_TOTAL_PINS)
 
 #define digitalPinHasPWM(p)         ((p) == 16 || (p) == 17 || (p) == 18 || (p) == 19 || (p) == 38 || (p) == 39)

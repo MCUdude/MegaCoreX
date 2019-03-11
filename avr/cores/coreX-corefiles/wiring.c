@@ -22,25 +22,25 @@
 
 #include "wiring_private.h"
 
-// the prescaler is set so that timerb0 ticks every 64 clock cycles, and the
+// the prescaler is set so that timer ticks every 64 clock cycles, and the
 // the overflow handler is called every 256 ticks.
-volatile uint16_t microseconds_per_timerb0_overflow;
-volatile uint16_t microseconds_per_timerb0_tick;
+volatile uint16_t microseconds_per_timer_overflow;
+volatile uint16_t microseconds_per_timer_tick;
 
 uint32_t F_CPU_CORRECTED = F_CPU;
 
-// the whole number of milliseconds per timerb0 overflow
+// the whole number of milliseconds per timer overflow
 uint16_t millis_inc;
 
-// the fractional number of milliseconds per timerb0 overflow
+// the fractional number of milliseconds per timer overflow
 uint16_t fract_inc;
 #define FRACT_MAX (1000)
 
-// whole number of microseconds per timerb0 tick
+// whole number of microseconds per timer tick
 
-volatile uint32_t timerb0_overflow_count = 0;
-volatile uint32_t timerb0_millis = 0;
-static uint16_t timerb0_fract = 0;
+volatile uint32_t timer_overflow_count = 0;
+volatile uint32_t timer_millis = 0;
+static uint16_t timer_fract = 0;
 
 inline uint16_t clockCyclesPerMicrosecondComp(uint32_t clk){
 	return ( (clk) / 1000000L );
@@ -58,12 +58,35 @@ inline unsigned long microsecondsToClockCycles(unsigned long microseconds){
 	return ( microseconds * clockCyclesPerMicrosecond() );
 }
 
-ISR(TCB0_INT_vect)
+static volatile TCB_t* _timer =
+#if defined(MILLIS_USE_TIMERB0)
+	&TCB0;
+#elif defined(MILLIS_USE_TIMERB1)
+	&TCB1;
+#elif defined(MILLIS_USE_TIMERB2)
+	&TCB2;
+#elif defined(MILLIS_USE_TIMERB3)
+	&TCB3;
+#else
+	&TCB0; //TCB0 fallback
+#endif
+
+#if defined(MILLIS_USE_TIMERB0)
+	ISR(TCB0_INT_vect)
+#elif defined(MILLIS_USE_TIMERB1)
+	ISR(TCB1_INT_vect)
+#elif defined(MILLIS_USE_TIMERB2)
+	ISR(TCB2_INT_vect)
+#elif defined(MILLIS_USE_TIMERB3)
+	ISR(TCB3_INT_vect)
+#else //TCB0 fallback
+	ISR(TCB0_INT_vect)
+#endif
 {
 	// copy these to local variables so they can be stored in registers
 	// (volatile variables must be read from memory on every access)
-	uint32_t m = timerb0_millis;
-	uint16_t f = timerb0_fract;
+	uint32_t m = timer_millis;
+	uint16_t f = timer_fract;
 
 	m += millis_inc;
 	f += fract_inc;
@@ -73,12 +96,12 @@ ISR(TCB0_INT_vect)
 		m += 1;
 	}
 
-	timerb0_fract = f;
-	timerb0_millis = m;
-	timerb0_overflow_count++;
+	timer_fract = f;
+	timer_millis = m;
+	timer_overflow_count++;
 
 	/* Clear flag */
-	TCB0.INTFLAGS = TCB_CAPT_bm;
+	_timer->INTFLAGS = TCB_CAPT_bm;
 }
 
 unsigned long millis()
@@ -89,7 +112,7 @@ unsigned long millis()
 	// inconsistent value (e.g. in the middle of a write to timer0_millis)
 	uint8_t status = SREG;
 	cli();
-	m = timerb0_millis;
+	m = timer_millis;
 
 	SREG = status;
 
@@ -105,22 +128,22 @@ unsigned long micros() {
 	cli();
 
 	/* Get current number of overflows and timer count */
-	overflows = timerb0_overflow_count;
-	ticks = TCB0.CNTL;
+	overflows = timer_overflow_count;
+	ticks = _timer->CNTL;
 
 	/* If the timer overflow flag is raised, we just missed it,
 	increment to account for it, & read new ticks */
-	if(TCB0.INTFLAGS & TCB_CAPT_bm){
+	if(_timer->INTFLAGS & TCB_CAPT_bm){
 		overflows++;
-		ticks = TCB0.CNTL;
+		ticks = _timer->CNTL;
 	}
 
 	/* Restore state */
 	SREG = status;
 
 	/* Return microseconds of up time  (resets every ~70mins) */
-	microseconds = ((overflows * microseconds_per_timerb0_overflow)
-				+ (ticks * microseconds_per_timerb0_tick));
+	microseconds = ((overflows * microseconds_per_timer_overflow)
+				+ (ticks * microseconds_per_timer_tick));
 	return microseconds;
 }
 
@@ -355,27 +378,27 @@ void init()
 
 	setup_timers();
 
-	/********************* TCB0 for system time tracking **************************/
+	/********************* TCB for system time tracking **************************/
 
 	/* Calculate relevant time tracking values */
-	microseconds_per_timerb0_overflow = clockCyclesToMicroseconds(TIME_TRACKING_CYCLES_PER_OVF);
-	microseconds_per_timerb0_tick = microseconds_per_timerb0_overflow/TIME_TRACKING_TIMER_PERIOD;
+	microseconds_per_timer_overflow = clockCyclesToMicroseconds(TIME_TRACKING_CYCLES_PER_OVF);
+	microseconds_per_timer_tick = microseconds_per_timer_overflow/TIME_TRACKING_TIMER_PERIOD;
 
-	millis_inc = microseconds_per_timerb0_overflow / 1000;
-	fract_inc = ((microseconds_per_timerb0_overflow % 1000));
+	millis_inc = microseconds_per_timer_overflow / 1000;
+	fract_inc = ((microseconds_per_timer_overflow % 1000));
 
 	/* Default Periodic Interrupt Mode */
 	/* TOP value for overflow every 1024 clock cycles */
-	TCB0.CCMP = TIME_TRACKING_TIMER_PERIOD;
+	_timer->CCMP = TIME_TRACKING_TIMER_PERIOD;
 
-	/* Enable TCB0 interrupt */
-	TCB0.INTCTRL |= TCB_CAPT_bm;
+	/* Enable TCB interrupt */
+	_timer->INTCTRL |= TCB_CAPT_bm;
 
 	/* Clock selection -> same as TCA (F_CPU/64 -- 250kHz) */
-	TCB0.CTRLA = TCB_CLKSEL_CLKTCA_gc;
+	_timer->CTRLA = TCB_CLKSEL_CLKTCA_gc;
 
 	/* Enable & start */
-	TCB0.CTRLA |= TCB_ENABLE_bm;	/* Keep this last before enabling interrupts to ensure tracking as accurate as possible */
+	_timer->CTRLA |= TCB_ENABLE_bm;	/* Keep this last before enabling interrupts to ensure tracking as accurate as possible */
 
 /*************************** ENABLE GLOBAL INTERRUPTS *************************/
 
