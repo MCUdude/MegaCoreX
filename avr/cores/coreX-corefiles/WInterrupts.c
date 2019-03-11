@@ -74,7 +74,7 @@ void attachInterrupt(uint8_t pin, void (*userFunc)(void), PinStatus mode) {
 
     /* Get pointer to correct pin control register */
     PORT_t *port = digitalPinToPortStruct(pin);
-    uint8_t* pin_ctrl_reg = getPINnCTRLregister(port, bit_pos);
+    volatile uint8_t* pin_ctrl_reg = getPINnCTRLregister(port, bit_pos);
 
     /* Clear any previous setting */
     *pin_ctrl_reg &= ~(PORT_ISC_gm);
@@ -97,7 +97,7 @@ void detachInterrupt(uint8_t pin) {
 
     /* Get pointer to correct pin control register */
     PORT_t *port = digitalPinToPortStruct(pin);
-    uint8_t* pin_ctrl_reg = getPINnCTRLregister(port, bit_pos);
+    volatile uint8_t* pin_ctrl_reg = getPINnCTRLregister(port, bit_pos);
 
     /* Clear ISC setting */
     *pin_ctrl_reg &= ~(PORT_ISC_gm);

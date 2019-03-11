@@ -48,7 +48,7 @@ void pinMode(uint8_t pin, PinMode mode)
 
 		uint8_t bit_pos = digitalPinToBitPosition(pin);
 		/* Calculate where pin control register is */
-		uint8_t* pin_ctrl_reg = getPINnCTRLregister(port, bit_pos);
+		volatile uint8_t* pin_ctrl_reg = getPINnCTRLregister(port, bit_pos);
 
 		/* Save state */
 		uint8_t status = SREG;
@@ -170,7 +170,7 @@ void digitalWrite(uint8_t pin, PinStatus val)
 		uint8_t bit_pos = digitalPinToBitPosition(pin);
 
 		/* Calculate where pin control register is */
-		uint8_t* pin_ctrl_reg = getPINnCTRLregister(port, bit_pos);
+		volatile uint8_t* pin_ctrl_reg = getPINnCTRLregister(port, bit_pos);
 
 		/* Save system status and disable interrupts */
 		uint8_t status = SREG;
