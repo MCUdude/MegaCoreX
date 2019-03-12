@@ -1,5 +1,5 @@
 /******************************************************************************
-* © 2018 Microchip Technology Inc. and its subsidiaries.
+* Â© 2018 Microchip Technology Inc. and its subsidiaries.
 * 
 * Subject to your compliance with these terms, you may use Microchip software 
 * and any derivatives exclusively with Microchip products. It is your 
@@ -577,9 +577,6 @@ void TWI_SlaveInterruptHandler(){
 void TWI_SlaveAddressMatchHandler(){
 	slave_trans_status = TWIS_STATUS_BUSY;
 	slave_result = TWIS_RESULT_UNKNOWN;
-	
-	/* Disable address & stop interrupt */
-	TWI0.SCTRLA &= ~(TWI_APIEN_bm | TWI_PIEN_bm);
 	
 	/* Send ACK, wait for data interrupt */
 	TWI0.SCTRLB = TWI_SCMD_RESPONSE_gc;	
