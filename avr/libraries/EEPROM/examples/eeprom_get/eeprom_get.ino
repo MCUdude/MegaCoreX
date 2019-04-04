@@ -20,7 +20,7 @@
 void setup() {
 
   float f = 0.00f;   //Variable to store data read from EEPROM.
-  int eeAddress = 0; //EEPROM address to start reading from
+  unsigned int eeAddress = 0; //EEPROM address to start reading from
 
   Serial.begin(9600);
   while (!Serial) {
