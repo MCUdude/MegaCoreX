@@ -1,5 +1,5 @@
 /******************************************************************************
-* © 2018 Microchip Technology Inc. and its subsidiaries.
+* (c) 2018 Microchip Technology Inc. and its subsidiaries.
 * 
 * Subject to your compliance with these terms, you may use Microchip software 
 * and any derivatives exclusively with Microchip products. It is your 
@@ -19,6 +19,7 @@
 * THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
 *
  *****************************************************************************/
+
 #ifndef TWI_DRIVER_H
 #define TWI_DRIVER_H
 
@@ -65,44 +66,9 @@ typedef enum TWI_MODE_enum {
 	TWI_MODE_SLAVE_RECEIVE = 6
 } TWI_MODE_t;
 
-/*! Buffer size define */
-#define TWI_BUFFER_SIZE         32
-
 /*! For adding R/_W bit to address */
 #define ADD_READ_BIT(address)	(address | 0x01)
 #define ADD_WRITE_BIT(address)  (address & ~0x01)
-
-/* Master variables */
-register8_t master_slaveAddress;                      /*!< Slave address */
-register8_t master_writeData[TWI_BUFFER_SIZE];  /*!< Data to write */
-register8_t master_readData[TWI_BUFFER_SIZE];    /*!< Read data */
-register8_t master_bytesToWrite;                       /*!< Number of bytes to write */
-register8_t master_bytesToRead;                        /*!< Number of bytes to read */
-register8_t master_bytesWritten;                       /*!< Number of bytes written */
-register8_t master_bytesRead;                          /*!< Number of bytes read */
-register8_t master_sendStop;							/*!< To send a stop at the end of the transaction or not */
-register8_t master_trans_status;                       /*!< Status of transaction */
-register8_t master_result;                             /*!< Result of transaction */
-
-/* Slave variables */
-static void (*TWI_onSlaveTransmit)(void) __attribute__((unused));
-static void (*TWI_onSlaveReceive)(volatile uint8_t*, int) __attribute__((unused));
-register8_t slave_writeData[TWI_BUFFER_SIZE];
-register8_t slave_readData[TWI_BUFFER_SIZE];
-register8_t slave_bytesToWrite;
-register8_t slave_bytesWritten;
-register8_t slave_bytesRead;
-register8_t slave_trans_status;
-register8_t slave_result;
-register8_t slave_callUserReceive;
-register8_t slave_callUserRequest;
-register8_t slave_mode;
-
-/* Both */
-register8_t *user_readDataBuf;
-
-/* TWI module mode */
-volatile TWI_MODE_t twi_mode;
 
 void TWI_MasterInit(uint32_t frequency);
 void TWI_SlaveInit(uint8_t address);
@@ -116,6 +82,7 @@ uint8_t TWI_MasterWrite(uint8_t slave_address,
                      uint8_t bytes_to_write,
 					 uint8_t send_stop);
 uint8_t TWI_MasterRead(uint8_t slave_address,
+                    uint8_t* read_data,
                     uint8_t bytes_to_read,
 					uint8_t send_stop);
 uint8_t TWI_MasterWriteRead(uint8_t slave_address,
@@ -135,8 +102,8 @@ void TWI_SlaveStopHandler(void);
 void TWI_SlaveDataHandler(void);
 void TWI_SlaveWriteHandler(void);
 void TWI_SlaveReadHandler(void);
-void TWI_attachSlaveRxEvent( void (*function)(volatile uint8_t*, int) );
-void TWI_attachSlaveTxEvent( void (*function)(void) );
+void TWI_attachSlaveRxEvent( void (*function)(int), uint8_t *read_data, uint8_t bytes_to_read );
+void TWI_attachSlaveTxEvent( uint8_t (*function)(void), uint8_t *write_data );
 void TWI_SlaveTransactionFinished(uint8_t result);
 /*! TWI master interrupt service routine.
  *

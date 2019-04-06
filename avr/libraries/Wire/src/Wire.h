@@ -24,7 +24,7 @@
 
 #include <Arduino.h>
 
-#define BUFFER_LENGTH 32
+#define BUFFER_LENGTH 128
 
 // WIRE_HAS_END means Wire has end()
 #define WIRE_HAS_END 1
@@ -44,8 +44,8 @@ class TwoWire : public HardwareI2C
     static uint8_t transmitting;
     static void (*user_onRequest)(void);
     static void (*user_onReceive)(int);
-    static void onRequestService(void);
-    static void onReceiveService(volatile uint8_t*, int);
+    static uint8_t onRequestService(void);
+    static void onReceiveService(int);
   public:
     TwoWire();
     void begin();
@@ -59,7 +59,6 @@ class TwoWire : public HardwareI2C
     uint8_t endTransmission(bool);
     uint8_t requestFrom(uint8_t, size_t);
     uint8_t requestFrom(uint8_t, size_t, bool);
-    uint8_t requestFrom(uint8_t, uint8_t, uint32_t, uint8_t, uint8_t);
     uint8_t requestFrom(int, int);
     uint8_t requestFrom(int, int, int);
     virtual size_t write(uint8_t);
@@ -81,4 +80,3 @@ class TwoWire : public HardwareI2C
 extern TwoWire Wire;
 
 #endif
-

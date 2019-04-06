@@ -1,5 +1,5 @@
 /******************************************************************************
-* © 2018 Microchip Technology Inc. and its subsidiaries.
+* (c) 2018 Microchip Technology Inc. and its subsidiaries.
 * 
 * Subject to your compliance with these terms, you may use Microchip software 
 * and any derivatives exclusively with Microchip products. It is your 
@@ -23,6 +23,35 @@
 #include "twi.h"
 #include "Arduino.h"
 
+/* Master variables */
+static register8_t  master_slaveAddress;                       /*!< Slave address */
+static register8_t* master_writeData;                          /*!< Data to write */
+static register8_t* master_readData;                           /*!< Read data */
+static register8_t  master_bytesToWrite;                       /*!< Number of bytes to write */
+static register8_t  master_bytesToRead;                        /*!< Number of bytes to read */
+static register8_t  master_bytesWritten;                       /*!< Number of bytes written */
+static register8_t  master_bytesRead;                          /*!< Number of bytes read */
+static register8_t  master_sendStop;                           /*!< To send a stop at the end of the transaction or not */
+static register8_t  master_trans_status;                       /*!< Status of transaction */
+static register8_t  master_result;                             /*!< Result of transaction */
+
+/* Slave variables */
+static uint8_t (*TWI_onSlaveTransmit)(void) __attribute__((unused));
+static void (*TWI_onSlaveReceive)(int) __attribute__((unused));
+static register8_t* slave_writeData;
+static register8_t* slave_readData;
+static register8_t  slave_bytesToWrite;
+static register8_t  slave_bytesWritten;
+static register8_t  slave_bytesToRead;
+static register8_t  slave_bytesRead;
+static register8_t  slave_trans_status;
+static register8_t  slave_result;
+static register8_t  slave_callUserReceive;
+static register8_t  slave_callUserRequest;
+
+/* TWI module mode */
+static volatile TWI_MODE_t twi_mode;
+
 /*! \brief Initialize the TWI module as a master.
  *
  *  TWI master initialization function.
@@ -36,8 +65,8 @@ void TWI_MasterInit(uint32_t frequency)
 	if(twi_mode != TWI_MODE_UNKNOWN) return;
 	
 	// Enable pullups just in case, should have external ones though
-	pinMode(PIN_WIRE_SDA, INPUT_PULLUP);
-	pinMode(PIN_WIRE_SCL, INPUT_PULLUP);
+	//pinMode(PIN_WIRE_SDA, INPUT_PULLUP);
+	//pinMode(PIN_WIRE_SCL, INPUT_PULLUP);
 
 	PORTMUX.TWISPIROUTEA |= TWI_MUX;
 
@@ -213,9 +242,12 @@ uint8_t TWI_MasterWrite(uint8_t slave_address,
  *  \retval false If transaction could not be started.
  */
 uint8_t TWI_MasterRead(uint8_t slave_address,
-                    uint8_t bytes_to_read,
+					uint8_t* read_data,
+					uint8_t bytes_to_read,
 					uint8_t send_stop)
 {
+	master_readData = read_data;
+
 	uint8_t bytes_read = TWI_MasterWriteRead(slave_address, 
 										  0, 
 										  0, 
@@ -247,14 +279,6 @@ uint8_t TWI_MasterWriteRead(uint8_t slave_address,
 						 uint8_t send_stop)
 {
 	if(twi_mode != TWI_MODE_MASTER) return false;
-	
-	/* Parameter sanity check. */
-	if (bytes_to_write > TWI_BUFFER_SIZE) {
-		return 1;
-	}
-	if (bytes_to_read > TWI_BUFFER_SIZE) {
-		return 0;
-	}
 
 	/*Initiate transaction if bus is ready. */
 	if (master_trans_status == TWIM_STATUS_READY) {
@@ -262,10 +286,7 @@ uint8_t TWI_MasterWriteRead(uint8_t slave_address,
 		master_trans_status = TWIM_STATUS_BUSY;
 		master_result = TWIM_RESULT_UNKNOWN;
 
-		/* Fill write data buffer. */
-		for (uint8_t bufferIndex=0; bufferIndex < bytes_to_write; bufferIndex++) {
-			master_writeData[bufferIndex] = write_data[bufferIndex];
-		}
+		master_writeData = write_data;
 
 		master_bytesToWrite = bytes_to_write;
 		master_bytesToRead = bytes_to_read;
@@ -443,7 +464,7 @@ void TWI_MasterWriteHandler()
 void TWI_MasterReadHandler()
 {
 	/* Fetch data if bytes to be read. */
-	if (master_bytesRead < TWI_BUFFER_SIZE) {
+	if (master_bytesRead < master_bytesToRead) {
 		uint8_t data = TWI0.MDATA;
 		master_readData[master_bytesRead] = data;
 		master_bytesRead++;
@@ -520,7 +541,7 @@ void TWI_SlaveInterruptHandler(){
 		 * This should be hit when there is a STOP or REPSTART 
 		 */
 		if(slave_callUserReceive == 1){
-			TWI_onSlaveReceive(slave_readData, slave_bytesRead);
+			TWI_onSlaveReceive(slave_bytesRead);
 			slave_callUserReceive = 0;
 		}
 		
@@ -585,7 +606,7 @@ void TWI_SlaveAddressMatchHandler(){
 	if(TWI0.SSTATUS & TWI_DIR_bm){
 		slave_bytesWritten = 0;
 		/* Call user function  */
-		TWI_onSlaveTransmit();	
+		slave_bytesToWrite = TWI_onSlaveTransmit();	
 		twi_mode = TWI_MODE_SLAVE_TRANSMIT;
 	} 
 	/* If Master Write/Slave Read */
@@ -652,7 +673,7 @@ void TWI_SlaveWriteHandler(){
 	/* If ACK, master expects more data */
 	else {		
 
-		if(slave_bytesWritten < TWI_BUFFER_SIZE){
+		if(slave_bytesWritten < slave_bytesToWrite){
 			uint8_t data = slave_writeData[slave_bytesWritten];
 			TWI0.SDATA = data;
 			slave_bytesWritten++;	
@@ -681,7 +702,7 @@ void TWI_SlaveWriteHandler(){
 void TWI_SlaveReadHandler(){
 		
 	/* If free space in buffer */
-	if(slave_bytesRead < TWI_BUFFER_SIZE){
+	if(slave_bytesRead < slave_bytesToRead){
 		
 		/* Fetch data */
 		uint8_t data = TWI0.SDATA;
@@ -705,8 +726,10 @@ void TWI_SlaveReadHandler(){
  * Input    function: callback function to use
  * Output   none
  */
-void TWI_attachSlaveRxEvent( void (*function)(volatile uint8_t*, int) ){
+void TWI_attachSlaveRxEvent( void (*function)(int), uint8_t *read_data, uint8_t bytes_to_read ){
   TWI_onSlaveReceive = function;
+  slave_readData = read_data;
+  slave_bytesToRead = bytes_to_read;
 }
 
 /* 
@@ -715,8 +738,9 @@ void TWI_attachSlaveRxEvent( void (*function)(volatile uint8_t*, int) ){
  * Input    function: callback function to use
  * Output   none
  */
-void TWI_attachSlaveTxEvent( void (*function)(void) ){
+void TWI_attachSlaveTxEvent( uint8_t (*function)(void), uint8_t* write_data ){
   TWI_onSlaveTransmit = function;
+  slave_writeData = write_data;
 }
 
 
