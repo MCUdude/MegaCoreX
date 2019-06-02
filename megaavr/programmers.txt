@@ -18,3 +18,10 @@ edbg.protocol=xplainedpro_updi
 edbg.program.protocol=xplainedpro_updi
 edbg.program.tool=avrdude
 edbg.program.extra_params=-Pusb
+
+atmelice_updi.name=Atmel-ICE (UPDI)
+atmelice_updi.communication=usb
+atmelice_updi.protocol=atmelice_updi
+atmelice_updi.program.protocol=jtagice3_updi
+atmelice_updi.program.tool=avrdude
+atmelice_updi.program.extra_params=-Pusb
