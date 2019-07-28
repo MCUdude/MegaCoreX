@@ -7,10 +7,10 @@
 | ATmega3209                                         |
 |                                                    |
 | Note that this pinout is not directly compatible   |
-| with the UNO Wifi Rev2 hardware without preforming |
+| with the UNO Wifi Rev2 hardware without performing |
 | pinswaps. This pinout is supposed to be as close   |
 | to the metal as possible. The only peripherals     |
-| that is swapped to other pins by default are the   |
+| that are swapped to other pins by default are the  |
 | PWM outputs.                                       |
 |                                                    |
 |****************************************************/
