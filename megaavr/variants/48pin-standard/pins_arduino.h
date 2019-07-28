@@ -98,10 +98,10 @@ static const uint8_t SCL = PIN_WIRE_SCL;
 #define HWSERIAL1_RXC_VECTOR            (USART1_RXC_vect)
 #define HWSERIAL1_MUX                   (PORTMUX_USART1_DEFAULT_gc)
 #define HWSERIAL1_MUX_PINSWAP_1         (PORTMUX_USART1_ALT1_gc)
-#define PIN_WIRE_HWSERIAL1_TX           (12)
-#define PIN_WIRE_HWSERIAL1_RX           (13)
-#define PIN_WIRE_HWSERIAL1_TX_PINSWAP_1 (14)
-#define PIN_WIRE_HWSERIAL1_RX_PINSWAP_1 (15)
+#define PIN_WIRE_HWSERIAL1_TX           (14)
+#define PIN_WIRE_HWSERIAL1_RX           (15)
+#define PIN_WIRE_HWSERIAL1_TX_PINSWAP_1 (18)
+#define PIN_WIRE_HWSERIAL1_RX_PINSWAP_1 (19)
 
 // USART 2
 // No pinswap by default
