@@ -91,7 +91,7 @@ recipe.preproc.macros="{compiler.path}{compiler.cpp.cmd}" {compiler.cpp.flags} {
 # AVR Uploader/Programmers tools
 # ------------------------------
 
-tools.avrdude.path={runtime.tools.avrdude-6.3.0-arduino14.path}
+tools.avrdude.path={runtime.tools.avrdude-6.3.0-arduino16.path}
 tools.avrdude.cmd.path={path}/bin/avrdude
 tools.avrdude.config.path={runtime.platform.path}/avrdude.conf
 
