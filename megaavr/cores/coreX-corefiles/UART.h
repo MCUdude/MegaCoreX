@@ -125,20 +125,14 @@ class UartClass : public HardwareSerial
   protected:
     volatile USART_t * const _hwserial_module;
 
-    volatile uint8_t const _hwserial_rx_pin;
-    volatile uint8_t const _hwserial_tx_pin;
-    volatile uint8_t const _hwserial_rx_pin_swap;
-    volatile uint8_t const _hwserial_tx_pin_swap;
-
-    volatile uint8_t const _uart_mux;
-    volatile uint8_t const _uart_mux_swap;
+    struct SwapSet {
+	uint8_t const rx_pin;
+	uint8_t const tx_pin;
+	uint8_t const mux;
+     } _hw_swap[2];
 
     // Has any byte been written to the UART since begin()
     bool _written;
-    // Has begin() been invoked
-    bool _begun;
-    // Are pins swapped
-    bool _swapped;
 
     volatile rx_buffer_index_t _rx_buffer_head;
     volatile rx_buffer_index_t _rx_buffer_tail;
@@ -152,15 +146,13 @@ class UartClass : public HardwareSerial
     // Don't put any members after these buffers, since only the first
     // 32 bytes of this struct can be accessed quickly using the ldd
     // instruction.
-    unsigned char _rx_buffer[SERIAL_RX_BUFFER_SIZE];
-    unsigned char _tx_buffer[SERIAL_TX_BUFFER_SIZE];
+    volatile unsigned char _rx_buffer[SERIAL_RX_BUFFER_SIZE];
+    volatile unsigned char _tx_buffer[SERIAL_TX_BUFFER_SIZE];
 
-    void _def_pins();
   public:
     inline UartClass(volatile USART_t *hwserial_module, uint8_t hwserial_rx_pin, uint8_t hwserial_tx_pin, uint8_t hwserial_rx_pin_swap, uint8_t hwserial_tx_pin_swap, uint8_t dre_vect_num, uint8_t uart_mux, uint8_t uart_mux_swap);
     void begin(unsigned long baud) { begin(baud, SERIAL_8N1); }
-    void begin(unsigned long, uint16_t);
-    void swap(bool shouldSwap = true);
+    void begin(unsigned long, uint16_t, uint8_t swapSet = 0);
     void end();
     virtual int available(void);
     virtual int peek(void);
