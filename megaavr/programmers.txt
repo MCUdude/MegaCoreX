@@ -18,3 +18,9 @@ edbg.protocol=xplainedpro_updi
 edbg.program.protocol=xplainedpro_updi
 edbg.program.tool=avrdude
 edbg.program.extra_params=-Pusb
+
+jtag2updi.name=JTAG2UPDI
+jtag2updi.communication=serial
+jtag2updi.protocol=jtag2updi
+jtag2updi.program.tool=avrdude
+jtag2updi.program.extra_params=-P{serial.port}
