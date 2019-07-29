@@ -143,22 +143,27 @@ void analogWrite(uint8_t pin, int val)
 		/* Get timer */
 		uint8_t digital_pin_timer =  digitalPinToTimer(pin);
 
-		uint16_t* timer_cmp_out;
+		uint8_t* timer_cmp_out;
 		TCB_t *timer_B;
 
 		/* Find out Port and Pin to correctly handle port mux, and timer. */
 		switch (digital_pin_timer) {
 
 			case TIMERA0:
-				/* Calculate correct compare buffer register */
-				timer_cmp_out = ((uint16_t*) (&TCA0.SINGLE.CMP0BUF)) + bit_pos;
+				/* Split mode, 2x3 8 bit registers. (chapter 19.7) */
+				if (bit_pos >= 3) {
+					timer_cmp_out = ((uint8_t*) (&TCA0.SPLIT.HCMP0)) + 2*(bit_pos-3);
+					++bit_pos; /* Upper 3 bits are shifted by 1 */
+				} else {
+					/* Calculate correct compare buffer register */
+					timer_cmp_out = ((uint8_t*) (&TCA0.SPLIT.LCMP0)) + 2*bit_pos;
+				}
 
 				/* Configure duty cycle for correct compare channel */
-				(*timer_cmp_out) = (val);
+				(*timer_cmp_out) = val;
 
 				/* Enable output on pin */
-				TCA0.SINGLE.CTRLB |= (1 << (TCA_SINGLE_CMP0EN_bp + bit_pos));
-
+				TCA0.SPLIT.CTRLB |= (1 << (TCA_SPLIT_LCMP0EN_bp + bit_pos));
 				break;
 
 			case TIMERB0:
