@@ -175,13 +175,11 @@ void UartClass::begin(unsigned long baud, uint16_t config)
 
 void UartClass::swap(uint8_t shouldSwap)
 {
-  if(shouldSwap == true)
+  if(shouldSwap)
   {
-    // Let PORTMUX pont to alternative UART pins
-    if(_uart_mux_swap > 0)
-      PORTMUX.USARTROUTEA |= _uart_mux;
-    else
-      PORTMUX.USARTROUTEA &= ~_uart_mux;
+    // Let PORTMUX point to alternative UART pins
+    PORTMUX.USARTROUTEA = _uart_mux_swap |
+			  (PORTMUX.USARTROUTEA & ~_uart_mux);
       
     // Set pin state for alternative UART pins
     pinMode(_hwserial_rx_pin_swap, INPUT_PULLUP);
@@ -192,12 +190,10 @@ void UartClass::swap(uint8_t shouldSwap)
     pinMode(_hwserial_rx_pin, INPUT);
     pinMode(_hwserial_tx_pin, INPUT);
   }
-  else //if(shouldSwap == false)
+  else
   {
-    if(_uart_mux > 0)
-      PORTMUX.USARTROUTEA |= _uart_mux;
-    else
-      PORTMUX.USARTROUTEA &= ~_uart_mux;
+    PORTMUX.USARTROUTEA = _uart_mux |
+			  (PORTMUX.USARTROUTEA & ~_uart_mux_swap);
       
     // Set pin state for default UART pins
     pinMode(_hwserial_rx_pin, INPUT_PULLUP);
