@@ -36,7 +36,7 @@ SPIClass::SPIClass()
 #endif
 }
 
-bool SPIClass::pins(uint8_t uc_pinMISO, uint8_t uc_pinSCK, uint8_t uc_pinMOSI, uint8_t uc_pinSS)
+bool SPIClass::pins(uint8_t pinMOSI, uint8_t pinMISO, uint8_t pinSCK, uint8_t pinSS)
 {
   // This is for the megaAVR 0-Series
 
@@ -44,38 +44,38 @@ bool SPIClass::pins(uint8_t uc_pinMISO, uint8_t uc_pinSCK, uint8_t uc_pinMOSI, u
   #if defined(SPI_MUX_PINSWAP_1) || defined(SPI_MUX_PINSWAP_2)
 
     _uc_mux = SPI_MUX;
-    #if defined(SPI_MUX_PINSWAP_1) && defined(PIN_SPI_MISO_PINSWAP_1)
-      if (uc_pinMISO == PIN_SPI_MISO_PINSWAP_1 && uc_pinSCK == PIN_SPI_SCK_PINSWAP_1
-       && uc_pinMOSI == PIN_SPI_MOSI_PINSWAP_1 && uc_pinSS == PIN_SPI_SS_PINSWAP_1) {
+    #if defined(SPI_MUX_PINSWAP_1) && defined(PIN_SPI_MOSI_PINSWAP_1)
+      if (pinMOSI == PIN_SPI_MOSI_PINSWAP_1 && pinMISO == PIN_SPI_MISO_PINSWAP_1
+       && pinSCK == PIN_SPI_SCK_PINSWAP_1 && pinSS == PIN_SPI_SS_PINSWAP_1) {
 	_uc_mux = SPI_MUX_PINSWAP_1;
       }
     #endif
-    #if defined(SPI_MUX_PINSWAP_2) && defined(PIN_SPI_MISO_PINSWAP_2)
-      if (uc_pinMISO == PIN_SPI_MISO_PINSWAP_2 && uc_pinSCK == PIN_SPI_SCK_PINSWAP_2
-       && uc_pinMOSI == PIN_SPI_MOSI_PINSWAP_2 && uc_pinSS == PIN_SPI_SS_PINSWAP_2) {
+    #if defined(SPI_MUX_PINSWAP_2) && defined(PIN_SPI_MOSI_PINSWAP_2)
+      if (pinMOSI == PIN_SPI_MOSI_PINSWAP_2 && pinMISO == PIN_SPI_MISO_PINSWAP_2
+       && pinSCK == PIN_SPI_SCK_PINSWAP_2 && pinSS == PIN_SPI_SS_PINSWAP_2) {
 	_uc_mux = SPI_MUX_PINSWAP_2;
       }
     #endif
 
     if (_uc_mux != SPI_MUX) {
-      MISO = uc_pinMISO;
-      SCK = uc_pinSCK;
-      MOSI = uc_pinMOSI;
-      SS = uc_pinSS;
+      MOSI = pinMOSI;
+      MISO = pinMISO;
+      SCK = pinSCK;
+      SS = pinSS;
       return true;
     }
     else
     {
       // Default pins
+      MOSI = PIN_SPI_MOSI;
       MISO = PIN_SPI_MISO;
       SCK = PIN_SPI_SCK;
-      MISO = PIN_SPI_MOSI;
       SS = PIN_SPI_SS;
     }
   #endif
 
-  return MISO == PIN_SPI_MISO && SCK == PIN_SPI_SCK
-    && MOSI == PIN_SPI_MOSI && SS == PIN_SPI_SS;
+  return pinMOSI == PIN_SPI_MOSI && pinMISO == PIN_SPI_MISO
+      && pinSCK == PIN_SPI_SCK && pinSS == PIN_SPI_SS;
 #else
    return false;
 #endif

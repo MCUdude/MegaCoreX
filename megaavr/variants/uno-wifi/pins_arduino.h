@@ -48,15 +48,16 @@
 
 // No pinswap available
 #define SPI_MUX              (PORTMUX_SPI0_ALT1_gc)
+#define PIN_SPI_MOSI         (32)
 #define PIN_SPI_MISO         (33)
 #define PIN_SPI_SCK          (34)
-#define PIN_SPI_MOSI         (32)
 #define PIN_SPI_SS           (10)
-static const uint8_t SS   = PIN_SPI_SS;
 static const uint8_t MOSI = PIN_SPI_MOSI;
 static const uint8_t MISO = PIN_SPI_MISO;
 static const uint8_t SCK  = PIN_SPI_SCK;
+static const uint8_t SS   = PIN_SPI_SS;
 
+// No pinswap available
 #define PIN_WIRE_SDA         (20)
 #define PIN_WIRE_SCL         (21)
 
