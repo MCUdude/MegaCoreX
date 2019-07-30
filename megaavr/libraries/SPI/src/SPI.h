@@ -157,7 +157,7 @@ class SPIClass {
   void beginTransaction(SPISettings settings);
   void endTransaction(void);
 
-  bool pins(uint8_t uc_pinMISO, uint8_t uc_pinSCK, uint8_t uc_pinMOSI, uint8_t uc_pinSS);
+  bool pins(uint8_t pinMOSI, uint8_t pinMISO, uint8_t pinSCK, uint8_t pinSS);
   void begin();
   void end();
 
