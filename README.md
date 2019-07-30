@@ -135,7 +135,7 @@ Available pin swaps for the *28 pin* and *32 pin standard* pinouts are:
 | `Serial1` | `pins(8,9)`          |                      |
 | `Serial2` | `pins(20,21)`        | `pins(24,25)`        |
 
-Available pin swaps for the *Uno WiFi* standard pinout are:
+Available pin swaps for the *Uno WiFi* pinout are:
 
 | Device    | Default              | Alternative          |
 |-----------|----------------------|----------------------|
