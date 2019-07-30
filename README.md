@@ -25,7 +25,7 @@ ATmega3208, ATmega4808, ATmega3209 and ATmega4809.
 * [BOD option](#bod-option)
 * [Reset pin](#reset-pin)
 * [Pinout](#pinout)
-* [Pin swaps](#pinswap)
+* [Pin swaps](#pin-swaps)
 * [How to install](#how-to-install)
   - [Boards Manager Installation](#boards-manager-installation)
   - [Manual Installation](#manual-installation)
@@ -108,21 +108,11 @@ Please have a look at the pins_arduino.h files for detailed info.<br/> <br/>
 
 ## Pin swaps
 The megaAVR-0 microcontrollers has some capabilities to swap pins for some of the built in devices. 
-This is done by invoking the `pins()` method before the `begin()`.
+This is specified by invoking the `pins()` method before the `begin()`.
 The `pins()` method will return `true` if the pin combination is supported.
-For `Serial` it is `pins(tx,rx)`,
-for `Wire` it is `pins(sda,scl)`
-and for `SPI` it is `pins(mosi,miso,scl,ss)`.
-
-Available pin swaps for the *Uno WiFi* standard pinout are:
-
-| Device    | Default              | Alternative          |
-|-----------|----------------------|----------------------|
-| `Serial1` | `pins(1,0)`          | `pins(32,33)`        |
-| `Wire`    | `pins(20,21)`        |                      |
-| `Serial2` | `pins(24,23)`        | `pins(2,7)`          |
-| `Serial`  | `pins(27,26)`        | `pins(9,10)`         |
-| `SPI`     | `pins(32,33,34,10)`  |                      |
+For `Serial` the method is `pins(tx,rx)`. This is the same pin sequence as used for the
+ESP8266 `pins` method, but the opposite of the one SoftwareSerial uses.
+For `Wire` the method is `pins(sda,scl)`, and for `SPI` it is `pins(mosi,miso,scl,ss)`.
 
 Available pin swaps for the *48 pin standard* pinout are:
 
@@ -144,6 +134,16 @@ Available pin swaps for the *28 pin* and *32 pin standard* pinouts are:
 | `SPI`     | `pins(4,5,6,7)`      | `pins(8,9,10,11)`    |
 | `Serial1` | `pins(8,9)`          |                      |
 | `Serial2` | `pins(20,21)`        | `pins(24,25)`        |
+
+Available pin swaps for the *Uno WiFi* standard pinout are:
+
+| Device    | Default              | Alternative          |
+|-----------|----------------------|----------------------|
+| `Serial1` | `pins(1,0)`          | `pins(32,33)`        |
+| `Wire`    | `pins(20,21)`        |                      |
+| `Serial2` | `pins(24,23)`        | `pins(2,7)`          |
+| `Serial`  | `pins(27,26)`        | `pins(9,10)`         |
+| `SPI`     | `pins(32,33,34,10)`  |                      |
 
 
 ## How to install
