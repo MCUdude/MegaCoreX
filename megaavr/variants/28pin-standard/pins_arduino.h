@@ -41,7 +41,6 @@
 #define SPI_INTERFACES_COUNT   1
 #define SPI_MUX                (PORTMUX_SPI0_DEFAULT_gc)
 #define SPI_MUX_PINSWAP_1      (PORTMUX_SPI0_ALT1_gc)
-#define SPI_MUX_PINSWAP_2      (PORTMUX_SPI0_DEFAULT_gc)
 #define PIN_SPI_MISO           (5)
 #define PIN_SPI_SCK            (6)
 #define PIN_SPI_MOSI           (4)
@@ -50,14 +49,10 @@
 #define PIN_SPI_SCK_PINSWAP_1  (10)
 #define PIN_SPI_MOSI_PINSWAP_1 (8)
 #define PIN_SPI_SS_PINSWAP_1   (11)
-#define PIN_SPI_MISO_PINSWAP_2 (5)
-#define PIN_SPI_SCK_PINSWAP_2  (6)
-#define PIN_SPI_MOSI_PINSWAP_2 (4)
-#define PIN_SPI_SS_PINSWAP_2   (7)
-static const uint8_t SS   = PIN_SPI_SS;
-static const uint8_t MOSI = PIN_SPI_MOSI;
-static const uint8_t MISO = PIN_SPI_MISO;
-static const uint8_t SCK  = PIN_SPI_SCK;
+static uint8_t SS   = PIN_SPI_SS;
+static uint8_t MOSI = PIN_SPI_MOSI;
+static uint8_t MISO = PIN_SPI_MISO;
+static uint8_t SCK  = PIN_SPI_SCK;
 
 // TWO 0
 // No pinswap enabled by default
