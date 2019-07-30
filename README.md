@@ -4,7 +4,7 @@ An Arduino core for the new megaAVR series!
 ATmega3208, ATmega4808, ATmega3209 and ATmega4809.
 
 **TODO:**
-* ~~UART pin swap inegraion~~ **DONE! use Serial.swap()**
+* ~~UART pin swap integration~~ **DONE! use Serial.pins()**
 * ~~Add printf to print class~~ **DONE! use Serial.printf()**
 * Get rid of nasty compiler warning when compiling a blank sketch (or any sketch really..)
 * Steal 20 MHz accurate timing from MCUdude_corefiles
