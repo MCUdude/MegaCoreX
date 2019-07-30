@@ -44,7 +44,7 @@ void SPIClass::begin()
 
   PORTMUX.TWISPIROUTEA |= _uc_mux;
 
-  // We don't need HW SS since salve/master mode is selected via registers, so make it simply INPUT
+  // We don't need HW SS since slave/master mode is selected via registers, so make it simply INPUT
   pinMode(_uc_pinSS, INPUT);
   pinMode(_uc_pinMosi, OUTPUT);
   pinMode(_uc_pinSCK, OUTPUT);
@@ -131,7 +131,7 @@ void SPIClass::detachMaskedInterrupts() {
   uint8_t shift = 0;
   while (temp != 0) {
     if (temp & 1) {
-      uint8_t* pin_ctrl_reg = getPINnCTRLregister(portToPortStruct(shift/8), shift%8);
+      volatile uint8_t* pin_ctrl_reg = getPINnCTRLregister(portToPortStruct(shift/8), shift%8);
       irqMap[shift] = *pin_ctrl_reg;
       *pin_ctrl_reg &= ~(PORT_ISC_gm);
     }
@@ -142,7 +142,7 @@ void SPIClass::detachMaskedInterrupts() {
   shift = 32;
   while (temp != 0) {
     if (temp & 1) {
-      uint8_t* pin_ctrl_reg = getPINnCTRLregister(portToPortStruct(shift/8), shift%8);
+      volatile uint8_t* pin_ctrl_reg = getPINnCTRLregister(portToPortStruct(shift/8), shift%8);
       irqMap[shift] = *pin_ctrl_reg;
       *pin_ctrl_reg &= ~(PORT_ISC_gm);
     }
@@ -156,7 +156,7 @@ void SPIClass::reattachMaskedInterrupts() {
   uint8_t shift = 0;
   while (temp != 0) {
     if (temp & 1) {
-      uint8_t* pin_ctrl_reg = getPINnCTRLregister(portToPortStruct(shift/8), shift%8);
+      volatile uint8_t* pin_ctrl_reg = getPINnCTRLregister(portToPortStruct(shift/8), shift%8);
       *pin_ctrl_reg |= irqMap[shift];
     }
     temp = temp >> 1;
@@ -166,7 +166,7 @@ void SPIClass::reattachMaskedInterrupts() {
   shift = 32;
   while (temp != 0) {
     if (temp & 1) {
-      uint8_t* pin_ctrl_reg = getPINnCTRLregister(portToPortStruct(shift/8), shift%8);
+      volatile uint8_t* pin_ctrl_reg = getPINnCTRLregister(portToPortStruct(shift/8), shift%8);
       *pin_ctrl_reg |= irqMap[shift];
     }
     temp = temp >> 1;
