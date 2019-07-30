@@ -120,16 +120,20 @@ typedef uint8_t rx_buffer_index_t;
 #define SERIAL_7O2 (USART_CMODE_ASYNCHRONOUS_gc | USART_CHSIZE_7BIT_gc | USART_PMODE_ODD_gc | USART_SBMODE_2BIT_gc)
 #define SERIAL_8O2 (USART_CMODE_ASYNCHRONOUS_gc | USART_CHSIZE_8BIT_gc | USART_PMODE_ODD_gc | USART_SBMODE_2BIT_gc)
 
+#define SERIAL_PIN_SETS 2
+
 class UartClass : public HardwareSerial
 {
   protected:
     volatile USART_t * const _hwserial_module;
 
-    struct SwapSet {
+    struct UartPinSet {
 	uint8_t const rx_pin;
 	uint8_t const tx_pin;
 	uint8_t const mux;
-     } _hw_swap[2];
+     } _hw_set[SERIAL_PIN_SETS];
+
+    uint8_t _pin_set;
 
     // Has any byte been written to the UART since begin()
     bool _written;
@@ -151,8 +155,9 @@ class UartClass : public HardwareSerial
 
   public:
     inline UartClass(volatile USART_t *hwserial_module, uint8_t hwserial_rx_pin, uint8_t hwserial_tx_pin, uint8_t hwserial_rx_pin_swap, uint8_t hwserial_tx_pin_swap, uint8_t dre_vect_num, uint8_t uart_mux, uint8_t uart_mux_swap);
+    bool pins(uint8_t tx, uint8_t rx = 0);
     void begin(unsigned long baud) { begin(baud, SERIAL_8N1); }
-    void begin(unsigned long, uint16_t, uint8_t swapSet = 0);
+    void begin(unsigned long, uint16_t);
     void end();
     virtual int available(void);
     virtual int peek(void);
