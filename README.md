@@ -25,6 +25,7 @@ ATmega3208, ATmega4808, ATmega3209 and ATmega4809.
 * [BOD option](#bod-option)
 * [Reset pin](#reset-pin)
 * [Pinout](#pinout)
+* [Pin swaps](#pinswap)
 * [How to install](#how-to-install)
   - [Boards Manager Installation](#boards-manager-installation)
   - [Manual Installation](#manual-installation)
@@ -105,6 +106,40 @@ Please have a look at the pins_arduino.h files for detailed info.<br/> <br/>
 |-------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
 |<img src="https://i.imgur.com/q2wB2OW.jpg" width="350"><br/><img src="https://i.imgur.com/7GcHjqk.jpg" width="350">|<img src="https://i.imgur.com/ZaCM75c.jpg" width="350"><br/><img src="https://i.imgur.com/BPg75ib.jpg" width="350"><br/><br/><br/><br/><br/><br/><br/>|
 
+## Pin swaps
+The megaAVR-0 microcontrollers has some capabilities to swap pins for some of the built in devices. 
+This is done by invoking the `pins()` method before the `begin()`.
+
+Available pin swaps for the UNO-WiFi standard pinout are:
+
+| Device    | Default              | Alternative 1        | Alternative 2        |
+|-----------|----------------------|----------------------|----------------------|
+| `Serial1` | `pins(1,0)`          | `pins(32,33)`        |                      |
+| `Wire`    | `pins(20,21)`        |                      |                      |
+| `Serial2` | `pins(24,23)`        | `pins(2,7)`          |                      |
+| `Serial`  | `pins(27,26)`        | `pins(9,10)`         |                      |
+| `SPI`     | `pins(32,33,34,10)`  |                      |                      |
+
+Available pin swaps for the 28-pin and 32-pin standard pinout are:
+
+| Device    | Default              | Alternative 1        | Alternative 2        |
+|-----------|----------------------|----------------------|----------------------|
+| `Serial`  | `pins(0,1)`          | `pins(4,5)`          |                      |
+| `Wire`    | `pins(2,3)`          | `pins(10,11)`        |                      |
+| `SPI`     | `pins(4,5,6,7)`      | `pins(8,9,10,11)`    |                      |
+| `Serial1` | `pins(8,9)`          |                      |                      |
+| `Serial2` | `pins(20,21)`        | `pins(24,25)`        |                      |
+
+Available pin swaps for the 48-pin standard pinout are:
+
+| Device    | Default              | Alternative 1        | Alternative 2        |
+|-----------|----------------------|----------------------|----------------------|
+| `Serial`  | `pins(0,1)`          | `pins(4,5)`          |                      |
+| `Wire`    | `pins(2,3)`          | `pins(16,17)`        |                      |
+| `SPI`     | `pins(4,5,6,7)`      | `pins(14,15,16,17)`  | `pins(30,31,32,33)`  |
+| `Serial3` | `pins(8,9)`          | `pins(12,13)`        |                      |
+| `Serial1` | `pins(12,13)`        | `pins(14,15)`        |                      |
+| `Serial2` | `pins(32,35)`        | `pins(38,39)`        |                      |
 
 ## How to install
 #### Boards Manager Installation
