@@ -155,7 +155,7 @@ class UartClass : public HardwareSerial
 
   public:
     inline UartClass(volatile USART_t *hwserial_module, uint8_t hwserial_rx_pin, uint8_t hwserial_tx_pin, uint8_t hwserial_rx_pin_swap, uint8_t hwserial_tx_pin_swap, uint8_t dre_vect_num, uint8_t uart_mux, uint8_t uart_mux_swap);
-    bool pins(uint8_t tx, uint8_t rx = 0);
+    bool pins(uint8_t tx, uint8_t rx);
     void begin(unsigned long baud) { begin(baud, SERIAL_8N1); }
     void begin(unsigned long, uint16_t);
     void end();
