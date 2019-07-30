@@ -156,7 +156,7 @@ void SPIClass::reattachMaskedInterrupts() {
   uint8_t shift = 0;
   while (temp != 0) {
     if (temp & 1) {
-      uint8_t* pin_ctrl_reg = getPINnCTRLregister(portToPortStruct(shift/8), shift%8);
+      volatile int8_t* pin_ctrl_reg = getPINnCTRLregister(portToPortStruct(shift/8), shift%8);
       *pin_ctrl_reg |= irqMap[shift];
     }
     temp = temp >> 1;
@@ -166,7 +166,7 @@ void SPIClass::reattachMaskedInterrupts() {
   shift = 32;
   while (temp != 0) {
     if (temp & 1) {
-      uint8_t* pin_ctrl_reg = getPINnCTRLregister(portToPortStruct(shift/8), shift%8);
+      volatile uint8_t* pin_ctrl_reg = getPINnCTRLregister(portToPortStruct(shift/8), shift%8);
       *pin_ctrl_reg |= irqMap[shift];
     }
     temp = temp >> 1;
