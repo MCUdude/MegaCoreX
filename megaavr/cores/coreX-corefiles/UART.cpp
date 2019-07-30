@@ -123,7 +123,20 @@ void UartClass::_tx_data_empty_irq(void)
 
 // Public Methods //////////////////////////////////////////////////////////////
 
-void UartClass::begin(unsigned long baud, uint16_t config, uint8_t swapSet)
+// Invoke this function before 'begin' to define the pins used
+bool UartClass::pins(uint8_t tx, uint8_t rx)
+{
+    for (_pin_set = 0; _pin_set < SERIAL_PIN_SETS; ++_pin_set) {
+	if (tx == _hw_set[_pin_set].tx_pin && (rx == 0 || rx == _hw_set[_pin_set].rx_pin)) {
+	    // We are good, this set of pins is supported
+	    return true;
+	}
+    }
+    _pin_set = 0; // Default to standard
+    return false;
+}
+
+void UartClass::begin(unsigned long baud, uint16_t config)
 {
     // Make sure no transmissions are ongoing and USART is disabled in case begin() is called by accident
     // without first calling end()
@@ -131,7 +144,7 @@ void UartClass::begin(unsigned long baud, uint16_t config, uint8_t swapSet)
         this->end();
     }
 
-    struct SwapSet *hw_swap = (swapSet == 1) ? &_hw_swap[1] : &_hw_swap[0];
+    struct UartPinSet *set = &_hw_set[_pin_set];
     int32_t baud_setting = 0;
 
     //Make sure global interrupts are disabled during initialization
@@ -146,13 +159,13 @@ void UartClass::begin(unsigned long baud, uint16_t config, uint8_t swapSet)
     _written = false;
 
     // Let PORTMUX point to alternative UART pins as requested
-    PORTMUX.USARTROUTEA = hw_swap->mux |
-			  (PORTMUX.USARTROUTEA & ~_hw_swap[1].mux);
+    PORTMUX.USARTROUTEA = set->mux |
+			  (PORTMUX.USARTROUTEA & ~_hw_set[1].mux);
 
     // Set pin state for swapped UART pins
-    pinMode(hw_swap->rx_pin, INPUT_PULLUP);
-    digitalWrite(hw_swap->tx_pin, HIGH);
-    pinMode(hw_swap->tx_pin, OUTPUT);
+    pinMode(set->rx_pin, INPUT_PULLUP);
+    digitalWrite(set->tx_pin, HIGH);
+    pinMode(set->tx_pin, OUTPUT);
 
     int8_t sigrow_val = SIGROW.OSC16ERR5V;
     baud_setting *= (1024 + sigrow_val);
