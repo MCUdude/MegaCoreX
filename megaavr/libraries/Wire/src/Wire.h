@@ -48,6 +48,7 @@ class TwoWire : public HardwareI2C
     static void onReceiveService(int);
   public:
     TwoWire();
+    bool pins(uint8_t sda_pin, uint8_t scl_pin);
     void begin();
     void begin(uint8_t);
     void begin(int);
