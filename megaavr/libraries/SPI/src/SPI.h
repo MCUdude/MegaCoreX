@@ -145,7 +145,7 @@ class SPISettings {
 
 class SPIClass {
   public:
-  SPIClass(uint8_t uc_pinMISO, uint8_t uc_pinSCK, uint8_t uc_pinMOSI, uint8_t uc_pinSS, uint8_t uc_mux);
+  SPIClass();
 
   byte transfer(uint8_t data);
   uint16_t transfer16(uint16_t data);
@@ -157,6 +157,7 @@ class SPIClass {
   void beginTransaction(SPISettings settings);
   void endTransaction(void);
 
+  bool pins(uint8_t uc_pinMISO, uint8_t uc_pinSCK, uint8_t uc_pinMOSI, uint8_t uc_pinSS);
   void begin();
   void end();
 
@@ -178,10 +179,7 @@ class SPIClass {
   void detachMaskedInterrupts();
   void reattachMaskedInterrupts();
 
-  uint8_t _uc_pinMiso;
-  uint8_t _uc_pinMosi;
-  uint8_t _uc_pinSCK;
-  uint8_t _uc_pinSS;
+  // Current setting for the pin mux
   uint8_t _uc_mux;
 
   bool initialized;
