@@ -67,8 +67,8 @@ static const uint8_t SCK  = PIN_SPI_SCK;
 #define PIN_WIRE_SCL           (3)
 #define PIN_WIRE_SDA_PINSWAP_1 (10)
 #define PIN_WIRE_SCL_PINSWAP_1 (11)
-static const uint8_t SDA = PIN_WIRE_SDA;
-static const uint8_t SCL = PIN_WIRE_SCL;
+static uint8_t SDA = PIN_WIRE_SDA;
+static uint8_t SCL = PIN_WIRE_SCL;
 
 #define LED_BUILTIN 15
 
