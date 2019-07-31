@@ -108,19 +108,19 @@ Please have a look at the pins_arduino.h files for detailed info.<br/> <br/>
 
 
 ## Alternative pins
-The megaAVR-0 microcontrollers supports alternative pin assignments
-for some of the built in peripherals.
-This is specified by invoking the `pins()` method before the `begin()` for the associated peripheral.
-The `pins()` method will return `true` if the pin combination is supported.
+The megaAVR-0 microcontrollers support alternative pin assignments
+for some of its built in peripherals.
+This is specified by invoking the `pins()` method before `begin()` for the associated peripheral.
+The `pins()` method will return `true` if that pin combination is supported.
 For `Serial` peripherals the method is `pins(tx,rx)`. 
 (Note that this is the same pin sequence as used for the
 ESP8266 `pins` method, but the opposite of the one SoftwareSerial uses.)
 For `Wire` the method is `pins(sda,scl)`, and for `SPI` it is `pins(mosi,miso,sck,ss)`.
 
 If you want to use this feature to implement communication with two different external devices
-using one internal peripheral, note that the proper way to do this is first to invoke `end()` to
-cleanly shut down, then `pins()` to switch assigne pins, and finally `begin()` to cleanly start on
-the new set if pins.
+connected to different pins using one internal peripheral, 
+note that the proper way to switch is first to invoke `end()` to
+cleanly shut down, then `pins()` to switch assigned pins, and finally `begin()` to cleanly start again.
 
 Available pin combinations for the *48 pin standard* pinout are:
 
@@ -143,7 +143,7 @@ Available pin combinations for the *28 pin* and *32 pin standard* pinouts are:
 | `Serial1`  | `pins(8,9)`         |                      |
 | `Serial2`  | `pins(20,21)`       | `pins(24,25)`        |
 
-Available pin combination for the *Uno WiFi* pinout are:
+Available pin combinations for the *Uno WiFi* pinout are:
 
 | Peripheral | Default             | Alternative          |
 |------------|---------------------|----------------------|
