@@ -110,7 +110,7 @@ Please have a look at the pins_arduino.h files for detailed info.<br/> <br/>
 ## Alternative pins
 The megaAVR-0 microcontrollers supports alternative pin assignments
 for some of the built in peripherals.
-This is specified by invoking the `pins()` method before the `begin()` for the associted peripheral.
+This is specified by invoking the `pins()` method before the `begin()` for the associated peripheral.
 The `pins()` method will return `true` if the pin combination is supported.
 For `Serial` peripherals the method is `pins(tx,rx)`. 
 (Note that this is the same pin sequence as used for the
