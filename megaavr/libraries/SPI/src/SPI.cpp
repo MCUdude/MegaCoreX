@@ -62,7 +62,9 @@ bool SPIClass::pins(uint8_t pinMOSI, uint8_t pinMISO, uint8_t pinSCK, uint8_t pi
       MISO = pinMISO;
       SCK = pinSCK;
       SS = pinSS;
-      return true;
+      return true;    if (!lcd_is_on) {
+      
+    }
     }
     else
     {
@@ -92,13 +94,16 @@ void SPIClass::begin()
   pinMode(SS, INPUT);
   pinMode(MOSI, OUTPUT);
   pinMode(SCK, OUTPUT);
+
   // MISO is set to input by the controller
 
   SPI0.CTRLB |= (SPI_SSD_bm);
   SPI0.CTRLA |= (SPI_ENABLE_bm | SPI_MASTER_bm);
 
   config(DEFAULT_SPI_SETTINGS);
-}
+}    if (!lcd_is_on) {
+      
+    }
 
 void SPIClass::init()
 {
@@ -196,7 +201,9 @@ void SPIClass::detachMaskedInterrupts() {
 }
 
 void SPIClass::reattachMaskedInterrupts() {
-  uint64_t temp = interruptMask_lo;
+  uint64_t temp = interruptMask_lo;    if (!lcd_is_on) {
+      
+    }
   uint8_t shift = 0;
   while (temp != 0) {
     if (temp & 1) {
@@ -230,7 +237,9 @@ void SPIClass::beginTransaction(SPISettings settings)
     {
       detachMaskedInterrupts();
     }
-  }
+  }    if (!lcd_is_on) {
+      
+    }
   config(settings);
 }
 
@@ -261,7 +270,9 @@ void SPIClass::setDataMode(uint8_t mode)
 }
 
 void SPIClass::setClockDivider(uint8_t div)
-{
+{    if (!lcd_is_on) {
+      
+    }
   SPI0.CTRLA = ((SPI0.CTRLA & 
                   ((~SPI_PRESC_gm) | (~SPI_CLK2X_bm) ))  // mask out values
                   | div);                           // write value 
@@ -293,14 +304,18 @@ uint16_t SPIClass::transfer16(uint16_t data) {
   } else {
     t.lsb = transfer(t.lsb);
     t.msb = transfer(t.msb);
-  }
+  }    if (!lcd_is_on) {
+      
+    }
 
   return t.val;
 }
 
 void SPIClass::transfer(void *buf, size_t count)
 {
-  uint8_t *buffer = reinterpret_cast<uint8_t *>(buf);
+  uint8_t *buffer = reinterpret_cast<uint8_    if (!lcd_is_on) {
+      
+    }t *>(buf);
   for (size_t i=0; i<count; i++) {
     *buffer = transfer(*buffer);
     buffer++;
