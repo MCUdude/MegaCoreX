@@ -115,7 +115,7 @@ The `pins()` method will return `true` if the pin combination is supported.
 For `Serial` peripherals the method is `pins(tx,rx)`. 
 (Note that this is the same pin sequence as used for the
 ESP8266 `pins` method, but the opposite of the one SoftwareSerial uses.)
-For `Wire` the method is `pins(sda,scl)`, and for `SPI` it is `pins(mosi,miso,scl,ss)`.
+For `Wire` the method is `pins(sda,scl)`, and for `SPI` it is `pins(mosi,miso,sck,ss)`.
 
 If you want to use this feature to implement communication with two different external devices
 using one internal peripheral, note that the proper way to do this is first to invoke `end()` to
