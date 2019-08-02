@@ -140,7 +140,7 @@ void UartClass::begin(unsigned long baud, uint16_t config)
     uint8_t oldSREG = SREG;
     cli();
 
-    baud_setting = (((8 * F_CPU_CORRECTED) / baud) + 1) / 2;
+    baud_setting = (((8 * F_CPU) / baud) + 1) / 2;
     // Disable CLK2X
     (*_hwserial_module).CTRLB &= (~USART_RXMODE_CLK2X_gc);
     (*_hwserial_module).CTRLB |= USART_RXMODE_NORMAL_gc;
@@ -154,9 +154,13 @@ void UartClass::begin(unsigned long baud, uint16_t config)
     digitalWrite(_hwserial_tx_pin, HIGH);
     pinMode(_hwserial_tx_pin, OUTPUT);
 
+#if F_CPU == 20000000L
+    // BUG: should also differentiate between 5V and 3V
+    int8_t sigrow_val = SIGROW.OSC20ERR5V;
+#else
     int8_t sigrow_val = SIGROW.OSC16ERR5V;
-    baud_setting *= (1024 + sigrow_val);
-    baud_setting /= (1024 - abs(sigrow_val));
+#endif
+    baud_setting += (baud_setting * sigrow_val) / 1024;
 
     // assign the baud_setting, a.k.a. BAUD (USART Baud Rate Register)
     (*_hwserial_module).BAUD = (int16_t) baud_setting;
