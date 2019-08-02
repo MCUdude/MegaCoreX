@@ -92,6 +92,7 @@ void serialEventRun(void)
 
 void UartClass::_tx_data_empty_irq(void)
 {
+    // BUG: Is this initial check really needed? Probably not
     // Check if tx buffer already empty.
     // This interrupt-handler can be called "manually" from flush();
     // Important: Must only be invoked with interrupts disabled
@@ -113,11 +114,6 @@ void UartClass::_tx_data_empty_irq(void)
 
     (*_hwserial_module).TXDATAL = c;
 
-#if 0
-    // BUG: is this really needed?
-    while(!((*_hwserial_module).STATUS & USART_DREIF_bm));
-#endif
-
     if (_tx_buffer_head == _tx_buffer_tail) {
         // Buffer empty, so disable "data register empty" interrupt
         (*_hwserial_module).CTRLA &= (~USART_DREIE_bm);
@@ -128,6 +124,22 @@ void UartClass::_tx_data_empty_irq(void)
             _hwserial_dre_interrupt_elevated = 0;
         }
     }
+}
+
+// To invoke data empty "interrupt" via a call, use this method
+void UartClass::_tx_data_empty_soft(void) {
+    if ( (!(SREG & CPU_I_bm)) || (!((*_hwserial_module).CTRLA & USART_DREIE_bm)) ) {
+	// Interrupts are disabled either globally or for data register empty,
+	// so we'll have to poll the "data register empty" flag ourselves.
+	// If it is set, pretend an interrupt has happened and call the handler
+	//to free up space for us.
+
+	// Invoke interrupt handler only if conditions data register is empty
+	if ((*_hwserial_module).STATUS & USART_DREIF_bm) {
+	    _tx_data_empty_irq();
+	}
+    }
+    // In case interrupts are enabled, the interrupt routine will be invoked by itself
 }
 
 // Public Methods //////////////////////////////////////////////////////////////
@@ -288,11 +300,9 @@ void UartClass::flush()
     // Spin until the data-register-empty-interrupt is disabled and TX complete interrupt flag is raised
     while ( ((*_hwserial_module).CTRLA & USART_DREIE_bm) || (!((*_hwserial_module).STATUS & USART_TXCIF_bm)) ) {
 
-        // If interrupts are globally disabled or the and DR empty interrupt is disabled,
-        // poll the "data register empty" interrupt flag to prevent deadlock
-        if ( (!(SREG & CPU_I_bm)) || (!((*_hwserial_module).CTRLA & USART_DREIE_bm)) ) {
-            _tx_data_empty_irq();
-        }
+	// If interrupts are globally disabled or the and DR empty interrupt is disabled,
+	// poll the "data register empty" interrupt flag to prevent deadlock
+	_tx_data_empty_soft();
     }
     // If we get here, nothing is queued anymore (DREIE is disabled) and
     // the hardware finished transmission (TXCIF is set).
@@ -351,17 +361,7 @@ size_t UartClass::write(uint8_t c)
 
 	//The output buffer is full, so there's nothing for it other than to
 	//wait for the interrupt handler to empty it a bit
-
-	if ( ( !(SREG & CPU_I_bm) ) || ( !((*_hwserial_module).CTRLA & USART_DREIE_bm) ) ) {
-            // Interrupts are disabled either globally or for data register empty,
-            // so we'll have to poll the "data register empty" flag ourselves.
-            // If it is set, pretend an interrupt has happened and call the handler
-            //to free up space for us.
-
-            _tx_data_empty_irq();
-        } else {
-            // nop, the interrupt handler will free up space for us
-        }
+	_tx_data_empty_soft();
     }
 
     // Enable data "register empty interrupt"
