@@ -33,11 +33,10 @@
 // location from which to read.
 // NOTE: a "power of 2" buffer size is reccomended to dramatically
 //       optimize all the modulo operations for ring buffers.
-// WARNING: When buffer sizes are increased to > 256, the buffer index
-// variables are automatically increased in size, but the extra
-// atomicity guards needed for that are not implemented. This will
-// often work, but occasionally a race condition can occur that makes
-// Serial behave erratically. See https://github.com/arduino/Arduino/issues/2405
+// When buffer sizes are increased to > 256, the buffer index
+// variables are automatically increased in size, and extra
+// atomicity guards are implemented.
+// This fixes https://github.com/arduino/Arduino/issues/2405
 #if !defined(SERIAL_TX_BUFFER_SIZE)
 #if ((RAMEND - RAMSTART) < 1023)
 #define SERIAL_TX_BUFFER_SIZE 16
@@ -175,6 +174,8 @@ class UartClass : public HardwareSerial
     // Interrupt handlers - Not intended to be called externally
     inline void _rx_complete_irq(void);
     void _tx_data_empty_irq(void);
+  private:
+    void _tx_data_empty_soft(void);
 };
 
 #if defined(HWSERIAL0)
