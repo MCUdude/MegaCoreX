@@ -76,7 +76,12 @@ void serialEventRun(void)
 #endif
 }
 
-// macro to guard critical sections when needed for large TX buffer sizes
+// macro to guard critical sections when needed for large RX and TX buffer sizes
+#if (SERIAL_RX_BUFFER_SIZE > 256)
+#define RX_BUFFER_ATOMIC ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
+#else
+#define RX_BUFFER_ATOMIC
+#endif
 #if (SERIAL_TX_BUFFER_SIZE > 256)
 #define TX_BUFFER_ATOMIC ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
 #else
@@ -89,6 +94,7 @@ void UartClass::_tx_data_empty_irq(void)
 {
     // Check if tx buffer already empty.
     // This interrupt-handler can be called "manually" from flush();
+    // Important: Must only be invoked with interrupts disabled
     if (_tx_buffer_head == _tx_buffer_tail) {
         // Buffer empty, so disable "data register empty" interrupt
         (*_hwserial_module).CTRLA &= (~USART_DREIE_bm);
@@ -107,7 +113,10 @@ void UartClass::_tx_data_empty_irq(void)
 
     (*_hwserial_module).TXDATAL = c;
 
+#if 0
+    // BUG: is this really needed?
     while(!((*_hwserial_module).STATUS & USART_DREIF_bm));
+#endif
 
     if (_tx_buffer_head == _tx_buffer_tail) {
         // Buffer empty, so disable "data register empty" interrupt
@@ -157,6 +166,7 @@ void UartClass::begin(unsigned long baud, uint16_t config)
     (*_hwserial_module).CTRLB |= USART_RXMODE_NORMAL_gc;
 
     _written = false;
+    _tx_buffer_head = _tx_buffer_tail; // just in case someone invoked write() before begin()
 
     // Let PORTMUX point to alternative UART pins as requested
     PORTMUX.USARTROUTEA = set->mux |
@@ -196,7 +206,7 @@ void UartClass::end()
     (*_hwserial_module).CTRLB &= ~(USART_RXEN_bm | USART_TXEN_bm);
     (*_hwserial_module).CTRLA &= ~(USART_RXCIE_bm | USART_DREIE_bm);
 
-    // clear any received data
+    // clear any received data (no need for atomic since interrupts are now disabled)
     _rx_buffer_head = _rx_buffer_tail;
 
     // Note: Does not change output pins
@@ -205,28 +215,41 @@ void UartClass::end()
 
 int UartClass::available(void)
 {
-    return ((unsigned int)(SERIAL_RX_BUFFER_SIZE + _rx_buffer_head - _rx_buffer_tail)) % SERIAL_RX_BUFFER_SIZE;
+    int n;
+    RX_BUFFER_ATOMIC {
+	n = ((unsigned int)(SERIAL_RX_BUFFER_SIZE + _rx_buffer_head - _rx_buffer_tail)) % SERIAL_RX_BUFFER_SIZE;
+    }
+    return n;
 }
 
 int UartClass::peek(void)
 {
-    if (_rx_buffer_head == _rx_buffer_tail) {
-        return -1;
-    } else {
-        return _rx_buffer[_rx_buffer_tail];
+    int c;
+
+    RX_BUFFER_ATOMIC {
+	if (_rx_buffer_head == _rx_buffer_tail) {
+	    c = -1;
+	} else {
+	    c = _rx_buffer[_rx_buffer_tail];
+	}
     }
+    return c;
 }
 
 int UartClass::read(void)
 {
-    // if the head isn't ahead of the tail, we don't have any characters
-    if (_rx_buffer_head == _rx_buffer_tail) {
-        return -1;
-    } else {
-        unsigned char c = _rx_buffer[_rx_buffer_tail];
-        _rx_buffer_tail = (rx_buffer_index_t)(_rx_buffer_tail + 1) % SERIAL_RX_BUFFER_SIZE;
-        return c;
+    int c;
+
+    RX_BUFFER_ATOMIC {
+	// if the head isn't ahead of the tail, we don't have any characters
+	if (_rx_buffer_head == _rx_buffer_tail) {
+	    c = -1;
+	} else {
+	    c = _rx_buffer[_rx_buffer_tail];
+	    _rx_buffer_tail = (rx_buffer_index_t)(_rx_buffer_tail + 1) % SERIAL_RX_BUFFER_SIZE;
+	}
     }
+    return c;
 }
 
 int UartClass::availableForWrite(void)
@@ -235,8 +258,8 @@ int UartClass::availableForWrite(void)
     tx_buffer_index_t tail;
 
     TX_BUFFER_ATOMIC {
-        head = _tx_buffer_head;
-        tail = _tx_buffer_tail;
+	head = _tx_buffer_tail;
+	tail = _tx_buffer_tail;
     }
     if (head >= tail) return SERIAL_TX_BUFFER_SIZE - 1 - head + tail;
     return tail - head - 1;
@@ -279,6 +302,9 @@ size_t UartClass::write(uint8_t c)
 {
     _written = true;
 
+    // In case someone invokes write() before begin()
+//  if (!(*_hwserial_module).CTRLB | USART_TXEN_bm)) return 0;
+
     // If the buffer and the data register is empty, just write the byte
     // to the data register and be done. This shortcut helps
     // significantly improve the effective data rate at high (>
@@ -289,6 +315,7 @@ size_t UartClass::write(uint8_t c)
 
         // Make sure data register empty interrupt is disabled to avoid
         // that the interrupt handler is called in this situation
+	// BUG: is this atomic?
         (*_hwserial_module).CTRLA &= (~USART_DREIE_bm);
 
         return 1;
@@ -305,12 +332,27 @@ size_t UartClass::write(uint8_t c)
         _hwserial_dre_interrupt_elevated = 1;
     }
 
-    tx_buffer_index_t i = (_tx_buffer_head + 1) % SERIAL_TX_BUFFER_SIZE;
+    // Sorry for the clunkiness of this loop, but it seems to be required to make it atomic
+    // Note that while head for tx is not changed by the tx interrupt, but needs eto be atomic
+    // if someone happens to use serial write in another interrupt, so prepare for that
 
-    //If the output buffer is full, there's nothing for it other than to
-    //wait for the interrupt handler to empty it a bit
-    while (i == _tx_buffer_tail) {
-        if ( ( !(SREG & CPU_I_bm) ) || ( !((*_hwserial_module).CTRLA & USART_DREIE_bm) ) ) {
+    for (;;) {
+	bool done = false;
+	tx_buffer_index_t nexthead;
+	TX_BUFFER_ATOMIC {
+	    nexthead = (_tx_buffer_head + 1) % SERIAL_TX_BUFFER_SIZE;
+	    if (nexthead != _tx_buffer_tail) {
+		_tx_buffer[_tx_buffer_head] = c;
+		_tx_buffer_head = nexthead;
+		done = true;
+	    }
+	}
+	if (done) break;
+
+	//The output buffer is full, so there's nothing for it other than to
+	//wait for the interrupt handler to empty it a bit
+
+	if ( ( !(SREG & CPU_I_bm) ) || ( !((*_hwserial_module).CTRLA & USART_DREIE_bm) ) ) {
             // Interrupts are disabled either globally or for data register empty,
             // so we'll have to poll the "data register empty" flag ourselves.
             // If it is set, pretend an interrupt has happened and call the handler
@@ -321,9 +363,6 @@ size_t UartClass::write(uint8_t c)
             // nop, the interrupt handler will free up space for us
         }
     }
-
-    _tx_buffer[_tx_buffer_head] = c;
-    _tx_buffer_head = i;
 
     // Enable data "register empty interrupt"
     (*_hwserial_module).CTRLA |= USART_DREIE_bm;
