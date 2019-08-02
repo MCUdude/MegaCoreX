@@ -107,8 +107,6 @@ void UartClass::_tx_data_empty_irq(void)
 
     (*_hwserial_module).TXDATAL = c;
 
-    while(!((*_hwserial_module).STATUS & USART_DREIF_bm));
-
     if (_tx_buffer_head == _tx_buffer_tail) {
         // Buffer empty, so disable "data register empty" interrupt
         (*_hwserial_module).CTRLA &= (~USART_DREIE_bm);
