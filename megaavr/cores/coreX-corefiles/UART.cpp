@@ -97,12 +97,12 @@ void UartClass::_tx_data_empty_irq(void)
     unsigned char c = _tx_buffer[_tx_buffer_tail];
     _tx_buffer_tail = (_tx_buffer_tail + 1) % SERIAL_TX_BUFFER_SIZE;
 
+    (*_hwserial_module).TXDATAL = c;
+
     // clear the TXCIF flag -- "can be cleared by writing a one to its bit
     // location". This makes sure flush() won't return until the bytes
     // actually got written
     (*_hwserial_module).STATUS = USART_TXCIF_bm;
-
-    (*_hwserial_module).TXDATAL = c;
 
     if (_tx_buffer_head == _tx_buffer_tail) {
         // Buffer empty, so disable "data register empty" interrupt
