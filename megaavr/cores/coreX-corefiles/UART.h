@@ -142,10 +142,6 @@ class UartClass : public HardwareSerial
     volatile tx_buffer_index_t _tx_buffer_head;
     volatile tx_buffer_index_t _tx_buffer_tail;
 
-    volatile uint8_t _hwserial_dre_interrupt_vect_num;
-    volatile uint8_t _hwserial_dre_interrupt_elevated;
-    volatile uint8_t _prev_lvl1_interrupt_vect;
-
     // Don't put any members after these buffers, since only the first
     // 32 bytes of this struct can be accessed quickly using the ldd
     // instruction.
@@ -153,7 +149,7 @@ class UartClass : public HardwareSerial
     volatile unsigned char _tx_buffer[SERIAL_TX_BUFFER_SIZE];
 
   public:
-    inline UartClass(volatile USART_t *hwserial_module, uint8_t hwserial_rx_pin, uint8_t hwserial_tx_pin, uint8_t hwserial_rx_pin_swap, uint8_t hwserial_tx_pin_swap, uint8_t dre_vect_num, uint8_t uart_mux, uint8_t uart_mux_swap);
+    inline UartClass(volatile USART_t *hwserial_module, uint8_t hwserial_rx_pin, uint8_t hwserial_tx_pin, uint8_t hwserial_rx_pin_swap, uint8_t hwserial_tx_pin_swap, uint8_t uart_mux, uint8_t uart_mux_swap);
     bool pins(uint8_t tx, uint8_t rx);
     void begin(unsigned long baud) { begin(baud, SERIAL_8N1); }
     void begin(unsigned long, uint16_t);

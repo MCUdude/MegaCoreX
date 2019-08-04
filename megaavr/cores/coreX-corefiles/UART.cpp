@@ -92,52 +92,34 @@ void serialEventRun(void)
 
 void UartClass::_tx_data_empty_irq(void)
 {
-    // BUG: Is this initial check really needed? Probably not
-    // Check if tx buffer already empty.
-    // This interrupt-handler can be called "manually" from flush();
-    // Important: Must only be invoked with interrupts disabled
-    if (_tx_buffer_head == _tx_buffer_tail) {
-        // Buffer empty, so disable "data register empty" interrupt
-        (*_hwserial_module).CTRLA &= (~USART_DREIE_bm);
-        return;
-    }
-
     // There must be more data in the output
     // buffer. Send the next byte
     unsigned char c = _tx_buffer[_tx_buffer_tail];
     _tx_buffer_tail = (_tx_buffer_tail + 1) % SERIAL_TX_BUFFER_SIZE;
+
+    (*_hwserial_module).TXDATAL = c;
 
     // clear the TXCIF flag -- "can be cleared by writing a one to its bit
     // location". This makes sure flush() won't return until the bytes
     // actually got written
     (*_hwserial_module).STATUS = USART_TXCIF_bm;
 
-    (*_hwserial_module).TXDATAL = c;
-
     if (_tx_buffer_head == _tx_buffer_tail) {
         // Buffer empty, so disable "data register empty" interrupt
         (*_hwserial_module).CTRLA &= (~USART_DREIE_bm);
-
-        //Take the DRE interrupt back no normal priority level if it has been elevated
-        if(_hwserial_dre_interrupt_elevated) {
-            CPUINT.LVL1VEC = _prev_lvl1_interrupt_vect;
-            _hwserial_dre_interrupt_elevated = 0;
-        }
     }
 }
 
 // To invoke data empty "interrupt" via a call, use this method
 void UartClass::_tx_data_empty_soft(void) {
-    if ( (!(SREG & CPU_I_bm)) || (!((*_hwserial_module).CTRLA & USART_DREIE_bm)) ) {
-	// Interrupts are disabled either globally or for data register empty,
-	// so we'll have to poll the "data register empty" flag ourselves.
-	// If it is set, pretend an interrupt has happened and call the handler
-	//to free up space for us.
+    if ( !(SREG & CPU_I_bm) ) {
+       // Interrupts are disabled globally, so the code here is an ATOMIC_BLOCK
+       // We'll have to poll the "data register empty" flag ourselves.
+       // Call the handler only if data register is empty and we know the buffer is non-empty
 
-	// Invoke interrupt handler only if conditions data register is empty
-	if ((*_hwserial_module).STATUS & USART_DREIF_bm) {
-	    _tx_data_empty_irq();
-	}
+       if (((*_hwserial_module).CTRLA & USART_DREIE_bm) && ((*_hwserial_module).STATUS & USART_DREIF_bm)) {
+	  _tx_data_empty_irq();
+       }
     }
     // In case interrupts are enabled, the interrupt routine will be invoked by itself
 }
@@ -163,32 +145,12 @@ void UartClass::begin(unsigned long baud, uint16_t config)
     // without first calling end()
     if(_written) {
         this->end();
+	_written = false;
     }
 
     struct UartPinSet *set = &_hw_set[_pin_set];
-    int32_t baud_setting = 0;
 
-    //Make sure global interrupts are disabled during initialization
-    uint8_t oldSREG = SREG;
-    cli();
-
-    baud_setting = (((8 * F_CPU) / baud) + 1) / 2;
-    // Disable CLK2X
-    (*_hwserial_module).CTRLB &= (~USART_RXMODE_CLK2X_gc);
-    (*_hwserial_module).CTRLB |= USART_RXMODE_NORMAL_gc;
-
-    _written = false;
-    _tx_buffer_head = _tx_buffer_tail; // just in case someone invoked write() before begin()
-
-    // Let PORTMUX point to alternative UART pins as requested
-    PORTMUX.USARTROUTEA = set->mux |
-			  (PORTMUX.USARTROUTEA & ~_hw_set[1].mux);
-
-    // Set pin state for swapped UART pins
-    pinMode(set->rx_pin, INPUT_PULLUP);
-    digitalWrite(set->tx_pin, HIGH);
-    pinMode(set->tx_pin, OUTPUT);
-
+    int32_t baud_setting = (((8 * F_CPU) / baud) + 1) / 2;
 #if F_CPU == 20000000L
     // BUG: should also differentiate between 5V and 3V
     int8_t sigrow_val = SIGROW.OSC20ERR5V;
@@ -197,19 +159,38 @@ void UartClass::begin(unsigned long baud, uint16_t config)
 #endif
     baud_setting += (baud_setting * sigrow_val) / 1024;
 
-    // assign the baud_setting, a.k.a. BAUD (USART Baud Rate Register)
-    (*_hwserial_module).BAUD = (int16_t) baud_setting;
+    _tx_buffer_head = _tx_buffer_tail; // just in case someone invoked write() before begin()
 
-    // Set USART mode of operation
-    (*_hwserial_module).CTRLC = config;
+    //Make sure global interrupts are disabled during initialization
+    ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
 
-    // Enable transmitter and receiver
-    (*_hwserial_module).CTRLB |= (USART_RXEN_bm | USART_TXEN_bm);
+	// Let PORTMUX point to alternative UART pins as requested
+	PORTMUX.USARTROUTEA = set->mux |
+			      (PORTMUX.USARTROUTEA & ~_hw_set[1].mux);
 
-    (*_hwserial_module).CTRLA |= USART_RXCIE_bm;
+	// Set pin state for swapped UART rx pin before we enable receiver
+	pinMode(set->rx_pin, INPUT_PULLUP);
+	digitalWrite(set->tx_pin, HIGH);
 
-    // Restore SREG content
-    SREG = oldSREG;
+	// Disable CLK2X
+	(*_hwserial_module).CTRLB &= (~USART_RXMODE_CLK2X_gc);
+	(*_hwserial_module).CTRLB |= USART_RXMODE_NORMAL_gc;
+
+	// assign the baud_setting, a.k.a. BAUD (USART Baud Rate Register)
+	(*_hwserial_module).BAUD = (int16_t) baud_setting;
+
+	// Set USART mode of operation
+	(*_hwserial_module).CTRLC = config;
+
+	// Enable transmitter and receiver
+	(*_hwserial_module).CTRLB |= (USART_RXEN_bm | USART_TXEN_bm);
+
+	(*_hwserial_module).CTRLA |= USART_RXCIE_bm;
+
+	// Set pin state for swapped UART tx pins after we enable transmitter
+	pinMode(set->tx_pin, OUTPUT);
+    }
+
 }
 
 void UartClass::end()
@@ -290,17 +271,6 @@ void UartClass::flush()
         return;
     }
 
-    //Check if we are inside an ISR already (e.g. connected to a different peripheral then UART), in which case the UART ISRs will not be called.
-    //Temporarily elevate the DRE interrupt to allow it to run.
-    if(CPUINT.STATUS & CPUINT_LVL0EX_bm) {
-        //Elevate the priority level of the Data Register Empty Interrupt vector
-        //and copy whatever vector number that might be in the register already.
-        _prev_lvl1_interrupt_vect = CPUINT.LVL1VEC;
-        CPUINT.LVL1VEC = _hwserial_dre_interrupt_vect_num;
-
-        _hwserial_dre_interrupt_elevated = 1;
-    }
-
     // Spin until the data-register-empty-interrupt is disabled and TX complete interrupt flag is raised
     while ( ((*_hwserial_module).CTRLA & USART_DREIE_bm) || (!((*_hwserial_module).STATUS & USART_TXCIF_bm)) ) {
 
@@ -316,62 +286,39 @@ size_t UartClass::write(uint8_t c)
 {
     _written = true;
 
-    // In case someone invokes write() before begin()
-//  if (!(*_hwserial_module).CTRLB | USART_TXEN_bm)) return 0;
-
     // If the buffer and the data register is empty, just write the byte
     // to the data register and be done. This shortcut helps
     // significantly improve the effective data rate at high (>
     // 500kbit/s) bit rates, where interrupt overhead becomes a slowdown.
-    if ( (_tx_buffer_head == _tx_buffer_tail) && ((*_hwserial_module).STATUS & USART_DREIF_bm) ) {
-        (*_hwserial_module).TXDATAL = c;
+    // Note also that USART_DREIE_bm always will be clear if the buffer is
+    // empty.
+    if ( !((*_hwserial_module).CTRLA & USART_DREIE_bm) && ((*_hwserial_module).STATUS & USART_DREIF_bm) ) {
+	(*_hwserial_module).TXDATAL = c;
         (*_hwserial_module).STATUS = USART_TXCIF_bm;
-
-        // Make sure data register empty interrupt is disabled to avoid
-        // that the interrupt handler is called in this situation
-	// BUG: is this atomic?
-        (*_hwserial_module).CTRLA &= (~USART_DREIE_bm);
 
         return 1;
     }
 
-    //Check if we are inside an ISR already (could be from by a source other than UART),
-    // in which case the UART ISRs will be blocked.
-    if(CPUINT.STATUS & CPUINT_LVL0EX_bm) {
-        //Elevate the priority level of the Data Register Empty Interrupt vector
-        //and copy whatever vector number that might be in the register already.
-        _prev_lvl1_interrupt_vect = CPUINT.LVL1VEC;
-        CPUINT.LVL1VEC = _hwserial_dre_interrupt_vect_num;
-
-        _hwserial_dre_interrupt_elevated = 1;
-    }
-
-    // Sorry for the clunkiness of this loop, but it seems to be required to make it atomic
-    // Note that while head for tx is not changed by the tx interrupt, but needs eto be atomic
+    // Note that while head for tx is not changed by the tx interrupt, head needs to be atomic
     // if someone happens to use serial write in another interrupt, so prepare for that
-
     for (;;) {
-	bool done = false;
-	tx_buffer_index_t nexthead;
 	TX_BUFFER_ATOMIC {
-	    nexthead = (_tx_buffer_head + 1) % SERIAL_TX_BUFFER_SIZE;
+	    tx_buffer_index_t nexthead = (_tx_buffer_head + 1) % SERIAL_TX_BUFFER_SIZE;
 	    if (nexthead != _tx_buffer_tail) {
+		// There is room in the buffer
 		_tx_buffer[_tx_buffer_head] = c;
 		_tx_buffer_head = nexthead;
-		done = true;
+		// Enable data "register empty interrupt" if it was not already
+		(*_hwserial_module).CTRLA |= USART_DREIE_bm;
+		return 1;
 	    }
 	}
-	if (done) break;
 
-	//The output buffer is full, so there's nothing for it other than to
-	//wait for the interrupt handler to empty it a bit
+	// The output buffer is full, so there's nothing for it other than to
+	// wait for the interrupt handler to empty it a bit (or emulate interrupts)
+	// Note that USART_DREIE_bm must be set at this time
 	_tx_data_empty_soft();
     }
-
-    // Enable data "register empty interrupt"
-    (*_hwserial_module).CTRLA |= USART_DREIE_bm;
-
-    return 1;
 }
 
 #endif // whole file
