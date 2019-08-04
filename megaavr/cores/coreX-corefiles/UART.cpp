@@ -92,16 +92,6 @@ void serialEventRun(void)
 
 void UartClass::_tx_data_empty_irq(void)
 {
-    // BUG: Is this initial check really needed? Probably not
-    // Check if tx buffer already empty.
-    // This interrupt-handler can be called "manually" from flush();
-    // Important: Must only be invoked with interrupts disabled
-    if (_tx_buffer_head == _tx_buffer_tail) {
-        // Buffer empty, so disable "data register empty" interrupt
-        (*_hwserial_module).CTRLA &= (~USART_DREIE_bm);
-        return;
-    }
-
     // There must be more data in the output
     // buffer. Send the next byte
     unsigned char c = _tx_buffer[_tx_buffer_tail];
@@ -122,15 +112,22 @@ void UartClass::_tx_data_empty_irq(void)
 
 // To invoke data empty "interrupt" via a call, use this method
 void UartClass::_tx_data_empty_soft(void) {
+    // BUG: If USART_DREIE_bm is not set, we know the buffer is empty so no action needed!
     if ( (!(SREG & CPU_I_bm)) || (!((*_hwserial_module).CTRLA & USART_DREIE_bm)) ) {
 	// Interrupts are disabled either globally or for data register empty,
 	// so we'll have to poll the "data register empty" flag ourselves.
 	// If it is set, pretend an interrupt has happened and call the handler
 	//to free up space for us.
 
-	// Invoke interrupt handler only if conditions data register is empty
+	// Invoke code for interrupt handler only if data register is empty
 	if ((*_hwserial_module).STATUS & USART_DREIF_bm) {
-	    _tx_data_empty_irq();
+	    // Check if tx buffer is already empty.
+	    if (_tx_buffer_head == _tx_buffer_tail) {
+		// Buffer empty, so disable "data register empty" interrupt
+		(*_hwserial_module).CTRLA &= (~USART_DREIE_bm);
+	    } else {
+		_tx_data_empty_irq();
+	    }
 	}
     }
     // In case interrupts are enabled, the interrupt routine will be invoked by itself
@@ -295,7 +292,7 @@ size_t UartClass::write(uint8_t c)
 {
     _written = true;
 
-    // In case someone invokes write() before begin()
+    // BUG: In case someone invokes write() before begin()
 //  if (!(*_hwserial_module).CTRLB | USART_TXEN_bm)) return 0;
 
     // If the buffer and the data register is empty, just write the byte
@@ -320,9 +317,8 @@ size_t UartClass::write(uint8_t c)
 
     for (;;) {
 	bool done = false;
-	tx_buffer_index_t nexthead;
 	TX_BUFFER_ATOMIC {
-	    nexthead = (_tx_buffer_head + 1) % SERIAL_TX_BUFFER_SIZE;
+	    tx_buffer_index_t nexthead = (_tx_buffer_head + 1) % SERIAL_TX_BUFFER_SIZE;
 	    if (nexthead != _tx_buffer_tail) {
 		_tx_buffer[_tx_buffer_head] = c;
 		_tx_buffer_head = nexthead;
