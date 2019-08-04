@@ -35,7 +35,6 @@ UartClass::UartClass(
   volatile uint8_t hwserial_tx_pin,
   volatile uint8_t hwserial_rx_pin_swap,
   volatile uint8_t hwserial_tx_pin_swap,
-  volatile uint8_t hwserial_dre_interrupt_vect_num,
   volatile uint8_t uart_mux,
   volatile uint8_t uart_mux_swap) :
     _hwserial_module(hwserial_module),
@@ -44,10 +43,7 @@ UartClass::UartClass(
     _pin_set(0),
     _written(false),
     _rx_buffer_head(0), _rx_buffer_tail(0),
-    _tx_buffer_head(0), _tx_buffer_tail(0),
-    _hwserial_dre_interrupt_vect_num(hwserial_dre_interrupt_vect_num),
-    _hwserial_dre_interrupt_elevated(0),
-    _prev_lvl1_interrupt_vect(0)
+    _tx_buffer_head(0), _tx_buffer_tail(0)
 {
 }
 

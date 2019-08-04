@@ -117,12 +117,6 @@ void UartClass::_tx_data_empty_irq(void)
     if (_tx_buffer_head == _tx_buffer_tail) {
         // Buffer empty, so disable "data register empty" interrupt
         (*_hwserial_module).CTRLA &= (~USART_DREIE_bm);
-
-        //Take the DRE interrupt back no normal priority level if it has been elevated
-        if(_hwserial_dre_interrupt_elevated) {
-            CPUINT.LVL1VEC = _prev_lvl1_interrupt_vect;
-            _hwserial_dre_interrupt_elevated = 0;
-        }
     }
 }
 
@@ -286,17 +280,6 @@ void UartClass::flush()
         return;
     }
 
-    //Check if we are inside an ISR already (e.g. connected to a different peripheral then UART), in which case the UART ISRs will not be called.
-    //Temporarily elevate the DRE interrupt to allow it to run.
-    if(CPUINT.STATUS & CPUINT_LVL0EX_bm) {
-        //Elevate the priority level of the Data Register Empty Interrupt vector
-        //and copy whatever vector number that might be in the register already.
-        _prev_lvl1_interrupt_vect = CPUINT.LVL1VEC;
-        CPUINT.LVL1VEC = _hwserial_dre_interrupt_vect_num;
-
-        _hwserial_dre_interrupt_elevated = 1;
-    }
-
     // Spin until the data-register-empty-interrupt is disabled and TX complete interrupt flag is raised
     while ( ((*_hwserial_module).CTRLA & USART_DREIE_bm) || (!((*_hwserial_module).STATUS & USART_TXCIF_bm)) ) {
 
@@ -329,17 +312,6 @@ size_t UartClass::write(uint8_t c)
         (*_hwserial_module).CTRLA &= (~USART_DREIE_bm);
 
         return 1;
-    }
-
-    //Check if we are inside an ISR already (could be from by a source other than UART),
-    // in which case the UART ISRs will be blocked.
-    if(CPUINT.STATUS & CPUINT_LVL0EX_bm) {
-        //Elevate the priority level of the Data Register Empty Interrupt vector
-        //and copy whatever vector number that might be in the register already.
-        _prev_lvl1_interrupt_vect = CPUINT.LVL1VEC;
-        CPUINT.LVL1VEC = _hwserial_dre_interrupt_vect_num;
-
-        _hwserial_dre_interrupt_elevated = 1;
     }
 
     // Sorry for the clunkiness of this loop, but it seems to be required to make it atomic
