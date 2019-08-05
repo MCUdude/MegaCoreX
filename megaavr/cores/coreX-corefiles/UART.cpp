@@ -111,7 +111,7 @@ void UartClass::_tx_data_empty_irq(void)
 }
 
 // To invoke data empty "interrupt" via a call, use this method
-void UartClass::_tx_data_empty_soft(void) {
+void UartClass::_poll_tx_data_empty(void) {
     if ( !(SREG & CPU_I_bm) ) {
        // Interrupts are disabled globally, so the code here is an ATOMIC_BLOCK
        // We'll have to poll the "data register empty" flag ourselves.
@@ -278,7 +278,7 @@ void UartClass::flush()
 
 	// If interrupts are globally disabled or the and DR empty interrupt is disabled,
 	// poll the "data register empty" interrupt flag to prevent deadlock
-	_tx_data_empty_soft();
+	_poll_tx_data_empty();
     }
     // If we get here, nothing is queued anymore (DREIE is disabled) and
     // the hardware finished transmission (TXCIF is set).
@@ -319,7 +319,7 @@ size_t UartClass::write(uint8_t c)
 	// The output buffer is full, so there's nothing for it other than to
 	// wait for the interrupt handler to empty it a bit (or emulate interrupts)
 	// Note that USART_DREIE_bm must be set at this time
-	_tx_data_empty_soft();
+	_poll_tx_data_empty();
     }
 }
 

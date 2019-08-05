@@ -171,7 +171,7 @@ class UartClass : public HardwareSerial
     inline void _rx_complete_irq(void);
     void _tx_data_empty_irq(void);
   private:
-    void _tx_data_empty_soft(void);
+    void _poll_tx_data_empty(void);
 };
 
 #if defined(HWSERIAL0)
