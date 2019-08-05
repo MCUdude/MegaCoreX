@@ -198,16 +198,18 @@ void UartClass::end()
     // wait for transmission of outgoing data
     flush();
 
-    // Disable receiver and transmitter as well as the RX complete and
-    // data register empty interrupts.
-    (*_hwserial_module).CTRLB &= ~(USART_RXEN_bm | USART_TXEN_bm);
-    (*_hwserial_module).CTRLA &= ~(USART_RXCIE_bm | USART_DREIE_bm);
+    ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+	// Disable receiver and transmitter as well as the RX complete and
+	// data register empty interrupts.
+	(*_hwserial_module).CTRLB &= ~(USART_RXEN_bm | USART_TXEN_bm);
+	(*_hwserial_module).CTRLA &= ~(USART_RXCIE_bm | USART_DREIE_bm);
 
-    // clear any received data (no need for atomic since interrupts are now disabled)
-    _rx_buffer_head = _rx_buffer_tail;
+	// clear any received data not read yet
+	_rx_buffer_head = _rx_buffer_tail;
 
+	_written = false;
+    }
     // Note: Does not change output pins
-    _written = false;
 }
 
 int UartClass::available(void)
