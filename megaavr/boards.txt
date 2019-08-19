@@ -366,3 +366,366 @@ menu.resetpin=Reset pin
 3208.menu.clock.1MHz_div.bootloader.OSCCFG=0x01
 3208.menu.clock.1MHz_div.build.f_cpu=1000000L
 
+
+
+#####################
+#### ATmega1609 ####
+#####################
+
+# General
+1609.name=Atmega1609
+1609.upload.tool=avrdude
+1609.upload.maximum_size=16384
+1609.upload.maximum_data_size=2048
+1609.upload.speed=115200
+1609.bootloader.tool=avrdude
+1609.build.core=coreX-corefiles
+1609.build.board=AVR_ATmega1609
+1609.build.mcu=atmega1609
+
+# Fuses we don't need to modify in the tools menu
+1609.bootloader.WDTCFG=0x00
+1609.bootloader.TCD0CFG=0x00
+1609.bootloader.SYSCFG1=0x06
+1609.bootloader.APPEND=0x00
+1609.bootloader.BOOTEND=0x00
+1609.bootloader.LOCKBIT=0xC5
+
+# Pinouts
+1609.menu.pinout.uno_wifi=Uno WiFi
+1609.menu.pinout.uno_wifi.build.variant=uno-wifi
+1609.menu.pinout.uno_wifi.build.extra_flags=-DUNO_WIFI_REV2_328MODE
+1609.menu.pinout.48pin_standard=48 pin standard
+1609.menu.pinout.48pin_standard.build.variant=48pin-standard
+
+# Reset pin
+1609.menu.resetpin.reset=Reset
+1609.menu.resetpin.reset.bootloader.SYSCFG0=0xC9
+1609.menu.resetpin.gpio=GPIO
+1609.menu.resetpin.gpio.bootloader.SYSCFG0=0xC1
+
+# Brown out detection
+1609.menu.BOD.2v6=BOD 2.6V
+1609.menu.BOD.2v6.bootloader.BODCFG=0x54
+1609.menu.BOD.4v2=BOD 4.2V
+1609.menu.BOD.4v2.bootloader.BODCFG=0xF4
+1609.menu.BOD.4v0=BOD 4.0V
+1609.menu.BOD.4v0.bootloader.BODCFG=0xD4
+1609.menu.BOD.3v7=BOD 3.7V
+1609.menu.BOD.3v7.bootloader.BODCFG=0xB4
+1609.menu.BOD.3v3=BOD 3.3V
+1609.menu.BOD.3v3.bootloader.BODCFG=0x94
+1609.menu.BOD.2v9=BOD 2.9V
+1609.menu.BOD.2v9.bootloader.BODCFG=0x74
+1609.menu.BOD.2v1=BOD 2.1V
+1609.menu.BOD.2v1.bootloader.BODCFG=0x34
+1609.menu.BOD.1v8=BOD 1.8V
+1609.menu.BOD.1v8.bootloader.BODCFG=0x14
+1609.menu.BOD.disabled=BOD disabled
+1609.menu.BOD.disabled.bootloader.BODCFG=0x00
+
+# Clock
+1609.menu.clock.16MHz=16 MHz
+1609.menu.clock.16MHz.upload.speed=115200
+1609.menu.clock.16MHz.bootloader.OSCCFG=0x01
+1609.menu.clock.16MHz.build.f_cpu=16000000L
+
+1609.menu.clock.20MHz=20 MHz
+1609.menu.clock.20MHz.upload.speed=115200
+1609.menu.clock.20MHz.bootloader.OSCCFG=0x02
+1609.menu.clock.20MHz.build.f_cpu=20000000L
+
+1609.menu.clock.8MHz_div=8 MHz (divided)
+1609.menu.clock.8MHz_div.upload.speed=115200
+1609.menu.clock.8MHz_div.bootloader.OSCCFG=0x01
+1609.menu.clock.8MHz_div.build.f_cpu=8000000L
+
+1609.menu.clock.4MHz_div=4 MHz (divided)
+1609.menu.clock.4MHz_div.upload.speed=115200
+1609.menu.clock.4MHz_div.bootloader.OSCCFG=0x01
+1609.menu.clock.4MHz_div.build.f_cpu=4000000L
+
+1609.menu.clock.2MHz_div=2 MHz (divided)
+1609.menu.clock.2MHz_div.upload.speed=115200
+1609.menu.clock.2MHz_div.bootloader.OSCCFG=0x01
+1609.menu.clock.2MHz_div.build.f_cpu=2000000L
+
+1609.menu.clock.1MHz_div=1 MHz (divided)
+1609.menu.clock.1MHz_div.upload.speed=115200
+1609.menu.clock.1MHz_div.bootloader.OSCCFG=0x01
+1609.menu.clock.1MHz_div.build.f_cpu=1000000L
+
+# ATmega328 emulation
+1609.menu.emulation.false=No
+1609.menu.emulation.true=Yes
+1609.menu.emulation.true.build.extra_flags=-DUNO_WIFI_REV2_328MODE
+
+
+
+####################
+#### ATmega1608 ####
+####################
+
+# General
+1608.name=Atmega1608
+1608.upload.tool=avrdude
+1608.upload.maximum_size=16384
+1608.upload.maximum_data_size=2048
+1608.upload.speed=115200
+1608.bootloader.tool=avrdude
+1608.build.core=coreX-corefiles
+1608.build.board=AVR_ATmega1608
+1608.build.mcu=atmega1608
+
+# Fuses we don't need to modify in the tools menu
+1608.bootloader.WDTCFG=0x00
+1608.bootloader.TCD0CFG=0x00
+1608.bootloader.SYSCFG1=0x06
+1608.bootloader.APPEND=0x00
+1608.bootloader.BOOTEND=0x00
+1608.bootloader.LOCKBIT=0xC5
+
+# Pinouts
+1608.menu.pinout.32pin_standard=32 pin standard
+1608.menu.pinout.32pin_standard.build.variant=32pin-standard
+1608.menu.pinout.28pin_standard=28 pin standard
+1608.menu.pinout.28pin_standard.build.variant=28pin-standard
+
+# Reset pin
+1608.menu.resetpin.reset=Reset
+1608.menu.resetpin.reset.bootloader.SYSCFG0=0xC9
+1608.menu.resetpin.gpio=GPIO
+1608.menu.resetpin.gpio.bootloader.SYSCFG0=0xC1
+
+# Brown out detection
+1608.menu.BOD.2v6=BOD 2.6V
+1608.menu.BOD.2v6.bootloader.BODCFG=0x54
+1608.menu.BOD.4v2=BOD 4.2V
+1608.menu.BOD.4v2.bootloader.BODCFG=0xF4
+1608.menu.BOD.4v0=BOD 4.0V
+1608.menu.BOD.4v0.bootloader.BODCFG=0xD4
+1608.menu.BOD.3v7=BOD 3.7V
+1608.menu.BOD.3v7.bootloader.BODCFG=0xB4
+1608.menu.BOD.3v3=BOD 3.3V
+1608.menu.BOD.3v3.bootloader.BODCFG=0x94
+1608.menu.BOD.2v9=BOD 2.9V
+1608.menu.BOD.2v9.bootloader.BODCFG=0x74
+1608.menu.BOD.2v1=BOD 2.1V
+1608.menu.BOD.2v1.bootloader.BODCFG=0x34
+1608.menu.BOD.1v8=BOD 1.8V
+1608.menu.BOD.1v8.bootloader.BODCFG=0x14
+1608.menu.BOD.disabled=BOD disabled
+1608.menu.BOD.disabled.bootloader.BODCFG=0x00
+
+# Clock
+1608.menu.clock.16MHz=16 MHz
+1608.menu.clock.16MHz.upload.speed=115200
+1608.menu.clock.16MHz.bootloader.OSCCFG=0x01
+1608.menu.clock.16MHz.build.f_cpu=16000000L
+
+1608.menu.clock.20MHz=20 MHz
+1608.menu.clock.20MHz.upload.speed=115200
+1608.menu.clock.20MHz.bootloader.OSCCFG=0x02
+1608.menu.clock.20MHz.build.f_cpu=20000000L
+
+1608.menu.clock.8MHz_div=8 MHz (divided)
+1608.menu.clock.8MHz_div.upload.speed=115200
+1608.menu.clock.8MHz_div.bootloader.OSCCFG=0x01
+1608.menu.clock.8MHz_div.build.f_cpu=8000000L
+
+1608.menu.clock.4MHz_div=4 MHz (divided)
+1608.menu.clock.4MHz_div.upload.speed=115200
+1608.menu.clock.4MHz_div.bootloader.OSCCFG=0x01
+1608.menu.clock.4MHz_div.build.f_cpu=4000000L
+
+1608.menu.clock.2MHz_div=2 MHz (divided)
+1608.menu.clock.2MHz_div.upload.speed=115200
+1608.menu.clock.2MHz_div.bootloader.OSCCFG=0x01
+1608.menu.clock.2MHz_div.build.f_cpu=2000000L
+
+1608.menu.clock.1MHz_div=1 MHz (divided)
+1608.menu.clock.1MHz_div.upload.speed=115200
+1608.menu.clock.1MHz_div.bootloader.OSCCFG=0x01
+1608.menu.clock.1MHz_div.build.f_cpu=1000000L
+
+
+
+###################
+#### ATmega809 ####
+###################
+
+# General
+809.name=Atmega809
+809.upload.tool=avrdude
+809.upload.maximum_size=8192
+809.upload.maximum_data_size=1024
+809.upload.speed=115200
+809.bootloader.tool=avrdude
+809.build.core=coreX-corefiles
+809.build.board=AVR_ATmega809
+809.build.mcu=atmega809
+
+# Fuses we don't need to modify in the tools menu
+809.bootloader.WDTCFG=0x00
+809.bootloader.TCD0CFG=0x00
+809.bootloader.SYSCFG1=0x06
+809.bootloader.APPEND=0x00
+809.bootloader.BOOTEND=0x00
+809.bootloader.LOCKBIT=0xC5
+
+# Pinouts
+809.menu.pinout.uno_wifi=Uno WiFi
+809.menu.pinout.uno_wifi.build.variant=uno-wifi
+809.menu.pinout.uno_wifi.build.extra_flags=-DUNO_WIFI_REV2_328MODE
+809.menu.pinout.48pin_standard=48 pin standard
+809.menu.pinout.48pin_standard.build.variant=48pin-standard
+
+# Reset pin
+809.menu.resetpin.reset=Reset
+809.menu.resetpin.reset.bootloader.SYSCFG0=0xC9
+809.menu.resetpin.gpio=GPIO
+809.menu.resetpin.gpio.bootloader.SYSCFG0=0xC1
+
+# Brown out detection
+809.menu.BOD.2v6=BOD 2.6V
+809.menu.BOD.2v6.bootloader.BODCFG=0x54
+809.menu.BOD.4v2=BOD 4.2V
+809.menu.BOD.4v2.bootloader.BODCFG=0xF4
+809.menu.BOD.4v0=BOD 4.0V
+809.menu.BOD.4v0.bootloader.BODCFG=0xD4
+809.menu.BOD.3v7=BOD 3.7V
+809.menu.BOD.3v7.bootloader.BODCFG=0xB4
+809.menu.BOD.3v3=BOD 3.3V
+809.menu.BOD.3v3.bootloader.BODCFG=0x94
+809.menu.BOD.2v9=BOD 2.9V
+809.menu.BOD.2v9.bootloader.BODCFG=0x74
+809.menu.BOD.2v1=BOD 2.1V
+809.menu.BOD.2v1.bootloader.BODCFG=0x34
+809.menu.BOD.1v8=BOD 1.8V
+809.menu.BOD.1v8.bootloader.BODCFG=0x14
+809.menu.BOD.disabled=BOD disabled
+809.menu.BOD.disabled.bootloader.BODCFG=0x00
+
+# Clock
+809.menu.clock.16MHz=16 MHz
+809.menu.clock.16MHz.upload.speed=115200
+809.menu.clock.16MHz.bootloader.OSCCFG=0x01
+809.menu.clock.16MHz.build.f_cpu=16000000L
+
+809.menu.clock.20MHz=20 MHz
+809.menu.clock.20MHz.upload.speed=115200
+809.menu.clock.20MHz.bootloader.OSCCFG=0x02
+809.menu.clock.20MHz.build.f_cpu=20000000L
+
+809.menu.clock.8MHz_div=8 MHz (divided)
+809.menu.clock.8MHz_div.upload.speed=115200
+809.menu.clock.8MHz_div.bootloader.OSCCFG=0x01
+809.menu.clock.8MHz_div.build.f_cpu=8000000L
+
+809.menu.clock.4MHz_div=4 MHz (divided)
+809.menu.clock.4MHz_div.upload.speed=115200
+809.menu.clock.4MHz_div.bootloader.OSCCFG=0x01
+809.menu.clock.4MHz_div.build.f_cpu=4000000L
+
+809.menu.clock.2MHz_div=2 MHz (divided)
+809.menu.clock.2MHz_div.upload.speed=115200
+809.menu.clock.2MHz_div.bootloader.OSCCFG=0x01
+809.menu.clock.2MHz_div.build.f_cpu=2000000L
+
+809.menu.clock.1MHz_div=1 MHz (divided)
+809.menu.clock.1MHz_div.upload.speed=115200
+809.menu.clock.1MHz_div.bootloader.OSCCFG=0x01
+809.menu.clock.1MHz_div.build.f_cpu=1000000L
+
+# ATmega328 emulation
+809.menu.emulation.false=No
+809.menu.emulation.true=Yes
+809.menu.emulation.true.build.extra_flags=-DUNO_WIFI_REV2_328MODE
+
+
+
+###################
+#### ATmega808 ####
+###################
+
+# General
+808.name=Atmega808
+808.upload.tool=avrdude
+808.upload.maximum_size=8192
+808.upload.maximum_data_size=1024
+808.upload.speed=115200
+808.bootloader.tool=avrdude
+808.build.core=coreX-corefiles
+808.build.board=AVR_ATmega808
+808.build.mcu=atmega808
+
+# Fuses we don't need to modify in the tools menu
+808.bootloader.WDTCFG=0x00
+808.bootloader.TCD0CFG=0x00
+808.bootloader.SYSCFG1=0x06
+808.bootloader.APPEND=0x00
+808.bootloader.BOOTEND=0x00
+808.bootloader.LOCKBIT=0xC5
+
+# Pinouts
+808.menu.pinout.32pin_standard=32 pin standard
+808.menu.pinout.32pin_standard.build.variant=32pin-standard
+808.menu.pinout.28pin_standard=28 pin standard
+808.menu.pinout.28pin_standard.build.variant=28pin-standard
+
+# Reset pin
+808.menu.resetpin.reset=Reset
+808.menu.resetpin.reset.bootloader.SYSCFG0=0xC9
+808.menu.resetpin.gpio=GPIO
+808.menu.resetpin.gpio.bootloader.SYSCFG0=0xC1
+
+# Brown out detection
+808.menu.BOD.2v6=BOD 2.6V
+808.menu.BOD.2v6.bootloader.BODCFG=0x54
+808.menu.BOD.4v2=BOD 4.2V
+808.menu.BOD.4v2.bootloader.BODCFG=0xF4
+808.menu.BOD.4v0=BOD 4.0V
+808.menu.BOD.4v0.bootloader.BODCFG=0xD4
+808.menu.BOD.3v7=BOD 3.7V
+808.menu.BOD.3v7.bootloader.BODCFG=0xB4
+808.menu.BOD.3v3=BOD 3.3V
+808.menu.BOD.3v3.bootloader.BODCFG=0x94
+808.menu.BOD.2v9=BOD 2.9V
+808.menu.BOD.2v9.bootloader.BODCFG=0x74
+808.menu.BOD.2v1=BOD 2.1V
+808.menu.BOD.2v1.bootloader.BODCFG=0x34
+808.menu.BOD.1v8=BOD 1.8V
+808.menu.BOD.1v8.bootloader.BODCFG=0x14
+808.menu.BOD.disabled=BOD disabled
+808.menu.BOD.disabled.bootloader.BODCFG=0x00
+
+# Clock
+808.menu.clock.16MHz=16 MHz
+808.menu.clock.16MHz.upload.speed=115200
+808.menu.clock.16MHz.bootloader.OSCCFG=0x01
+808.menu.clock.16MHz.build.f_cpu=16000000L
+
+808.menu.clock.20MHz=20 MHz
+808.menu.clock.20MHz.upload.speed=115200
+808.menu.clock.20MHz.bootloader.OSCCFG=0x02
+808.menu.clock.20MHz.build.f_cpu=20000000L
+
+808.menu.clock.8MHz_div=8 MHz (divided)
+808.menu.clock.8MHz_div.upload.speed=115200
+808.menu.clock.8MHz_div.bootloader.OSCCFG=0x01
+808.menu.clock.8MHz_div.build.f_cpu=8000000L
+
+808.menu.clock.4MHz_div=4 MHz (divided)
+808.menu.clock.4MHz_div.upload.speed=115200
+808.menu.clock.4MHz_div.bootloader.OSCCFG=0x01
+808.menu.clock.4MHz_div.build.f_cpu=4000000L
+
+808.menu.clock.2MHz_div=2 MHz (divided)
+808.menu.clock.2MHz_div.upload.speed=115200
+808.menu.clock.2MHz_div.bootloader.OSCCFG=0x01
+808.menu.clock.2MHz_div.build.f_cpu=2000000L
+
+808.menu.clock.1MHz_div=1 MHz (divided)
+808.menu.clock.1MHz_div.upload.speed=115200
+808.menu.clock.1MHz_div.bootloader.OSCCFG=0x01
+808.menu.clock.1MHz_div.build.f_cpu=1000000L

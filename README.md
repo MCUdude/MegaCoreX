@@ -1,7 +1,6 @@
 # MegaCoreX
 
 An Arduino core for the new megaAVR series!
-ATmega3208, ATmega4808, ATmega3209 and ATmega4809.
 
 **TODO:**
 * ~~UART pin swap inegraion~~ **DONE! use Serial.swap()**
@@ -36,14 +35,14 @@ ATmega3208, ATmega4808, ATmega3209 and ATmega4809.
 
 ## Supported microcontrollers
 
-|                        | ATmega4809       | ATmega4808                  | ATmega3209       | ATmega3208                  |
-|------------------------|------------------|-----------------------------|------------------|-----------------------------|
-| **Flash**              | 48 kB            | 48 kB                       | 32 kB            | 32 kB                       |
-| **RAM**                | 6 kB             | 6 kB                        | 4 kB             | 4 kB                        |
-| **EEPROM**             | 256 B            | 256 B                       | 256 B            | 256 B                       |
-| **Serial ports**       | 4                | 3                           | 4                | 3                           |
-| **IO pins**            | 40/41*           | 26/27* <br/> 23†/24††       | 40/41*           | 26/27* <br/> 23†/24††       |
-| **Available packages** | TQFP48<br/>QFN48 | TQFP32<br/>QFN32<br/>SSOP28 | TQFP48<br/>QFN48 | TQFP32<br/>QFN32<br/>SSOP28 |
+|                        | ATmega4809                 | ATmega4808                  | ATmega3209       | ATmega3208                  | ATmega1609       | ATmega1608                  | ATmega809        | ATmega808                   |
+|------------------------|----------------------------|-----------------------------|------------------|-----------------------------|------------------|-----------------------------|------------------|-----------------------------|
+| **Flash**              | 48 kB                      | 48 kB                       | 32 kB            | 32 kB                       | 16 kB            | 16 kB                       | 8 kB             | 8 kB                        |
+| **RAM**                | 6 kB                       | 6 kB                        | 4 kB             | 4 kB                        | 2 kB             | 2 kB                        | 1 kB             | 1 kB                        |
+| **EEPROM**             | 256 B                      | 256 B                       | 256 B            | 256 B                       | 256 B            | 256 B                       | 256 B            | 256 B                       |
+| **Serial ports**       | 4                          | 3                           | 4                | 3                           | 4                | 3                           | 4                | 3                           |
+| **IO pins**            | 40/41*                     | 26/27* <br/> 23†/24††       | 40/41*           | 26/27* <br/> 23†/24††       | 40/41*           | 26/27* <br/> 23†/24††       | 40/41*           | 26/27* <br/> 23†/24††       |
+| **Available packages** | TQFP48<br/>QFN48<br/>DIP40 | TQFP32<br/>QFN32<br/>SSOP28 | TQFP48<br/>QFN48 | TQFP32<br/>QFN32<br/>SSOP28 | TQFP48<br/>QFN48 | TQFP32<br/>QFN32<br/>SSOP28 | TQFP48<br/>QFN48 | TQFP32<br/>QFN32<br/>SSOP28 |
 
 <b>*</b> Physical reset pin is disabled  
 <b>†</b> SSOP28 package  
