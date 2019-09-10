@@ -5,7 +5,6 @@ An Arduino core for the new megaAVR series!
 **TODO:**
 * ~~UART pin swap inegraion~~ **DONE! use Serial.swap()**
 * ~~Add printf to print class~~ **DONE! use Serial.printf()**
-* Get rid of nasty compiler warning when compiling a blank sketch (or any sketch really..)
 * Steal 20 MHz accurate timing from MCUdude_corefiles
 * SPI pin swap integration in libraries
 * I2C pin swap integration in libraries
@@ -93,17 +92,17 @@ None of the megaAVR-0 microcontrollers needs the reset line in order to be repro
 
 ## Pinout
 This core provides several different Arduino pin mappings based on your current hardware
-- **Uno WiFi**: This pinout is 100% compatible with the Arduino Uno WiFi Rev2 hardware. If you have code that's written for the Uno WiFi Rev2 it will work without any modifications if you choose this pinout. Note that this pinout does pin swapping on serial interfaces and PWM pins by default, and some peripherals are renamed to match the original 328P Uno hardware better. Note that this pinout is only available on ATmega3209/ATmega4809.
 - **48 pin standard**: This pinout is much closer to the actual hardware than the Uno WiFi pinout. It will not be compatible with shields or anything like that, but it's much more clean and elegant from a hardware point of view. The only pin swap done by default is the PWM output pins. This is done to prevent them from "colliding" with other peripherals. Note that this pinout is only available on ATmega3209/ATmega4809.
 - **32 pin standard**: This is the pinout for the 32 pin version of the ATmega3208/4808. Again, it will not be compatible with shields or anything like that, but it's clean and elegant from a hardware point of view. The only pin swap done by default is the PWM output pins. This is done to prevent them from "colliding" with other peripherals.
 - **28 pin standard**: This is the pinout for the 28 pin version of the ATmega3208/4808. Will not be compatible with shields or anything like that, but it's still clean and elegant from a hardware point of view. Only pin swap done by default is the PWM output pins. This is done to prevent them from "colliding" with other peripherals.
+- **Uno WiFi**: This pinout is 100% compatible with the Arduino Uno WiFi Rev2 hardware. If you have code that's written for the Uno WiFi Rev2 it will work without any modifications if you choose this pinout. Note that this pinout does pin swapping on serial interfaces and PWM pins by default, and some peripherals are renamed to match the original 328P Uno hardware better. Note that this pinout is only available on ATmega3209/ATmega4809.
 
 Please have a look at the pins_arduino.h files for detailed info.<br/> <br/>
 <b>Click to enlarge:</b> 
 
-| **MegaCoreX ATmega3209/4809 pinout**                                                                              | **MegaCoreX ATmega3208/4808 pinout**                                                                                                                 |
-|-------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
-|<img src="https://i.imgur.com/q2wB2OW.jpg" width="350"><br/><img src="https://i.imgur.com/7GcHjqk.jpg" width="350">|<img src="https://i.imgur.com/ZaCM75c.jpg" width="350"><br/><img src="https://i.imgur.com/BPg75ib.jpg" width="350"><br/><br/><br/><br/><br/><br/><br/>|
+| **MegaCoreX ATmega809/1609/3209/4809 pinout**                                                                                                                                          | **MegaCoreX ATmega808/1608/3208/4808 pinout**                                                                                                                 |
+|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+|<img src="https://i.imgur.com/CZFxayQ.png" width="350"><br/><img src="https://i.imgur.com/oKxqCXz.png" width="350"><br/><img src="https://i.imgur.com/wXDTTU2.png" width="350">|<img src="https://i.imgur.com/gDmfv1A.png" width="350"><br/><img src="https://i.imgur.com/CXw4oIf.png" width="350"><br/><br/><br/><br/><br/><br/><br/>|
 
 
 ## PWM output
@@ -137,16 +136,16 @@ Click to enlarge:
 [The Curiosity Nano](https://www.microchip.com/developmenttools/ProductDetails/DM320115) uses an ATmega4809 but has a different pinout than the Uno Wifi Rev2. Recommended pinout for this board is *48 pin standard*. Use the `LED_BUILTIN` macro to control the onboard LED. Note that UART3 is connected to the nEDBG chip (often refered to as the debug serial port). This means you'll have to use `Serial3.begin(baud)` in order to print to the serial monitor. You'll also have to choose **Atmel nEDBG (ATSAMD21E18)** as your programmer in order to upload code. For more information about this board please refer to the userguide and its schematic.
 
 Click to enlarge:  
-<img src="https://i.imgur.com/hmqXz8W.jpg" width="350">
+<img src="https://i.imgur.com/PjnhQzb.jpg" width="350">
 
 ### AVR-IOT WG
 [The AVR-IOT WG](https://www.microchip.com/developmenttools/ProductDetails/AC164160) uses the ATmega4808 in a 32 pin package. *32 pin standard* is the correct pinout for this board. Use the `LED_BUILTIN` macro to control the onboard LED marked with *WIFI*.  Note that UART2 is connected to the nEDBG chip (often refered to as the debug serial port). This means tou'll have to use `Serial2.begin(baud)` in order to print to the serial monitor. You'll also have to choose **Atmel nEDBG (ATSAMD21E18)** as your programmer in order to upload code. For more information about this board please refer to the userguide and its schematic.
 
 Click to enlarge:  
-<img src="https://i.imgur.com/o0A4mmq.jpg" width="350">
+<img src="https://i.imgur.com/oIdfUkV.png" width="350">
 
 ### ATmega4809 Xplained Pro
 [The ATmega4809 Xplained Pro](https://www.microchip.com/developmenttools/ProductDetails/atmega4809-xpro) uses an ATmega4809. Recommended pinout for this board is *48 pin standard*. Note that the UART1 is connected to the EDBG chip (often refered to as the debug serial port). This means you'll have to use `Serial1.begin(baud)` in order to print to the serial monitor. You'll also have to choose **Atmel EDBG (AT32UC3A4256)** as your programmer in order to upload code. For more information about this board please refer to the userguide and its schematic.
 
 Click to enlarge:  
-<img src="https://i.imgur.com/3eU4ik0.jpg" width="350">
+<img src="https://i.imgur.com/AqvQhFH.jpg" width="350">
