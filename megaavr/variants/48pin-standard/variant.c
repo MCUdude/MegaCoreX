@@ -12,19 +12,23 @@ void setup_timers() {
   // PORTMUX setting for TCA -> outputs [2:5] point to PORTC pins [2:5]
   PORTMUX.TCAROUTEA  = PORTMUX_TCA0_PORTC_gc;
 
-  // Setup timers for single slope PWM, but do not enable, will do in analogWrite()
-  TCA0.SINGLE.CTRLB = TCA_SINGLE_WGMODE_SINGLESLOPE_gc;
+  // Enable split mode before anything else
+  TCA0.SPLIT.CTRLD = TCA_SINGLE_SPLITM_bm;
 
-  // Period setting, 16 bit register but val resolution is 8 bit
-  TCA0.SINGLE.PER = PWM_TIMER_PERIOD;
+  // Period setting, two 8 bit registers
+  TCA0.SPLIT.LPER =
+  TCA0.SPLIT.HPER = PWM_TIMER_PERIOD;
 
   // Default duty 50%, will re-assign in analogWrite()
-  TCA0.SINGLE.CMP0BUF = PWM_TIMER_COMPARE;
-  TCA0.SINGLE.CMP1BUF = PWM_TIMER_COMPARE;
-  TCA0.SINGLE.CMP2BUF = PWM_TIMER_COMPARE;
+  TCA0.SPLIT.LCMP0 =
+  TCA0.SPLIT.LCMP1 =
+  TCA0.SPLIT.LCMP2 =
+  TCA0.SPLIT.HCMP0 =
+  TCA0.SPLIT.HCMP1 =
+  TCA0.SPLIT.HCMP2 = PWM_TIMER_COMPARE;
 
   // Use DIV64 prescaler (giving 250kHz clock), enable TCA timer
-  TCA0.SINGLE.CTRLA = (TCA_SINGLE_CLKSEL_DIV64_gc) | (TCA_SINGLE_ENABLE_bm);
+  TCA0.SPLIT.CTRLA = (TCA_SPLIT_CLKSEL_DIV64_gc) | (TCA_SPLIT_ENABLE_bm);
 
   //  TYPE B TIMERS 
   
@@ -109,6 +113,8 @@ FORCE_INLINE bool isDoubleBondedActive(uint8_t pin) {
   /* Special check for SPI_SS double bonded pin -- no action if SPI is active 
     (Using SPI Enable bit as indicator of SPI activity) */
   //if((pin == 10) && (SPI0.CTRLA & SPI_ENABLE_bm)) return true;
+
+  // May check Serial1 that may conflict with A-timers (swapped or not)
 
   return false;
 }

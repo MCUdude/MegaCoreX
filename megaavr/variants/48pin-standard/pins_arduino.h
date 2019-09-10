@@ -38,7 +38,7 @@
 
 #define EXTERNAL_NUM_INTERRUPTS     (NUM_TOTAL_PINS)
 
-#define digitalPinHasPWM(p)         ((p) == 16 || (p) == 17 || (p) == 18 || (p) == 19 || (p) == 38 || (p) == 39)
+#define digitalPinHasPWM(p)         (((p) >= 14 && (p) <= 19) || (p) == 38 || (p) == 39)
 
 // SPI 0
 // No pinswap enabled by default
@@ -183,8 +183,8 @@ const uint8_t PROGMEM digital_pin_to_port[] = {
   PB, // 11 PB3
   PB, // 12 PB4
   PB, // 13 PB5
-  PC, // 14 PC0/USART1_Tx
-  PC, // 15 PC1/USART1_Rx
+  PC, // 14 PC0/USART1_Tx/TCA0 PWM
+  PC, // 15 PC1/USART1_Rx/TCA0 PWM
   PC, // 16 PC2/TCA0 PWM
   PC, // 17 PC3/TCA0 PWM
   PC, // 18 PC4/TCA0 PWM
@@ -228,8 +228,8 @@ const uint8_t PROGMEM digital_pin_to_bit_position[] = {
   PIN3_bp, // 11 PB3
   PIN4_bp, // 12 PB4
   PIN5_bp, // 13 PB5
-  PIN0_bp, // 14 PC0/USART1_Tx
-  PIN1_bp, // 15 PC1/USART1_Rx
+  PIN0_bp, // 14 PC0/USART1_Tx/TCA0 PWM
+  PIN1_bp, // 15 PC1/USART1_Rx/TCA0 PWM
   PIN2_bp, // 16 PC2/TCA0 PWM
   PIN3_bp, // 17 PC3/TCA0 PWM
   PIN4_bp, // 18 PC4/TCA0 PWM
@@ -273,8 +273,8 @@ const uint8_t PROGMEM digital_pin_to_bit_mask[] = {
   PIN3_bm, // 11 PB3
   PIN4_bm, // 12 PB4
   PIN5_bm, // 13 PB5
-  PIN0_bm, // 14 PC0/USART1_Tx
-  PIN1_bm, // 15 PC1/USART1_Rx
+  PIN0_bm, // 14 PC0/USART1_Tx/TCA0 PWM
+  PIN1_bm, // 15 PC1/USART1_Rx/TCA0 PWM
   PIN2_bm, // 16 PC2/TCA0 PWM
   PIN3_bm, // 17 PC3/TCA0 PWM
   PIN4_bm, // 18 PC4/TCA0 PWM
@@ -317,8 +317,8 @@ const uint8_t PROGMEM digital_pin_to_timer[] = {
   NOT_ON_TIMER, // 11 PB3
   NOT_ON_TIMER, // 12 PB4
   NOT_ON_TIMER, // 13 PB5
-  NOT_ON_TIMER, // 14 PC0/USART1_Tx
-  NOT_ON_TIMER, // 15 PC1/USART1_Rx
+  TIMERA0,      // 14 PC0/USART1_Tx/TCA0 PWM
+  TIMERA0,      // 15 PC1/USART1_Rx/TCA0 PWM
   TIMERA0,      // 16 PC2/TCA0 PWM
   TIMERA0,      // 17 PC3/TCA0 PWM
   TIMERA0,      // 18 PC4/TCA0 PWM
