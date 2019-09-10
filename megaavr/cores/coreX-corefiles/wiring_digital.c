@@ -79,7 +79,8 @@ void pinMode(uint8_t pin, PinMode mode)
 // user than calling. (It will take more bytes on the 168.)
 //
 // But shouldn't this be moved into pinMode? Seems silly to check and do on
-// each digitalread or write.
+// each digitalread or write. One issue that then needs to be fixed is that
+// current implementation on analogWrite() depends on this behaviour.
 //
 // Mark Sproul:
 // - Removed inline. Save 170 bytes on atmega1280
@@ -107,7 +108,8 @@ static void turnOffPWM(uint8_t pin)
 		bit_pos = digitalPinToBitPosition(pin);
 
 		/* Disable corresponding channel */
-		TCA0.SINGLE.CTRLB &= ~(1 << (TCA_SINGLE_CMP0EN_bp + bit_pos));
+		if (bit_pos >= 3) ++bit_pos; /* Upper 3 bits are shifted by 1 */
+		TCA0.SPLIT.CTRLB &= ~(1 << (TCA_SPLIT_LCMP0EN_bp + bit_pos));
 
 		break;
 
