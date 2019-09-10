@@ -16,7 +16,7 @@
 #include <avr/pgmspace.h>
 #include "timers.h"
 
-#define DEFAULT_48PIN_PINOUT
+#define DEFAULT_28PIN_PINOUT
 
 #define NUM_DIGITAL_PINS            23
 #define NUM_ANALOG_INPUTS           8
@@ -29,7 +29,9 @@
 #define ANALOG_INPUT_OFFSET         0 
 #define digitalPinToAnalogInput(p)  ((p < NUM_ANALOG_INPUTS) ? (p) : (p) - 12) // The user will have to use A0 - A15, NOT 0 - 15
 
-#define MILLIS_USE_TIMERB3
+#if !defined(MILLIS_USE_TIMERB0) || !defined(MILLIS_USE_TIMERB1) || !defined(MILLIS_USE_TIMERB2)
+#define MILLIS_USE_TIMERB2
+#endif
 
 #define EXTERNAL_NUM_INTERRUPTS     (NUM_TOTAL_PINS)
 
