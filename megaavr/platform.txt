@@ -18,7 +18,7 @@ compiler.warning_flags.more=-Wall
 compiler.warning_flags.all=-Wall -Wextra
 
 # Default "compiler.path" is correct, change only if you want to override the initial value
-compiler.path={runtime.tools.avr-gcc-5.4.0-atmel3.6.1-arduino2.path}/bin/
+compiler.path={runtime.tools.avr-gcc.path}/bin/
 compiler.c.cmd=avr-gcc
 compiler.c.flags=-c -g -Os {compiler.warning_flags} -std=gnu11 -ffunction-sections -fdata-sections -MMD -flto -fno-fat-lto-objects
 compiler.c.elf.flags={compiler.warning_flags} -Os -g -flto -fuse-linker-plugin -Wl,--gc-sections
@@ -102,7 +102,7 @@ tools.avrdude.upload.params.quiet=-q -q
 # tools.avrdude.upload.verify is needed for backwards compatibility with IDE 1.6.8 or older, IDE 1.6.9 or newer overrides this value
 tools.avrdude.upload.verify=
 tools.avrdude.upload.params.noverify=-V
-tools.avrdude.upload.pattern="{cmd.path}" "-C{config.path}" {upload.verbose} {upload.verify} -p{build.mcu} -c{upload.protocol} -Pusb -b{upload.speed} -e -D "-Uflash:w:{build.path}/{build.project_name}.hex:i" {bootloader.fuse0} {bootloader.fuse1} {bootloader.fuse2} {bootloader.fuse4} {bootloader.fuse5} {bootloader.fuse6} {bootloader.fuse7} {bootloader.fuse8} {bootloader.lock}
+tools.avrdude.upload.pattern="{cmd.path}" "-C{config.path}" {upload.verbose} {upload.verify} -p{build.mcu} -c{upload.protocol} {upload.extra_params} -b{upload.speed} -e -D "-Uflash:w:{build.path}/{build.project_name}.hex:i" {bootloader.fuse0} {bootloader.fuse1} {bootloader.fuse2} {bootloader.fuse4} {bootloader.fuse5} {bootloader.fuse6} {bootloader.fuse7} {bootloader.fuse8} {bootloader.lock}
 
 tools.avrdude.program.params.verbose=-v
 tools.avrdude.program.params.quiet=-q -q
