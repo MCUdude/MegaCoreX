@@ -29,7 +29,7 @@
 #define NUM_TOTAL_FREE_PINS         (NUM_DIGITAL_PINS)
 #define NUM_TOTAL_PINS              (NUM_DIGITAL_PINS)
 #define ANALOG_INPUT_OFFSET         11 
-#define digitalPinToAnalogInput3(p)  ((p < 8) ? (p) : ((p) < 12) ? ((p) + 4) : ((p) < 20) ? ((p) - 12) : ((p) >= 22 && (p) <=25) ? ((p) - 10) : NOT_A_PIN)
+#define digitalPinToAnalogInput(p)  ((p < 8) ? (p) : ((p) < 12) ? ((p) + 4) : ((p) < 20) ? ((p) - 12) : ((p) >= 22 && (p) <=25) ? ((p) - 10) : NOT_A_PIN)
 
 #if !defined(MILLIS_USE_TIMERB0) || !defined(MILLIS_USE_TIMERB1) || !defined(MILLIS_USE_TIMERB2)
 #define MILLIS_USE_TIMERB2
@@ -143,7 +143,7 @@ static const uint8_t A7  = PIN_A7;
 static const uint8_t A8  = PIN_A8;
 static const uint8_t A9  = PIN_A9;
 static const uint8_t A10 = PIN_A10;
-static const uint8_t A11 = PIN_A11
+static const uint8_t A11 = PIN_A11;
 static const uint8_t A12 = PIN_A12;
 static const uint8_t A13 = PIN_A13;
 static const uint8_t A14 = PIN_A14;
