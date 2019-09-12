@@ -5,6 +5,8 @@
 | COMPATIBLE WITH:                                   |
 | ATmega4809                                         |
 | ATmega3209                                         |
+| ATmega1609                                         |
+| ATmega809                                          |
 |                                                    |
 | Note that this pinout is not directly compatible   |
 | with the UNO Wifi Rev2 hardware without performing |
@@ -25,14 +27,14 @@
 
 #define NUM_DIGITAL_PINS            41
 #define NUM_ANALOG_INPUTS           16
-#define NUM_RESERVED_PINS           0  // With great power comes great responsibility
-#define NUM_INTERNALLY_USED_PINS    0  // (2 x Chip select + 2 x UART + 4 x IO + LED_BUILTIN + 1 unused pin)
+#define NUM_RESERVED_PINS           0
+#define NUM_INTERNALLY_USED_PINS    0
 #define NUM_I2C_PINS                2  // (SDA / SCL)
 #define NUM_SPI_PINS                3  // (MISO / MOSI / SCK)
 #define NUM_TOTAL_FREE_PINS         (NUM_DIGITAL_PINS)
 #define NUM_TOTAL_PINS              (NUM_DIGITAL_PINS)
-#define ANALOG_INPUT_OFFSET         0 
-#define digitalPinToAnalogInput(p)  ((p < NUM_ANALOG_INPUTS) ? (p) : (p) - 22) // The user will have to use A0 - A15, NOT 0 - 15
+#define ANALOG_INPUT_OFFSET         22 
+#define digitalPinToAnalogInput(p)  ((p < NUM_ANALOG_INPUTS) ? (p) : ((p) >= 22 && (p) <= 33) ? ((p) - 22) : ((p) >= 36 && (p) <=39) ? ((p) - 24) : NOT_A_PIN)
 
 #if !defined(MILLIS_USE_TIMERB0) || !defined(MILLIS_USE_TIMERB1) || !defined(MILLIS_USE_TIMERB2) || !defined(MILLIS_USE_TIMERB3)
 #define MILLIS_USE_TIMERB3

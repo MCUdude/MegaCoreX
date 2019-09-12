@@ -5,6 +5,8 @@
 | COMPATIBLE WITH:                                   |
 | ATmega4808                                         |
 | ATmega3208                                         |
+| ATmega1608                                         |
+| ATmega808                                          |
 |                                                    |
 | Note that PWM output pins are swapped by default   |
 |                                                    |
@@ -20,14 +22,14 @@
 
 #define NUM_DIGITAL_PINS            27
 #define NUM_ANALOG_INPUTS           12
-#define NUM_RESERVED_PINS           0  // With great power comes great responsibility
-#define NUM_INTERNALLY_USED_PINS    0  
+#define NUM_RESERVED_PINS           0
+#define NUM_INTERNALLY_USED_PINS    0
 #define NUM_I2C_PINS                2  // (SDA / SCL)
 #define NUM_SPI_PINS                3  // (MISO / MOSI / SCK)
 #define NUM_TOTAL_FREE_PINS         (NUM_DIGITAL_PINS)
 #define NUM_TOTAL_PINS              (NUM_DIGITAL_PINS)
-#define ANALOG_INPUT_OFFSET         0 
-#define digitalPinToAnalogInput(p)  ((p < NUM_ANALOG_INPUTS) ? (p) : (p) - 12) // The user will have to use A0 - A15, NOT 0 - 15
+#define ANALOG_INPUT_OFFSET         11 
+#define digitalPinToAnalogInput3(p)  ((p < 8) ? (p) : ((p) < 12) ? ((p) + 4) : ((p) < 20) ? ((p) - 12) : ((p) >= 22 && (p) <=25) ? ((p) - 10) : NOT_A_PIN)
 
 #if !defined(MILLIS_USE_TIMERB0) || !defined(MILLIS_USE_TIMERB1) || !defined(MILLIS_USE_TIMERB2)
 #define MILLIS_USE_TIMERB2
@@ -121,6 +123,10 @@ static const uint8_t SCL = PIN_WIRE_SCL;
 #define PIN_A5   (17)
 #define PIN_A6   (18)
 #define PIN_A7   (19)
+#define PIN_A8   (22)
+#define PIN_A9   (23)
+#define PIN_A10  (24)
+#define PIN_A11  (25)
 #define PIN_A12  (22)
 #define PIN_A13  (23)
 #define PIN_A14  (24)
@@ -134,6 +140,10 @@ static const uint8_t A4  = PIN_A4;
 static const uint8_t A5  = PIN_A5;
 static const uint8_t A6  = PIN_A6;
 static const uint8_t A7  = PIN_A7;
+static const uint8_t A8  = PIN_A8;
+static const uint8_t A9  = PIN_A9;
+static const uint8_t A10 = PIN_A10;
+static const uint8_t A11 = PIN_A11
 static const uint8_t A12 = PIN_A12;
 static const uint8_t A13 = PIN_A13;
 static const uint8_t A14 = PIN_A14;
