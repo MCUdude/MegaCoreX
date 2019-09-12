@@ -78,7 +78,7 @@ The microcontroller will freeze if the external clock suddenly drops out. If not
 ## BOD option
 Brown out detection, or BOD for short lets the microcontroller sense the input voltage and shut down if the voltage goes below the brown out setting. Below is a table that shows the available BOD options:
 
-|                                |
+| BOD threshold                  |
 |--------------------------------|
 | 4.2 V                          |
 | 4.0 V                          |
