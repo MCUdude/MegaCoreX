@@ -293,24 +293,31 @@ void init()
 	
 /******************************** CLOCK STUFF *********************************/
 
- 	
-	#if (F_CPU == 20000000)		
-		/* No division on clock */
-		_PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, 0x00);
-	#elif (F_CPU == 16000000)		
-		/* No division on clock */
-		_PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, 0x00);		
-	#elif (F_CPU == 8000000)		
-		/* Clock DIV2 */
-		_PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, (CLKCTRL_PEN_bm | CLKCTRL_PDIV_2X_gc));		
-	#elif (F_CPU == 4000000)		
-		/* Clock DIV4 */
-		_PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, (CLKCTRL_PEN_bm | CLKCTRL_PDIV_4X_gc));
-	#elif (F_CPU == 2000000)		
-		/* Clock DIV8 */
-		_PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, (CLKCTRL_PEN_bm | CLKCTRL_PDIV_8X_gc));
+ 	// Use external oscillator if already defined (in boards.txt, platformio.ini)
+ 	#if defined(USE_EXTERNAL_OSCILLATOR)
+		_PROTECTED_WRITE(CLKCTRL_MCLKCTRLA, CLKCTRL_CLKSEL_EXTCLK_gc);
+		_PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, 0x00); // Fallback to 16 MHz internal if no EXTCLK
+		
+	// Use internal oscillator if not defined. No need to manipulate the MCLKCTRLA register here
+	// because it's already done in the SYSCFG0 fuse byte
+	#else 	
+		#if (F_CPU == 20000000L)		
+			/* No division on clock */
+			_PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, 0x00);
+		#elif (F_CPU == 16000000L)		
+			/* No division on clock */
+			_PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, 0x00);		
+		#elif (F_CPU == 8000000L)		
+			/* Clock DIV2 */
+			_PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, (CLKCTRL_PEN_bm | CLKCTRL_PDIV_2X_gc));		
+		#elif (F_CPU == 4000000L)		
+			/* Clock DIV4 */
+			_PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, (CLKCTRL_PEN_bm | CLKCTRL_PDIV_4X_gc));
+		#elif (F_CPU == 2000000L)		
+			/* Clock DIV8 */
+			_PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, (CLKCTRL_PEN_bm | CLKCTRL_PDIV_8X_gc));
+		#endif
 	#endif
-
 
 /********************************* ADC ****************************************/
 
@@ -318,17 +325,17 @@ void init()
 
 	/* ADC clock between 50-200 kHz */
 
-	#if F_CPU >= 20000000 // 20 MHz / 128 = 156.250 kHz
+	#if (F_CPU >= 20000000L)   // 20 MHz / 128 = 156.250 kHz
 		ADC0.CTRLC |= ADC_PRESC_DIV128_gc;
-	#elif F_CPU >= 16000000 // 16 MHz / 128 = 125 kHz
+	#elif (F_CPU >= 16000000L) // 16 MHz / 128 = 125 kHz
 		ADC0.CTRLC |= ADC_PRESC_DIV128_gc;
-	#elif F_CPU >= 8000000 // 8 MHz / 64 = 125 kHz
+	#elif (F_CPU >= 8000000L)  // 8 MHz / 64 = 125 kHz
 		ADC0.CTRLC |= ADC_PRESC_DIV64_gc;
-	#elif F_CPU >= 4000000 // 4 MHz / 32 = 125 kHz
+	#elif (F_CPU >= 4000000L)  // 4 MHz / 32 = 125 kHz
 		ADC0.CTRLC |= ADC_PRESC_DIV32_gc;
-	#elif F_CPU >= 2000000 // 2 MHz / 16 = 125 kHz
+	#elif (F_CPU >= 2000000L)  // 2 MHz / 16 = 125 kHz
 		ADC0.CTRLC |= ADC_PRESC_DIV16_gc;
-	#elif F_CPU >= 1000000 // 1 MHz / 8 = 125 kHz
+	#elif (F_CPU >= 1000000L)  // 1 MHz / 8 = 125 kHz
 		ADC0.CTRLC |= ADC_PRESC_DIV8_gc;
 	#else // 128 kHz / 2 = 64 kHz -> This is the closest you can get, the prescaler is 2
 		ADC0.CTRLC |= ADC_PRESC_DIV2_gc;

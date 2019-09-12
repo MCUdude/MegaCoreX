@@ -66,9 +66,14 @@ MegaCoreX lets you choose what clock frequency you want to run your microcontrol
 | 4 MHz     | Internal oscillator | Derived from 16 MHz osc. |
 | 2 MHz     | Internal oscillator | Derived from 16 MHz osc. |
 | 1 MHz     | Internal oscillator | Derived from 16 MHz osc. |
+| 20 MHz    | External clock      |                          |
+| 16 MHz    | External clock      |                          |
+| 12 MHz    | External clock      |                          |
+| 8 MHz     | External clock      |                          |
+| 1 MHz     | External clock      |                          |
 
-Note that unlike other AVRs none of these chips are able to drive an external crystal or resonator. If you need an external oscillator it has to be one with a driven clock output.
-
+Note that unlike other AVRs none of these chips are able to drive an external crystal or resonator. If you need an external oscillator it has to be one with a driven clock output. 
+The microcontroller will freeze if the external clock suddenly drops out. If not present on boot, it will automatically choose the 16 MHz internal oscillator instead.
 
 ## BOD option
 Brown out detection, or BOD for short lets the microcontroller sense the input voltage and shut down if the voltage goes below the brown out setting. Below is a table that shows the available BOD options:
