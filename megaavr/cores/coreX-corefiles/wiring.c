@@ -293,57 +293,23 @@ void init()
 	
 /******************************** CLOCK STUFF *********************************/
 
-	/* We assume 5V operating frequency and FUSE.OSCCFG -> 16MHz */
-
- 	int64_t cpu_freq;
  	
-	#if (F_CPU == 20000000)
-		cpu_freq = 20000000;
-		
+	#if (F_CPU == 20000000)		
 		/* No division on clock */
 		_PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, 0x00);
-	
-	#elif (F_CPU == 16000000)
-		cpu_freq = 16000000;
-		
+	#elif (F_CPU == 16000000)		
 		/* No division on clock */
-		_PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, 0x00);
-		
-	#elif (F_CPU == 8000000)
-		cpu_freq = 8000000;
-		
+		_PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, 0x00);		
+	#elif (F_CPU == 8000000)		
 		/* Clock DIV2 */
-		_PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, (CLKCTRL_PEN_bm | CLKCTRL_PDIV_2X_gc));
-		
-	#elif (F_CPU == 4000000)
-		cpu_freq = 4000000;
-		
+		_PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, (CLKCTRL_PEN_bm | CLKCTRL_PDIV_2X_gc));		
+	#elif (F_CPU == 4000000)		
 		/* Clock DIV4 */
 		_PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, (CLKCTRL_PEN_bm | CLKCTRL_PDIV_4X_gc));
-		
-	#elif (F_CPU == 2000000)
-		cpu_freq = 2000000;
-		
+	#elif (F_CPU == 2000000)		
 		/* Clock DIV8 */
 		_PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, (CLKCTRL_PEN_bm | CLKCTRL_PDIV_8X_gc));
-	#else
-		
-		#ifndef F_CPU
-			# warning "F_CPU not defined"
-			#define F_CPU 16000000
-		#endif
-		
-		# warning "F_CPU defined as an invalid value - may cause undefined behavior"
-		
-		/* Default value is 16MHz */
-		cpu_freq = 16000000;
-				
-		/* No division on clock */
-		_PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, 0x00);
 	#endif
-
-	/* Apply calculated value to F_CPU_CORRECTED */
-	F_CPU_CORRECTED = (uint32_t)cpu_freq;
 
 
 /********************************* ADC ****************************************/
