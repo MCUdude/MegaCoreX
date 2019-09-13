@@ -169,16 +169,21 @@ void UartClass::begin(unsigned long baud, uint16_t config)
     digitalWrite(_hwserial_tx_pin, HIGH);
     pinMode(_hwserial_tx_pin, OUTPUT);
 
-#if F_CPU == 20000000L
-    // BUG: should also differentiate between 5V and 3V
-    int8_t sigrow_val = SIGROW.OSC20ERR5V;
-#else
-    int8_t sigrow_val = SIGROW.OSC16ERR5V;
+    int8_t sigrow_val = 0;
+
+// Use error compensation if internal oscillator is used
+#if !defined(USE_EXTERNAL_OSCILLATOR)
+    #if F_CPU == 20000000L
+        sigrow_val = SIGROW.OSC20ERR5V;
+    #else
+        sigrow_val = SIGROW.OSC16ERR5V;
+    #endif
 #endif
+
     baud_setting += (baud_setting * sigrow_val) / 1024;
 
     // assign the baud_setting, a.k.a. BAUD (USART Baud Rate Register)
-    (*_hwserial_module).BAUD = (int16_t) baud_setting;
+    (*_hwserial_module).BAUD = (uint16_t)baud_setting;
 
     // Set USART mode of operation
     (*_hwserial_module).CTRLC = config;
