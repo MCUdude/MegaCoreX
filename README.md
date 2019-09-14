@@ -4,12 +4,10 @@ An Arduino core for the new megaAVR series!
 
 **TODO:**
 * ~~UART pin swap inegraion~~ **DONE! use Serial.swap()**
-* ~~Add printf to print class~~ **DONE! use Serial.printf()**
 * Steal 20 MHz accurate timing from MCUdude_corefiles
 * SPI pin swap integration in libraries
 * I2C pin swap integration in libraries
 * Example (library?) for using the 32.768kHz cystal that can be found on Uno Wifi Rev2 and Curiosity Nano 4809
-* Add ArduinoAPI as subtree for easy maintainance (just need to get some PRs such as printf functionality merged first)
 * Readme
   - Need some good intro text at the beginning
   - Minimal setup schematics
@@ -32,6 +30,7 @@ An Arduino core for the new megaAVR series!
   - [Curiosity Nano](#curiosity-nano)
   - [AVR-IOT-WG](#avr-iot-wg)
   - [4809 Xplained Pro](#atmega4809-xplained-pro)
+* [Minimal setup](#minimal-setup)
 
 ## Supported microcontrollers
 
@@ -154,3 +153,11 @@ Click to enlarge:
 
 Click to enlarge:  
 <img src="https://i.imgur.com/AqvQhFH.jpg" width="350">
+
+## Minimal setup
+Here's some simple schematics that shows a minimal setup. The straight 6-pin header may in the future be used for serial uploads without having to use a UPDI programmer. As of today, we're still waiting for a stable version of Optiboot.
+<b>Click to enlarge:</b> <br/>
+
+| 48-pin (TQFP48) *ATmega809/1609/3209/4809*            | 32-pin (TQFP32) *ATmega808/1608/3208/4808*            |
+|-------------------------------------------------------|-------------------------------------------------------|
+|<img src="https://i.imgur.com/eGkTBQI.png" width="350">|<img src="https://i.imgur.com/PfxoYN1.png" width="350">|
