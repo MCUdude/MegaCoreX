@@ -261,6 +261,27 @@ void delayMicroseconds(unsigned int us)
 	// us is at least 6 so we can substract 4
 	us -= 4; // = 2 cycles
 
+#elif F_CPU >= 4000000L
+  // The overhead of the function call is 14 (16) cycles which is 4 us
+  if (us <= 2)
+    return;
+
+  // Subtract microseconds that were wasted in this function
+  us -= 2;
+
+  // We don't need to multiply here because one request microsecond is exactly one loop cycle
+
+#elif F_CPU >= 2000000L
+  // The overhead of the function call is 14 (16) cycles which is 8.68 us
+  // Plus the if-statement that takes 3 cycles (4 when true): ~11us
+  if (us <= 13)
+    return;
+
+  // Subtract microseconds that were wasted in this function
+  us -= 11; // 2 cycles
+
+  us = (us >> 1); // 3 cycles
+
 #else
 	// for the 1 MHz internal clock (default settings for common Atmega microcontrollers)
 
