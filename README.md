@@ -25,12 +25,12 @@ An Arduino core for the new megaAVR series!
 * [How to install](#how-to-install)
   - [Boards Manager Installation](#boards-manager-installation)
   - [Manual Installation](#manual-installation)
+* [Minimal setup](#minimal-setup)
 * [Getting your hardware working](#getting-your-hardware-working)
   - [Arduino Uno WiFi Rev2](#arduino-uno-wifi-rev2)
   - [Curiosity Nano](#curiosity-nano)
   - [AVR-IOT-WG](#avr-iot-wg)
   - [4809 Xplained Pro](#atmega4809-xplained-pro)
-* [Minimal setup](#minimal-setup)
 
 ## Supported microcontrollers
 
@@ -106,7 +106,7 @@ Please have a look at the pins_arduino.h files for detailed info.<br/> <br/>
 
 | **MegaCoreX ATmega809/1609/3209/4809 pinout**                                                                                                                                          | **MegaCoreX ATmega808/1608/3208/4808 pinout**                                                                                                                                                                                |
 |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|<img src="https://i.imgur.com/CZFxayQ.png" width="350"><br/><img src="https://i.imgur.com/oKxqCXz.png" width="350"><br/><img src="https://i.imgur.com/wXDTTU2.png" width="350">|<img src="https://i.imgur.com/MAcCZJ9.png" width="350"><br/><br/><br/><br/><<img src="https://i.imgur.com/CXw4oIf.png" width="350"><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>|
+|<img src="https://i.imgur.com/CZFxayQ.png" width="350"><br/><img src="https://i.imgur.com/oKxqCXz.png" width="350"><br/><img src="https://i.imgur.com/wXDTTU2.png" width="350">|<img src="https://i.imgur.com/MAcCZJ9.png" width="350"><br/><br/><br/><br/><img src="https://i.imgur.com/CXw4oIf.png" width="350"><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>|
 
 
 ## PWM output
@@ -128,6 +128,14 @@ PWM output, `analogWrite()`, is available for the following pins:
 Click on the "Download ZIP" button. Extract the ZIP file, and move the extracted folder to the location "**~/Documents/Arduino/hardware**". Create the "hardware" folder if it doesn't exist.
 Open Arduino IDE, and a new category in the boards menu called "MightyCoreX" will show up.
 
+
+## Minimal setup
+Here's some simple schematics that shows a minimal setup. The straight 6-pin header may in the future be used for serial uploads without having to use a UPDI programmer. As of today, we're still waiting for a stable version of Optiboot.
+<b>Click to enlarge:</b> <br/>
+
+| 48-pin *ATmega809/1609/3209/4809*                     | 40-pin *ATmega4809*                                   | 32-pin *ATmega808/1608/3208/4808*                     |
+|-------------------------------------------------------|-------------------------------------------------------|-------------------------------------------------------|
+|<img src="https://i.imgur.com/eGkTBQI.png" width="270">|<img src="https://i.imgur.com/QbUxUV7.png" width="270">|<img src="https://i.imgur.com/PfxoYN1.png" width="270">|
 
 ## Getting your hardware working
 ### Arduino Uno WiFi Rev2
@@ -153,11 +161,3 @@ Click to enlarge:
 
 Click to enlarge:  
 <img src="https://i.imgur.com/AqvQhFH.jpg" width="350">
-
-## Minimal setup
-Here's some simple schematics that shows a minimal setup. The straight 6-pin header may in the future be used for serial uploads without having to use a UPDI programmer. As of today, we're still waiting for a stable version of Optiboot.
-<b>Click to enlarge:</b> <br/>
-
-| 48-pin (TQFP48) *ATmega809/1609/3209/4809*            | 32-pin (TQFP32) *ATmega808/1608/3208/4808*            |
-|-------------------------------------------------------|-------------------------------------------------------|
-|<img src="https://i.imgur.com/eGkTBQI.png" width="350">|<img src="https://i.imgur.com/PfxoYN1.png" width="350">|
