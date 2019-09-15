@@ -162,13 +162,6 @@ void UartClass::begin(unsigned long baud, uint16_t config)
 
     _written = false;
 
-    //Set up the rx pin
-    pinMode(_hwserial_rx_pin, INPUT_PULLUP);
-
-    //Set up the tx pin
-    digitalWrite(_hwserial_tx_pin, HIGH);
-    pinMode(_hwserial_tx_pin, OUTPUT);
-
     int8_t sigrow_val = 0;
 
 // Use error compensation if internal oscillator is used
@@ -192,6 +185,13 @@ void UartClass::begin(unsigned long baud, uint16_t config)
     (*_hwserial_module).CTRLB |= (USART_RXEN_bm | USART_TXEN_bm);
 
     (*_hwserial_module).CTRLA |= USART_RXCIE_bm;
+
+    //Set up the rx pin
+    pinMode(_hwserial_rx_pin, INPUT_PULLUP);
+
+    //Set up the tx pin
+    digitalWrite(_hwserial_tx_pin, HIGH);
+    pinMode(_hwserial_tx_pin, OUTPUT);
 
     // Restore SREG content
     SREG = oldSREG;
