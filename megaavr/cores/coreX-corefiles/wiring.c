@@ -91,9 +91,8 @@ static volatile TCB_t* _timer =
 	m += millis_inc;
 	f += fract_inc;
 	if (f >= FRACT_MAX) {
-
 		f -= FRACT_MAX;
-		m += 1;
+		m++;
 	}
 
 	timer_fract = f;
@@ -119,32 +118,46 @@ unsigned long millis()
 	return m;
 }
 
-unsigned long micros() {
-	unsigned long overflows, microseconds;
-	uint8_t ticks;
+unsigned long  micros() {
+	uint32_t m;
+	uint8_t t;
 
 	/* Save current state and disable interrupts */
 	uint8_t status = SREG;
 	cli();
 
 	/* Get current number of overflows and timer count */
-	overflows = timer_overflow_count;
-	ticks = _timer->CNTL;
+	m = timer_overflow_count;
+	t = _timer->CNTL;
 
 	/* If the timer overflow flag is raised, we just missed it,
 	increment to account for it, & read new ticks */
 	if(_timer->INTFLAGS & TCB_CAPT_bm){
-		overflows++;
-		ticks = _timer->CNTL;
+		m++;
+		t = _timer->CNTL;
 	}
 
-	/* Restore state */
+	// Restore SREG
 	SREG = status;
 
-	/* Return microseconds of up time  (resets every ~70mins) */
-	microseconds = ((overflows * microseconds_per_timer_overflow)
-				+ (ticks * microseconds_per_timer_tick));
-	return microseconds;
+#if F_CPU >= 24000000L && F_CPU < 32000000L
+	// m needs to be multiplied by 682.67
+	// and t by 2.67
+	m = (m << 8) + t;
+	return (m << 1) + (m >> 1) + (m >> 3) + (m >> 4); // Multiply by 2.6875
+#elif F_CPU == 20000000L
+	// m needs to be multiplied by 819.2
+	// t needs to be multiplied by 3.2
+	m = (m << 8) + t;
+	return m + (m << 1) + (m >> 2) - (m >> 4); // Multiply by 3.1875
+#elif F_CPU == 12000000L
+	// m needs to be multiplied by 1365.33
+	// and t by 5.33
+	m = (m << 8) + t;
+	return m + (m << 2) + (m >> 2) + (m >> 3) - (m >> 4) + (m >> 5); // Multiply by 5.3437
+#else // 16 MHz, 8 MHz, 4 MHz, 2 MHz, 1 MHz
+	return ((m << 8) + t) * (64 / clockCyclesPerMicrosecond());
+#endif
 }
 
 void delay(unsigned long ms)
