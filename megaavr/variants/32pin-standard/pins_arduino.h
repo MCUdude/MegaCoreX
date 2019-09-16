@@ -35,7 +35,7 @@
 #define MILLIS_USE_TIMERB2
 #endif
 
-#define EXTERNAL_NUM_INTERRUPTS     (NUM_TOTAL_PINS)
+#define EXTERNAL_NUM_INTERRUPTS     (47)
 
 #define digitalPinHasPWM(p)         (((p) >= 8 && (p) <= 11) || (p) == 24 || (p) == 25)
 

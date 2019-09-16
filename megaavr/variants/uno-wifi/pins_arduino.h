@@ -42,7 +42,7 @@
 
 #define MILLIS_USE_TIMERB3 // Use timerb3 for millis generation
 
-#define EXTERNAL_NUM_INTERRUPTS     (NUM_TOTAL_PINS)
+#define EXTERNAL_NUM_INTERRUPTS     (47)
 
 #define digitalPinHasPWM(p)         ((p) == 3 || (p) == 5 || (p) == 6 || (p) == 9 || (p) == 10)
 
