@@ -153,7 +153,7 @@ static const uint8_t A15 = PIN_A15;
 
 #ifdef ARDUINO_MAIN
 
-const uint8_t PROGMEM digital_pin_to_port[] = {
+const uint8_t digital_pin_to_port[] = {
   PA, //  0 PA0/USART0_Tx/CLKIN
   PA, //  1 PA1/USART0_Rx
   PA, //  2 PA2/SDA
@@ -184,7 +184,7 @@ const uint8_t PROGMEM digital_pin_to_port[] = {
 };
 
 /* Use this for accessing PINnCTRL register */
-const uint8_t PROGMEM digital_pin_to_bit_position[] = {
+const uint8_t digital_pin_to_bit_position[] = {
   PIN0_bp, //  0 PIN_bp0/USART0_Tx/CLKIN
   PIN1_bp, //  1 PA1/USART0_Rx
   PIN2_bp, //  2 PA2/SDA
@@ -215,7 +215,7 @@ const uint8_t PROGMEM digital_pin_to_bit_position[] = {
 };
 
 /* Use this for accessing PINnCTRL register */
-const uint8_t PROGMEM digital_pin_to_bit_mask[] = {
+const uint8_t digital_pin_to_bit_mask[] = {
   PIN0_bm, //  0 PIN_bp0/USART0_Tx/CLKIN
   PIN1_bm, //  1 PA1/USART0_Rx
   PIN2_bm, //  2 PA2/SDA
@@ -245,7 +245,7 @@ const uint8_t PROGMEM digital_pin_to_bit_mask[] = {
   PIN6_bm  // 26 PF6 RESET
 };
 
-const uint8_t PROGMEM digital_pin_to_timer[] = {
+const uint8_t digital_pin_to_timer[] = {
   NOT_ON_TIMER, //  0 PA0/USART0_Tx/CLKIN
   NOT_ON_TIMER, //  1 PA1/USART0_Rx
   NOT_ON_TIMER, //  2 PA2/SDA
