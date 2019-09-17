@@ -122,8 +122,8 @@ bool isDoubleBondedActive(uint8_t pin);
 #define digitalPinToBitPosition(pin) ( (pin < NUM_TOTAL_PINS) ? digital_pin_to_bit_position[pin] : NOT_A_PIN )
 #define digitalPinToBitMask(pin) ( (pin < NUM_TOTAL_PINS) ? digital_pin_to_bit_mask[pin] : NOT_A_PIN )
 #define digitalPinToTimer(pin) ( (pin < NUM_TOTAL_PINS) ? digital_pin_to_timer[pin] : NOT_ON_TIMER )
-#define analogPinToBitPosition(pin) ( (digitalPinToAnalogInput(pin) != NOT_A_PIN) ? digital_pin_to_bit_position[pin + ANALOG_INPUT_OFFSET] : NOT_A_PIN )
-#define analogPinToBitMask(pin) ( (digitalPinToAnalogInput(pin) != NOT_A_PIN) ? digital_pin_to_bit_mask[pin + ANALOG_INPUT_OFFSET] : NOT_A_PIN )
+#define analogPinToBitPosition(pin) ( (digitalOrAnalogPinToDigital(pin) != NOT_A_PIN) ? digital_pin_to_bit_position[digitalOrAnalogPinToDigital(pin)] : NOT_A_PIN )
+#define analogPinToBitMask(pin) ( (digitalOrAnalogPinToDigital(pin) != NOT_A_PIN) ? digital_pin_to_bit_mask[digitalOrAnalogPinToDigital(pin)] : NOT_A_PIN )
 
 #define portToPortStruct(port) ( (port < NUM_TOTAL_PORTS) ? ((PORT_t *)&PORTA + port) : NULL)
 #define digitalPinToPortStruct(pin) ( (pin < NUM_TOTAL_PINS) ? ((PORT_t *)&PORTA + digitalPinToPort(pin)) : NULL)

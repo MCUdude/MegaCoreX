@@ -20,16 +20,17 @@
 
 #define DEFAULT_28PIN_PINOUT
 
-#define NUM_DIGITAL_PINS            23
-#define NUM_ANALOG_INPUTS           8
-#define NUM_RESERVED_PINS           0
-#define NUM_INTERNALLY_USED_PINS    0
-#define NUM_I2C_PINS                2  // (SDA / SCL)
-#define NUM_SPI_PINS                3  // (MISO / MOSI / SCK)
-#define NUM_TOTAL_FREE_PINS         (NUM_DIGITAL_PINS)
-#define NUM_TOTAL_PINS              (NUM_DIGITAL_PINS)
-#define ANALOG_INPUT_OFFSET         12 
-#define digitalPinToAnalogInput(p)  ((p < NUM_ANALOG_INPUTS) ? (p) : (p) - 12)
+#define NUM_DIGITAL_PINS               23
+#define NUM_ANALOG_INPUTS              8
+#define NUM_RESERVED_PINS              0
+#define NUM_INTERNALLY_USED_PINS       0
+#define NUM_I2C_PINS                   2  // (SDA / SCL)
+#define NUM_SPI_PINS                   3  // (MISO / MOSI / SCK)
+#define NUM_TOTAL_FREE_PINS            (NUM_DIGITAL_PINS)
+#define NUM_TOTAL_PINS                 (NUM_DIGITAL_PINS)
+#define ANALOG_INPUT_OFFSET            12 
+#define digitalPinToAnalogInput(p)     ((p < NUM_ANALOG_INPUTS) ? (p) : (p) - 12)
+#define digitalOrAnalogPinToDigital(p) ((p < 8) ? ((p) + ANALOG_INPUT_OFFSET) : ((p) >= 12 && (p) <= 19) ? (p) :  NOT_A_PIN)
 
 #if !defined(MILLIS_USE_TIMERB0) || !defined(MILLIS_USE_TIMERB1) || !defined(MILLIS_USE_TIMERB2)
 #define MILLIS_USE_TIMERB2
