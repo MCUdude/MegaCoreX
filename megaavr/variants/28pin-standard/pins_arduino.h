@@ -5,6 +5,8 @@
 | COMPATIBLE WITH:                                   |
 | ATmega4808                                         |
 | ATmega3208                                         |
+| ATmega1608                                         |
+| ATmega808                                          |
 |                                                    |
 | Note that PWM output pins are swapped by default   |
 |                                                    |
@@ -16,22 +18,25 @@
 #include <avr/pgmspace.h>
 #include "timers.h"
 
-#define DEFAULT_48PIN_PINOUT
+#define DEFAULT_28PIN_PINOUT
 
-#define NUM_DIGITAL_PINS            23
-#define NUM_ANALOG_INPUTS           8
-#define NUM_RESERVED_PINS           0  // With great power comes great responsibility
-#define NUM_INTERNALLY_USED_PINS    0  
-#define NUM_I2C_PINS                2  // (SDA / SCL)
-#define NUM_SPI_PINS                3  // (MISO / MOSI / SCK)
-#define NUM_TOTAL_FREE_PINS         (NUM_DIGITAL_PINS)
-#define NUM_TOTAL_PINS              (NUM_DIGITAL_PINS)
-#define ANALOG_INPUT_OFFSET         0 
-#define digitalPinToAnalogInput(p)  ((p < NUM_ANALOG_INPUTS) ? (p) : (p) - 12) // The user will have to use A0 - A15, NOT 0 - 15
+#define NUM_DIGITAL_PINS               23
+#define NUM_ANALOG_INPUTS              8
+#define NUM_RESERVED_PINS              0
+#define NUM_INTERNALLY_USED_PINS       0
+#define NUM_I2C_PINS                   2  // (SDA / SCL)
+#define NUM_SPI_PINS                   3  // (MISO / MOSI / SCK)
+#define NUM_TOTAL_FREE_PINS            (NUM_DIGITAL_PINS)
+#define NUM_TOTAL_PINS                 (NUM_DIGITAL_PINS)
+#define ANALOG_INPUT_OFFSET            12 
+#define digitalPinToAnalogInput(p)     ((p < NUM_ANALOG_INPUTS) ? (p) : (p) - 12)
+#define digitalOrAnalogPinToDigital(p) ((p < 8) ? ((p) + ANALOG_INPUT_OFFSET) : ((p) >= 12 && (p) <= 19) ? (p) :  NOT_A_PIN)
 
-#define MILLIS_USE_TIMERB0 // Use timerb0 for millis generation
+#if !defined(MILLIS_USE_TIMERB0) || !defined(MILLIS_USE_TIMERB1) || !defined(MILLIS_USE_TIMERB2)
+#define MILLIS_USE_TIMERB2
+#endif
 
-#define EXTERNAL_NUM_INTERRUPTS     (NUM_TOTAL_PINS)
+#define EXTERNAL_NUM_INTERRUPTS     (47)
 
 #define digitalPinHasPWM(p)         ((p) >= 8 && (p) <= 11)
 
@@ -128,7 +133,7 @@ static const uint8_t A7  = PIN_A7;
 
 #ifdef ARDUINO_MAIN
 
-const uint8_t PROGMEM digital_pin_to_port[] = {
+const uint8_t digital_pin_to_port[] = {
   PA, //  0 PA0/USART0_Tx/CLKIN
   PA, //  1 PA1/USART0_Rx
   PA, //  2 PA2/SDA
@@ -155,7 +160,7 @@ const uint8_t PROGMEM digital_pin_to_port[] = {
 };
 
 /* Use this for accessing PINnCTRL register */
-const uint8_t PROGMEM digital_pin_to_bit_position[] = {
+const uint8_t digital_pin_to_bit_position[] = {
   PIN0_bp, //  0 PIN_bp0/USART0_Tx/CLKIN
   PIN1_bp, //  1 PA1/USART0_Rx
   PIN2_bp, //  2 PA2/SDA
@@ -182,7 +187,7 @@ const uint8_t PROGMEM digital_pin_to_bit_position[] = {
 };
 
 /* Use this for accessing PINnCTRL register */
-const uint8_t PROGMEM digital_pin_to_bit_mask[] = {
+const uint8_t digital_pin_to_bit_mask[] = {
   PIN0_bm, //  0 PIN_bp0/USART0_Tx/CLKIN
   PIN1_bm, //  1 PA1/USART0_Rx
   PIN2_bm, //  2 PA2/SDA
@@ -208,7 +213,7 @@ const uint8_t PROGMEM digital_pin_to_bit_mask[] = {
   PIN6_bm  // 22 PF6 RESET
 };
 
-const uint8_t PROGMEM digital_pin_to_timer[] = {
+const uint8_t digital_pin_to_timer[] = {
   NOT_ON_TIMER, //  0 PA0/USART0_Tx/CLKIN
   NOT_ON_TIMER, //  1 PA1/USART0_Rx
   NOT_ON_TIMER, //  2 PA2/SDA

@@ -124,6 +124,24 @@ void UartClass::_poll_tx_data_empty(void) {
     // In case interrupts are enabled, the interrupt routine will be invoked by itself
 }
 
+// To invoke data empty "interrupt" via a call, use this method
+void UartClass::_poll_tx_data_empty(void)
+{
+  if ( (!(SREG & CPU_I_bm)) || (!((*_hwserial_module).CTRLA & USART_DREIE_bm)) ) {
+    // Interrupts are disabled either globally or for data register empty,
+    // so we'll have to poll the "data register empty" flag ourselves.
+    // If it is set, pretend an interrupt has happened and call the handler
+    // to free up space for us.
+
+    // Invoke interrupt handler only if conditions data register is empty
+    if ((*_hwserial_module).STATUS & USART_DREIF_bm) {
+      _tx_data_empty_irq();
+    }
+  }
+  // In case interrupts are enabled, the interrupt routine will be invoked by itself
+}
+	
+
 // Public Methods //////////////////////////////////////////////////////////////
 
 // Invoke this function before 'begin' to define the pins used
@@ -151,13 +169,15 @@ void UartClass::begin(unsigned long baud, uint16_t config)
     struct UartPinSet *set = &_hw_set[_pin_set];
 
     int32_t baud_setting = (((8 * F_CPU) / baud) + 1) / 2;
-#if F_CPU == 20000000L
-    // BUG: should also differentiate between 5V and 3V
-    int8_t sigrow_val = SIGROW.OSC20ERR5V;
-#else
-    int8_t sigrow_val = SIGROW.OSC16ERR5V;
-#endif
+#if !defined(USE_EXTERNAL_OSCILLATOR)
+    #if F_CPU == 20000000L
+	// BUG: should also differentiate between 5V and 3V
+	int8_t sigrow_val = SIGROW.OSC20ERR5V;
+    #else
+	int8_t sigrow_val = SIGROW.OSC16ERR5V;
+    #endif
     baud_setting += (baud_setting * sigrow_val) / 1024;
+#endif
 
     _tx_buffer_head = _tx_buffer_tail; // just in case someone invoked write() before begin()
 
@@ -276,9 +296,9 @@ void UartClass::flush()
     // Spin until the data-register-empty-interrupt is disabled and TX complete interrupt flag is raised
     while ( ((*_hwserial_module).CTRLA & USART_DREIE_bm) || (!((*_hwserial_module).STATUS & USART_TXCIF_bm)) ) {
 
-	// If interrupts are globally disabled or the and DR empty interrupt is disabled,
-	// poll the "data register empty" interrupt flag to prevent deadlock
-	_poll_tx_data_empty();
+        // If interrupts are globally disabled or the and DR empty interrupt is disabled,
+        // poll the "data register empty" interrupt flag to prevent deadlock
+        _poll_tx_data_empty();
     }
     // If we get here, nothing is queued anymore (DREIE is disabled) and
     // the hardware finished transmission (TXCIF is set).

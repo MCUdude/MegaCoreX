@@ -29,20 +29,21 @@
 #define UNO_WIFI_REV2_PINOUT
 #define UNO2018_PINOUT
 
-#define NUM_DIGITAL_PINS            20 // (14 on digital headers + 6 on analog headers)
-#define NUM_ANALOG_INPUTS           6
-#define NUM_RESERVED_PINS           6  // (TOSC1/2, VREF, RESET, DEBUG USART Rx/Tx)
-#define NUM_INTERNALLY_USED_PINS    10 // (2 x Chip select + 2 x UART + 4 x IO + LED_BUILTIN + 1 unused pin)
-#define NUM_I2C_PINS                2  // (SDA / SCL)
-#define NUM_SPI_PINS                3  // (MISO / MOSI / SCK)
-#define NUM_TOTAL_FREE_PINS         (NUM_DIGITAL_PINS)
-#define NUM_TOTAL_PINS              (NUM_DIGITAL_PINS + NUM_RESERVED_PINS + NUM_INTERNALLY_USED_PINS + NUM_I2C_PINS + NUM_SPI_PINS)
-#define ANALOG_INPUT_OFFSET         14
-#define digitalPinToAnalogInput(p)  ((p < NUM_ANALOG_INPUTS) ? (p) : (p) - ANALOG_INPUT_OFFSET)
+#define NUM_DIGITAL_PINS               20 // (14 on digital headers + 6 on analog headers)
+#define NUM_ANALOG_INPUTS              6
+#define NUM_RESERVED_PINS              6  // (TOSC1/2, VREF, RESET, DEBUG USART Rx/Tx)
+#define NUM_INTERNALLY_USED_PINS       10 // (2 x Chip select + 2 x UART + 4 x IO + LED_BUILTIN + 1 unused pin)
+#define NUM_I2C_PINS                   2  // (SDA / SCL)
+#define NUM_SPI_PINS                   3  // (MISO / MOSI / SCK)
+#define NUM_TOTAL_FREE_PINS            (NUM_DIGITAL_PINS)
+#define NUM_TOTAL_PINS                 (NUM_DIGITAL_PINS + NUM_RESERVED_PINS + NUM_INTERNALLY_USED_PINS + NUM_I2C_PINS + NUM_SPI_PINS)
+#define ANALOG_INPUT_OFFSET            14
+#define digitalPinToAnalogInput(p)     ((p < NUM_ANALOG_INPUTS) ? (p) : (p) - ANALOG_INPUT_OFFSET)
+#define digitalOrAnalogPinToDigital(p) ((p <= 5) ? ((p) + ANALOG_INPUT_OFFSET) : ((p) >= 14 && (p) <= 19) ? (p) :  NOT_A_PIN)
 
 #define MILLIS_USE_TIMERB3 // Use timerb3 for millis generation
 
-#define EXTERNAL_NUM_INTERRUPTS     (NUM_TOTAL_PINS)
+#define EXTERNAL_NUM_INTERRUPTS     (47)
 
 #define digitalPinHasPWM(p)         ((p) == 3 || (p) == 5 || (p) == 6 || (p) == 9 || (p) == 10)
 
@@ -178,7 +179,7 @@ static const uint8_t A5 = PIN_A5;
 
 //
 
-const uint8_t PROGMEM digital_pin_to_port[] = {
+const uint8_t digital_pin_to_port[] = {
   PC, // 0 PC5/USART1_Rx
   PC, // 1 PC4/USART1_Tx
   PA, // 2 PA0
@@ -223,7 +224,7 @@ const uint8_t PROGMEM digital_pin_to_port[] = {
 };
 
 /* Use this for accessing PINnCTRL register */
-const uint8_t PROGMEM digital_pin_to_bit_position[] = {
+const uint8_t digital_pin_to_bit_position[] = {
   PIN5_bp, // 0 PC5/USART1_Rx
   PIN4_bp, // 1 PC4/USART1_Tx
   PIN0_bp, // 2 PA0
@@ -268,7 +269,7 @@ const uint8_t PROGMEM digital_pin_to_bit_position[] = {
 };
 
 /* Use this for accessing PINnCTRL register */
-const uint8_t PROGMEM digital_pin_to_bit_mask[] = {
+const uint8_t digital_pin_to_bit_mask[] = {
   PIN5_bm, // 0 PC5/USART1_Rx
   PIN4_bm, // 1 PC4/USART1_Tx
   PIN0_bm, // 2 PA0
@@ -312,7 +313,7 @@ const uint8_t PROGMEM digital_pin_to_bit_mask[] = {
   PIN6_bm  // 40 PF6 RESET
 };
 
-const uint8_t PROGMEM digital_pin_to_timer[] = {
+const uint8_t digital_pin_to_timer[] = {
   NOT_ON_TIMER, // 0 PC5/USART1_Rx
   NOT_ON_TIMER, // 1 PC4/USART1_Tx
   NOT_ON_TIMER, // 2 PA0

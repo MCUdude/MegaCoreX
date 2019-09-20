@@ -24,3 +24,10 @@ jtag2updi.communication=serial
 jtag2updi.protocol=jtag2updi
 jtag2updi.program.tool=avrdude
 jtag2updi.program.extra_params=-P{serial.port}
+
+atmelice_updi.name=Atmel-ICE (UPDI)
+atmelice_updi.communication=usb
+atmelice_updi.protocol=atmelice_updi
+atmelice_updi.program.protocol=jtagice3_updi
+atmelice_updi.program.tool=avrdude
+atmelice_updi.program.extra_params=-Pusb

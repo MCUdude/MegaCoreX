@@ -269,8 +269,11 @@ uint8_t TWI_MasterRead(uint8_t slave_address,
  *  \param bytesToWrite   Number of bytes to write.
  *  \param bytesToRead    Number of bytes to read.
  *
- *  \retval true  If transaction could be started.
- *  \retval false If transaction could not be started.
+ *  \retval 0:success
+ *  \retval 1:data too long to fit in transmit buffer
+ *  \retval 2:received NACK on transmit of address
+ *  \retval 3:received NACK on transmit of data
+ *  \retval 4:other error
  */
 uint8_t TWI_MasterWriteRead(uint8_t slave_address,
                          uint8_t *write_data,
@@ -334,8 +337,21 @@ trigger_action:
 			// return bytes really read
 			ret = master_bytesRead;
 		} else {
-			// return 0 if success, >0 otherwise
-			ret = (master_result == TWIM_RESULT_OK ? 0 : 1);
+			// return 0 if success, >0 otherwise (follow classic AVR conventions)
+			switch (master_result) {
+				case TWIM_RESULT_OK:
+					ret = 0;
+					break;
+				case TWIM_RESULT_BUFFER_OVERFLOW:
+					ret = 1;
+					break;
+				case TWIM_RESULT_NACK_RECEIVED:
+					ret = 3;
+					break;
+				default:
+					ret = 4;
+					break;
+			}
 		}
 
 		return ret;

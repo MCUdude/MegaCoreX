@@ -18,6 +18,7 @@ menu.resetpin=Reset pin
 4809.build.core=coreX-corefiles
 4809.build.board=AVR_ATmega4809
 4809.build.mcu=atmega4809
+4809.build.extra_flags={build.oscillator} {build.compat}
 
 # Fuses we don't need to modify in the tools menu
 4809.bootloader.WDTCFG=0x00
@@ -28,17 +29,18 @@ menu.resetpin=Reset pin
 4809.bootloader.LOCKBIT=0xC5
 
 # Pinouts
+4809.menu.pinout.48pin_standard=40/48 pin standard
+4809.menu.pinout.48pin_standard.build.variant=48pin-standard
+4809.menu.pinout.48pin_standard.build.compat=
 4809.menu.pinout.uno_wifi=Uno WiFi
 4809.menu.pinout.uno_wifi.build.variant=uno-wifi
-4809.menu.pinout.uno_wifi.build.extra_flags=-DUNO_WIFI_REV2_328MODE
-4809.menu.pinout.48pin_standard=48 pin standard
-4809.menu.pinout.48pin_standard.build.variant=48pin-standard
+4809.menu.pinout.uno_wifi.build.compat=-DUNO_WIFI_REV2_328MODE
 
 # Reset pin
 4809.menu.resetpin.reset=Reset
 4809.menu.resetpin.reset.bootloader.SYSCFG0=0xC9
 4809.menu.resetpin.gpio=GPIO
-4809.menu.resetpin.gpio.bootloader.SYSCFG0=0xC1
+4809.menu.resetpin.gpio.bootloader.SYSCFG0=0xC5
 
 # Brown out detection
 4809.menu.BOD.2v6=BOD 2.6V
@@ -61,40 +63,77 @@ menu.resetpin=Reset pin
 4809.menu.BOD.disabled.bootloader.BODCFG=0x00
 
 # Clock
-4809.menu.clock.16MHz=16 MHz
-4809.menu.clock.16MHz.upload.speed=115200
-4809.menu.clock.16MHz.bootloader.OSCCFG=0x01
-4809.menu.clock.16MHz.build.f_cpu=16000000L
+4809.menu.clock.internal_16MHz=Internal 16 MHz
+4809.menu.clock.internal_16MHz.upload.speed=115200
+4809.menu.clock.internal_16MHz.bootloader.OSCCFG=0x01
+4809.menu.clock.internal_16MHz.build.oscillator=
+4809.menu.clock.internal_16MHz.build.f_cpu=16000000L
 
-4809.menu.clock.20MHz=20 MHz
-4809.menu.clock.20MHz.upload.speed=115200
-4809.menu.clock.20MHz.bootloader.OSCCFG=0x02
-4809.menu.clock.20MHz.build.f_cpu=20000000L
+4809.menu.clock.internal_20MHz=Internal 20 MHz
+4809.menu.clock.internal_20MHz.upload.speed=115200
+4809.menu.clock.internal_20MHz.bootloader.OSCCFG=0x02
+4809.menu.clock.internal_20MHz.build.oscillator=
+4809.menu.clock.internal_20MHz.build.f_cpu=20000000L
 
-4809.menu.clock.8MHz_div=8 MHz (divided)
-4809.menu.clock.8MHz_div.upload.speed=115200
-4809.menu.clock.8MHz_div.bootloader.OSCCFG=0x01
-4809.menu.clock.8MHz_div.build.f_cpu=8000000L
+4809.menu.clock.internal_8MHz_div=Internal 8 MHz
+4809.menu.clock.internal_8MHz_div.upload.speed=115200
+4809.menu.clock.internal_8MHz_div.bootloader.OSCCFG=0x01
+4809.menu.clock.internal_8MHz_div.build.oscillator=
+4809.menu.clock.internal_8MHz_div.build.f_cpu=8000000L
 
-4809.menu.clock.4MHz_div=4 MHz (divided)
-4809.menu.clock.4MHz_div.upload.speed=115200
-4809.menu.clock.4MHz_div.bootloader.OSCCFG=0x01
-4809.menu.clock.4MHz_div.build.f_cpu=4000000L
+4809.menu.clock.internal_4MHz_div=Internal 4 MHz
+4809.menu.clock.internal_4MHz_div.upload.speed=115200
+4809.menu.clock.internal_4MHz_div.bootloader.OSCCFG=0x01
+4809.menu.clock.internal_4MHz_div.build.oscillator=
+4809.menu.clock.internal_4MHz_div.build.f_cpu=4000000L
 
-4809.menu.clock.2MHz_div=2 MHz (divided)
-4809.menu.clock.2MHz_div.upload.speed=115200
-4809.menu.clock.2MHz_div.bootloader.OSCCFG=0x01
-4809.menu.clock.2MHz_div.build.f_cpu=2000000L
+4809.menu.clock.internal_2MHz_div=Internal 2 MHz
+4809.menu.clock.internal_2MHz_div.upload.speed=115200
+4809.menu.clock.internal_2MHz_div.bootloader.OSCCFG=0x01
+4809.menu.clock.internal_2MHz_div.build.oscillator=
+4809.menu.clock.internal_2MHz_div.build.f_cpu=2000000L
 
-4809.menu.clock.1MHz_div=1 MHz (divided)
-4809.menu.clock.1MHz_div.upload.speed=115200
-4809.menu.clock.1MHz_div.bootloader.OSCCFG=0x01
-4809.menu.clock.1MHz_div.build.f_cpu=1000000L
+4809.menu.clock.internal_1MHz_div=Internal 1 MHz
+4809.menu.clock.internal_1MHz_div.upload.speed=115200
+4809.menu.clock.internal_1MHz_div.bootloader.OSCCFG=0x01
+4809.menu.clock.internal_1MHz_div.build.oscillator=
+4809.menu.clock.internal_1MHz_div.build.f_cpu=1000000L
 
-# ATmega328 emulation
-#4809.menu.emulation.false=No
-#4809.menu.emulation.true=Yes
-#4809.menu.emulation.true.build.extra_flags=-DUNO_WIFI_REV2_328MODE
+4809.menu.clock.external_20MHz=External 20 MHz
+4809.menu.clock.external_20MHz.upload.speed=115200
+4809.menu.clock.external_20MHz.bootloader.OSCCFG=0x01
+4809.menu.clock.external_20MHz.build.oscillator=-DUSE_EXTERNAL_OSCILLATOR
+4809.menu.clock.external_20MHz.build.f_cpu=20000000L
+
+4809.menu.clock.external_16MHz=External 16 MHz
+4809.menu.clock.external_16MHz.upload.speed=115200
+4809.menu.clock.external_16MHz.bootloader.OSCCFG=0x01
+4809.menu.clock.external_16MHz.build.oscillator=-DUSE_EXTERNAL_OSCILLATOR
+4809.menu.clock.external_16MHz.build.f_cpu=16000000L
+
+4809.menu.clock.external_12MHz=External 12 MHz
+4809.menu.clock.external_12MHz.upload.speed=115200
+4809.menu.clock.external_12MHz.bootloader.OSCCFG=0x01
+4809.menu.clock.external_12MHz.build.oscillator=-DUSE_EXTERNAL_OSCILLATOR
+4809.menu.clock.external_12MHz.build.f_cpu=12000000L
+
+4809.menu.clock.external_8MHz=External 8 MHz
+4809.menu.clock.external_8MHz.upload.speed=115200
+4809.menu.clock.external_8MHz.bootloader.OSCCFG=0x01
+4809.menu.clock.external_8MHz.build.oscillator=-DUSE_EXTERNAL_OSCILLATOR
+4809.menu.clock.external_8MHz.build.f_cpu=8000000L
+
+4809.menu.clock.external_4MHz=External 4 MHz
+4809.menu.clock.external_4MHz.upload.speed=115200
+4809.menu.clock.external_4MHz.bootloader.OSCCFG=0x01
+4809.menu.clock.external_4MHz.build.oscillator=-DUSE_EXTERNAL_OSCILLATOR
+4809.menu.clock.external_4MHz.build.f_cpu=4000000L
+
+4809.menu.clock.external_1MHz=External 1 MHz
+4809.menu.clock.external_1MHz.upload.speed=115200
+4809.menu.clock.external_1MHz.bootloader.OSCCFG=0x01
+4809.menu.clock.external_1MHz.build.oscillator=-DUSE_EXTERNAL_OSCILLATOR
+4809.menu.clock.external_1MHz.build.f_cpu=1000000L
 
 
 
@@ -112,6 +151,7 @@ menu.resetpin=Reset pin
 4808.build.core=coreX-corefiles
 4808.build.board=AVR_ATmega4808
 4808.build.mcu=atmega4808
+4808.build.extra_flags={build.oscillator}
 
 # Fuses we don't need to modify in the tools menu
 4808.bootloader.WDTCFG=0x00
@@ -129,9 +169,9 @@ menu.resetpin=Reset pin
 
 # Reset pin
 4808.menu.resetpin.reset=Reset
-4808.menu.resetpin.reset.bootloader.SYSCFG0=0xC9
+4808.menu.resetpin.reset.bootloader.SYSCFG0=0xCD
 4808.menu.resetpin.gpio=GPIO
-4808.menu.resetpin.gpio.bootloader.SYSCFG0=0xC1
+4808.menu.resetpin.gpio.bootloader.SYSCFG0=0xC5
 
 # Brown out detection
 4808.menu.BOD.2v6=BOD 2.6V
@@ -154,37 +194,71 @@ menu.resetpin=Reset pin
 4808.menu.BOD.disabled.bootloader.BODCFG=0x00
 
 # Clock
-4808.menu.clock.16MHz=16 MHz
-4808.menu.clock.16MHz.upload.speed=115200
-4808.menu.clock.16MHz.bootloader.OSCCFG=0x01
-4808.menu.clock.16MHz.build.f_cpu=16000000L
+4808.menu.clock.internal_16MHz=Internal 16 MHz
+4808.menu.clock.internal_16MHz.upload.speed=115200
+4808.menu.clock.internal_16MHz.bootloader.OSCCFG=0x01
+4808.menu.clock.internal_16MHz.build.oscillator=
+4808.menu.clock.internal_16MHz.build.f_cpu=16000000L
 
-4808.menu.clock.20MHz=20 MHz
-4808.menu.clock.20MHz.upload.speed=115200
-4808.menu.clock.20MHz.bootloader.OSCCFG=0x02
-4808.menu.clock.20MHz.build.f_cpu=20000000L
+4808.menu.clock.internal_20MHz=Internal 20 MHz
+4808.menu.clock.internal_20MHz.upload.speed=115200
+4808.menu.clock.internal_20MHz.bootloader.OSCCFG=0x02
+4808.menu.clock.internal_20MHz.build.oscillator=
+4808.menu.clock.internal_20MHz.build.f_cpu=20000000L
 
-4808.menu.clock.8MHz_div=8 MHz (divided)
-4808.menu.clock.8MHz_div.upload.speed=115200
-4808.menu.clock.8MHz_div.bootloader.OSCCFG=0x01
-4808.menu.clock.8MHz_div.build.f_cpu=8000000L
+4808.menu.clock.internal_8MHz_div=Internal 8 MHz
+4808.menu.clock.internal_8MHz_div.upload.speed=115200
+4808.menu.clock.internal_8MHz_div.bootloader.OSCCFG=0x01
+4808.menu.clock.internal_8MHz_div.build.oscillator=
+4808.menu.clock.internal_8MHz_div.build.f_cpu=8000000L
 
-4808.menu.clock.4MHz_div=4 MHz (divided)
-4808.menu.clock.4MHz_div.upload.speed=115200
-4808.menu.clock.4MHz_div.bootloader.OSCCFG=0x01
-4808.menu.clock.4MHz_div.build.f_cpu=4000000L
+4808.menu.clock.internal_4MHz_div=Internal 4 MHz
+4808.menu.clock.internal_4MHz_div.upload.speed=115200
+4808.menu.clock.internal_4MHz_div.bootloader.OSCCFG=0x01
+4808.menu.clock.internal_4MHz_div.build.oscillator=
+4808.menu.clock.internal_4MHz_div.build.f_cpu=4000000L
 
-4808.menu.clock.2MHz_div=2 MHz (divided)
-4808.menu.clock.2MHz_div.upload.speed=115200
-4808.menu.clock.2MHz_div.bootloader.OSCCFG=0x01
-4808.menu.clock.2MHz_div.build.f_cpu=2000000L
+4808.menu.clock.internal_2MHz_div=Internal 2 MHz
+4808.menu.clock.internal_2MHz_div.upload.speed=115200
+4808.menu.clock.internal_2MHz_div.bootloader.OSCCFG=0x01
+4808.menu.clock.internal_2MHz_div.build.oscillator=
+4808.menu.clock.internal_2MHz_div.build.f_cpu=2000000L
 
-4808.menu.clock.1MHz_div=1 MHz (divided)
-4808.menu.clock.1MHz_div.upload.speed=115200
-4808.menu.clock.1MHz_div.bootloader.OSCCFG=0x01
-4808.menu.clock.1MHz_div.build.f_cpu=1000000L
+4808.menu.clock.internal_1MHz_div=Internal 1 MHz
+4808.menu.clock.internal_1MHz_div.upload.speed=115200
+4808.menu.clock.internal_1MHz_div.bootloader.OSCCFG=0x01
+4808.menu.clock.internal_1MHz_div.build.oscillator=
+4808.menu.clock.internal_1MHz_div.build.f_cpu=1000000L
 
+4808.menu.clock.external_16MHz=External 16 MHz
+4808.menu.clock.external_16MHz.upload.speed=115200
+4808.menu.clock.external_16MHz.bootloader.OSCCFG=0x01
+4808.menu.clock.external_16MHz.build.oscillator=-DUSE_EXTERNAL_OSCILLATOR
+4808.menu.clock.external_16MHz.build.f_cpu=16000000L
 
+4808.menu.clock.external_12MHz=External 12 MHz
+4808.menu.clock.external_12MHz.upload.speed=115200
+4808.menu.clock.external_12MHz.bootloader.OSCCFG=0x01
+4808.menu.clock.external_12MHz.build.oscillator=-DUSE_EXTERNAL_OSCILLATOR
+4808.menu.clock.external_12MHz.build.f_cpu=12000000L
+
+4808.menu.clock.external_8MHz=External 8 MHz
+4808.menu.clock.external_8MHz.upload.speed=115200
+4808.menu.clock.external_8MHz.bootloader.OSCCFG=0x01
+4808.menu.clock.external_8MHz.build.oscillator=-DUSE_EXTERNAL_OSCILLATOR
+4808.menu.clock.external_8MHz.build.f_cpu=8000000L
+
+4808.menu.clock.external_4MHz=External 4 MHz
+4808.menu.clock.external_4MHz.upload.speed=115200
+4808.menu.clock.external_4MHz.bootloader.OSCCFG=0x01
+4808.menu.clock.external_4MHz.build.oscillator=-DUSE_EXTERNAL_OSCILLATOR
+4808.menu.clock.external_4MHz.build.f_cpu=4000000L
+
+4808.menu.clock.external_1MHz=External 1 MHz
+4808.menu.clock.external_1MHz.upload.speed=115200
+4808.menu.clock.external_1MHz.bootloader.OSCCFG=0x01
+4808.menu.clock.external_1MHz.build.oscillator=-DUSE_EXTERNAL_OSCILLATOR
+4808.menu.clock.external_1MHz.build.f_cpu=1000000L
 
 #####################
 #### ATmega3209 ####
@@ -200,6 +274,8 @@ menu.resetpin=Reset pin
 3209.build.core=coreX-corefiles
 3209.build.board=AVR_ATmega3209
 3209.build.mcu=atmega3209
+3209.build.extra_flags={build.oscillator} {build.compat}
+
 
 # Fuses we don't need to modify in the tools menu
 3209.bootloader.WDTCFG=0x00
@@ -210,17 +286,19 @@ menu.resetpin=Reset pin
 3209.bootloader.LOCKBIT=0xC5
 
 # Pinouts
+3209.menu.pinout.48pin_standard=40/48 pin standard
+3209.menu.pinout.48pin_standard.build.variant=48pin-standard
+3209.menu.pinout.48pin_standard.build.compat=
 3209.menu.pinout.uno_wifi=Uno WiFi
 3209.menu.pinout.uno_wifi.build.variant=uno-wifi
-3209.menu.pinout.uno_wifi.build.extra_flags=-DUNO_WIFI_REV2_328MODE
-3209.menu.pinout.48pin_standard=48 pin standard
-3209.menu.pinout.48pin_standard.build.variant=48pin-standard
+3209.menu.pinout.uno_wifi.build.compat=-DUNO_WIFI_REV2_328MODE
+
 
 # Reset pin
 3209.menu.resetpin.reset=Reset
-3209.menu.resetpin.reset.bootloader.SYSCFG0=0xC9
+3209.menu.resetpin.reset.bootloader.SYSCFG0=0xCD
 3209.menu.resetpin.gpio=GPIO
-3209.menu.resetpin.gpio.bootloader.SYSCFG0=0xC1
+3209.menu.resetpin.gpio.bootloader.SYSCFG0=0xC5
 
 # Brown out detection
 3209.menu.BOD.2v6=BOD 2.6V
@@ -243,40 +321,71 @@ menu.resetpin=Reset pin
 3209.menu.BOD.disabled.bootloader.BODCFG=0x00
 
 # Clock
-3209.menu.clock.16MHz=16 MHz
-3209.menu.clock.16MHz.upload.speed=115200
-3209.menu.clock.16MHz.bootloader.OSCCFG=0x01
-3209.menu.clock.16MHz.build.f_cpu=16000000L
+3209.menu.clock.internal_16MHz=Internal 16 MHz
+3209.menu.clock.internal_16MHz.upload.speed=115200
+3209.menu.clock.internal_16MHz.bootloader.OSCCFG=0x01
+3209.menu.clock.internal_16MHz.build.oscillator=
+3209.menu.clock.internal_16MHz.build.f_cpu=16000000L
 
-3209.menu.clock.20MHz=20 MHz
-3209.menu.clock.20MHz.upload.speed=115200
-3209.menu.clock.20MHz.bootloader.OSCCFG=0x02
-3209.menu.clock.20MHz.build.f_cpu=20000000L
+3209.menu.clock.internal_20MHz=Internal 20 MHz
+3209.menu.clock.internal_20MHz.upload.speed=115200
+3209.menu.clock.internal_20MHz.bootloader.OSCCFG=0x02
+3209.menu.clock.internal_20MHz.build.oscillator=
+3209.menu.clock.internal_20MHz.build.f_cpu=20000000L
 
-3209.menu.clock.8MHz_div=8 MHz (divided)
-3209.menu.clock.8MHz_div.upload.speed=115200
-3209.menu.clock.8MHz_div.bootloader.OSCCFG=0x01
-3209.menu.clock.8MHz_div.build.f_cpu=8000000L
+3209.menu.clock.internal_8MHz_div=Internal 8 MHz
+3209.menu.clock.internal_8MHz_div.upload.speed=115200
+3209.menu.clock.internal_8MHz_div.bootloader.OSCCFG=0x01
+3209.menu.clock.internal_8MHz_div.build.oscillator=
+3209.menu.clock.internal_8MHz_div.build.f_cpu=8000000L
 
-3209.menu.clock.4MHz_div=4 MHz (divided)
-3209.menu.clock.4MHz_div.upload.speed=115200
-3209.menu.clock.4MHz_div.bootloader.OSCCFG=0x01
-3209.menu.clock.4MHz_div.build.f_cpu=4000000L
+3209.menu.clock.internal_4MHz_div=Internal 4 MHz
+3209.menu.clock.internal_4MHz_div.upload.speed=115200
+3209.menu.clock.internal_4MHz_div.bootloader.OSCCFG=0x01
+3209.menu.clock.internal_4MHz_div.build.oscillator=
+3209.menu.clock.internal_4MHz_div.build.f_cpu=4000000L
 
-3209.menu.clock.2MHz_div=2 MHz (divided)
-3209.menu.clock.2MHz_div.upload.speed=115200
-3209.menu.clock.2MHz_div.bootloader.OSCCFG=0x01
-3209.menu.clock.2MHz_div.build.f_cpu=2000000L
+3209.menu.clock.internal_2MHz_div=Internal 2 MHz
+3209.menu.clock.internal_2MHz_div.upload.speed=115200
+3209.menu.clock.internal_2MHz_div.bootloader.OSCCFG=0x01
+3209.menu.clock.internal_2MHz_div.build.oscillator=
+3209.menu.clock.internal_2MHz_div.build.f_cpu=2000000L
 
-3209.menu.clock.1MHz_div=1 MHz (divided)
-3209.menu.clock.1MHz_div.upload.speed=115200
-3209.menu.clock.1MHz_div.bootloader.OSCCFG=0x01
-3209.menu.clock.1MHz_div.build.f_cpu=1000000L
+3209.menu.clock.internal_1MHz_div=Internal 1 MHz
+3209.menu.clock.internal_1MHz_div.upload.speed=115200
+3209.menu.clock.internal_1MHz_div.bootloader.OSCCFG=0x01
+3209.menu.clock.internal_1MHz_div.build.oscillator=
+3209.menu.clock.internal_1MHz_div.build.f_cpu=1000000L
 
-# ATmega328 emulation
-3209.menu.emulation.false=No
-3209.menu.emulation.true=Yes
-3209.menu.emulation.true.build.extra_flags=-DUNO_WIFI_REV2_328MODE
+3209.menu.clock.external_16MHz=External 16 MHz
+3209.menu.clock.external_16MHz.upload.speed=115200
+3209.menu.clock.external_16MHz.bootloader.OSCCFG=0x01
+3209.menu.clock.external_16MHz.build.oscillator=-DUSE_EXTERNAL_OSCILLATOR
+3209.menu.clock.external_16MHz.build.f_cpu=16000000L
+
+3209.menu.clock.external_12MHz=External 12 MHz
+3209.menu.clock.external_12MHz.upload.speed=115200
+3209.menu.clock.external_12MHz.bootloader.OSCCFG=0x01
+3209.menu.clock.external_12MHz.build.oscillator=-DUSE_EXTERNAL_OSCILLATOR
+3209.menu.clock.external_12MHz.build.f_cpu=12000000L
+
+3209.menu.clock.external_8MHz=External 8 MHz
+3209.menu.clock.external_8MHz.upload.speed=115200
+3209.menu.clock.external_8MHz.bootloader.OSCCFG=0x01
+3209.menu.clock.external_8MHz.build.oscillator=-DUSE_EXTERNAL_OSCILLATOR
+3209.menu.clock.external_8MHz.build.f_cpu=8000000L
+
+3209.menu.clock.external_4MHz=External 4 MHz
+3209.menu.clock.external_4MHz.upload.speed=115200
+3209.menu.clock.external_4MHz.bootloader.OSCCFG=0x01
+3209.menu.clock.external_4MHz.build.oscillator=-DUSE_EXTERNAL_OSCILLATOR
+3209.menu.clock.external_4MHz.build.f_cpu=4000000L
+
+3209.menu.clock.external_1MHz=External 1 MHz
+3209.menu.clock.external_1MHz.upload.speed=115200
+3209.menu.clock.external_1MHz.bootloader.OSCCFG=0x01
+3209.menu.clock.external_1MHz.build.oscillator=-DUSE_EXTERNAL_OSCILLATOR
+3209.menu.clock.external_1MHz.build.f_cpu=1000000L
 
 
 
@@ -294,6 +403,7 @@ menu.resetpin=Reset pin
 3208.build.core=coreX-corefiles
 3208.build.board=AVR_ATmega3208
 3208.build.mcu=atmega3208
+3208.build.extra_flags={build.oscillator}
 
 # Fuses we don't need to modify in the tools menu
 3208.bootloader.WDTCFG=0x00
@@ -311,9 +421,9 @@ menu.resetpin=Reset pin
 
 # Reset pin
 3208.menu.resetpin.reset=Reset
-3208.menu.resetpin.reset.bootloader.SYSCFG0=0xC9
+3208.menu.resetpin.reset.bootloader.SYSCFG0=0xCD
 3208.menu.resetpin.gpio=GPIO
-3208.menu.resetpin.gpio.bootloader.SYSCFG0=0xC1
+3208.menu.resetpin.gpio.bootloader.SYSCFG0=0xC5
 
 # Brown out detection
 3208.menu.BOD.2v6=BOD 2.6V
@@ -336,33 +446,577 @@ menu.resetpin=Reset pin
 3208.menu.BOD.disabled.bootloader.BODCFG=0x00
 
 # Clock
-3208.menu.clock.16MHz=16 MHz
-3208.menu.clock.16MHz.upload.speed=115200
-3208.menu.clock.16MHz.bootloader.OSCCFG=0x01
-3208.menu.clock.16MHz.build.f_cpu=16000000L
+3208.menu.clock.internal_16MHz=Internal 16 MHz
+3208.menu.clock.internal_16MHz.upload.speed=115200
+3208.menu.clock.internal_16MHz.bootloader.OSCCFG=0x01
+3208.menu.clock.internal_16MHz.build.oscillator=
+3208.menu.clock.internal_16MHz.build.f_cpu=16000000L
 
-3208.menu.clock.20MHz=20 MHz
-3208.menu.clock.20MHz.upload.speed=115200
-3208.menu.clock.20MHz.bootloader.OSCCFG=0x02
-3208.menu.clock.20MHz.build.f_cpu=20000000L
+3208.menu.clock.internal_20MHz=Internal 20 MHz
+3208.menu.clock.internal_20MHz.upload.speed=115200
+3208.menu.clock.internal_20MHz.bootloader.OSCCFG=0x02
+3208.menu.clock.internal_20MHz.build.oscillator=
+3208.menu.clock.internal_20MHz.build.f_cpu=20000000L
 
-3208.menu.clock.8MHz_div=8 MHz (divided)
-3208.menu.clock.8MHz_div.upload.speed=115200
-3208.menu.clock.8MHz_div.bootloader.OSCCFG=0x01
-3208.menu.clock.8MHz_div.build.f_cpu=8000000L
+3208.menu.clock.internal_8MHz_div=Internal 8 MHz
+3208.menu.clock.internal_8MHz_div.upload.speed=115200
+3208.menu.clock.internal_8MHz_div.bootloader.OSCCFG=0x01
+3208.menu.clock.internal_8MHz_div.build.oscillator=
+3208.menu.clock.internal_8MHz_div.build.f_cpu=8000000L
 
-3208.menu.clock.4MHz_div=4 MHz (divided)
-3208.menu.clock.4MHz_div.upload.speed=115200
-3208.menu.clock.4MHz_div.bootloader.OSCCFG=0x01
-3208.menu.clock.4MHz_div.build.f_cpu=4000000L
+3208.menu.clock.internal_4MHz_div=Internal 4 MHz
+3208.menu.clock.internal_4MHz_div.upload.speed=115200
+3208.menu.clock.internal_4MHz_div.bootloader.OSCCFG=0x01
+3208.menu.clock.internal_4MHz_div.build.oscillator=
+3208.menu.clock.internal_4MHz_div.build.f_cpu=4000000L
 
-3208.menu.clock.2MHz_div=2 MHz (divided)
-3208.menu.clock.2MHz_div.upload.speed=115200
-3208.menu.clock.2MHz_div.bootloader.OSCCFG=0x01
-3208.menu.clock.2MHz_div.build.f_cpu=2000000L
+3208.menu.clock.internal_2MHz_div=Internal 2 MHz
+3208.menu.clock.internal_2MHz_div.upload.speed=115200
+3208.menu.clock.internal_2MHz_div.bootloader.OSCCFG=0x01
+3208.menu.clock.internal_2MHz_div.build.oscillator=
+3208.menu.clock.internal_2MHz_div.build.f_cpu=2000000L
 
-3208.menu.clock.1MHz_div=1 MHz (divided)
-3208.menu.clock.1MHz_div.upload.speed=115200
-3208.menu.clock.1MHz_div.bootloader.OSCCFG=0x01
-3208.menu.clock.1MHz_div.build.f_cpu=1000000L
+3208.menu.clock.internal_1MHz_div=Internal 1 MHz
+3208.menu.clock.internal_1MHz_div.upload.speed=115200
+3208.menu.clock.internal_1MHz_div.bootloader.OSCCFG=0x01
+3208.menu.clock.internal_1MHz_div.build.oscillator=
+3208.menu.clock.internal_1MHz_div.build.f_cpu=1000000L
 
+3208.menu.clock.external_16MHz=External 16 MHz
+3208.menu.clock.external_16MHz.upload.speed=115200
+3208.menu.clock.external_16MHz.bootloader.OSCCFG=0x01
+3208.menu.clock.external_16MHz.build.oscillator=-DUSE_EXTERNAL_OSCILLATOR
+3208.menu.clock.external_16MHz.build.f_cpu=16000000L
+
+3208.menu.clock.external_12MHz=External 12 MHz
+3208.menu.clock.external_12MHz.upload.speed=115200
+3208.menu.clock.external_12MHz.bootloader.OSCCFG=0x01
+3208.menu.clock.external_12MHz.build.oscillator=-DUSE_EXTERNAL_OSCILLATOR
+3208.menu.clock.external_12MHz.build.f_cpu=12000000L
+
+3208.menu.clock.external_8MHz=External 8 MHz
+3208.menu.clock.external_8MHz.upload.speed=115200
+3208.menu.clock.external_8MHz.bootloader.OSCCFG=0x01
+3208.menu.clock.external_8MHz.build.oscillator=-DUSE_EXTERNAL_OSCILLATOR
+3208.menu.clock.external_8MHz.build.f_cpu=8000000L
+
+3208.menu.clock.external_4MHz=External 4 MHz
+3208.menu.clock.external_4MHz.upload.speed=115200
+3208.menu.clock.external_4MHz.bootloader.OSCCFG=0x01
+3208.menu.clock.external_4MHz.build.oscillator=-DUSE_EXTERNAL_OSCILLATOR
+3208.menu.clock.external_4MHz.build.f_cpu=4000000L
+
+3208.menu.clock.external_1MHz=External 1 MHz
+3208.menu.clock.external_1MHz.upload.speed=115200
+3208.menu.clock.external_1MHz.bootloader.OSCCFG=0x01
+3208.menu.clock.external_1MHz.build.oscillator=-DUSE_EXTERNAL_OSCILLATOR
+3208.menu.clock.external_1MHz.build.f_cpu=1000000L
+
+
+
+#####################
+#### ATmega1609 ####
+#####################
+
+# General
+1609.name=Atmega1609
+1609.upload.tool=avrdude
+1609.upload.maximum_size=16384
+1609.upload.maximum_data_size=2048
+1609.upload.speed=115200
+1609.bootloader.tool=avrdude
+1609.build.core=coreX-corefiles
+1609.build.board=AVR_ATmega1609
+1609.build.mcu=atmega1609
+1609.build.extra_flags={build.oscillator} {build.compat}
+
+# Fuses we don't need to modify in the tools menu
+1609.bootloader.WDTCFG=0x00
+1609.bootloader.TCD0CFG=0x00
+1609.bootloader.SYSCFG1=0x06
+1609.bootloader.APPEND=0x00
+1609.bootloader.BOOTEND=0x00
+1609.bootloader.LOCKBIT=0xC5
+
+# Pinouts
+1609.menu.pinout.48pin_standard=40/48 pin standard
+1609.menu.pinout.48pin_standard.build.variant=48pin-standard
+1609.menu.pinout.48pin_standard.build.compat=
+1609.menu.pinout.uno_wifi=Uno WiFi
+1609.menu.pinout.uno_wifi.build.variant=uno-wifi
+1609.menu.pinout.uno_wifi.build.compat=-DUNO_WIFI_REV2_328MODE
+
+# Reset pin
+1609.menu.resetpin.reset=Reset
+1609.menu.resetpin.reset.bootloader.SYSCFG0=0xCD
+1609.menu.resetpin.gpio=GPIO
+1609.menu.resetpin.gpio.bootloader.SYSCFG0=0xC5
+
+# Brown out detection
+1609.menu.BOD.2v6=BOD 2.6V
+1609.menu.BOD.2v6.bootloader.BODCFG=0x54
+1609.menu.BOD.4v2=BOD 4.2V
+1609.menu.BOD.4v2.bootloader.BODCFG=0xF4
+1609.menu.BOD.4v0=BOD 4.0V
+1609.menu.BOD.4v0.bootloader.BODCFG=0xD4
+1609.menu.BOD.3v7=BOD 3.7V
+1609.menu.BOD.3v7.bootloader.BODCFG=0xB4
+1609.menu.BOD.3v3=BOD 3.3V
+1609.menu.BOD.3v3.bootloader.BODCFG=0x94
+1609.menu.BOD.2v9=BOD 2.9V
+1609.menu.BOD.2v9.bootloader.BODCFG=0x74
+1609.menu.BOD.2v1=BOD 2.1V
+1609.menu.BOD.2v1.bootloader.BODCFG=0x34
+1609.menu.BOD.1v8=BOD 1.8V
+1609.menu.BOD.1v8.bootloader.BODCFG=0x14
+1609.menu.BOD.disabled=BOD disabled
+1609.menu.BOD.disabled.bootloader.BODCFG=0x00
+
+# Clock
+1609.menu.clock.internal_16MHz=Internal 16 MHz
+1609.menu.clock.internal_16MHz.upload.speed=115200
+1609.menu.clock.internal_16MHz.bootloader.OSCCFG=0x01
+1609.menu.clock.internal_16MHz.build.oscillator=
+1609.menu.clock.internal_16MHz.build.f_cpu=16000000L
+
+1609.menu.clock.internal_20MHz=Internal 20 MHz
+1609.menu.clock.internal_20MHz.upload.speed=115200
+1609.menu.clock.internal_20MHz.bootloader.OSCCFG=0x02
+1609.menu.clock.internal_20MHz.build.oscillator=
+1609.menu.clock.internal_20MHz.build.f_cpu=20000000L
+
+1609.menu.clock.internal_8MHz_div=Internal 8 MHz
+1609.menu.clock.internal_8MHz_div.upload.speed=115200
+1609.menu.clock.internal_8MHz_div.bootloader.OSCCFG=0x01
+1609.menu.clock.internal_8MHz_div.build.oscillator=
+1609.menu.clock.internal_8MHz_div.build.f_cpu=8000000L
+
+1609.menu.clock.internal_4MHz_div=Internal 4 MHz
+1609.menu.clock.internal_4MHz_div.upload.speed=115200
+1609.menu.clock.internal_4MHz_div.bootloader.OSCCFG=0x01
+1609.menu.clock.internal_4MHz_div.build.oscillator=
+1609.menu.clock.internal_4MHz_div.build.f_cpu=4000000L
+
+1609.menu.clock.internal_2MHz_div=Internal 2 MHz
+1609.menu.clock.internal_2MHz_div.upload.speed=115200
+1609.menu.clock.internal_2MHz_div.bootloader.OSCCFG=0x01
+1609.menu.clock.internal_2MHz_div.build.oscillator=
+1609.menu.clock.internal_2MHz_div.build.f_cpu=2000000L
+
+1609.menu.clock.internal_1MHz_div=Internal 1 MHz
+1609.menu.clock.internal_1MHz_div.upload.speed=115200
+1609.menu.clock.internal_1MHz_div.bootloader.OSCCFG=0x01
+1609.menu.clock.internal_1MHz_div.build.oscillator=
+1609.menu.clock.internal_1MHz_div.build.f_cpu=1000000L
+
+1609.menu.clock.external_16MHz=External 16 MHz
+1609.menu.clock.external_16MHz.upload.speed=115200
+1609.menu.clock.external_16MHz.bootloader.OSCCFG=0x01
+1609.menu.clock.external_16MHz.build.oscillator=-DUSE_EXTERNAL_OSCILLATOR
+1609.menu.clock.external_16MHz.build.f_cpu=16000000L
+
+1609.menu.clock.external_12MHz=External 12 MHz
+1609.menu.clock.external_12MHz.upload.speed=115200
+1609.menu.clock.external_12MHz.bootloader.OSCCFG=0x01
+1609.menu.clock.external_12MHz.build.oscillator=-DUSE_EXTERNAL_OSCILLATOR
+1609.menu.clock.external_12MHz.build.f_cpu=12000000L
+
+1609.menu.clock.external_8MHz=External 8 MHz
+1609.menu.clock.external_8MHz.upload.speed=115200
+1609.menu.clock.external_8MHz.bootloader.OSCCFG=0x01
+1609.menu.clock.external_8MHz.build.oscillator=-DUSE_EXTERNAL_OSCILLATOR
+1609.menu.clock.external_8MHz.build.f_cpu=8000000L
+
+1609.menu.clock.external_4MHz=External 4 MHz
+1609.menu.clock.external_4MHz.upload.speed=115200
+1609.menu.clock.external_4MHz.bootloader.OSCCFG=0x01
+1609.menu.clock.external_4MHz.build.oscillator=-DUSE_EXTERNAL_OSCILLATOR
+1609.menu.clock.external_4MHz.build.f_cpu=4000000L
+
+1609.menu.clock.external_1MHz=External 1 MHz
+1609.menu.clock.external_1MHz.upload.speed=115200
+1609.menu.clock.external_1MHz.bootloader.OSCCFG=0x01
+1609.menu.clock.external_1MHz.build.oscillator=-DUSE_EXTERNAL_OSCILLATOR
+1609.menu.clock.external_1MHz.build.f_cpu=1000000L
+
+# ATmega328 emulation
+1609.menu.emulation.false=No
+1609.menu.emulation.true=Yes
+1609.menu.emulation.true.build.extra_flags=-DUNO_WIFI_REV2_328MODE
+
+
+
+####################
+#### ATmega1608 ####
+####################
+
+# General
+1608.name=Atmega1608
+1608.upload.tool=avrdude
+1608.upload.maximum_size=16384
+1608.upload.maximum_data_size=2048
+1608.upload.speed=115200
+1608.bootloader.tool=avrdude
+1608.build.core=coreX-corefiles
+1608.build.board=AVR_ATmega1608
+1608.build.mcu=atmega1608
+1608.build.extra_flags={build.oscillator}
+
+# Fuses we don't need to modify in the tools menu
+1608.bootloader.WDTCFG=0x00
+1608.bootloader.TCD0CFG=0x00
+1608.bootloader.SYSCFG1=0x06
+1608.bootloader.APPEND=0x00
+1608.bootloader.BOOTEND=0x00
+1608.bootloader.LOCKBIT=0xC5
+
+# Pinouts
+1608.menu.pinout.32pin_standard=32 pin standard
+1608.menu.pinout.32pin_standard.build.variant=32pin-standard
+1608.menu.pinout.28pin_standard=28 pin standard
+1608.menu.pinout.28pin_standard.build.variant=28pin-standard
+
+# Reset pin
+1608.menu.resetpin.reset=Reset
+1608.menu.resetpin.reset.bootloader.SYSCFG0=0xCD
+1608.menu.resetpin.gpio=GPIO
+1608.menu.resetpin.gpio.bootloader.SYSCFG0=0xC5
+
+# Brown out detection
+1608.menu.BOD.2v6=BOD 2.6V
+1608.menu.BOD.2v6.bootloader.BODCFG=0x54
+1608.menu.BOD.4v2=BOD 4.2V
+1608.menu.BOD.4v2.bootloader.BODCFG=0xF4
+1608.menu.BOD.4v0=BOD 4.0V
+1608.menu.BOD.4v0.bootloader.BODCFG=0xD4
+1608.menu.BOD.3v7=BOD 3.7V
+1608.menu.BOD.3v7.bootloader.BODCFG=0xB4
+1608.menu.BOD.3v3=BOD 3.3V
+1608.menu.BOD.3v3.bootloader.BODCFG=0x94
+1608.menu.BOD.2v9=BOD 2.9V
+1608.menu.BOD.2v9.bootloader.BODCFG=0x74
+1608.menu.BOD.2v1=BOD 2.1V
+1608.menu.BOD.2v1.bootloader.BODCFG=0x34
+1608.menu.BOD.1v8=BOD 1.8V
+1608.menu.BOD.1v8.bootloader.BODCFG=0x14
+1608.menu.BOD.disabled=BOD disabled
+1608.menu.BOD.disabled.bootloader.BODCFG=0x00
+
+# Clock
+1608.menu.clock.internal_16MHz=Internal 16 MHz
+1608.menu.clock.internal_16MHz.upload.speed=115200
+1608.menu.clock.internal_16MHz.bootloader.OSCCFG=0x01
+1608.menu.clock.internal_16MHz.build.oscillator=
+1608.menu.clock.internal_16MHz.build.f_cpu=16000000L
+
+1608.menu.clock.internal_20MHz=Internal 20 MHz
+1608.menu.clock.internal_20MHz.upload.speed=115200
+1608.menu.clock.internal_20MHz.bootloader.OSCCFG=0x02
+1608.menu.clock.internal_20MHz.build.oscillator=
+1608.menu.clock.internal_20MHz.build.f_cpu=20000000L
+
+1608.menu.clock.internal_8MHz_div=Internal 8 MHz
+1608.menu.clock.internal_8MHz_div.upload.speed=115200
+1608.menu.clock.internal_8MHz_div.bootloader.OSCCFG=0x01
+1608.menu.clock.internal_8MHz_div.build.oscillator=
+1608.menu.clock.internal_8MHz_div.build.f_cpu=8000000L
+
+1608.menu.clock.internal_4MHz_div=Internal 4 MHz
+1608.menu.clock.internal_4MHz_div.upload.speed=115200
+1608.menu.clock.internal_4MHz_div.bootloader.OSCCFG=0x01
+1608.menu.clock.internal_4MHz_div.build.oscillator=
+1608.menu.clock.internal_4MHz_div.build.f_cpu=4000000L
+
+1608.menu.clock.internal_2MHz_div=Internal 2 MHz
+1608.menu.clock.internal_2MHz_div.upload.speed=115200
+1608.menu.clock.internal_2MHz_div.bootloader.OSCCFG=0x01
+1608.menu.clock.internal_2MHz_div.build.oscillator=
+1608.menu.clock.internal_2MHz_div.build.f_cpu=2000000L
+
+1608.menu.clock.internal_1MHz_div=Internal 1 MHz
+1608.menu.clock.internal_1MHz_div.upload.speed=115200
+1608.menu.clock.internal_1MHz_div.bootloader.OSCCFG=0x01
+1608.menu.clock.internal_1MHz_div.build.oscillator=
+1608.menu.clock.internal_1MHz_div.build.f_cpu=1000000L
+
+1608.menu.clock.external_16MHz=External 16 MHz
+1608.menu.clock.external_16MHz.upload.speed=115200
+1608.menu.clock.external_16MHz.bootloader.OSCCFG=0x01
+1608.menu.clock.external_16MHz.build.oscillator=-DUSE_EXTERNAL_OSCILLATOR
+1608.menu.clock.external_16MHz.build.f_cpu=16000000L
+
+1608.menu.clock.external_12MHz=External 12 MHz
+1608.menu.clock.external_12MHz.upload.speed=115200
+1608.menu.clock.external_12MHz.bootloader.OSCCFG=0x01
+1608.menu.clock.external_12MHz.build.oscillator=-DUSE_EXTERNAL_OSCILLATOR
+1608.menu.clock.external_12MHz.build.f_cpu=12000000L
+
+1608.menu.clock.external_8MHz=External 8 MHz
+1608.menu.clock.external_8MHz.upload.speed=115200
+1608.menu.clock.external_8MHz.bootloader.OSCCFG=0x01
+1608.menu.clock.external_8MHz.build.oscillator=-DUSE_EXTERNAL_OSCILLATOR
+1608.menu.clock.external_8MHz.build.f_cpu=8000000L
+
+1608.menu.clock.external_4MHz=External 4 MHz
+1608.menu.clock.external_4MHz.upload.speed=115200
+1608.menu.clock.external_4MHz.bootloader.OSCCFG=0x01
+1608.menu.clock.external_4MHz.build.oscillator=-DUSE_EXTERNAL_OSCILLATOR
+1608.menu.clock.external_4MHz.build.f_cpu=4000000L
+
+1608.menu.clock.external_1MHz=External 1 MHz
+1608.menu.clock.external_1MHz.upload.speed=115200
+1608.menu.clock.external_1MHz.bootloader.OSCCFG=0x01
+1608.menu.clock.external_1MHz.build.oscillator=-DUSE_EXTERNAL_OSCILLATOR
+1608.menu.clock.external_1MHz.build.f_cpu=1000000L
+
+
+
+###################
+#### ATmega809 ####
+###################
+
+# General
+809.name=Atmega809
+809.upload.tool=avrdude
+809.upload.maximum_size=8192
+809.upload.maximum_data_size=1024
+809.upload.speed=115200
+809.bootloader.tool=avrdude
+809.build.core=coreX-corefiles
+809.build.board=AVR_ATmega809
+809.build.mcu=atmega809
+809.build.extra_flags={build.oscillator} {build.compat}
+
+# Fuses we don't need to modify in the tools menu
+809.bootloader.WDTCFG=0x00
+809.bootloader.TCD0CFG=0x00
+809.bootloader.SYSCFG1=0x06
+809.bootloader.APPEND=0x00
+809.bootloader.BOOTEND=0x00
+809.bootloader.LOCKBIT=0xC5
+
+# Pinouts
+809.menu.pinout.48pin_standard=40/48 pin standard
+809.menu.pinout.48pin_standard.build.variant=48pin-standard
+809.menu.pinout.48pin_standard.build.compat=
+809.menu.pinout.uno_wifi=Uno WiFi
+809.menu.pinout.uno_wifi.build.variant=uno-wifi
+809.menu.pinout.uno_wifi.build.compat=-DUNO_WIFI_REV2_328MODE
+
+# Reset pin
+809.menu.resetpin.reset=Reset
+809.menu.resetpin.reset.bootloader.SYSCFG0=0xCD
+809.menu.resetpin.gpio=GPIO
+809.menu.resetpin.gpio.bootloader.SYSCFG0=0xC5
+
+# Brown out detection
+809.menu.BOD.2v6=BOD 2.6V
+809.menu.BOD.2v6.bootloader.BODCFG=0x54
+809.menu.BOD.4v2=BOD 4.2V
+809.menu.BOD.4v2.bootloader.BODCFG=0xF4
+809.menu.BOD.4v0=BOD 4.0V
+809.menu.BOD.4v0.bootloader.BODCFG=0xD4
+809.menu.BOD.3v7=BOD 3.7V
+809.menu.BOD.3v7.bootloader.BODCFG=0xB4
+809.menu.BOD.3v3=BOD 3.3V
+809.menu.BOD.3v3.bootloader.BODCFG=0x94
+809.menu.BOD.2v9=BOD 2.9V
+809.menu.BOD.2v9.bootloader.BODCFG=0x74
+809.menu.BOD.2v1=BOD 2.1V
+809.menu.BOD.2v1.bootloader.BODCFG=0x34
+809.menu.BOD.1v8=BOD 1.8V
+809.menu.BOD.1v8.bootloader.BODCFG=0x14
+809.menu.BOD.disabled=BOD disabled
+809.menu.BOD.disabled.bootloader.BODCFG=0x00
+
+# Clock
+809.menu.clock.internal_16MHz=Internal 16 MHz
+809.menu.clock.internal_16MHz.upload.speed=115200
+809.menu.clock.internal_16MHz.bootloader.OSCCFG=0x01
+809.menu.clock.internal_16MHz.build.oscillator=
+809.menu.clock.internal_16MHz.build.f_cpu=16000000L
+
+809.menu.clock.internal_20MHz=Internal 20 MHz
+809.menu.clock.internal_20MHz.upload.speed=115200
+809.menu.clock.internal_20MHz.bootloader.OSCCFG=0x02
+809.menu.clock.internal_20MHz.build.oscillator=
+809.menu.clock.internal_20MHz.build.f_cpu=20000000L
+
+809.menu.clock.internal_8MHz_div=Internal 8 MHz
+809.menu.clock.internal_8MHz_div.upload.speed=115200
+809.menu.clock.internal_8MHz_div.bootloader.OSCCFG=0x01
+809.menu.clock.internal_8MHz_div.build.oscillator=
+809.menu.clock.internal_8MHz_div.build.f_cpu=8000000L
+
+809.menu.clock.internal_4MHz_div=Internal 4 MHz
+809.menu.clock.internal_4MHz_div.upload.speed=115200
+809.menu.clock.internal_4MHz_div.bootloader.OSCCFG=0x01
+809.menu.clock.internal_4MHz_div.build.oscillator=
+809.menu.clock.internal_4MHz_div.build.f_cpu=4000000L
+
+809.menu.clock.internal_2MHz_div=Internal 2 MHz
+809.menu.clock.internal_2MHz_div.upload.speed=115200
+809.menu.clock.internal_2MHz_div.bootloader.OSCCFG=0x01
+809.menu.clock.internal_2MHz_div.build.oscillator=
+809.menu.clock.internal_2MHz_div.build.f_cpu=2000000L
+
+809.menu.clock.internal_1MHz_div=Internal 1 MHz
+809.menu.clock.internal_1MHz_div.upload.speed=115200
+809.menu.clock.internal_1MHz_div.bootloader.OSCCFG=0x01
+809.menu.clock.internal_1MHz_div.build.oscillator=
+809.menu.clock.internal_1MHz_div.build.f_cpu=1000000L
+
+809.menu.clock.external_16MHz=External 16 MHz
+809.menu.clock.external_16MHz.upload.speed=115200
+809.menu.clock.external_16MHz.bootloader.OSCCFG=0x01
+809.menu.clock.external_16MHz.build.oscillator=-DUSE_EXTERNAL_OSCILLATOR
+809.menu.clock.external_16MHz.build.f_cpu=16000000L
+
+809.menu.clock.external_12MHz=External 12 MHz
+809.menu.clock.external_12MHz.upload.speed=115200
+809.menu.clock.external_12MHz.bootloader.OSCCFG=0x01
+809.menu.clock.external_12MHz.build.oscillator=-DUSE_EXTERNAL_OSCILLATOR
+809.menu.clock.external_12MHz.build.f_cpu=12000000L
+
+809.menu.clock.external_8MHz=External 8 MHz
+809.menu.clock.external_8MHz.upload.speed=115200
+809.menu.clock.external_8MHz.bootloader.OSCCFG=0x01
+809.menu.clock.external_8MHz.build.oscillator=-DUSE_EXTERNAL_OSCILLATOR
+809.menu.clock.external_8MHz.build.f_cpu=8000000L
+
+809.menu.clock.external_4MHz=External 4 MHz
+809.menu.clock.external_4MHz.upload.speed=115200
+809.menu.clock.external_4MHz.bootloader.OSCCFG=0x01
+809.menu.clock.external_4MHz.build.oscillator=-DUSE_EXTERNAL_OSCILLATOR
+809.menu.clock.external_4MHz.build.f_cpu=4000000L
+
+809.menu.clock.external_1MHz=External 1 MHz
+809.menu.clock.external_1MHz.upload.speed=115200
+809.menu.clock.external_1MHz.bootloader.OSCCFG=0x01
+809.menu.clock.external_1MHz.build.oscillator=-DUSE_EXTERNAL_OSCILLATOR
+809.menu.clock.external_1MHz.build.f_cpu=1000000L
+
+
+
+###################
+#### ATmega808 ####
+###################
+
+# General
+808.name=Atmega808
+808.upload.tool=avrdude
+808.upload.maximum_size=8192
+808.upload.maximum_data_size=1024
+808.upload.speed=115200
+808.bootloader.tool=avrdude
+808.build.core=coreX-corefiles
+808.build.board=AVR_ATmega808
+808.build.mcu=atmega808
+808.build.extra_flags={build.oscillator}
+
+# Fuses we don't need to modify in the tools menu
+808.bootloader.WDTCFG=0x00
+808.bootloader.TCD0CFG=0x00
+808.bootloader.SYSCFG1=0x06
+808.bootloader.APPEND=0x00
+808.bootloader.BOOTEND=0x00
+808.bootloader.LOCKBIT=0xC5
+
+# Pinouts
+808.menu.pinout.32pin_standard=32 pin standard
+808.menu.pinout.32pin_standard.build.variant=32pin-standard
+808.menu.pinout.28pin_standard=28 pin standard
+808.menu.pinout.28pin_standard.build.variant=28pin-standard
+
+# Reset pin
+808.menu.resetpin.reset=Reset
+808.menu.resetpin.reset.bootloader.SYSCFG0=0xCD
+808.menu.resetpin.gpio=GPIO
+808.menu.resetpin.gpio.bootloader.SYSCFG0=0xC5
+
+# Brown out detection
+808.menu.BOD.2v6=BOD 2.6V
+808.menu.BOD.2v6.bootloader.BODCFG=0x54
+808.menu.BOD.4v2=BOD 4.2V
+808.menu.BOD.4v2.bootloader.BODCFG=0xF4
+808.menu.BOD.4v0=BOD 4.0V
+808.menu.BOD.4v0.bootloader.BODCFG=0xD4
+808.menu.BOD.3v7=BOD 3.7V
+808.menu.BOD.3v7.bootloader.BODCFG=0xB4
+808.menu.BOD.3v3=BOD 3.3V
+808.menu.BOD.3v3.bootloader.BODCFG=0x94
+808.menu.BOD.2v9=BOD 2.9V
+808.menu.BOD.2v9.bootloader.BODCFG=0x74
+808.menu.BOD.2v1=BOD 2.1V
+808.menu.BOD.2v1.bootloader.BODCFG=0x34
+808.menu.BOD.1v8=BOD 1.8V
+808.menu.BOD.1v8.bootloader.BODCFG=0x14
+808.menu.BOD.disabled=BOD disabled
+808.menu.BOD.disabled.bootloader.BODCFG=0x00
+
+# Clock
+808.menu.clock.internal_16MHz=Internal 16 MHz
+808.menu.clock.internal_16MHz.upload.speed=115200
+808.menu.clock.internal_16MHz.bootloader.OSCCFG=0x01
+808.menu.clock.internal_16MHz.build.oscillator=
+808.menu.clock.internal_16MHz.build.f_cpu=16000000L
+
+808.menu.clock.internal_20MHz=Internal 20 MHz
+808.menu.clock.internal_20MHz.upload.speed=115200
+808.menu.clock.internal_20MHz.bootloader.OSCCFG=0x02
+808.menu.clock.internal_20MHz.build.oscillator=
+808.menu.clock.internal_20MHz.build.f_cpu=20000000L
+
+808.menu.clock.internal_8MHz_div=Internal 8 MHz
+808.menu.clock.internal_8MHz_div.upload.speed=115200
+808.menu.clock.internal_8MHz_div.bootloader.OSCCFG=0x01
+808.menu.clock.internal_8MHz_div.build.oscillator=
+808.menu.clock.internal_8MHz_div.build.f_cpu=8000000L
+
+808.menu.clock.internal_4MHz_div=Internal 4 MHz
+808.menu.clock.internal_4MHz_div.upload.speed=115200
+808.menu.clock.internal_4MHz_div.bootloader.OSCCFG=0x01
+808.menu.clock.internal_4MHz_div.build.oscillator=
+808.menu.clock.internal_4MHz_div.build.f_cpu=4000000L
+
+808.menu.clock.internal_2MHz_div=Internal 2 MHz
+808.menu.clock.internal_2MHz_div.upload.speed=115200
+808.menu.clock.internal_2MHz_div.bootloader.OSCCFG=0x01
+808.menu.clock.internal_2MHz_div.build.oscillator=
+808.menu.clock.internal_2MHz_div.build.f_cpu=2000000L
+
+808.menu.clock.internal_1MHz_div=Internal 1 MHz
+808.menu.clock.internal_1MHz_div.upload.speed=115200
+808.menu.clock.internal_1MHz_div.bootloader.OSCCFG=0x01
+808.menu.clock.internal_1MHz_div.build.oscillator=
+808.menu.clock.internal_1MHz_div.build.f_cpu=1000000L
+
+808.menu.clock.external_16MHz=External 16 MHz
+808.menu.clock.external_16MHz.upload.speed=115200
+808.menu.clock.external_16MHz.bootloader.OSCCFG=0x01
+808.menu.clock.external_16MHz.build.oscillator=-DUSE_EXTERNAL_OSCILLATOR
+808.menu.clock.external_16MHz.build.f_cpu=16000000L
+
+808.menu.clock.external_12MHz=External 12 MHz
+808.menu.clock.external_12MHz.upload.speed=115200
+808.menu.clock.external_12MHz.bootloader.OSCCFG=0x01
+808.menu.clock.external_12MHz.build.oscillator=-DUSE_EXTERNAL_OSCILLATOR
+808.menu.clock.external_12MHz.build.f_cpu=12000000L
+
+808.menu.clock.external_8MHz=External 8 MHz
+808.menu.clock.external_8MHz.upload.speed=115200
+808.menu.clock.external_8MHz.bootloader.OSCCFG=0x01
+808.menu.clock.external_8MHz.build.oscillator=-DUSE_EXTERNAL_OSCILLATOR
+808.menu.clock.external_8MHz.build.f_cpu=8000000L
+
+808.menu.clock.external_4MHz=External 4 MHz
+808.menu.clock.external_4MHz.upload.speed=115200
+808.menu.clock.external_4MHz.bootloader.OSCCFG=0x01
+808.menu.clock.external_4MHz.build.oscillator=-DUSE_EXTERNAL_OSCILLATOR
+808.menu.clock.external_4MHz.build.f_cpu=4000000L
+
+808.menu.clock.external_1MHz=External 1 MHz
+808.menu.clock.external_1MHz.upload.speed=115200
+808.menu.clock.external_1MHz.bootloader.OSCCFG=0x01
+808.menu.clock.external_1MHz.build.oscillator=-DUSE_EXTERNAL_OSCILLATOR
+808.menu.clock.external_1MHz.build.f_cpu=1000000L
