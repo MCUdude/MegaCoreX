@@ -91,9 +91,8 @@ static volatile TCB_t* _timer =
 	m += millis_inc;
 	f += fract_inc;
 	if (f >= FRACT_MAX) {
-
 		f -= FRACT_MAX;
-		m += 1;
+		m++;
 	}
 
 	timer_fract = f;
@@ -119,32 +118,46 @@ unsigned long millis()
 	return m;
 }
 
-unsigned long micros() {
-	unsigned long overflows, microseconds;
-	uint8_t ticks;
+unsigned long  micros() {
+	uint32_t m;
+	uint8_t t;
 
 	/* Save current state and disable interrupts */
 	uint8_t status = SREG;
 	cli();
 
 	/* Get current number of overflows and timer count */
-	overflows = timer_overflow_count;
-	ticks = _timer->CNTL;
+	m = timer_overflow_count;
+	t = _timer->CNTL;
 
 	/* If the timer overflow flag is raised, we just missed it,
 	increment to account for it, & read new ticks */
 	if(_timer->INTFLAGS & TCB_CAPT_bm){
-		overflows++;
-		ticks = _timer->CNTL;
+		m++;
+		t = _timer->CNTL;
 	}
 
-	/* Restore state */
+	// Restore SREG
 	SREG = status;
 
-	/* Return microseconds of up time  (resets every ~70mins) */
-	microseconds = ((overflows * microseconds_per_timer_overflow)
-				+ (ticks * microseconds_per_timer_tick));
-	return microseconds;
+#if F_CPU >= 24000000L && F_CPU < 32000000L
+	// m needs to be multiplied by 682.67
+	// and t by 2.67
+	m = (m << 8) + t;
+	return (m << 1) + (m >> 1) + (m >> 3) + (m >> 4); // Multiply by 2.6875
+#elif F_CPU == 20000000L
+	// m needs to be multiplied by 819.2
+	// t needs to be multiplied by 3.2
+	m = (m << 8) + t;
+	return m + (m << 1) + (m >> 2) - (m >> 4); // Multiply by 3.1875
+#elif F_CPU == 12000000L
+	// m needs to be multiplied by 1365.33
+	// and t by 5.33
+	m = (m << 8) + t;
+	return m + (m << 2) + (m >> 2) + (m >> 3) - (m >> 4) + (m >> 5); // Multiply by 5.3437
+#else // 16 MHz, 8 MHz, 4 MHz, 2 MHz, 1 MHz
+	return ((m << 8) + t) * (64 / clockCyclesPerMicrosecond());
+#endif
 }
 
 void delay(unsigned long ms)
@@ -261,6 +274,27 @@ void delayMicroseconds(unsigned int us)
 	// us is at least 6 so we can substract 4
 	us -= 4; // = 2 cycles
 
+#elif F_CPU >= 4000000L
+  // The overhead of the function call is 14 (16) cycles which is 4 us
+  if (us <= 2)
+    return;
+
+  // Subtract microseconds that were wasted in this function
+  us -= 2;
+
+  // We don't need to multiply here because one request microsecond is exactly one loop cycle
+
+#elif F_CPU >= 2000000L
+  // The overhead of the function call is 14 (16) cycles which is 8.68 us
+  // Plus the if-statement that takes 3 cycles (4 when true): ~11us
+  if (us <= 13)
+    return;
+
+  // Subtract microseconds that were wasted in this function
+  us -= 11; // 2 cycles
+
+  us = (us >> 1); // 3 cycles
+
 #else
 	// for the 1 MHz internal clock (default settings for common Atmega microcontrollers)
 
@@ -293,58 +327,31 @@ void init()
 	
 /******************************** CLOCK STUFF *********************************/
 
-	/* We assume 5V operating frequency and FUSE.OSCCFG -> 16MHz */
-
- 	int64_t cpu_freq;
- 	
-	#if (F_CPU == 20000000)
-		cpu_freq = 20000000;
+ 	// Use external oscillator if already defined (in boards.txt, platformio.ini)
+ 	#if defined(USE_EXTERNAL_OSCILLATOR)
+		_PROTECTED_WRITE(CLKCTRL_MCLKCTRLA, CLKCTRL_CLKSEL_EXTCLK_gc);
+		_PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, 0x00); // Fallback to 16 MHz internal if no EXTCLK
 		
-		/* No division on clock */
-		_PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, 0x00);
-	
-	#elif (F_CPU == 16000000)
-		cpu_freq = 16000000;
-		
-		/* No division on clock */
-		_PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, 0x00);
-		
-	#elif (F_CPU == 8000000)
-		cpu_freq = 8000000;
-		
-		/* Clock DIV2 */
-		_PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, (CLKCTRL_PEN_bm | CLKCTRL_PDIV_2X_gc));
-		
-	#elif (F_CPU == 4000000)
-		cpu_freq = 4000000;
-		
-		/* Clock DIV4 */
-		_PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, (CLKCTRL_PEN_bm | CLKCTRL_PDIV_4X_gc));
-		
-	#elif (F_CPU == 2000000)
-		cpu_freq = 2000000;
-		
-		/* Clock DIV8 */
-		_PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, (CLKCTRL_PEN_bm | CLKCTRL_PDIV_8X_gc));
-	#else
-		
-		#ifndef F_CPU
-			# warning "F_CPU not defined"
-			#define F_CPU 16000000
+	// Use internal oscillator if not defined. No need to manipulate the MCLKCTRLA register here
+	// because it's already done in the SYSCFG0 fuse byte
+	#else 	
+		#if (F_CPU == 20000000L)		
+			/* No division on clock */
+			_PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, 0x00);
+		#elif (F_CPU == 16000000L)		
+			/* No division on clock */
+			_PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, 0x00);		
+		#elif (F_CPU == 8000000L)		
+			/* Clock DIV2 */
+			_PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, (CLKCTRL_PEN_bm | CLKCTRL_PDIV_2X_gc));		
+		#elif (F_CPU == 4000000L)		
+			/* Clock DIV4 */
+			_PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, (CLKCTRL_PEN_bm | CLKCTRL_PDIV_4X_gc));
+		#elif (F_CPU == 2000000L)		
+			/* Clock DIV8 */
+			_PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, (CLKCTRL_PEN_bm | CLKCTRL_PDIV_8X_gc));
 		#endif
-		
-		# warning "F_CPU defined as an invalid value - may cause undefined behavior"
-		
-		/* Default value is 16MHz */
-		cpu_freq = 16000000;
-				
-		/* No division on clock */
-		_PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, 0x00);
 	#endif
-
-	/* Apply calculated value to F_CPU_CORRECTED */
-	F_CPU_CORRECTED = (uint32_t)cpu_freq;
-
 
 /********************************* ADC ****************************************/
 
@@ -352,17 +359,17 @@ void init()
 
 	/* ADC clock between 50-200 kHz */
 
-	#if F_CPU >= 20000000 // 20 MHz / 128 = 156.250 kHz
+	#if (F_CPU >= 20000000L)   // 20 MHz / 128 = 156.250 kHz
 		ADC0.CTRLC |= ADC_PRESC_DIV128_gc;
-	#elif F_CPU >= 16000000 // 16 MHz / 128 = 125 kHz
+	#elif (F_CPU >= 16000000L) // 16 MHz / 128 = 125 kHz
 		ADC0.CTRLC |= ADC_PRESC_DIV128_gc;
-	#elif F_CPU >= 8000000 // 8 MHz / 64 = 125 kHz
+	#elif (F_CPU >= 8000000L)  // 8 MHz / 64 = 125 kHz
 		ADC0.CTRLC |= ADC_PRESC_DIV64_gc;
-	#elif F_CPU >= 4000000 // 4 MHz / 32 = 125 kHz
+	#elif (F_CPU >= 4000000L)  // 4 MHz / 32 = 125 kHz
 		ADC0.CTRLC |= ADC_PRESC_DIV32_gc;
-	#elif F_CPU >= 2000000 // 2 MHz / 16 = 125 kHz
+	#elif (F_CPU >= 2000000L)  // 2 MHz / 16 = 125 kHz
 		ADC0.CTRLC |= ADC_PRESC_DIV16_gc;
-	#elif F_CPU >= 1000000 // 1 MHz / 8 = 125 kHz
+	#elif (F_CPU >= 1000000L)  // 1 MHz / 8 = 125 kHz
 		ADC0.CTRLC |= ADC_PRESC_DIV8_gc;
 	#else // 128 kHz / 2 = 64 kHz -> This is the closest you can get, the prescaler is 2
 		ADC0.CTRLC |= ADC_PRESC_DIV2_gc;

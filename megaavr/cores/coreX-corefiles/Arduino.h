@@ -26,6 +26,9 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
+#undef F
+#define F(str) (str)
+
 #ifdef __cplusplus
 extern "C"{
 #endif
@@ -83,10 +86,10 @@ unsigned long microsecondsToClockCycles(unsigned long microseconds);
 // Get the bit location within the hardware port of the given virtual pin.
 // This comes from the pins_*.c file for the active board configuration.
 
-extern const uint8_t PROGMEM digital_pin_to_port[];
-extern const uint8_t PROGMEM digital_pin_to_bit_mask[];
-extern const uint8_t PROGMEM digital_pin_to_bit_position[];
-extern const uint8_t PROGMEM digital_pin_to_timer[];
+extern const uint8_t digital_pin_to_port[];
+extern const uint8_t digital_pin_to_bit_mask[];
+extern const uint8_t digital_pin_to_bit_position[];
+extern const uint8_t digital_pin_to_timer[];
 
 // Get the bit location within the hardware port of the given virtual pin.
 // This comes from the pins_*.c file for the active board configuration.
@@ -115,17 +118,17 @@ extern const uint8_t PROGMEM digital_pin_to_timer[];
 void setup_timers();
 bool isDoubleBondedActive(uint8_t pin);
 
-#define digitalPinToPort(pin) ( (pin < NUM_TOTAL_PINS) ? pgm_read_byte(digital_pin_to_port + pin) : NOT_A_PIN )
-#define digitalPinToBitPosition(pin) ( (pin < NUM_TOTAL_PINS) ? pgm_read_byte(digital_pin_to_bit_position + pin) : NOT_A_PIN )
-#define analogPinToBitPosition(pin) ( (pin < NUM_ANALOG_INPUTS) ? pgm_read_byte(digital_pin_to_bit_position + pin + ANALOG_INPUT_OFFSET) : NOT_A_PIN )
-#define digitalPinToBitMask(pin) ( (pin < NUM_TOTAL_PINS) ? pgm_read_byte(digital_pin_to_bit_mask + pin) : NOT_A_PIN )
-#define analogPinToBitMask(pin) ( (pin < NUM_ANALOG_INPUTS) ? pgm_read_byte(digital_pin_to_bit_mask + pin + ANALOG_INPUT_OFFSET) : NOT_A_PIN )
-#define digitalPinToTimer(pin) ( (pin < NUM_TOTAL_PINS) ? pgm_read_byte(digital_pin_to_timer + pin) : NOT_ON_TIMER )
+#define digitalPinToPort(pin) ( (pin < NUM_TOTAL_PINS) ? digital_pin_to_port[pin] : NOT_A_PIN )
+#define digitalPinToBitPosition(pin) ( (pin < NUM_TOTAL_PINS) ? digital_pin_to_bit_position[pin] : NOT_A_PIN )
+#define digitalPinToBitMask(pin) ( (pin < NUM_TOTAL_PINS) ? digital_pin_to_bit_mask[pin] : NOT_A_PIN )
+#define digitalPinToTimer(pin) ( (pin < NUM_TOTAL_PINS) ? digital_pin_to_timer[pin] : NOT_ON_TIMER )
+#define analogPinToBitPosition(pin) ( (digitalOrAnalogPinToDigital(pin) != NOT_A_PIN) ? digital_pin_to_bit_position[digitalOrAnalogPinToDigital(pin)] : NOT_A_PIN )
+#define analogPinToBitMask(pin) ( (digitalOrAnalogPinToDigital(pin) != NOT_A_PIN) ? digital_pin_to_bit_mask[digitalOrAnalogPinToDigital(pin)] : NOT_A_PIN )
 
 #define portToPortStruct(port) ( (port < NUM_TOTAL_PORTS) ? ((PORT_t *)&PORTA + port) : NULL)
 #define digitalPinToPortStruct(pin) ( (pin < NUM_TOTAL_PINS) ? ((PORT_t *)&PORTA + digitalPinToPort(pin)) : NULL)
 #define getPINnCTRLregister(port, bit_pos) ( ((port != NULL) && (bit_pos < NOT_A_PIN)) ? ((volatile uint8_t *)&(port->PIN0CTRL) + bit_pos) : NULL )
-#define digitalPinToInterrupt(p) (P)
+#define digitalPinToInterrupt(P) (P)
 
 #define portOutputRegister(P) ( (volatile uint8_t *)( &portToPortStruct(P)->OUT ) )
 #define portInputRegister(P) ( (volatile uint8_t *)( &portToPortStruct(P)->IN ) )

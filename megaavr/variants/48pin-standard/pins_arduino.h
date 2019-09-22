@@ -5,12 +5,14 @@
 | COMPATIBLE WITH:                                   |
 | ATmega4809                                         |
 | ATmega3209                                         |
+| ATmega1609                                         |
+| ATmega809                                          |
 |                                                    |
 | Note that this pinout is not directly compatible   |
-| with the UNO Wifi Rev2 hardware without preforming |
+| with the UNO Wifi Rev2 hardware without performing |
 | pinswaps. This pinout is supposed to be as close   |
 | to the metal as possible. The only peripherals     |
-| that is swapped to other pins by default are the   |
+| that are swapped to other pins by default are the  |
 | PWM outputs.                                       |
 |                                                    |
 |****************************************************/
@@ -23,20 +25,23 @@
 
 #define DEFAULT_48PIN_PINOUT
 
-#define NUM_DIGITAL_PINS            41
-#define NUM_ANALOG_INPUTS           16
-#define NUM_RESERVED_PINS           0  // With great power comes great responsibility
-#define NUM_INTERNALLY_USED_PINS    0  // (2 x Chip select + 2 x UART + 4 x IO + LED_BUILTIN + 1 unused pin)
-#define NUM_I2C_PINS                2  // (SDA / SCL)
-#define NUM_SPI_PINS                3  // (MISO / MOSI / SCK)
-#define NUM_TOTAL_FREE_PINS         (NUM_DIGITAL_PINS)
-#define NUM_TOTAL_PINS              (NUM_DIGITAL_PINS)
-#define ANALOG_INPUT_OFFSET         0 
-#define digitalPinToAnalogInput(p)  ((p < NUM_ANALOG_INPUTS) ? (p) : (p) - 22) // The user will have to use A0 - A15, NOT 0 - 15
+#define NUM_DIGITAL_PINS               41
+#define NUM_ANALOG_INPUTS              16
+#define NUM_RESERVED_PINS              0
+#define NUM_INTERNALLY_USED_PINS       0
+#define NUM_I2C_PINS                   2  // (SDA / SCL)
+#define NUM_SPI_PINS                   3  // (MISO / MOSI / SCK)
+#define NUM_TOTAL_FREE_PINS            (NUM_DIGITAL_PINS)
+#define NUM_TOTAL_PINS                 (NUM_DIGITAL_PINS)
+#define ANALOG_INPUT_OFFSET            22 
+#define digitalPinToAnalogInput(p)     ((p < NUM_ANALOG_INPUTS) ? (p) : ((p) >= 22 && (p) <= 33) ? ((p) - ANALOG_INPUT_OFFSET) : ((p) >= 36 && (p) <=39) ? ((p) - 2 - ANALOG_INPUT_OFFSET) : NOT_A_PIN)
+#define digitalOrAnalogPinToDigital(p) ((p <= 11) ? ((p) + ANALOG_INPUT_OFFSET) : ((p) <= 15) ? ((p) + ANALOG_INPUT_OFFSET + 2) : (((p) >= 22 && (p) <= 33) || ((p) >= 36 && (p) <= 39)) ? (p) :  NOT_A_PIN)
 
-#define MILLIS_USE_TIMERB0 // Use timerb0 for millis generation
+#if !defined(MILLIS_USE_TIMERB0) || !defined(MILLIS_USE_TIMERB1) || !defined(MILLIS_USE_TIMERB2) || !defined(MILLIS_USE_TIMERB3)
+#define MILLIS_USE_TIMERB3
+#endif
 
-#define EXTERNAL_NUM_INTERRUPTS     (NUM_TOTAL_PINS)
+#define EXTERNAL_NUM_INTERRUPTS     (47)
 
 #define digitalPinHasPWM(p)         (((p) >= 14 && (p) <= 19) || (p) == 38 || (p) == 39)
 
@@ -98,10 +103,10 @@ static const uint8_t SCL = PIN_WIRE_SCL;
 #define HWSERIAL1_RXC_VECTOR            (USART1_RXC_vect)
 #define HWSERIAL1_MUX                   (PORTMUX_USART1_DEFAULT_gc)
 #define HWSERIAL1_MUX_PINSWAP_1         (PORTMUX_USART1_ALT1_gc)
-#define PIN_WIRE_HWSERIAL1_TX           (12)
-#define PIN_WIRE_HWSERIAL1_RX           (13)
-#define PIN_WIRE_HWSERIAL1_TX_PINSWAP_1 (14)
-#define PIN_WIRE_HWSERIAL1_RX_PINSWAP_1 (15)
+#define PIN_WIRE_HWSERIAL1_TX           (14)
+#define PIN_WIRE_HWSERIAL1_RX           (15)
+#define PIN_WIRE_HWSERIAL1_TX_PINSWAP_1 (18)
+#define PIN_WIRE_HWSERIAL1_RX_PINSWAP_1 (19)
 
 // USART 2
 // No pinswap by default
@@ -168,7 +173,7 @@ static const uint8_t A15 = PIN_A15;
 
 #ifdef ARDUINO_MAIN
 
-const uint8_t PROGMEM digital_pin_to_port[] = {
+const uint8_t digital_pin_to_port[] = {
   PA, //  0 PA0/USART0_Tx/CLKIN
   PA, //  1 PA1/USART0_Rx
   PA, //  2 PA2/SDA
@@ -213,7 +218,7 @@ const uint8_t PROGMEM digital_pin_to_port[] = {
 };
 
 /* Use this for accessing PINnCTRL register */
-const uint8_t PROGMEM digital_pin_to_bit_position[] = {
+const uint8_t digital_pin_to_bit_position[] = {
   PIN0_bp, //  0 PIN_bp0/USART0_Tx/CLKIN
   PIN1_bp, //  1 PA1/USART0_Rx
   PIN2_bp, //  2 PA2/SDA
@@ -258,7 +263,7 @@ const uint8_t PROGMEM digital_pin_to_bit_position[] = {
 };
 
 /* Use this for accessing PINnCTRL register */
-const uint8_t PROGMEM digital_pin_to_bit_mask[] = {
+const uint8_t digital_pin_to_bit_mask[] = {
   PIN0_bm, //  0 PIN_bp0/USART0_Tx/CLKIN
   PIN1_bm, //  1 PA1/USART0_Rx
   PIN2_bm, //  2 PA2/SDA
@@ -302,7 +307,7 @@ const uint8_t PROGMEM digital_pin_to_bit_mask[] = {
   PIN6_bm  // 40 PF6 RESET
 };
 
-const uint8_t PROGMEM digital_pin_to_timer[] = {
+const uint8_t digital_pin_to_timer[] = {
   NOT_ON_TIMER, //  0 PA0/USART0_Tx/CLKIN
   NOT_ON_TIMER, //  1 PA1/USART0_Rx
   NOT_ON_TIMER, //  2 PA2/SDA
