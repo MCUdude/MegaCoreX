@@ -185,8 +185,8 @@ const uint8_t digital_pin_to_port[] = {
   PB, //  9 PB1/USART3_Rx
   PB, // 10 PB2
   PB, // 11 PB3
-  PB, // 12 PB4
-  PB, // 13 PB5
+  PB, // 12 PB4/TCB2 PWM
+  PB, // 13 PB5/TCB3 PWM
   PC, // 14 PC0/USART1_Tx/TCA0 PWM
   PC, // 15 PC1/USART1_Rx/TCA0 PWM
   PC, // 16 PC2/TCA0 PWM
@@ -230,8 +230,8 @@ const uint8_t digital_pin_to_bit_position[] = {
   PIN1_bp, //  9 PB1/USART3_Rx
   PIN2_bp, // 10 PB2
   PIN3_bp, // 11 PB3
-  PIN4_bp, // 12 PB4
-  PIN5_bp, // 13 PB5
+  PIN4_bp, // 12 PB4/TCB2 PWM
+  PIN5_bp, // 13 PB5/TCB2 PWM
   PIN0_bp, // 14 PC0/USART1_Tx/TCA0 PWM
   PIN1_bp, // 15 PC1/USART1_Rx/TCA0 PWM
   PIN2_bp, // 16 PC2/TCA0 PWM
@@ -275,8 +275,8 @@ const uint8_t digital_pin_to_bit_mask[] = {
   PIN1_bm, //  9 PB1/USART3_Rx
   PIN2_bm, // 10 PB2
   PIN3_bm, // 11 PB3
-  PIN4_bm, // 12 PB4
-  PIN5_bm, // 13 PB5
+  PIN4_bm, // 12 PB4/TCB2 PWM
+  PIN5_bm, // 13 PB5/TCB3 PWM
   PIN0_bm, // 14 PC0/USART1_Tx/TCA0 PWM
   PIN1_bm, // 15 PC1/USART1_Rx/TCA0 PWM
   PIN2_bm, // 16 PC2/TCA0 PWM
@@ -319,8 +319,8 @@ const uint8_t digital_pin_to_timer[] = {
   NOT_ON_TIMER, //  9 PB1/USART3_Rx
   NOT_ON_TIMER, // 10 PB2
   NOT_ON_TIMER, // 11 PB3
-  NOT_ON_TIMER, // 12 PB4
-  NOT_ON_TIMER, // 13 PB5
+  TIMERB2,      // 12 PB4/TCB2 PWM
+  TIMERB3,      // 13 PB5/TCB3 PWM
   TIMERA0,      // 14 PC0/USART1_Tx/TCA0 PWM
   TIMERA0,      // 15 PC1/USART1_Rx/TCA0 PWM
   TIMERA0,      // 16 PC2/TCA0 PWM
