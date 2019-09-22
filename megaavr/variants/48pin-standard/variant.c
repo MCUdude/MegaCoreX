@@ -32,22 +32,19 @@ void setup_timers() {
 
   //  TYPE B TIMERS 
   
-  // Setup TCB0 routing
+  // Set up routing
+  PORTMUX.TCBROUTEA = 0
   #if defined(TCB0)
-    PORTMUX.TCBROUTEA |= PORTMUX_TCB0_bm; // Route signal to PF4
+		    | PORTMUX_TCB0_bm // Route signal to PF4 instead of PA2
   #endif
-  
-  // Setup TCB1 routing
   #if defined(TCB1)
-    PORTMUX.TCBROUTEA  |= PORTMUX_TCB1_bm; // Route signal to PF5
+		    | PORTMUX_TCB1_bm // Route signal to PF5 instead of PA3
   #endif
-
-  // Setup TCB2 routing
   #if defined(TCB2)
-    PORTMUX.TCBROUTEA  |= PORTMUX_TCB2_bm; // Route signal to PB4 instead of PC0
+		    | PORTMUX_TCB2_bm // Route signal to PB4 instead of PC0
   #endif
-
   // For TCB3 routing, default B5 is used, alternative is PC1
+  ;
 
   // Start with TCB0
   TCB_t *timer_B = (TCB_t *)&TCB0;
