@@ -151,12 +151,12 @@ Available pin swaps for the *Uno WiFi* pinout are:
 ## PWM output
 PWM output, `analogWrite()`, is available for the following pins:
 
-| Pinout            | Available PWM pins            |
-|-------------------|-------------------------------|
-| *28 pin standard* | 8,9,10,11                     |
-| *32 pin standard* | 8,9,10,11,24,25               |
-| *48 pin standard* | 12,13,14,15,16,17,18,19,38,39 |
-| *Uno WiFi*        | 3,5,6,9,10                    |
+| Pinout            | Available PWM pins         |
+|-------------------|----------------------------|
+| *28 pin standard* | 8,9,10,11                  |
+| *32 pin standard* | 8,9,10,11,24,25            |
+| *48 pin standard* | 13,14,15,16,17,18,19,38,39 |
+| *Uno WiFi*        | 3,5,6,9,10                 |
 
 
 ## How to install
