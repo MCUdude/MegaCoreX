@@ -66,6 +66,9 @@ static volatile TCB_t* _timer =
 #if defined(USE_TIMERB2)
 &TCB2;
 #endif
+#if defined(USE_TIMERB3)
+&TCB3;
+#endif
 
 static int _pin = NOT_A_PIN;
 

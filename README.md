@@ -164,7 +164,7 @@ PWM output, `analogWrite()`, is available for the following pins:
 |-------------------|--------------------|------------------------------------|
 | *28 pin standard* | 4                  | 8, 9, 10, 11                       |
 | *32 pin standard* | 6                  | 8, 9, 10, 11, 24, 25               |
-| *48 pin standard* | 8                  | 13, 14, 15, 16, 17, 18, 19, 38, 39 |
+| *48 pin standard* | 9                  | 13, 14, 15, 16, 17, 18, 19, 38, 39 |
 | *Uno WiFi*        | 5                  | 3, 5, 6, 9, 10                     |
 
 
