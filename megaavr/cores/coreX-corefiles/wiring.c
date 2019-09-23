@@ -33,6 +33,22 @@ uint32_t F_CPU_CORRECTED = F_CPU;
 
 volatile uint32_t timer_millis = 0;
 
+inline uint16_t clockCyclesPerMicrosecondComp(uint32_t clk){
+	return ( (clk) / 1000000L );
+}
+
+inline uint16_t clockCyclesPerMicrosecond(){
+	return clockCyclesPerMicrosecondComp(F_CPU_CORRECTED);
+}
+
+inline unsigned long clockCyclesToMicroseconds(unsigned long cycles){
+	return ( cycles / clockCyclesPerMicrosecond() );
+}
+
+inline unsigned long microsecondsToClockCycles(unsigned long microseconds){
+	return ( microseconds * clockCyclesPerMicrosecond() );
+}
+
 static volatile TCB_t* _timer =
 #if defined(MILLIS_USE_TIMERB0)
 	&TCB0;
