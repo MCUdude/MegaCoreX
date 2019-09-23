@@ -197,3 +197,27 @@ void analogWrite(uint8_t pin, int val)
 		}
 	}
 }
+
+// Set PWM repeat period for all PWM outputs with
+// hardware support.
+// The argument is the desired period in us. A
+// best effort will be made to find something that matches.
+//
+void analogWriteRepeat(unsigned int us) {
+  byte index = 0;
+  static const byte index2setting[] = {
+      TCA_SPLIT_ENABLE_bm | TCA_SPLIT_CLKSEL_DIV64_gc,          // 1024 us: ~1 kHz PWM, ~250kHz clock
+      TCA_SPLIT_ENABLE_bm | TCA_SPLIT_CLKSEL_DIV16_gc,          //  512 us is not possible
+      TCA_SPLIT_ENABLE_bm | TCA_SPLIT_CLKSEL_DIV16_gc,          //  256 us: ~4 kHz PWM, ~1MHz clock
+      TCA_SPLIT_ENABLE_bm | TCA_SPLIT_CLKSEL_DIV8_gc,           //  128 us: ~8 kHz PWM, ~2MHz clock
+      TCA_SPLIT_ENABLE_bm | TCA_SPLIT_CLKSEL_DIV4_gc,           //   64 us: ~16 kHz PWM, ~4MHz clock
+      TCA_SPLIT_ENABLE_bm | TCA_SPLIT_CLKSEL_DIV2_gc,           //   32 us: ~32 kHz PWM, ~8MHz clock
+      TCA_SPLIT_ENABLE_bm | TCA_SPLIT_CLKSEL_DIV1_gc            //   16 us: ~64 kHz PWM, ~16MHz clock
+  };
+
+  while (us < 700) { // find approximate match
+      us *= 2;
+      if (++index >= sizeof(index2setting) - 1) break;
+  }
+  TCA0.SPLIT.CTRLA = index2setting[index];
+}

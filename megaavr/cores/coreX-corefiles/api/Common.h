@@ -106,6 +106,7 @@ PinStatus digitalRead(pin_size_t pinNumber);
 int analogRead(pin_size_t pinNumber);
 void analogReference(uint8_t mode);
 void analogWrite(pin_size_t pinNumber, int value);
+void analogWriteRepeat(unsigned int us);
 
 unsigned long millis(void);
 unsigned long micros(void);
