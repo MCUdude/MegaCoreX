@@ -296,18 +296,23 @@ void init()
 		#if (F_CPU == 20000000L)		
 			/* No division on clock */
 			_PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, 0x00);
-		#elif (F_CPU == 16000000L)		
+		#elif (F_CPU >= 16000000L)
 			/* No division on clock */
 			_PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, 0x00);		
-		#elif (F_CPU == 8000000L)		
+		#elif (F_CPU >= 8000000L)
 			/* Clock DIV2 */
 			_PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, (CLKCTRL_PEN_bm | CLKCTRL_PDIV_2X_gc));		
-		#elif (F_CPU == 4000000L)		
+		#elif (F_CPU >= 4000000L)
 			/* Clock DIV4 */
 			_PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, (CLKCTRL_PEN_bm | CLKCTRL_PDIV_4X_gc));
-		#elif (F_CPU == 2000000L)		
+		#elif (F_CPU >= 2000000L)
 			/* Clock DIV8 */
 			_PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, (CLKCTRL_PEN_bm | CLKCTRL_PDIV_8X_gc));
+		#elif (F_CPU >= 1000000L)
+			/* Clock DIV16 */
+			_PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, (CLKCTRL_PEN_bm | CLKCTRL_PDIV_16X_gc));
+		#else
+		#assert "This internal CPU clock is not supported"
 		#endif
 	#endif
 

@@ -33,7 +33,7 @@ void setup_timers() {
 #elif F_CPU <= 2000000L
   // Use DIV8 prescaler (giving 250kHz clock), enable TCA timer
   TCA0.SPLIT.CTRLA = (TCA_SPLIT_CLKSEL_DIV8_gc) | (TCA_SPLIT_ENABLE_bm);
-#elif F_CPU <= 4000000L
+#elif F_CPU <= 8000000L
   // Use DIV16 prescaler (giving 250kHz clock), enable TCA timer
   TCA0.SPLIT.CTRLA = (TCA_SPLIT_CLKSEL_DIV16_gc) | (TCA_SPLIT_ENABLE_bm);
 #else
