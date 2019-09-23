@@ -205,10 +205,18 @@ void analogWrite(uint8_t pin, int val)
 //
 void analogWriteFrequency(uint8_t kHz) {
   static const byte index2setting[] = {
+#if F_CPU > 8000000L
       TCA_SPLIT_ENABLE_bm | TCA_SPLIT_CLKSEL_DIV64_gc,          // ~1 kHz PWM, ~250kHz clock
+#if F_CPU > 4000000L
       TCA_SPLIT_ENABLE_bm | TCA_SPLIT_CLKSEL_DIV16_gc,          // ~2 kHz is not possible, use 4
+#if F_CPU > 2000000L
       TCA_SPLIT_ENABLE_bm | TCA_SPLIT_CLKSEL_DIV16_gc,          // ~4 kHz PWM, ~1MHz clock
+#if F_CPU > 1000000L
       TCA_SPLIT_ENABLE_bm | TCA_SPLIT_CLKSEL_DIV8_gc,           // ~8 kHz PWM, ~2MHz clock
+#endif
+#endif
+#endif
+#endif
       TCA_SPLIT_ENABLE_bm | TCA_SPLIT_CLKSEL_DIV4_gc,           // ~16 kHz PWM, ~4MHz clock
       TCA_SPLIT_ENABLE_bm | TCA_SPLIT_CLKSEL_DIV2_gc,           // ~32 kHz PWM, ~8MHz clock
       TCA_SPLIT_ENABLE_bm | TCA_SPLIT_CLKSEL_DIV1_gc            // ~64 kHz PWM, ~16MHz clock
