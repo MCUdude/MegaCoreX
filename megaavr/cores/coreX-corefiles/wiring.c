@@ -356,8 +356,14 @@ void init()
 	/* Enable TCB interrupt */
 	_timer->INTCTRL |= TCB_CAPT_bm;
 
-	/* Clock selection is F_CPU/2 -- ~8 MHz -- which is independent of TCA */
-	_timer->CTRLA = TCB_CLKSEL_CLKDIV2_gc;
+	/* Clock selection is F_CPU/N -- which is independent of TCA */
+#if TIME_TRACKING_TIMER_DIVIDER==1
+	_timer->CTRLA = TCB_CLKSEL_CLKDIV1_gc; /* F_CPU */
+#elif TIME_TRACKING_TIMER_DIVIDER==2
+	_timer->CTRLA = TCB_CLKSEL_CLKDIV2_gc; /* F_CPU/2 */
+#else
+#assert "TIME_TRACKING_TIMER_DIVIDER not supported"
+#endif
 
 	/* Enable & start */
 	_timer->CTRLA |= TCB_ENABLE_bm;	/* Keep this last before enabling interrupts to ensure tracking as accurate as possible */

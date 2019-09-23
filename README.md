@@ -168,7 +168,8 @@ PWM output, `analogWrite()`, is available for the following pins:
 | *Uno WiFi*        | 5                  | 3, 5, 6, 9, 10                     |
 
 The repeat frequency for the pulses on all PWM outputs can be changed with the new function `analogWriteFrequency(kHz)`, where
-`kHz` values of 1 (default), 4, 8, 16, 32 and 64 are supported.
+`kHz` values of 1 (default), 4, 8, 16, 32 and 64 are supported. Note that these values are very approximate. A best effort within
+the constraints of the hardware will be made to match the request.
 
 ## How to install
 #### Boards Manager Installation
