@@ -43,7 +43,7 @@ void setup_timers() {
   #if defined(TCB2)
 		    | PORTMUX_TCB2_bm // Route signal to PB4 instead of PC0
   #endif
-  // For TCB3 routing, default B5 is used, alternative is PC1
+  // For TCB3 routing, default PB5 is used, alternative is PC1
   ;
 
   // Start with TCB0
