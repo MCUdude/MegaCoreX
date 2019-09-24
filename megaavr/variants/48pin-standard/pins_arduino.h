@@ -43,7 +43,15 @@
 
 #define EXTERNAL_NUM_INTERRUPTS     (47)
 
-#define digitalPinHasPWM(p)         (((p) >= 14 && (p) <= 19) || (p) == 38 || (p) == 39)
+#if defined(MILLIS_USE_TIMERB0)
+    #define digitalPinHasPWM(p)     (((p) >= 12 && (p) <= 19) || (p) == 39)
+#elif defined(MILLIS_USE_TIMERB1)
+    #define digitalPinHasPWM(p)     (((p) >= 12 && (p) <= 19) || (p) == 38)
+#elif defined(MILLIS_USE_TIMERB2)
+    #define digitalPinHasPWM(p)     (((p) >= 13 && (p) <= 19) || (p) == 38 || (p) == 39)
+#else // default to MILLIS_USE_TIMERB3
+    #define digitalPinHasPWM(p)     ((p) == 12 || ((p) >= 14 && (p) <= 19) || (p) == 38 || (p) == 39)
+#endif
 
 // SPI 0
 // No pinswap enabled by default
