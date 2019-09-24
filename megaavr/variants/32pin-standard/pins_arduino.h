@@ -33,7 +33,7 @@
 #define digitalOrAnalogPinToDigital(p) ((p < 8) ? ((p) + ANALOG_INPUT_OFFSET) : ((p) >= 8 && (p) <= 11) ? ((p) + ANALOG_INPUT_OFFSET + 2) : (((p) >= 12 && (p) <= 19) || ((p) >= 22 && (p) <= 25)) ? (p) :  NOT_A_PIN)
 
 #if !defined(MILLIS_USE_TIMERB0) || !defined(MILLIS_USE_TIMERB1) || !defined(MILLIS_USE_TIMERB2)
-#define MILLIS_USE_TIMERB2
+#define MILLIS_USE_TIMERB2 // use TCB2
 #endif
 
 #define EXTERNAL_NUM_INTERRUPTS     (47)

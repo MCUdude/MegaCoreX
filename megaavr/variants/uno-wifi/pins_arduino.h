@@ -41,7 +41,7 @@
 #define digitalPinToAnalogInput(p)     ((p < NUM_ANALOG_INPUTS) ? (p) : (p) - ANALOG_INPUT_OFFSET)
 #define digitalOrAnalogPinToDigital(p) ((p <= 5) ? ((p) + ANALOG_INPUT_OFFSET) : ((p) >= 14 && (p) <= 19) ? (p) :  NOT_A_PIN)
 
-#define MILLIS_USE_TIMERB3 // Use timerb3 for millis generation
+#define MILLIS_USE_TIMERB3 // Use TCB3 for millis generation
 
 #define EXTERNAL_NUM_INTERRUPTS     (47)
 
@@ -341,7 +341,11 @@ const uint8_t digital_pin_to_timer[] = {
   NOT_ON_TIMER, // 24 PA4/NINA RX
   NOT_ON_TIMER, // 25 PD6/LED_BUILTIN
   NOT_ON_TIMER, // 26 PB5/USART3_Rx
+#ifdef MILLIS_USE_TIMERB2
   NOT_ON_TIMER, // 27 PB4/USART3_Tx
+#else
+  TIMERB2,      // 27 PB4/USART3_Tx/TCB2 PWM
+#endif
   NOT_ON_TIMER, // 28 PA6/NINA GPIO0
   NOT_ON_TIMER, // 29 PA7/NINA RST
   NOT_ON_TIMER, // 30 PB3/IMU CS
