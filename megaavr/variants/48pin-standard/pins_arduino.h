@@ -38,12 +38,20 @@
 #define digitalOrAnalogPinToDigital(p) ((p <= 11) ? ((p) + ANALOG_INPUT_OFFSET) : ((p) <= 15) ? ((p) + ANALOG_INPUT_OFFSET + 2) : (((p) >= 22 && (p) <= 33) || ((p) >= 36 && (p) <= 39)) ? (p) :  NOT_A_PIN)
 
 #if !defined(MILLIS_USE_TIMERB0) || !defined(MILLIS_USE_TIMERB1) || !defined(MILLIS_USE_TIMERB2) || !defined(MILLIS_USE_TIMERB3)
-#define MILLIS_USE_TIMERB3
+#define MILLIS_USE_TIMERB2 // Use TCB2 for millis generation
 #endif
 
 #define EXTERNAL_NUM_INTERRUPTS     (47)
 
-#define digitalPinHasPWM(p)         (((p) >= 14 && (p) <= 19) || (p) == 38 || (p) == 39)
+#if defined(MILLIS_USE_TIMERB0)
+    #define digitalPinHasPWM(p)     (((p) >= 12 && (p) <= 19) || (p) == 39)
+#elif defined(MILLIS_USE_TIMERB1)
+    #define digitalPinHasPWM(p)     (((p) >= 12 && (p) <= 19) || (p) == 38)
+#elif defined(MILLIS_USE_TIMERB2)
+    #define digitalPinHasPWM(p)     (((p) >= 13 && (p) <= 19) || (p) == 38 || (p) == 39)
+#else // default to MILLIS_USE_TIMERB3
+    #define digitalPinHasPWM(p)     ((p) == 12 || ((p) >= 14 && (p) <= 19) || (p) == 38 || (p) == 39)
+#endif
 
 // SPI 0
 // No pinswap enabled by default
@@ -186,8 +194,8 @@ const uint8_t digital_pin_to_port[] = {
   PB, //  9 PB1/USART3_Rx
   PB, // 10 PB2
   PB, // 11 PB3
-  PB, // 12 PB4
-  PB, // 13 PB5
+  PB, // 12 PB4/(TCB2 PWM)
+  PB, // 13 PB5/TCB3 PWM
   PC, // 14 PC0/USART1_Tx/TCA0 PWM
   PC, // 15 PC1/USART1_Rx/TCA0 PWM
   PC, // 16 PC2/TCA0 PWM
@@ -231,8 +239,8 @@ const uint8_t digital_pin_to_bit_position[] = {
   PIN1_bp, //  9 PB1/USART3_Rx
   PIN2_bp, // 10 PB2
   PIN3_bp, // 11 PB3
-  PIN4_bp, // 12 PB4
-  PIN5_bp, // 13 PB5
+  PIN4_bp, // 12 PB4/(TCB2 PWM)
+  PIN5_bp, // 13 PB5/TCB3 PWM
   PIN0_bp, // 14 PC0/USART1_Tx/TCA0 PWM
   PIN1_bp, // 15 PC1/USART1_Rx/TCA0 PWM
   PIN2_bp, // 16 PC2/TCA0 PWM
@@ -276,8 +284,8 @@ const uint8_t digital_pin_to_bit_mask[] = {
   PIN1_bm, //  9 PB1/USART3_Rx
   PIN2_bm, // 10 PB2
   PIN3_bm, // 11 PB3
-  PIN4_bm, // 12 PB4
-  PIN5_bm, // 13 PB5
+  PIN4_bm, // 12 PB4/(TCB2 PWM)
+  PIN5_bm, // 13 PB5/TCB3 PWM
   PIN0_bm, // 14 PC0/USART1_Tx/TCA0 PWM
   PIN1_bm, // 15 PC1/USART1_Rx/TCA0 PWM
   PIN2_bm, // 16 PC2/TCA0 PWM
@@ -320,8 +328,16 @@ const uint8_t digital_pin_to_timer[] = {
   NOT_ON_TIMER, //  9 PB1/USART3_Rx
   NOT_ON_TIMER, // 10 PB2
   NOT_ON_TIMER, // 11 PB3
+#ifdef MILLIS_USE_TIMERB2
   NOT_ON_TIMER, // 12 PB4
+#else
+  TIMERB2,      // 12 PB4/TCB2 PWM
+#endif
+#ifdef MILLIS_USE_TIMERB3
   NOT_ON_TIMER, // 13 PB5
+#else
+  TIMERB3,      // 13 PB5/TCB3 PWM
+#endif
   TIMERA0,      // 14 PC0/USART1_Tx/TCA0 PWM
   TIMERA0,      // 15 PC1/USART1_Rx/TCA0 PWM
   TIMERA0,      // 16 PC2/TCA0 PWM
@@ -346,8 +362,16 @@ const uint8_t digital_pin_to_timer[] = {
   NOT_ON_TIMER, // 35 PF1/USART2_Rx/TOSC2
   NOT_ON_TIMER, // 36 PF2/AIN12
   NOT_ON_TIMER, // 37 PF3/AIN13
+#ifdef MILLIS_USE_TIMERB0
+  NOT_ON_TIMER, // 38 PF4/AIN14
+#else
   TIMERB0,      // 38 PF4/AIN14/TCB0 PWM
+#endif
+#ifdef MILLIS_USE_TIMERB1
+  NOT_ON_TIMER, // 39 PF5/AIN15/LED_BUILTIN
+#else
   TIMERB1,      // 39 PF5/AIN15/TCB1 PWM/LED_BUILTIN
+#endif
   NOT_ON_TIMER  // 40 PF6 RESET
 };
 

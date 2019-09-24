@@ -197,3 +197,37 @@ void analogWrite(uint8_t pin, int val)
 		}
 	}
 }
+
+// Set PWM repeat frequency for all PWM outputs with
+// hardware support.
+// The argument is the desired frequency in kHz. A
+// best effort will be made to find something that matches.
+//
+void analogWriteFrequency(uint8_t kHz) {
+  static const byte index2setting[] = {
+#if F_CPU > 1000000L
+#if F_CPU > 2000000L
+#if F_CPU > 4000000L
+#if F_CPU > 8000000L
+      TCA_SPLIT_ENABLE_bm | TCA_SPLIT_CLKSEL_DIV64_gc,          // ~1 kHz PWM, ~250kHz clock
+#endif
+      TCA_SPLIT_ENABLE_bm | TCA_SPLIT_CLKSEL_DIV16_gc,          // ~2 kHz is not possible, use 4
+#endif
+      TCA_SPLIT_ENABLE_bm | TCA_SPLIT_CLKSEL_DIV16_gc,          // ~4 kHz PWM, ~1MHz clock
+#endif
+      TCA_SPLIT_ENABLE_bm | TCA_SPLIT_CLKSEL_DIV8_gc,           // ~8 kHz PWM, ~2MHz clock
+#endif
+      TCA_SPLIT_ENABLE_bm | TCA_SPLIT_CLKSEL_DIV4_gc,           // ~16 kHz PWM, ~4MHz clock
+      TCA_SPLIT_ENABLE_bm | TCA_SPLIT_CLKSEL_DIV2_gc,           // ~32 kHz PWM, ~8MHz clock
+      TCA_SPLIT_ENABLE_bm | TCA_SPLIT_CLKSEL_DIV1_gc            // ~64 kHz PWM, ~16MHz clock
+  };
+  uint8_t index = 0;
+
+  while (kHz > 1) { // find approximate match
+      kHz >>= 1;
+      if (++index >= sizeof(index2setting) - 1) break;
+  }
+  TCA0.SPLIT.CTRLA = index2setting[index];
+
+  // note that this setting also influences Tone.cpp
+}

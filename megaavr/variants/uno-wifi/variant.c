@@ -27,8 +27,19 @@ void setup_timers() {
   TCA0.SPLIT.HCMP1 =
   TCA0.SPLIT.HCMP2 = PWM_TIMER_COMPARE;
 
+#if F_CPU <= 1000000L
+  // Use DIV4 prescaler (giving 250kHz clock), enable TCA timer
+  TCA0.SPLIT.CTRLA = (TCA_SPLIT_CLKSEL_DIV4_gc) | (TCA_SPLIT_ENABLE_bm);
+#elif F_CPU <= 2000000L
+  // Use DIV8 prescaler (giving 250kHz clock), enable TCA timer
+  TCA0.SPLIT.CTRLA = (TCA_SPLIT_CLKSEL_DIV8_gc) | (TCA_SPLIT_ENABLE_bm);
+#elif F_CPU <= 8000000L
+  // Use DIV16 prescaler (giving 250kHz clock), enable TCA timer
+  TCA0.SPLIT.CTRLA = (TCA_SPLIT_CLKSEL_DIV16_gc) | (TCA_SPLIT_ENABLE_bm);
+#else
   // Use DIV64 prescaler (giving 250kHz clock), enable TCA timer
   TCA0.SPLIT.CTRLA = (TCA_SPLIT_CLKSEL_DIV64_gc) | (TCA_SPLIT_ENABLE_bm);
+#endif
 
   //  TYPE B TIMERS 
   

@@ -44,17 +44,17 @@
 */
 #define AVAILABLE_TONE_PINS 1    
 
-#define USE_TIMERB1        // interferes with PWM on pin 3
+#define USE_TIMERB1        // interferes with TCB1 PWM
 /*
-#define USE_TIMERB2        // interferes with PWM on pin 11
-#define USE_TIMERB0        // interferes with PWM on pin 6
+#define USE_TIMERB2        // interferes with TCB2 PWM, and timer in many configurations
+#define USE_TIMERB0        // interferes with TCB0 PWM
 */
-#if !defined(USE_TIMERB1) && !defined(USE_TIMERB2) && !defined(USE_TIMERB0)
+#if !defined(USE_TIMERB0) && !defined(USE_TIMERB1) && !defined(USE_TIMERB2) && !defined(USE_TIMERB3)
     # error "No timers allowed for tone()"
     /* Please uncomment a timer above and rebuild */
 #endif
 
-// Can't use TIMERB3 -- used for application time tracking 
+// Can't use timer assigned for application time tracking (usually TIMERB2 or TIMERB3)
 // Using TIMERA0 NOT RECOMMENDED -- all other timers use its clock!
 static volatile TCB_t* _timer =
 #if defined(USE_TIMERB0)
@@ -65,6 +65,9 @@ static volatile TCB_t* _timer =
 #endif
 #if defined(USE_TIMERB2)
 &TCB2;
+#endif
+#if defined(USE_TIMERB3)
+&TCB3;
 #endif
 
 static int _pin = NOT_A_PIN;
@@ -80,6 +83,7 @@ volatile uint8_t timer_bit_mask;
 
 // helper functions
 static void disableTimer();
+static byte timerPrescaler();
 
 // frequency (in hertz) and duration (in milliseconds).
 void tone(uint8_t pin, unsigned int frequency, unsigned long duration)
@@ -102,14 +106,15 @@ void tone(uint8_t pin, unsigned int frequency, unsigned long duration)
         frequency = 1;
     }
 
-    // Calculate compare value
-    compare_val = F_CPU_CORRECTED / frequency / 2 - 1;
+    // Calculate compare value, assuming F_CPU/2 used as clock
+    compare_val = F_CPU_CORRECTED / frequency / 4 - 1;
     // If compare larger than 16bits, need to prescale (will be DIV64)
-    uint8_t prescaler_needed = 0;
+    uint8_t prescaler = 0;
     if (compare_val > 0xFFFF){
-        // recalculate with new prescaler
-        compare_val = F_CPU_CORRECTED / frequency / 2 / 64 - 1;
-        prescaler_needed = 1;
+	// recalculate with new prescaler
+	prescaler = timerPrescaler();
+	compare_val = F_CPU_CORRECTED / frequency / 2 / prescaler - 1;
+	if (compare_val > 0xFFFF) compare_val = 0xFFFF; // request lower frequency than supported
     }
 
     // Calculate the toggle count
@@ -123,14 +128,15 @@ void tone(uint8_t pin, unsigned int frequency, unsigned long duration)
     uint8_t status = SREG;
     cli();
 
-    // Disable for now, set clk according to 'prescaler_needed'
+    // Disable for now, set clk according to whether 'prescaler' is zero
     // (Prescaled clock will come from TCA --
     //  by default it should have a prescaler of 64 (250kHz clock)
+    //  but this may have changed with analogWriteFrequency()
     // TCA default initialization is in wiring.c -- init()  )
-    if(prescaler_needed){
+    if(prescaler != 0){
         _timer->CTRLA = TCB_CLKSEL_CLKTCA_gc;
     } else {
-        _timer->CTRLA = TCB_CLKSEL_CLKDIV1_gc;
+	_timer->CTRLA = TCB_CLKSEL_CLKDIV2_gc;
     }
 
     // Timer to Periodic interrupt mode
@@ -163,6 +169,27 @@ void noTone(uint8_t pin)
         digitalWrite(_pin, LOW);
         _pin = NOT_A_PIN;
     }
+}
+
+// helper function for noTone()
+// find which timer prescaler is currently used
+static byte timerPrescaler()
+{
+    byte clksel = (TCA0.SPLIT.CTRLA & TCA_SPLIT_CLKSEL_gm) >> TCA_SPLIT_CLKSEL_gp;
+
+    // the next five lines may have been a #if, 
+    // but alas the C preprocessor does not understand enums
+    // they should produce no real code, though
+    if ((TCA_SPLIT_CLKSEL_DIV1_gc>>TCA_SPLIT_CLKSEL_gp) == 0
+     && (TCA_SPLIT_CLKSEL_DIV2_gc>>TCA_SPLIT_CLKSEL_gp) == 1
+     && (TCA_SPLIT_CLKSEL_DIV4_gc>>TCA_SPLIT_CLKSEL_gp) == 2
+     && (TCA_SPLIT_CLKSEL_DIV8_gc>>TCA_SPLIT_CLKSEL_gp) == 3
+     && (TCA_SPLIT_CLKSEL_DIV16_gc>>TCA_SPLIT_CLKSEL_gp) == 4
+     && clksel <= (TCA_SPLIT_CLKSEL_DIV16_gc>>TCA_SPLIT_CLKSEL_gp)) {
+	// non-standard TCA clock selection is used
+	return 1 << clksel;
+    }
+    return 64;
 }
 
 // helper function for noTone()

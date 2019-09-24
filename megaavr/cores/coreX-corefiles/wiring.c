@@ -1,5 +1,5 @@
 /*
-  wiring.c - Partial implementation of the Wiring API for the ATmega8.
+  wiring.c
   Part of Arduino - http://www.arduino.cc/
 
   Copyright (c) 2005-2006 David A. Mellis
@@ -18,29 +18,20 @@
   Public License along with this library; if not, write to the
   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
   Boston, MA  02111-1307  USA
+
+  Substantially rewritten by Egil Kvaleberg, 23 Sep 2019, to
+  use a dedicated 16 bit TSB timer for all timing purposes. This
+  cleans up a lot of things, and makes the code much simpler and
+  faster. The TCB timers have limitations making it impossible to
+  use the same timer for both PWM and timing, so this is no loss.
+
 */
 
 #include "wiring_private.h"
 
-// the prescaler is set so that timer ticks every 64 clock cycles, and the
-// the overflow handler is called every 256 ticks.
-volatile uint16_t microseconds_per_timer_overflow;
-volatile uint16_t microseconds_per_timer_tick;
-
 uint32_t F_CPU_CORRECTED = F_CPU;
 
-// the whole number of milliseconds per timer overflow
-uint16_t millis_inc;
-
-// the fractional number of milliseconds per timer overflow
-uint16_t fract_inc;
-#define FRACT_MAX (1000)
-
-// whole number of microseconds per timer tick
-
-volatile uint32_t timer_overflow_count = 0;
 volatile uint32_t timer_millis = 0;
-static uint16_t timer_fract = 0;
 
 inline uint16_t clockCyclesPerMicrosecondComp(uint32_t clk){
 	return ( (clk) / 1000000L );
@@ -65,10 +56,8 @@ static volatile TCB_t* _timer =
 	&TCB1;
 #elif defined(MILLIS_USE_TIMERB2)
 	&TCB2;
-#elif defined(MILLIS_USE_TIMERB3)
-	&TCB3;
-#else
-	&TCB0; //TCB0 fallback
+#else // fallback or defined(MILLIS_USE_TIMERB3)
+	&TCB3; //TCB3 fallback
 #endif
 
 #if defined(MILLIS_USE_TIMERB0)
@@ -77,27 +66,11 @@ static volatile TCB_t* _timer =
 	ISR(TCB1_INT_vect)
 #elif defined(MILLIS_USE_TIMERB2)
 	ISR(TCB2_INT_vect)
-#elif defined(MILLIS_USE_TIMERB3)
+#else // fallback or defined(MILLIS_USE_TIMERB3)
 	ISR(TCB3_INT_vect)
-#else //TCB0 fallback
-	ISR(TCB0_INT_vect)
 #endif
 {
-	// copy these to local variables so they can be stored in registers
-	// (volatile variables must be read from memory on every access)
-	uint32_t m = timer_millis;
-	uint16_t f = timer_fract;
-
-	m += millis_inc;
-	f += fract_inc;
-	if (f >= FRACT_MAX) {
-		f -= FRACT_MAX;
-		m++;
-	}
-
-	timer_fract = f;
-	timer_millis = m;
-	timer_overflow_count++;
+	timer_millis++;
 
 	/* Clear flag */
 	_timer->INTFLAGS = TCB_CAPT_bm;
@@ -108,9 +81,10 @@ unsigned long millis()
 	unsigned long m;
 
 	// disable interrupts while we read timer0_millis or we might get an
-	// inconsistent value (e.g. in the middle of a write to timer0_millis)
+	// inconsistent value (e.g. in the middle of a write to timer_millis)
 	uint8_t status = SREG;
 	cli();
+
 	m = timer_millis;
 
 	SREG = status;
@@ -120,44 +94,27 @@ unsigned long millis()
 
 unsigned long  micros() {
 	uint32_t m;
-	uint8_t t;
+	uint16_t t;
 
 	/* Save current state and disable interrupts */
 	uint8_t status = SREG;
 	cli();
 
-	/* Get current number of overflows and timer count */
-	m = timer_overflow_count;
-	t = _timer->CNTL;
+	/* Get current number of millis (i.e. overflows) and timer count */
+	m = timer_millis;
+	t = _timer->CNT;
 
 	/* If the timer overflow flag is raised, we just missed it,
 	increment to account for it, & read new ticks */
 	if(_timer->INTFLAGS & TCB_CAPT_bm){
 		m++;
-		t = _timer->CNTL;
+		t = _timer->CNT;
 	}
 
 	// Restore SREG
 	SREG = status;
 
-#if F_CPU >= 24000000L && F_CPU < 32000000L
-	// m needs to be multiplied by 682.67
-	// and t by 2.67
-	m = (m << 8) + t;
-	return (m << 1) + (m >> 1) + (m >> 3) + (m >> 4); // Multiply by 2.6875
-#elif F_CPU == 20000000L
-	// m needs to be multiplied by 819.2
-	// t needs to be multiplied by 3.2
-	m = (m << 8) + t;
-	return m + (m << 1) + (m >> 2) - (m >> 4); // Multiply by 3.1875
-#elif F_CPU == 12000000L
-	// m needs to be multiplied by 1365.33
-	// and t by 5.33
-	m = (m << 8) + t;
-	return m + (m << 2) + (m >> 2) + (m >> 3) - (m >> 4) + (m >> 5); // Multiply by 5.3437
-#else // 16 MHz, 8 MHz, 4 MHz, 2 MHz, 1 MHz
-	return ((m << 8) + t) * (64 / clockCyclesPerMicrosecond());
-#endif
+	return (m * 1000L) + (t / (TIME_TRACKING_TIMER_COUNT / 1000));
 }
 
 void delay(unsigned long ms)
@@ -178,6 +135,7 @@ void delay(unsigned long ms)
 }
 
 /* Delay for the given number of microseconds.  Assumes a 1, 8, 12, 16, 20 or 24 MHz clock. */
+// BUG: should really be implemented using _timer instead!!!!!!!!!!
 void delayMicroseconds(unsigned int us)
 {
 	// call = 4 cycles + 2 to 4 cycles to init us(2 for constant delay, 4 for variable)
@@ -338,18 +296,23 @@ void init()
 		#if (F_CPU == 20000000L)		
 			/* No division on clock */
 			_PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, 0x00);
-		#elif (F_CPU == 16000000L)		
+		#elif (F_CPU >= 16000000L)
 			/* No division on clock */
 			_PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, 0x00);		
-		#elif (F_CPU == 8000000L)		
+		#elif (F_CPU >= 8000000L)
 			/* Clock DIV2 */
 			_PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, (CLKCTRL_PEN_bm | CLKCTRL_PDIV_2X_gc));		
-		#elif (F_CPU == 4000000L)		
+		#elif (F_CPU >= 4000000L)
 			/* Clock DIV4 */
 			_PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, (CLKCTRL_PEN_bm | CLKCTRL_PDIV_4X_gc));
-		#elif (F_CPU == 2000000L)		
+		#elif (F_CPU >= 2000000L)
 			/* Clock DIV8 */
 			_PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, (CLKCTRL_PEN_bm | CLKCTRL_PDIV_8X_gc));
+		#elif (F_CPU >= 1000000L)
+			/* Clock DIV16 */
+			_PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, (CLKCTRL_PEN_bm | CLKCTRL_PDIV_16X_gc));
+		#else
+		#assert "This internal CPU clock is not supported"
 		#endif
 	#endif
 
@@ -387,22 +350,25 @@ void init()
 
 	/********************* TCB for system time tracking **************************/
 
-	/* Calculate relevant time tracking values */
-	microseconds_per_timer_overflow = clockCyclesToMicroseconds(TIME_TRACKING_CYCLES_PER_OVF);
-	microseconds_per_timer_tick = microseconds_per_timer_overflow/TIME_TRACKING_TIMER_PERIOD;
+	// BUG: we can compensate for F_CPU_CORRECTED by fine tuning value of TIME_TRACKING_TIMER_COUNT
 
-	millis_inc = microseconds_per_timer_overflow / 1000;
-	fract_inc = ((microseconds_per_timer_overflow % 1000));
+	/* Select vanilla 16 bit periodic interrupt mode */
+	_timer->CTRLB = TCB_CNTMODE_INT_gc;
 
-	/* Default Periodic Interrupt Mode */
-	/* TOP value for overflow every 1024 clock cycles */
-	_timer->CCMP = TIME_TRACKING_TIMER_PERIOD;
+	/* TOP value for overflow every N clock cycles */
+	_timer->CCMP = TIME_TRACKING_TIMER_COUNT - 1;
 
 	/* Enable TCB interrupt */
 	_timer->INTCTRL |= TCB_CAPT_bm;
 
-	/* Clock selection -> same as TCA (F_CPU/64 -- 250kHz) */
-	_timer->CTRLA = TCB_CLKSEL_CLKTCA_gc;
+	/* Clock selection is F_CPU/N -- which is independent of TCA */
+#if TIME_TRACKING_TIMER_DIVIDER==1
+	_timer->CTRLA = TCB_CLKSEL_CLKDIV1_gc; /* F_CPU */
+#elif TIME_TRACKING_TIMER_DIVIDER==2
+	_timer->CTRLA = TCB_CLKSEL_CLKDIV2_gc; /* F_CPU/2 */
+#else
+#assert "TIME_TRACKING_TIMER_DIVIDER not supported"
+#endif
 
 	/* Enable & start */
 	_timer->CTRLA |= TCB_ENABLE_bm;	/* Keep this last before enabling interrupts to ensure tracking as accurate as possible */

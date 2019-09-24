@@ -112,13 +112,18 @@ Please have a look at the pins_arduino.h files for detailed info.<br/> <br/>
 ## PWM output
 PWM output, `analogWrite()`, is available for the following pins:
 
-| Pinout            | Number of PWM pins | Available PWM pins             |
-|-------------------|--------------------|--------------------------------|
-| *28 pin standard* | 4                  | 8, 9, 10, 11                   |
-| *32 pin standard* | 6                  | 8, 9, 10, 11, 24, 25           |
-| *48 pin standard* | 8                  | 14, 15, 16, 17, 18, 19, 38, 39 |
-| *Uno WiFi*        | 5                  | 3, 5, 6, 9, 10                 |
+| Pinout            | Number of PWM pins | Available PWM pins                 |
+|-------------------|--------------------|------------------------------------|
+| *28 pin standard* | 4                  | 8, 9, 10, 11                       |
+| *32 pin standard* | 6                  | 8, 9, 10, 11, 24, 25               |
+| *48 pin standard* | 9                  | 13, 14, 15, 16, 17, 18, 19, 38, 39 |
+| *Uno WiFi*        | 6                  | 3, 5, 6, 9, 10, 27                 |
 
+The repeat frequency for the pulses on all PWM outputs can be changed with the new function `analogWriteFrequency(kHz)`, where
+`kHz` values of 1 (default), 4, 8, 16, 32 and 64 are supported. Note that these values are very approximate. A best effort within
+the constraints of the hardware will be made to match the request.
+
+Note also that tone() will use TCB1 so the corresponding PWM output is not available if it is used.
 
 ## How to install
 #### Boards Manager Installation

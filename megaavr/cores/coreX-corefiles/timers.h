@@ -1,10 +1,9 @@
 #ifndef __TIMERS_H__
 #define __TIMERS_H__
 
-#define TIME_TRACKING_TIMER_PERIOD    0xFF
-#define TIME_TRACKING_TICKS_PER_OVF   (TIME_TRACKING_TIMER_PERIOD + 1)  // Timer ticks per overflow of TCB3
-#define TIME_TRACKING_TIMER_DIVIDER   64    // Clock divider for TCB0
-#define TIME_TRACKING_CYCLES_PER_OVF  (TIME_TRACKING_TICKS_PER_OVF * TIME_TRACKING_TIMER_DIVIDER)
+// The assumption is that we have a 16 bit timer fully available for timing purposes.
+#define TIME_TRACKING_TIMER_DIVIDER   1     // Timer F_CPU Clock divider (can be 1 or 2)
+#define TIME_TRACKING_TIMER_COUNT     (F_CPU/(1000*TIME_TRACKING_TIMER_DIVIDER)) // Should correspond to exactly 1 ms, i.e. millis()
 
 #define PWM_TIMER_PERIOD   0xFF  // For frequency
 #define PWM_TIMER_COMPARE  0x80  // For duty cycle
