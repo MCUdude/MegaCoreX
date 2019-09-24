@@ -123,6 +123,8 @@ The repeat frequency for the pulses on all PWM outputs can be changed with the n
 `kHz` values of 1 (default), 4, 8, 16, 32 and 64 are supported. Note that these values are very approximate. A best effort within
 the constraints of the hardware will be made to match the request.
 
+Note also that tone() will use TCB1 so the corresponding PWM output is not available if it is used.
+
 ## How to install
 #### Boards Manager Installation
 *Not yet implemented*
