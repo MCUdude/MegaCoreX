@@ -228,4 +228,6 @@ void analogWriteFrequency(uint8_t kHz) {
       if (++index >= sizeof(index2setting) - 1) break;
   }
   TCA0.SPLIT.CTRLA = index2setting[index];
+
+  // note that this setting also influences Tone.cpp
 }
