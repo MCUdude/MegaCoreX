@@ -85,6 +85,8 @@
 class HardwareSerial : public Stream
 {
   public:
+    virtual bool pins(uint8_t tx, uint8_t rx) = 0;
+    virtual bool swap(uint8_t state) = 0;
     virtual void begin(unsigned long) = 0;
     virtual void begin(unsigned long baudrate, uint16_t config) = 0;
     virtual void end() = 0;

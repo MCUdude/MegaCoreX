@@ -17,6 +17,7 @@ An Arduino core for the new megaAVR series!
 * [Reset pin](#reset-pin)
 * [Pinout](#pinout)
 * [PWM output](#pwm-output)
+* [Alternative pins](#alternative-pins)
 * [How to install](#how-to-install)
   - [Boards Manager Installation](#boards-manager-installation)
   - [Manual Installation](#manual-installation)
@@ -120,6 +121,53 @@ The repeat frequency for the pulses on all PWM outputs can be changed with the n
 the constraints of the hardware will be made to match the request.
 
 Note also that tone() will use TCB1, so the corresponding PWM output is not available if it is used.
+
+
+## Alternative pins
+The megaAVR-0 microcontrollers support alternative pin assignments for some of its built in peripherals.
+This is specified by invoking the `swap()` or `pins()` method before `begin()` for the associated peripheral.
+The `swap()` or `pins()` method will return `true` if that swap or pin combination is supported.
+For `Serial` peripherals the method is `pins(tx,rx)`.
+(Note that this is the same pin sequence as used for the ESP8266 `pins` method, but the opposite of the one SoftwareSerial uses.)
+
+Note that `swap()` and `pins()` does the exact same thing, but `swap()` is MUX position oriented, while `pins()` is pin oriented.
+
+If you want to use this feature to implement communication with two different external devices connected to different pins using one internal peripheral.
+Note that the proper way to switch is first to invoke `end()` to cleanly shut down, then `swap()` or `pins()` to switch assigned pins, and finally `begin()` to cleanly start again.
+
+`swap()` or `pins()` are called like this. **Use either `swap()` or `pins()`, not both!**
+
+``` c++
+// UART pin swapping
+Serial3.swap(1);
+Serial3.begin(9600);
+```
+
+Available pin combinations for the *48 pin standard* pinout are:
+
+| Peripheral | Default                       | Alternative                  |
+|------------|-------------------------------|------------------------------|
+| `Serial`   | `swap(0)` <br/> `pins(0,1)`   | `swap(1)` <br/>`pins(4,5)`   |
+| `Serial1`  | `swap(0)` <br/> `pins(12,13)` | `swap(1)` <br/>`pins(14,15)` |
+| `Serial2`  | `swap(0)` <br/> `pins(32,35)` | `swap(1)` <br/>`pins(38,39)` |
+| `Serial3`  | `swap(0)` <br/> `pins(8,9)`   | `swap(1)` <br/>`pins(12,13)` |
+
+Available pin combinations for the *28 pin* and *32 pin standard* pinouts are:
+
+| Peripheral | Default                       | Alternative                  |
+|------------|-------------------------------|------------------------------|
+| `Serial`   | `swap(0)` <br/> `pins(0,1)`   | `swap(1)` <br/>`pins(4,5)`   |
+| `Serial1`  | `swap(0)` <br/> `pins(8,9)`   | [No swap available]          |
+| `Serial2`  | `swap(0)` <br/> `pins(20,21)` | `swap(1)` <br/>`pins(24,25)` |
+
+Available pin combinations for the *Uno WiFi* pinout are:
+
+| Peripheral | Default                      | Alternative                  |
+|------------|------------------------------|------------------------------|
+| `Serial`   | `swap(0)` <br/>`pins(27,26)` | `swap(1)` <br/>`pins(9,10)`  |
+| `Serial1`  | `swap(0)` <br/>`pins(1,0)`   | `swap(1)` <br/>`pins(32,33)` |
+| `Serial2`  | `swap(0)` <br/>`pins(24,23)` | `swap(1)` <br/>`pins(2,7)`   |
+
 
 ## How to install
 #### Boards Manager Installation

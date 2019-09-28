@@ -138,6 +138,38 @@ void UartClass::_poll_tx_data_empty(void)
 
 // Public Methods //////////////////////////////////////////////////////////////
 
+// Invoke this function before 'begin' to define the pins used
+bool UartClass::pins(uint8_t tx, uint8_t rx)
+{
+  for (_pin_set = 0; _pin_set < SERIAL_PIN_SETS; ++_pin_set) {
+    if (tx == _hw_set[_pin_set].tx_pin && rx == _hw_set[_pin_set].rx_pin) {
+      // We are good, this set of pins is supported
+ 	    return true;
+ 	  }
+  }
+  _pin_set = 0; // Default to standard
+  return false;
+}
+
+bool UartClass::swap(uint8_t state)
+{
+  if(state == 1) // Use alternative pin position
+  {
+    _pin_set = state;
+    return true;
+  }
+  else if(state == 0) // Use default pin position
+  {
+    _pin_set = 0;
+    return true;
+  }
+  else  // Invalid swap value. Use default position
+  {
+    _pin_set = 0;
+    return false;
+  }
+}
+
 void UartClass::begin(unsigned long baud, uint16_t config)
 {
     // Make sure no transmissions are ongoing and USART is disabled in case begin() is called by accident
@@ -146,8 +178,7 @@ void UartClass::begin(unsigned long baud, uint16_t config)
         this->end();
     }
 
-    // Setup default port mux
-    PORTMUX.USARTROUTEA |= _uart_mux;
+    struct UartPinSet *set = &_hw_set[_pin_set];
 
     int32_t baud_setting = 0;
 
@@ -186,52 +217,17 @@ void UartClass::begin(unsigned long baud, uint16_t config)
 
     (*_hwserial_module).CTRLA |= USART_RXCIE_bm;
 
-    //Set up the rx pin
-    pinMode(_hwserial_rx_pin, INPUT_PULLUP);
 
-    //Set up the tx pin
-    digitalWrite(_hwserial_tx_pin, HIGH);
-    pinMode(_hwserial_tx_pin, OUTPUT);
+    // Let PORTMUX point to alternative UART pins as requested
+    PORTMUX.USARTROUTEA = set->mux | (PORTMUX.USARTROUTEA & ~_hw_set[1].mux);
+
+    // Set pin state for swapped UART pins
+    pinMode(set->rx_pin, INPUT_PULLUP);
+    digitalWrite(set->tx_pin, HIGH);
+    pinMode(set->tx_pin, OUTPUT);
 
     // Restore SREG content
     SREG = oldSREG;
-}
-
-void UartClass::swap(uint8_t shouldSwap)
-{
-  if(shouldSwap == true)
-  {
-    // Let PORTMUX pont to alternative UART pins
-    if(_uart_mux_swap > 0)
-      PORTMUX.USARTROUTEA |= _uart_mux;
-    else
-      PORTMUX.USARTROUTEA &= ~_uart_mux;
-      
-    // Set pin state for alternative UART pins
-    pinMode(_hwserial_rx_pin_swap, INPUT_PULLUP);
-    digitalWrite(_hwserial_tx_pin_swap, HIGH);
-    pinMode(_hwserial_tx_pin_swap, OUTPUT);
-    
-    // Set previous pins to high Z
-    pinMode(_hwserial_rx_pin, INPUT);
-    pinMode(_hwserial_tx_pin, INPUT);
-  }
-  else //if(shouldSwap == false)
-  {
-    if(_uart_mux > 0)
-      PORTMUX.USARTROUTEA |= _uart_mux;
-    else
-      PORTMUX.USARTROUTEA &= ~_uart_mux;
-      
-    // Set pin state for default UART pins
-    pinMode(_hwserial_rx_pin, INPUT_PULLUP);
-    digitalWrite(_hwserial_tx_pin, HIGH);
-    pinMode(_hwserial_tx_pin, OUTPUT);
-    
-    // Set previous pins to high Z
-    pinMode(_hwserial_rx_pin_swap, INPUT);
-    pinMode(_hwserial_tx_pin_swap, INPUT);
-  }
 }
 
 void UartClass::end()
@@ -247,6 +243,7 @@ void UartClass::end()
     // clear any received data
     _rx_buffer_head = _rx_buffer_tail;
 
+    // Note: Does not change output pins
     _written = false;
 }
 

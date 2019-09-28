@@ -75,12 +75,12 @@ static const uint8_t SCL = PIN_WIRE_SCL;
 #define HWSERIAL1_RXC_VECTOR            (USART1_RXC_vect)
 #define HWSERIAL1_MUX                   (PORTMUX_USART1_ALT1_gc)
 #define HWSERIAL1_MUX_PINSWAP_1         (PORTMUX_USART1_DEFAULT_gc)
-#define PIN_WIRE_HWSERIAL1_RX           (0)
 #define PIN_WIRE_HWSERIAL1_TX           (1)
-#define PIN_WIRE_HWSERIAL1_RX_PINSWAP_1 (33)
+#define PIN_WIRE_HWSERIAL1_RX           (0)
 #define PIN_WIRE_HWSERIAL1_TX_PINSWAP_1 (32)
+#define PIN_WIRE_HWSERIAL1_RX_PINSWAP_1 (33)
 
-// Uno2 Debug USART (not available on headers, only via the EDGB virtual COM port)
+// Uno2 Debug USART (not available on headers, only via the mEDGB virtual COM port)
 // USART3 on mega4809 (alternative pins)
 // Mapped to HWSERIAL1 in Serial library
 #define HWSERIAL0                       (&USART3)
@@ -89,10 +89,10 @@ static const uint8_t SCL = PIN_WIRE_SCL;
 #define HWSERIAL0_RXC_VECTOR            (USART3_RXC_vect)
 #define HWSERIAL0_MUX                   (PORTMUX_USART3_ALT1_gc)
 #define HWSERIAL0_MUX_PINSWAP_1         (PORTMUX_USART3_DEFAULT_gc)
-#define PIN_WIRE_HWSERIAL0_RX           (26)
 #define PIN_WIRE_HWSERIAL0_TX           (27)
-#define PIN_WIRE_HWSERIAL0_RX_PINSWAP_1 (10)
+#define PIN_WIRE_HWSERIAL0_RX           (26)
 #define PIN_WIRE_HWSERIAL0_TX_PINSWAP_1 (9)
+#define PIN_WIRE_HWSERIAL0_RX_PINSWAP_1 (10)
 
 // Uno2 Spare USART available on testpoints
 // USART0 on mega4809 (alternative pins)
@@ -103,10 +103,10 @@ static const uint8_t SCL = PIN_WIRE_SCL;
 #define HWSERIAL2_RXC_VECTOR            (USART0_RXC_vect)
 #define HWSERIAL2_MUX                   (PORTMUX_USART0_ALT1_gc)
 #define HWSERIAL2_MUX_PINSWAP_1         (PORTMUX_USART0_DEFAULT_gc)
-#define PIN_WIRE_HWSERIAL2_RX           (23)
 #define PIN_WIRE_HWSERIAL2_TX           (24)
-#define PIN_WIRE_HWSERIAL2_RX_PINSWAP_1 (7)
+#define PIN_WIRE_HWSERIAL2_RX           (23)
 #define PIN_WIRE_HWSERIAL2_TX_PINSWAP_1 (2)
+#define PIN_WIRE_HWSERIAL2_RX_PINSWAP_1 (7)
 
 #define HWSERIAL3_MUX         (PORTMUX_USART2_NONE_gc)
 #define TWI_MUX               (PORTMUX_TWI0_DEFAULT_gc) //PORTMUX_TWI0_ALT1_gc
