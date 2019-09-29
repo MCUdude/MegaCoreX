@@ -64,11 +64,19 @@ void TWI_MasterInit(uint32_t frequency)
 {
 	if(twi_mode != TWI_MODE_UNKNOWN) return;
 	
-	// Enable pullups just in case, should have external ones though
-	//pinMode(PIN_WIRE_SDA, INPUT_PULLUP);
-	//pinMode(PIN_WIRE_SCL, INPUT_PULLUP);
-
-	PORTMUX.TWISPIROUTEA |= TWI_MUX;
+	// Enable input pullup for the default or pin swapped pin position
+	if((PORTMUX.TWISPIROUTEA & 0x30) == TWI_MUX)
+	{
+	  pinMode(PIN_WIRE_SDA, INPUT_PULLUP);
+	  pinMode(PIN_WIRE_SCL, INPUT_PULLUP);
+	}
+#if defined(PIN_WIRE_SDA_PINSWAP_1) && defined(PIN_WIRE_SCL_PINSWAP_1)
+	else if((PORTMUX.TWISPIROUTEA & 0x30) == TWI_MUX_PINSWAP)
+	{
+	  pinMode(PIN_WIRE_SDA_PINSWAP_1, INPUT_PULLUP);
+	  pinMode(PIN_WIRE_SCL_PINSWAP_1, INPUT_PULLUP);
+	}
+#endif
 
 	twi_mode = TWI_MODE_MASTER;
 	

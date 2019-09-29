@@ -54,6 +54,60 @@ TwoWire::TwoWire()
 
 // Public Methods //////////////////////////////////////////////////////////////
 
+// Special for megaAVR 0-series: Select which pins to use for I2C interface
+// True if pin specification actually exists
+// Note that we do not currently support the dual TWI mode
+bool TwoWire::pins(uint8_t sda_pin, uint8_t scl_pin)
+{
+#if defined(PIN_WIRE_SDA_PINSWAP_1) && defined(PIN_WIRE_SCL_PINSWAP_1)
+  if (sda_pin == PIN_WIRE_SDA_PINSWAP_1 && scl_pin == PIN_WIRE_SCL_PINSWAP_1)
+  {
+    // Use pin swap
+    PORTMUX.TWISPIROUTEA = TWI_MUX_PINSWAP | (PORTMUX.TWISPIROUTEA & ~(3<<4));
+    return true;
+  }
+  else if(sda_pin == PIN_WIRE_SDA && scl_pin == PIN_WIRE_SCL)
+  {
+    // Use default configuration
+    PORTMUX.TWISPIROUTEA = TWI_MUX | (PORTMUX.TWISPIROUTEA & ~(3<<4));
+    return true;
+  }
+  else
+  {
+    // Assume default configuration
+    PORTMUX.TWISPIROUTEA = TWI_MUX | (PORTMUX.TWISPIROUTEA & ~(3<<4));
+    return false;
+  }
+
+
+#endif
+}
+
+bool TwoWire::swap(uint8_t state)
+{
+#if defined(PIN_WIRE_SDA_PINSWAP_1) && defined(PIN_WIRE_SCL_PINSWAP_1)
+  if(state == 1)
+  {
+    // Use pin swap
+    PORTMUX.TWISPIROUTEA = TWI_MUX_PINSWAP | (PORTMUX.TWISPIROUTEA & ~(3<<4));
+    return true;
+  }
+  else if(state == 0)
+  {
+    // Use default configuration
+    PORTMUX.TWISPIROUTEA = TWI_MUX | (PORTMUX.TWISPIROUTEA & ~(3<<4));
+    return true;
+  }
+  else
+  {
+    // Assume default configuration
+    PORTMUX.TWISPIROUTEA = TWI_MUX | (PORTMUX.TWISPIROUTEA & ~(3<<4));
+    return true;
+  }
+#endif
+  return false;
+}
+
 void TwoWire::begin(void)
 {
 	rxBufferIndex = 0;
@@ -77,7 +131,6 @@ void TwoWire::begin(uint8_t address)
 	
 	TWI_attachSlaveTxEvent(onRequestService, txBuffer); // default callback must exist
 	TWI_attachSlaveRxEvent(onReceiveService, rxBuffer, BUFFER_LENGTH); // default callback must exist
-	
 }
 
 void TwoWire::begin(int address)

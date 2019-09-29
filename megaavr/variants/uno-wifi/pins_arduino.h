@@ -60,9 +60,9 @@ static const uint8_t MOSI = PIN_SPI_MOSI;
 static const uint8_t MISO = PIN_SPI_MISO;
 static const uint8_t SCK  = PIN_SPI_SCK;
 
+// No pinswap available
 #define PIN_WIRE_SDA         (20)
 #define PIN_WIRE_SCL         (21)
-
 static const uint8_t SDA = PIN_WIRE_SDA;
 static const uint8_t SCL = PIN_WIRE_SCL;
 
