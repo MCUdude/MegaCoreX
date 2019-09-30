@@ -30,7 +30,7 @@
 #define UNO2018_PINOUT
 
 #define NUM_DIGITAL_PINS               20 // (14 on digital headers + 6 on analog headers)
-#define NUM_ANALOG_INPUTS              6
+#define NUM_ANALOG_INPUTS              16
 #define NUM_RESERVED_PINS              6  // (TOSC1/2, VREF, RESET, DEBUG USART Rx/Tx)
 #define NUM_INTERNALLY_USED_PINS       10 // (2 x Chip select + 2 x UART + 4 x IO + LED_BUILTIN + 1 unused pin)
 #define NUM_I2C_PINS                   2  // (SDA / SCL)
@@ -38,8 +38,8 @@
 #define NUM_TOTAL_FREE_PINS            (NUM_DIGITAL_PINS)
 #define NUM_TOTAL_PINS                 (NUM_DIGITAL_PINS + NUM_RESERVED_PINS + NUM_INTERNALLY_USED_PINS + NUM_I2C_PINS + NUM_SPI_PINS)
 #define ANALOG_INPUT_OFFSET            14
-#define digitalPinToAnalogInput(p)     ((p < NUM_ANALOG_INPUTS) ? (p) : (p) - ANALOG_INPUT_OFFSET)
-#define digitalOrAnalogPinToDigital(p) ((p <= 5) ? ((p) + ANALOG_INPUT_OFFSET) : ((p) >= 14 && (p) <= 19) ? (p) :  NOT_A_PIN)
+#define digitalPinToAnalogInput(p)     (((p) <= 5 && (p) != 3) ? (p) : ((p) >= 14 && (p) <= 19) ? ((p) - 14) : ((p) == 25) ? ((p) - 19) : ((p) == 39) ? ((p) - 32) : ((p) >= 11 && (p) <= 13) ? ((p) - 3) : ((p) == 8) ? ((p) + 3) : ((p) >= 35 && (p) <= 36) ? ((p) - 23) : ((p) == 6) ? ((p) + 8) : ((p) == 3) ? ((p) + 12) : NOT_A_PIN)
+#define digitalOrAnalogPinToDigital(p) (((p) <= 40) ? (p) : NOT_A_PIN)
 
 #define MILLIS_USE_TIMERB3 // Use TCB3 for millis generation
 
@@ -122,13 +122,33 @@ static const uint8_t SCL = PIN_WIRE_SCL;
 #define PIN_A3   (17)
 #define PIN_A4   (18)
 #define PIN_A5   (19)
+#define PIN_A6   (25)
+#define PIN_A7   (39)
+#define PIN_A8   (11)
+#define PIN_A9   (12)
+#define PIN_A10  (13)
+#define PIN_A11  (8)
+#define PIN_A12  (35)
+#define PIN_A13  (36)
+#define PIN_A14  (6)
+#define PIN_A15  (3)
 
-static const uint8_t A0 = PIN_A0;
-static const uint8_t A1 = PIN_A1;
-static const uint8_t A2 = PIN_A2;
-static const uint8_t A3 = PIN_A3;
-static const uint8_t A4 = PIN_A4;
-static const uint8_t A5 = PIN_A5;
+static const uint8_t A0  = PIN_A0;
+static const uint8_t A1  = PIN_A1;
+static const uint8_t A2  = PIN_A2;
+static const uint8_t A3  = PIN_A3;
+static const uint8_t A4  = PIN_A4;
+static const uint8_t A5  = PIN_A5;
+static const uint8_t A6  = PIN_A6;
+static const uint8_t A7  = PIN_A7;
+static const uint8_t A8  = PIN_A8;
+static const uint8_t A9  = PIN_A9;
+static const uint8_t A10 = PIN_A10;
+static const uint8_t A11 = PIN_A11;
+static const uint8_t A12 = PIN_A12;
+static const uint8_t A13 = PIN_A13;
+static const uint8_t A14 = PIN_A14;
+static const uint8_t A15 = PIN_A15;
 
 #define PINS_COUNT    (40u)
 
