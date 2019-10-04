@@ -36,9 +36,9 @@ namespace out
   enum
   {
     disable  = 0x00,
-    no_swap  = 0x00,
     enable   = 0x01,
-    pin_swap = 0x02,
+    no_swap  = 0x00,
+    pin_swap = 0x01,
   };
 }; 
 
