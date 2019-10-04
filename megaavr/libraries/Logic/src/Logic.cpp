@@ -23,35 +23,35 @@ void CustomLogic::init(block_t &block)
 {
   // Block input 0 pin dir
   if(block.input0 == in::input)
-    block.PORT->DIR &= ~PIN0_bm;
+    block.PORT->DIRCLR = PIN0_bm;
   else if(block.input0 == in::input_pullup)
   {
-    block.PORT->DIR &= ~PIN0_bm;
+    block.PORT->DIRCLR = PIN0_bm;
     block.PORT->PIN0CTRL |= PORT_PULLUPEN_bm;
     block.input0 = in::input;
   }
   // Block input 1 pin dir
   if(block.input1 == in::input)
-    block.PORT->DIR &= ~PIN1_bm;
+    block.PORT->DIRCLR = PIN1_bm;
   else if(block.input1 == in::input_pullup)
   {
-    block.PORT->DIR &= ~PIN1_bm;
+    block.PORT->DIRCLR = PIN1_bm;
     block.PORT->PIN1CTRL |= PORT_PULLUPEN_bm;
     block.input1 = in::input;
   }
   // Block input 2 pin dir
   if(block.input2 == in::input)
-    block.PORT->DIR &= ~PIN2_bm;
+    block.PORT->DIRCLR = PIN2_bm;
   else if(block.input2 == in::input_pullup)
   {
-    block.PORT->DIR &= ~PIN2_bm;
+    block.PORT->DIRCLR = PIN2_bm;
     block.PORT->PIN2CTRL |= PORT_PULLUPEN_bm;
     block.input2 = in::input;
   }
   
   // Set inputs modes
   *block.LUTCTRLB = (block.input1 << 4) | block.input0;
-  *block.LUTCTRLC |= 0xFF & block.input2;
+  *block.LUTCTRLC = block.input2;
 
   // Set truth table
   *block.TRUTH = block.truth;
@@ -64,13 +64,13 @@ void CustomLogic::init(block_t &block)
   {
     if(block.output_swap == out::pin_swap)
     {
-      PORTMUX.CCLROUTEA |= (block.output_swap << block.block_number);
-      block.PORT->DIR |= PIN6_bm;
+      PORTMUX.CCLROUTEA |= (1 << block.block_number);
+      block.PORT->DIRSET = PIN6_bm;
     }
     else if(block.output_swap == out::no_swap)
     {
-      PORTMUX.CCLROUTEA &= (block.output_swap << block.block_number);
-      block.PORT->DIR |= PIN3_bm;
+      PORTMUX.CCLROUTEA &= ~(1 << block.block_number);
+      block.PORT->DIRSET = PIN3_bm;
     }
   }
   
@@ -81,22 +81,26 @@ void CustomLogic::init(block_t &block)
 
 void CustomLogic::attachInterrupt(block_t &block, void (*userFunc)(void), PinStatus mode)
 {
+  CCL_INTMODE0_t intmode;
   switch (mode) 
   {
     // Set RISING, FALLING or CHANGE interrupt trigger for a block output
     case RISING:
-      CCL.INTCTRL0 |= (0x03 << (block.block_number * 2)) & (1 << (block.block_number * 2));
+      intmode = CCL_INTMODE0_RISING_gc;
       break;
     case FALLING:
-      CCL.INTCTRL0 |= (0x03 << (block.block_number * 2)) & (2 << (block.block_number * 2));
+      intmode = CCL_INTMODE0_FALLING_gc;
       break;
     case CHANGE:
-      CCL.INTCTRL0 |= (0x03 << (block.block_number * 2)) & (3 << (block.block_number * 2));
+      intmode = CCL_INTMODE0_BOTH_gc;
       break;
     default:
       // Only RISING, FALLING and CHANGE is supported
       return;
   }
+  const int intmode_bp = block.block_number * 2;
+  CCL.INTCTRL0 = (CCL.INTCTRL0 & ~(0x3 << intmode_bp))
+      | (intmode << intmode_bp);
   
   // Store function pointer
   intFuncCCL[block.block_number] = userFunc;
