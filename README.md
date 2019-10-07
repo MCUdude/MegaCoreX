@@ -104,7 +104,7 @@ Please have a look at the pins_arduino.h files for detailed info.<br/> <br/>
 
 | **MegaCoreX ATmega809/1609/3209/4809 pinout**                                                                                                                                          | **MegaCoreX ATmega808/1608/3208/4808 pinout**                                                                                                                                                                                |
 |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|<img src="https://i.imgur.com/kVpalxi.png" width="350"><br/><img src="https://i.imgur.com/6eLFfU0.png" width="350"><br/><img src="https://i.imgur.com/ipF1hxT.jpg" width="350">|<img src="https://i.imgur.com/CpqDbIM.png" width="350"><br/><br/><br/><br/><img src="https://i.imgur.com/OC7Y2EP.png" width="350"><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>|
+|<img src="https://i.imgur.com/kmP8rQO.png" width="350"><br/><img src="https://i.imgur.com/Uog2AAn.png" width="350"><br/><img src="https://i.imgur.com/ipF1hxT.jpg" width="350">|<img src="https://i.imgur.com/CpqDbIM.png" width="350"><br/><br/><br/><br/><img src="https://i.imgur.com/OC7Y2EP.png" width="350"><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>|
 
 
 ## PWM output
