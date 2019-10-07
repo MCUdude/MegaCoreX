@@ -74,12 +74,12 @@ class CustomLogic
     typedef struct
     {
       const uint8_t block_number;
-      PORT_t* PORT;
-      volatile uint8_t* SEQCTRL;
-      volatile uint8_t* LUTCTRLA;
-      volatile uint8_t* LUTCTRLB;
-      volatile uint8_t* LUTCTRLC;
-      volatile uint8_t* TRUTH;
+      PORT_t* const PORT;
+      volatile uint8_t* const SEQCTRL;
+      volatile uint8_t* const LUTCTRLA;
+      volatile uint8_t* const LUTCTRLB;
+      volatile uint8_t* const LUTCTRLC;
+      volatile uint8_t* const TRUTH;
       uint8_t input0;
       uint8_t input1;
       uint8_t input2;
