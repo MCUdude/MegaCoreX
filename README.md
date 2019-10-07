@@ -16,6 +16,7 @@ An Arduino core for the new megaAVR series!
 * [Reset pin](#reset-pin)
 * [Pinout](#pinout)
 * [PWM output](#pwm-output)
+* [Configurable Custom Logic](#configurable-custom-logic-ccl)
 * [Alternative pins](#alternative-pins)
 * [How to install](#how-to-install)
   - [Boards Manager Installation](#boards-manager-installation)
@@ -121,6 +122,10 @@ The repeat frequency for the pulses on all PWM outputs can be changed with the n
 the constraints of the hardware will be made to match the request.
 
 Note also that tone() will use TCB1, so the corresponding PWM output is not available if it is used.
+
+
+## Configurable custom logic (CCL)
+The megaAVR-0 microcontrollers are equipped with four independent configurable logic blocks that can be used to improve speed and performence. The CCL pins are marked on all pinout diagrams in a dark blue/grey color. The logic blocks can be used independently from eachother, connected together or generate interrupt for to the CPU. I've made a [light weight, high level library](https://github.com/MCUdude/MegaCoreX/tree/master/megaavr/libraries/Logic) for easy integraion with the CCL hardware.
 
 
 ## Alternative pins
