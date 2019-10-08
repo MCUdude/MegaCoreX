@@ -1,5 +1,8 @@
 #include "Logic.h"
 
+// Array for storing ISR function pointers
+static volatile voidFuncPtr intFuncCCL[4];
+
 // Preinstantiate Object
 CustomLogic Logic;
 
