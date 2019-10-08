@@ -1,85 +1,120 @@
 #include "Logic.h"
 
-// Preinstantiate Object
-CustomLogic Logic;
+// Preinstantiate Objects
 
-CustomLogic::CustomLogic()
+// Object for logic block 0 (IOs connected to PORTA)
+Logic Logic0(0, PORTA, CCL_SEQCTRL0, CCL_LUT0CTRLA, CCL_LUT0CTRLB, CCL_LUT0CTRLC, CCL_TRUTH0);
+
+// Object for logic block 1 (IOs connected to PORTC)
+Logic Logic1(1, PORTC, CCL_SEQCTRL0, CCL_LUT1CTRLA, CCL_LUT1CTRLB, CCL_LUT1CTRLC, CCL_TRUTH1);
+
+// Object for logic block 2 (IOs connected to PORTD)
+Logic Logic2(2, PORTD, CCL_SEQCTRL1, CCL_LUT2CTRLA, CCL_LUT2CTRLB, CCL_LUT2CTRLC, CCL_TRUTH2);
+
+// Object for logic block 3 (IOs connected to PORTF)
+Logic Logic3(3, PORTF, CCL_SEQCTRL1, CCL_LUT3CTRLA, CCL_LUT3CTRLB, CCL_LUT3CTRLC, CCL_TRUTH3);
+
+Logic::Logic(
+    const uint8_t block_number,
+    PORT_t& port,
+    register8_t& seq_ctrl,
+    register8_t& lut_ctrla,
+    register8_t& lut_ctrlb,
+    register8_t& lut_ctrlc,
+    register8_t& truth)
+    : PORT(port),
+      SEQCTRL(seq_ctrl),
+      LUTCTRLA(lut_ctrla),
+      LUTCTRLB(lut_ctrlb),
+      LUTCTRLC(lut_ctrlc),
+      TRUTH(truth),
+      input0(in::masked),
+      input1(in::masked),
+      input2(in::masked),
+      output(false),
+      enable(false),
+      truth(0x00),
+      output_swap(out::no_swap),
+      filter(filter::disable),
+      sequencer(sequencer::disable)
 {
 }
 
-void CustomLogic::start(bool state)
+// static
+void Logic::start(bool state)
 {
   CCL.CTRLA = (state << CCL_ENABLE_bp);
 }
 
 
-void CustomLogic::end()
+// static
+void Logic::end()
 {
   start(false);
 }
 
 
-void CustomLogic::init(block_t &block)
+void Logic::init()
 {
   // Block input 0 pin dir
-  if(block.input0 == in::input)
-    block.PORT->DIRCLR = PIN0_bm;
-  else if(block.input0 == in::input_pullup)
+  if(input0 == in::input)
+    PORT.DIRCLR = PIN0_bm;
+  else if(input0 == in::input_pullup)
   {
-    block.PORT->DIRCLR = PIN0_bm;
-    block.PORT->PIN0CTRL |= PORT_PULLUPEN_bm;
-    block.input0 = in::input;
+    PORT.DIRCLR = PIN0_bm;
+    PORT.PIN0CTRL |= PORT_PULLUPEN_bm;
+    input0 = in::input;
   }
   // Block input 1 pin dir
-  if(block.input1 == in::input)
-    block.PORT->DIRCLR = PIN1_bm;
-  else if(block.input1 == in::input_pullup)
+  if(input1 == in::input)
+    PORT.DIRCLR = PIN1_bm;
+  else if(input1 == in::input_pullup)
   {
-    block.PORT->DIRCLR = PIN1_bm;
-    block.PORT->PIN1CTRL |= PORT_PULLUPEN_bm;
-    block.input1 = in::input;
+    PORT.DIRCLR = PIN1_bm;
+    PORT.PIN1CTRL |= PORT_PULLUPEN_bm;
+    input1 = in::input;
   }
   // Block input 2 pin dir
-  if(block.input2 == in::input)
-    block.PORT->DIRCLR = PIN2_bm;
-  else if(block.input2 == in::input_pullup)
+  if(input2 == in::input)
+    PORT.DIRCLR = PIN2_bm;
+  else if(input2 == in::input_pullup)
   {
-    block.PORT->DIRCLR = PIN2_bm;
-    block.PORT->PIN2CTRL |= PORT_PULLUPEN_bm;
-    block.input2 = in::input;
+    PORT.DIRCLR = PIN2_bm;
+    PORT.PIN2CTRL |= PORT_PULLUPEN_bm;
+    input2 = in::input;
   }
   
   // Set inputs modes
-  *block.LUTCTRLB = (block.input1 << 4) | block.input0;
-  *block.LUTCTRLC = block.input2;
+  LUTCTRLB = (input1 << 4) | input0;
+  LUTCTRLC = input2;
 
   // Set truth table
-  *block.TRUTH = block.truth;
+  TRUTH = truth;
   
   // Set sequencer
-  *block.SEQCTRL = block.sequencer;    
+  SEQCTRL = sequencer;
 
   // Set output pin state and output pin swap
-  if(block.output == out::enable)
+  if(output == out::enable)
   {
-    if(block.output_swap == out::pin_swap)
+    if(output_swap == out::pin_swap)
     {
-      PORTMUX.CCLROUTEA |= (1 << block.block_number);
-      block.PORT->DIRSET = PIN6_bm;
+      PORTMUX.CCLROUTEA |= (1 << block_number);
+      PORT.DIRSET = PIN6_bm;
     }
-    else if(block.output_swap == out::no_swap)
+    else if(output_swap == out::no_swap)
     {
-      PORTMUX.CCLROUTEA &= ~(1 << block.block_number);
-      block.PORT->DIRSET = PIN3_bm;
+      PORTMUX.CCLROUTEA &= ~(1 << block_number);
+      PORT.DIRSET = PIN3_bm;
     }
   }
   
   // Set logic output state and output filter
-  *block.LUTCTRLA = (block.output << 6) | (block.filter << 4) | (block.enable << 0);
+  LUTCTRLA = (output << 6) | (filter << 4) | (enable << 0);
 }
 
 
-void CustomLogic::attachInterrupt(block_t &block, void (*userFunc)(void), PinStatus mode)
+void Logic::attachInterrupt(void (*userFunc)(void), PinStatus mode)
 {
   CCL_INTMODE0_t intmode;
   switch (mode) 
@@ -98,19 +133,19 @@ void CustomLogic::attachInterrupt(block_t &block, void (*userFunc)(void), PinSta
       // Only RISING, FALLING and CHANGE is supported
       return;
   }
-  const int intmode_bp = block.block_number * 2;
+  const int intmode_bp = block_number * 2;
   CCL.INTCTRL0 = (CCL.INTCTRL0 & ~(0x3 << intmode_bp))
       | (intmode << intmode_bp);
   
   // Store function pointer
-  intFuncCCL[block.block_number] = userFunc;
+  intFuncCCL[block_number] = userFunc;
 }
 
 
-void CustomLogic::detachInterrupt(block_t &block)
+void Logic::detachInterrupt()
 {
   // Disable interrupt for a given block output
-  CCL.INTCTRL0 &= ~(0x03 << (block.block_number * 2));
+  CCL.INTCTRL0 &= ~(0x03 << (block_number * 2));
 }
 
 

@@ -5,8 +5,8 @@ The megaAVR-0 has four independent internal logic blocks that can be individuall
 More useful information about CCL can be found in the [Microchip Application Note TB3218](http://ww1.microchip.com/downloads/en/AppNotes/TB3218-Getting-Started-with-CCL-90003218A.pdf) and in the [megaAVR-0 family data sheet](http://ww1.microchip.com/downloads/en/DeviceDoc/megaAVR0-series-Family-Data-Sheet-DS40002015B.pdf).
 
 
-## block_t
-Struct for interfacing with the built-in logic block. use the predefined objects `block0`, `block1`, `block2` and `block3`.
+## Logic
+Class for interfacing with the built-in logic block. use the predefined objects `Logic0`, `Logic1`, `Logic2` and `Logic3`.
 Each object contains register pointers for interfacing with the right registers. Some of these variables are available to the user.
 
 
@@ -20,11 +20,11 @@ false; // Disable the current logic block
 
 ##### Usage
 ```c++
-Logic.block0.enable = true; // Enable logic block 0
+Logic0.enable = true; // Enable logic block 0
 ```
 
 ##### Default state
-`Logic.block0.enable` defaults to `false` if not specified in the user program.
+`Logic0.enable` defaults to `false` if not specified in the user program.
 
 
 ### input0..input2
@@ -49,13 +49,13 @@ in::tcb;          // Connect input to TCB. Input 0 connects to TCB0 W0, input 1 
 
 ##### Usage
 ``` c++
-Logic.block0.input0 = in::link;  // Connect output from block 1 to input 0 of block 0
-Logic.block0.input1 = in::input; // Connect the input 1 from block 0 to its GPIO
-Logic.block0.input2 = in::input_pullup; // Connect the input 2 from block 0 to its GPIO and enable pullup
+Logic0.input0 = in::link;  // Connect output from block 1 to input 0 of block 0
+Logic0.input1 = in::input; // Connect the input 1 from block 0 to its GPIO
+Logic0.input2 = in::input_pullup; // Connect the input 2 from block 0 to its GPIO and enable pullup
 ```
 
 ##### Default state
-`Logic.blockN.inputN` defaults to `in::unused` if not specified in the user program.
+`LogicN.inputN` defaults to `in::unused` if not specified in the user program.
 
 
 ### output
@@ -68,11 +68,11 @@ out::enable;  // Enable the output GPIO pin
 
 ##### Usage
 ```c++
-Logic.block0.output = out::disable; // Disable the output GPIO pin.
+Logic0.output = out::disable; // Disable the output GPIO pin.
 ```
 
 ##### Default state
-`Logic.blockN.output` defaults to `out::disable` if not specified in the user program.
+`LogicN.output` defaults to `out::disable` if not specified in the user program.
 
 
 ### output_swap
@@ -85,11 +85,11 @@ out::pin_swap; // Use alternative position, pin 6 on the port
 
 ##### Usage
 ```c++
-Logic.block0.output_swap = out::no_swap; // No pin swap for output of block0
+Logic0.output_swap = out::no_swap; // No pin swap for output of block0
 ```
 
 ##### Default state
-`Logic.blockN.output_swap` defaults to `out::no_swap` if not specified in the user program.
+`LogicN.output_swap` defaults to `out::no_swap` if not specified in the user program.
 
 
 ### filter
@@ -103,11 +103,11 @@ filter::filter;       // Connect filter to output
 
 ##### Usage
 ```c++
-Logic.block0.filter = filter::filter; // Enable filter on output of block 0
+Logic0.filter = filter::filter; // Enable filter on output of block 0
 ```
 
 ##### Default state
-`Logic.blockN.filter` defaults to `filter::disable` if not specified in the user program.
+`LogicN.filter` defaults to `filter::disable` if not specified in the user program.
 
 
 ### sequencer
@@ -123,11 +123,11 @@ sequencer::rs_latch;     // RS latch sequencer connected
 
 ##### Usage
 ```c++
-Logic.block0.sequencer = sequencer::disable; // Disable sequencer
+Logic0.sequencer = sequencer::disable; // Disable sequencer
 ```
 
 ##### Default state
-`Logic.blockN.sequencer` defaults to `sequencer::disable` if not specified in the user program.
+`LogicN.sequencer` defaults to `sequencer::disable` if not specified in the user program.
 
 
 ### truth
@@ -136,11 +136,11 @@ Accepted values between 0x00 and 0xFF.
 
 ##### Usage
 ```c++
-Logic.block0.truth = 0xF0;
+Logic0.truth = 0xF0;
 ```
 
 ##### Default state
-`Logic.blockN.truth` defaults to `0x00` if not specified in the user program.
+`LogicN.truth` defaults to `0x00` if not specified in the user program.
 
 
 
@@ -149,8 +149,8 @@ Method for initializing a logic block. The logic block object to initialize is p
 
 ##### Usage
 ```c++
-Logic.init(Logic.block0); // Initialize block 0
-Logic.init(Logic.block1); // Initialize block 1
+Logic0.init(); // Initialize block 0
+Logic1.init(); // Initialize block 1
 ```
 
 
@@ -160,7 +160,7 @@ Method for starting the CCL hardware after all registers have been initialized u
 
 ##### Usage
 ```c++
-Logic.start(); // Start CCL hardware
+Logic::start(); // Start CCL hardware
 ```
 
 
@@ -170,7 +170,7 @@ Method for stopping the CCL hardware.
 
 ##### Usage
 ```c++
-Logic.stop(); // Stop CCL
+Logic::stop(); // Stop CCL
 ```
 
 
@@ -181,7 +181,7 @@ Valid arguments for the third parameters are `RISING`, `FALLING` and `CHANGE`.
 
 ##### Usage
 ```c++
-Logic.attachInterrupt(Logic.block0, blinkLED, RISING); // Runthe blinkLED function when the putput goes high
+Logic0.attachInterrupt(blinkLED, RISING); // Runthe blinkLED function when the putput goes high
 
 void blinkLED()
 {
@@ -196,5 +196,5 @@ Method for disabling interrupts for a specific block.
 
 ##### Usage
 ```c++
-Logic.detachInterrupt(Logic.block0); // Disable interrupts for block 0
+Logic0.detachInterrupt(); // Disable interrupts for block 0
 ```

@@ -37,22 +37,22 @@ void setup()
   // Initialize logic block 2
   // Logic block 2 has three inputs, PA0, PA1 and PA2.
   // It has one output, but this is disabled because we're using an interrupt instead.
-  Logic.block2.enable = true;               // Enable logic block 0
-  Logic.block2.input0 = in::input_pullup;   // Set PD0 as input with pullup
-  Logic.block2.input1 = in::input_pullup;   // Set PD1 as input with pullup
-  Logic.block2.input2 = in::input_pullup;   // Set PD2 as input with pullup
-  Logic.block2.output = out::disable;       // Disable output on PD3 (we don't have to though)
-  Logic.block2.filter = filter::disable;    // No output filter enabled
-  Logic.block2.truth = 0x01;                // Set truth table
+  Logic2.enable = true;               // Enable logic block 0
+  Logic2.input0 = in::input_pullup;   // Set PD0 as input with pullup
+  Logic2.input1 = in::input_pullup;   // Set PD1 as input with pullup
+  Logic2.input2 = in::input_pullup;   // Set PD2 as input with pullup
+  Logic2.output = out::disable;       // Disable output on PD3 (we don't have to though)
+  Logic2.filter = filter::disable;    // No output filter enabled
+  Logic2.truth = 0x01;                // Set truth table
 
   // Initialize logic block 2
-  Logic.init(Logic.block2);
+  Logic2.init();
 
   // Set interrupt (supports RISING, FALLING and CHANGE)
-  Logic.attachInterrupt(Logic.block2, interruptFunction, RISING);
+  Logic2.attachInterrupt(interruptFunction, RISING);
 
   // Start the AVR logic hardware
-  Logic.start();
+  Logic::start();
 }
 
 void loop()
