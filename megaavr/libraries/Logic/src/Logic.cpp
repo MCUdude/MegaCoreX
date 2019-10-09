@@ -3,9 +3,6 @@
 // Array for storing ISR function pointers
 static volatile voidFuncPtr intFuncCCL[4];
 
-// Preinstantiate Object
-CustomLogic Logic;
-
 // Object for logic block 0 (IOs connected to PORTA)
 Logic Logic0(0, PORTA, CCL_SEQCTRL0, CCL_LUT0CTRLA, CCL_LUT0CTRLB, CCL_LUT0CTRLC, CCL_TRUTH0);
 
