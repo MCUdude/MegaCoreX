@@ -64,119 +64,43 @@ namespace sequencer
   };
 };
 
-class CustomLogic
+class Logic
 {
-  private:
-    // Struct that holds all information a single logic block needs
-    typedef struct
-    {
-      const uint8_t block_number;
-      PORT_t* const PORT;
-      volatile uint8_t* const SEQCTRL;
-      volatile uint8_t* const LUTCTRLA;
-      volatile uint8_t* const LUTCTRLB;
-      volatile uint8_t* const LUTCTRLC;
-      volatile uint8_t* const TRUTH;
-      uint8_t input0;
-      uint8_t input1;
-      uint8_t input2;
-      uint8_t output;
-      uint8_t enable;
-      uint8_t truth;
-      uint8_t output_swap;
-      uint8_t filter;
-      uint8_t sequencer;
-    } block_t;
-
   public:
-    CustomLogic();
-    void start(bool state = true);
-    void end();
-    void init(block_t &block);
-    void attachInterrupt(block_t &block, voidFuncPtr callback, PinStatus mode);
-    void detachInterrupt(block_t &block);
-    
-    // Struct object for logic block 0 (IOs connected to PORTA)
-    block_t block0 = {
-      .block_number = 0,
-      .PORT = &PORTA, 
-      .SEQCTRL = &CCL_SEQCTRL0,
-      .LUTCTRLA = &CCL_LUT0CTRLA, 
-      .LUTCTRLB = &CCL_LUT0CTRLB, 
-      .LUTCTRLC = &CCL_LUT0CTRLC, 
-      .TRUTH = &CCL_TRUTH0, 
-      .input0 = in::masked, 
-      .input1 = in::masked, 
-      .input2 = in::masked, 
-      .output = false, 
-      .enable = false, 
-      .truth = 0x00,
-      .output_swap = out::no_swap,
-      .filter = filter::disable,
-      .sequencer = sequencer::disable,
-    };
-    
-    // Struct object for logic block 1 (IOs connected to PORTC)
-    block_t block1 = {
-      .block_number = 1,
-      .PORT = &PORTC, 
-      .SEQCTRL = &CCL_SEQCTRL0,
-      .LUTCTRLA = &CCL_LUT1CTRLA, 
-      .LUTCTRLB = &CCL_LUT1CTRLB, 
-      .LUTCTRLC = &CCL_LUT1CTRLC, 
-      .TRUTH = &CCL_TRUTH1, 
-      .input0 = in::masked, 
-      .input1 = in::masked, 
-      .input2 = in::masked, 
-      .output = out::disable, 
-      .enable = false, 
-      .truth = 0x00,
-      .output_swap = out::no_swap,
-      .filter = filter::disable,
-      .sequencer = sequencer::disable,
-    };
-    
-    // Struct object for logic block 2 (IOs connected to PORTD)
-    block_t block2 = {
-      .block_number = 2,
-      .PORT = &PORTD,
-      .SEQCTRL = &CCL_SEQCTRL1,
-      .LUTCTRLA = &CCL_LUT2CTRLA, 
-      .LUTCTRLB = &CCL_LUT2CTRLB, 
-      .LUTCTRLC = &CCL_LUT2CTRLC, 
-      .TRUTH = &CCL_TRUTH2, 
-      .input0 = in::masked,
-      .input1 = in::masked,
-      .input2 = in::masked,
-      .output = out::disable,
-      .enable = false,
-      .truth = 0x00,
-      .output_swap = out::no_swap,
-      .filter = filter::disable,
-      .sequencer = sequencer::disable,
-    };
-    
-    // Struct object for logic block 3 (IOs connected to PORTF)
-    block_t block3 = {
-      .block_number = 3,
-      .PORT = &PORTF,
-      .SEQCTRL = &CCL_SEQCTRL1,
-      .LUTCTRLA = &CCL_LUT3CTRLA, 
-      .LUTCTRLB = &CCL_LUT3CTRLB, 
-      .LUTCTRLC = &CCL_LUT3CTRLC, 
-      .TRUTH = &CCL_TRUTH3, 
-      .input0 = in::masked,
-      .input1 = in::masked,
-      .input2 = in::masked,
-      .output = out::disable,
-      .enable = false,
-      .truth = 0x00,
-      .output_swap = out::no_swap,
-      .filter = filter::disable,
-      .sequencer = sequencer::disable,
-    };
+    static void start(bool state = true);
+    static void end();
+
+    Logic(const uint8_t block_number,
+          PORT_t& port,
+          register8_t& seq_ctrl,
+          register8_t& lut_ctrla,
+          register8_t& lut_ctrlb,
+          register8_t& lut_ctrlc,
+          register8_t& truth);
+    void init();
+    void attachInterrupt(voidFuncPtr callback, PinStatus mode);
+    void detachInterrupt();
+
+    uint8_t input0;
+    uint8_t input1;
+    uint8_t input2;
+    uint8_t output;
+    uint8_t enable;
+    uint8_t truth;
+    uint8_t output_swap;
+    uint8_t filter;
+    uint8_t sequencer;
+
+private:
+    const uint8_t block_number;
+    PORT_t& PORT;
+    volatile register8_t& SEQCTRL;
+    volatile register8_t& LUTCTRLA;
+    volatile register8_t& LUTCTRLB;
+    volatile register8_t& LUTCTRLC;
+    volatile register8_t& TRUTH;
 };
 
-extern CustomLogic Logic;
+extern Logic Logic0, Logic1, Logic2, Logic3;
 
 #endif
