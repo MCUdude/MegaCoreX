@@ -16,14 +16,15 @@ Logic Logic2(2, PORTD, CCL_SEQCTRL1, CCL_LUT2CTRLA, CCL_LUT2CTRLB, CCL_LUT2CTRLC
 Logic Logic3(3, PORTF, CCL_SEQCTRL1, CCL_LUT3CTRLA, CCL_LUT3CTRLB, CCL_LUT3CTRLC, CCL_TRUTH3);
 
 Logic::Logic(
-    const uint8_t block_number,
+    const uint8_t block,
     PORT_t& port,
     register8_t& seq_ctrl,
     register8_t& lut_ctrla,
     register8_t& lut_ctrlb,
     register8_t& lut_ctrlc,
     register8_t& truth)
-    : PORT(port),
+    : block_number(block),
+      PORT(port),
       SEQCTRL(seq_ctrl),
       LUTCTRLA(lut_ctrla),
       LUTCTRLB(lut_ctrlb),

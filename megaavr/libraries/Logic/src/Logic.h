@@ -1,5 +1,3 @@
-// edge detect
-
 #ifndef LOGIC_h
 #define LOGIC_h
 
@@ -66,6 +64,15 @@ namespace sequencer
 
 class Logic
 {
+  private:
+    const uint8_t block_number;
+    PORT_t& PORT;
+    volatile register8_t& SEQCTRL;
+    volatile register8_t& LUTCTRLA;
+    volatile register8_t& LUTCTRLB;
+    volatile register8_t& LUTCTRLC;
+    volatile register8_t& TRUTH;
+    
   public:
     static void start(bool state = true);
     static void end();
@@ -91,14 +98,7 @@ class Logic
     uint8_t filter;
     uint8_t sequencer;
 
-private:
-    const uint8_t block_number;
-    PORT_t& PORT;
-    volatile register8_t& SEQCTRL;
-    volatile register8_t& LUTCTRLA;
-    volatile register8_t& LUTCTRLB;
-    volatile register8_t& LUTCTRLC;
-    volatile register8_t& TRUTH;
+
 };
 
 extern Logic Logic0, Logic1, Logic2, Logic3;
