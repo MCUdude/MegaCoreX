@@ -5,9 +5,6 @@
 
 #include <Arduino.h>
 
-// Array for storing ISR function pointers
-static volatile voidFuncPtr intFuncCCL[4];
-
 //Use in:: when working with logic inputs
 namespace in
 {
