@@ -6,7 +6,7 @@
 //Use in:: when working with logic inputs
 namespace in
 {
-  enum
+  enum input_t : uint8_t
   {
     masked       = 0x00,
     unused       = 0x00,
@@ -28,10 +28,13 @@ namespace in
 // Use out:: when working with logic outputs
 namespace out
 {
-  enum
+  enum output_t : uint8_t
   {
     disable  = 0x00,
     enable   = 0x01,
+  };
+  enum pinswap_t : uint8_t
+  {
     no_swap  = 0x00,
     pin_swap = 0x01,
   };
@@ -40,7 +43,7 @@ namespace out
 // Use filter:: when working with logic output filter
 namespace filter
 {
-  enum
+  enum filter_t : uint8_t
   {
     disable      = 0x00,
     synchronizer = 0x01,
@@ -51,7 +54,7 @@ namespace filter
 // Use sequencer:: when working with LUT sequencer
 namespace sequencer
 {
-  enum
+  enum sequencer_t : uint8_t
   {
     disable      = 0x00,
     d_flip_flop  = 0x01,
@@ -64,43 +67,46 @@ namespace sequencer
 
 class Logic
 {
-  private:
-    const uint8_t block_number;
-    PORT_t& PORT;
-    volatile register8_t& SEQCTRL;
-    volatile register8_t& LUTCTRLA;
-    volatile register8_t& LUTCTRLB;
-    volatile register8_t& LUTCTRLC;
-    volatile register8_t& TRUTH;
-    
   public:
     static void start(bool state = true);
     static void end();
 
-    Logic(const uint8_t block_number,
-          PORT_t& port,
-          register8_t& seq_ctrl,
-          register8_t& lut_ctrla,
-          register8_t& lut_ctrlb,
-          register8_t& lut_ctrlc,
-          register8_t& truth);
+    Logic(const uint8_t block_number);
     void init();
+#if defined(CCL_CCL_vect)
     void attachInterrupt(voidFuncPtr callback, PinStatus mode);
     void detachInterrupt();
+#endif
 
-    uint8_t input0;
-    uint8_t input1;
-    uint8_t input2;
-    uint8_t output;
-    uint8_t enable;
+    bool enable;
+    in::input_t input0;
+    in::input_t input1;
+    in::input_t input2;
+    out::output_t output;
+    out::pinswap_t output_swap;
+    filter::filter_t filter;
     uint8_t truth;
-    uint8_t output_swap;
-    uint8_t filter;
-    uint8_t sequencer;
+    sequencer::sequencer_t sequencer;
 
+    struct CCLBlock;
 
+  private:
+    const struct CCLBlock& block;
+
+    void initInput(in::input_t& input, PORT_t& port, const uint8_t pin_bm);
 };
 
-extern Logic Logic0, Logic1, Logic2, Logic3;
+#if defined(CCL_TRUTH0)
+extern Logic Logic0;
+#endif
+#if defined(CCL_TRUTH1)
+extern Logic Logic1;
+#endif
+#if defined(CCL_TRUTH2)
+extern Logic Logic2;
+#endif
+#if defined(CCL_TRUTH3)
+extern Logic Logic3;
+#endif
 
 #endif
