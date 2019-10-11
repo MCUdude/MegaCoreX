@@ -178,6 +178,7 @@ Logic::stop(); // Stop CCL
 ## attachInterrupt()
 Method for enabling interrupts for a specific block.  
 Valid arguments for the third parameters are `RISING`, `FALLING` and `CHANGE`.
+This method ins't available on tinyAVR series.
 
 ##### Usage
 ```c++
@@ -193,6 +194,7 @@ void blinkLED()
 
 ## detachInterrupt()
 Method for disabling interrupts for a specific block.
+This method ins't available on tinyAVR series.
 
 ##### Usage
 ```c++

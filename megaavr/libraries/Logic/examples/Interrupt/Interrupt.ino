@@ -37,7 +37,7 @@ void setup()
   // Initialize logic block 2
   // Logic block 2 has three inputs, PA0, PA1 and PA2.
   // It has one output, but this is disabled because we're using an interrupt instead.
-  Logic2.enable = true;               // Enable logic block 0
+  Logic2.enable = true;               // Enable logic block 2
   Logic2.input0 = in::input_pullup;   // Set PD0 as input with pullup
   Logic2.input1 = in::input_pullup;   // Set PD1 as input with pullup
   Logic2.input2 = in::input_pullup;   // Set PD2 as input with pullup
