@@ -1,32 +1,24 @@
 #######################################
-# Syntax Coloring Map For Wire
+# Syntax Coloring Map Servo
 #######################################
 
 #######################################
 # Datatypes (KEYWORD1)
 #######################################
 
+Servo	KEYWORD1	Servo
+
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################
-
-begin	KEYWORD2
-pins	KEYWORD2
-swap	KEYWORD2
-setClock	KEYWORD2
-beginTransmission	KEYWORD2
-endTransmission	KEYWORD2
-requestFrom	KEYWORD2
-onReceive	KEYWORD2
-onRequest	KEYWORD2
-
-#######################################
-# Instances (KEYWORD2)
-#######################################
-
-Wire	KEYWORD2
+attach	KEYWORD2
+detach	KEYWORD2
+write	KEYWORD2
+read	KEYWORD2
+attached	KEYWORD2
+writeMicroseconds	KEYWORD2
+readMicroseconds	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
 #######################################
-

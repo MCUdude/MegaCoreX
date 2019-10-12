@@ -28,7 +28,6 @@
 
 // WIRE_HAS_END means Wire has end()
 #define WIRE_HAS_END 1
-
 class TwoWire : public HardwareI2C
 {
   private:
@@ -49,6 +48,7 @@ class TwoWire : public HardwareI2C
   public:
     TwoWire();
     bool pins(uint8_t sda_pin, uint8_t scl_pin);
+    bool swap(uint8_t state = 1);
     void begin();
     void begin(uint8_t);
     void begin(int);

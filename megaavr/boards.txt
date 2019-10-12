@@ -34,7 +34,7 @@ menu.resetpin=Reset pin
 4809.menu.pinout.48pin_standard.build.compat=
 4809.menu.pinout.uno_wifi=Uno WiFi
 4809.menu.pinout.uno_wifi.build.variant=uno-wifi
-4809.menu.pinout.uno_wifi.build.compat=-DUNO_WIFI_REV2_328MODE
+4809.menu.pinout.uno_wifi.build.compat=
 
 # Reset pin
 4809.menu.resetpin.reset=Reset
@@ -291,7 +291,7 @@ menu.resetpin=Reset pin
 3209.menu.pinout.48pin_standard.build.compat=
 3209.menu.pinout.uno_wifi=Uno WiFi
 3209.menu.pinout.uno_wifi.build.variant=uno-wifi
-3209.menu.pinout.uno_wifi.build.compat=-DUNO_WIFI_REV2_328MODE
+3209.menu.pinout.uno_wifi.build.compat=
 
 
 # Reset pin
@@ -544,7 +544,7 @@ menu.resetpin=Reset pin
 1609.menu.pinout.48pin_standard.build.compat=
 1609.menu.pinout.uno_wifi=Uno WiFi
 1609.menu.pinout.uno_wifi.build.variant=uno-wifi
-1609.menu.pinout.uno_wifi.build.compat=-DUNO_WIFI_REV2_328MODE
+1609.menu.pinout.uno_wifi.build.compat=
 
 # Reset pin
 1609.menu.resetpin.reset=Reset
@@ -638,11 +638,6 @@ menu.resetpin=Reset pin
 1609.menu.clock.external_1MHz.bootloader.OSCCFG=0x01
 1609.menu.clock.external_1MHz.build.oscillator=-DUSE_EXTERNAL_OSCILLATOR
 1609.menu.clock.external_1MHz.build.f_cpu=1000000L
-
-# ATmega328 emulation
-1609.menu.emulation.false=No
-1609.menu.emulation.true=Yes
-1609.menu.emulation.true.build.extra_flags=-DUNO_WIFI_REV2_328MODE
 
 
 
@@ -801,7 +796,7 @@ menu.resetpin=Reset pin
 809.menu.pinout.48pin_standard.build.compat=
 809.menu.pinout.uno_wifi=Uno WiFi
 809.menu.pinout.uno_wifi.build.variant=uno-wifi
-809.menu.pinout.uno_wifi.build.compat=-DUNO_WIFI_REV2_328MODE
+809.menu.pinout.uno_wifi.build.compat=
 
 # Reset pin
 809.menu.resetpin.reset=Reset

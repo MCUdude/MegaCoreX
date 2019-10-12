@@ -10,8 +10,6 @@ An Arduino core for the new megaAVR series!
 * Example (library?) for using the 32.768kHz cystal that can be found on Uno Wifi Rev2 and Curiosity Nano 4809
 * Readme
   - Need some good intro text at the beginning
-  - Minimal setup schematics
-* Proper testing with updated toolchain (I'm experiencing trouble with the 32kB chips)
 
 
 # Table of contents
@@ -23,6 +21,7 @@ An Arduino core for the new megaAVR series!
 * [Pinout](#pinout)
 * [Alternative pins](#alternative-pins)
 * [PWM output](#pwm-output)
+* [Configurable Custom Logic](#configurable-custom-logic-ccl)
 * [How to install](#how-to-install)
   - [Boards Manager Installation](#boards-manager-installation)
   - [Manual Installation](#manual-installation)
@@ -32,6 +31,7 @@ An Arduino core for the new megaAVR series!
   - [Curiosity Nano](#curiosity-nano)
   - [AVR-IOT-WG](#avr-iot-wg)
   - [4809 Xplained Pro](#atmega4809-xplained-pro)
+
 
 ## Supported microcontrollers
 
@@ -75,6 +75,7 @@ MegaCoreX lets you choose what clock frequency you want to run your microcontrol
 Note that unlike other AVRs none of these chips are able to drive an external crystal or resonator. If you need an external oscillator it has to be one with a driven clock output. 
 The microcontroller will freeze if the external clock suddenly drops out. If not present on boot, it will automatically choose the 16 MHz internal oscillator instead.
 
+
 ## BOD option
 Brown out detection, or BOD for short lets the microcontroller sense the input voltage and shut down if the voltage goes below the brown out setting. Below is a table that shows the available BOD options:
 
@@ -107,7 +108,7 @@ Please have a look at the pins_arduino.h files for detailed info.<br/> <br/>
 
 | **MegaCoreX ATmega809/1609/3209/4809 pinout**                                                                                                                                          | **MegaCoreX ATmega808/1608/3208/4808 pinout**                                                                                                                                                                                |
 |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|<img src="https://i.imgur.com/CZFxayQ.png" width="350"><br/><img src="https://i.imgur.com/oKxqCXz.png" width="350"><br/><img src="https://i.imgur.com/wXDTTU2.png" width="350">|<img src="https://i.imgur.com/MAcCZJ9.png" width="350"><br/><br/><br/><br/><img src="https://i.imgur.com/CXw4oIf.png" width="350"><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>|
+|<img src="https://i.imgur.com/kmP8rQO.png" width="350"><br/><img src="https://i.imgur.com/Uog2AAn.png" width="350"><br/><img src="https://i.imgur.com/ipF1hxT.jpg" width="350">|<img src="https://i.imgur.com/CpqDbIM.png" width="350"><br/><br/><br/><br/><img src="https://i.imgur.com/OC7Y2EP.png" width="350"><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>|
 
 
 ## Alternative pins
@@ -171,7 +172,12 @@ The repeat frequency for the pulses on all PWM outputs can be changed with the n
 `kHz` values of 1 (default), 4, 8, 16, 32 and 64 are supported. Note that these values are very approximate. A best effort within
 the constraints of the hardware will be made to match the request.
 
-Note also that tone() will use TCB1 so the corresponding PWM output is not available if it is used.
+Note also that tone() will use TCB1, so the corresponding PWM output is not available if it is used.
+
+
+## Configurable custom logic (CCL)
+The megaAVR-0 microcontrollers are equipped with four independent configurable logic blocks that can be used to improve speed and performence. The CCL pins are marked on all pinout diagrams in a dark blue/grey color. The logic blocks can be used independently from eachother, connected together or generate interrupt for to the CPU. I've made a [light weight, high level library](https://github.com/MCUdude/MegaCoreX/tree/master/megaavr/libraries/Logic) for easy integraion with the CCL hardware.
+
 
 ## How to install
 #### Boards Manager Installation
@@ -195,22 +201,22 @@ Here's some simple schematics that shows a minimal setup. The straight 6-pin hea
 [The Arduino Uno WiFi Rev2](https://store.arduino.cc/usa/arduino-uno-wifi-rev2) is the easiest board out of these to get started with, because it's officially supported by Arduino. It uses an ATmega4809, and recommended pinout is *Uno WiFi*. Printing to the serial monitor on your PC is done by initializing `Serial.begin(baud)`. You'll also have to choose **Atmel mEDBG (ATmega32u4)** as your programmer in order to upload code. For more information about this board please see the product page and its schematic.
 
 Click to enlarge:  
-<img src="https://i.imgur.com/cPHPDUU.jpg" width="350">
+<img src="https://i.imgur.com/IXKlx7a.png" width="400">
 
 ### Curiosity Nano
 [The Curiosity Nano](https://www.microchip.com/developmenttools/ProductDetails/DM320115) uses an ATmega4809 but has a different pinout than the Uno Wifi Rev2. Recommended pinout for this board is *48 pin standard*. Use the `LED_BUILTIN` macro to control the onboard LED. Note that UART3 is connected to the nEDBG chip (often refered to as the debug serial port). This means you'll have to use `Serial3.begin(baud)` in order to print to the serial monitor. You'll also have to choose **Atmel nEDBG (ATSAMD21E18)** as your programmer in order to upload code. For more information about this board please refer to the userguide and its schematic.
 
 Click to enlarge:  
-<img src="https://i.imgur.com/PjnhQzb.jpg" width="350">
+<img src="https://i.imgur.com/Hapb3xX.jpg" width="350">
 
 ### AVR-IOT WG
 [The AVR-IOT WG](https://www.microchip.com/developmenttools/ProductDetails/AC164160) uses the ATmega4808 in a 32 pin package. *32 pin standard* is the correct pinout for this board. Use the `LED_BUILTIN` macro to control the onboard LED marked with *WIFI*.  Note that UART2 is connected to the nEDBG chip (often refered to as the debug serial port). This means tou'll have to use `Serial2.begin(baud)` in order to print to the serial monitor. You'll also have to choose **Atmel nEDBG (ATSAMD21E18)** as your programmer in order to upload code. For more information about this board please refer to the userguide and its schematic.
 
 Click to enlarge:  
-<img src="https://i.imgur.com/oIdfUkV.png" width="350">
+<img src="https://i.imgur.com/oWqoqLC.png" width="350">
 
 ### ATmega4809 Xplained Pro
 [The ATmega4809 Xplained Pro](https://www.microchip.com/developmenttools/ProductDetails/atmega4809-xpro) uses an ATmega4809. Recommended pinout for this board is *48 pin standard*. Note that the UART1 is connected to the EDBG chip (often refered to as the debug serial port). This means you'll have to use `Serial1.begin(baud)` in order to print to the serial monitor. You'll also have to choose **Atmel EDBG (AT32UC3A4256)** as your programmer in order to upload code. For more information about this board please refer to the userguide and its schematic.
 
 Click to enlarge:  
-<img src="https://i.imgur.com/AqvQhFH.jpg" width="350">
+<img src="https://i.imgur.com/ssZs0dC.jpg" width="400">

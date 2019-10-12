@@ -127,10 +127,10 @@ class UartClass : public HardwareSerial
     volatile USART_t * const _hwserial_module;
 
     struct UartPinSet {
-	uint8_t const rx_pin;
-	uint8_t const tx_pin;
-	uint8_t const mux;
-     } _hw_set[SERIAL_PIN_SETS];
+ 	    uint8_t const rx_pin;
+ 	    uint8_t const tx_pin;
+ 	    uint8_t const mux;
+    } _hw_set[SERIAL_PIN_SETS];
 
     uint8_t _pin_set;
 
@@ -149,8 +149,9 @@ class UartClass : public HardwareSerial
     volatile unsigned char _tx_buffer[SERIAL_TX_BUFFER_SIZE];
 
   public:
-    inline UartClass(volatile USART_t *hwserial_module, uint8_t hwserial_rx_pin, uint8_t hwserial_tx_pin, uint8_t hwserial_rx_pin_swap, uint8_t hwserial_tx_pin_swap, uint8_t uart_mux, uint8_t uart_mux_swap);
+    inline UartClass(volatile USART_t *hwserial_module, uint8_t hwserial_rx_pin, uint8_t hwserial_tx_pin, uint8_t hwserial_rx_pin_swap, uint8_t hwserial_tx_pin_swap, /* uint8_t dre_vect_num, */ uint8_t uart_mux, uint8_t uart_mux_swap);
     bool pins(uint8_t tx, uint8_t rx);
+    bool swap(uint8_t state = 1);
     void begin(unsigned long baud) { begin(baud, SERIAL_8N1); }
     void begin(unsigned long, uint16_t);
     void end();

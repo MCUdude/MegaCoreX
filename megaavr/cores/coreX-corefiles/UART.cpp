@@ -144,14 +144,33 @@ void UartClass::_poll_tx_data_empty(void) {
 // Invoke this function before 'begin' to define the pins used
 bool UartClass::pins(uint8_t tx, uint8_t rx)
 {
-    for (_pin_set = 0; _pin_set < SERIAL_PIN_SETS; ++_pin_set) {
-	if (tx == _hw_set[_pin_set].tx_pin && rx == _hw_set[_pin_set].rx_pin) {
-	    // We are good, this set of pins is supported
-	    return true;
-	}
-    }
-    _pin_set = 0; // Default to standard
+  for (_pin_set = 0; _pin_set < SERIAL_PIN_SETS; ++_pin_set) {
+    if (tx == _hw_set[_pin_set].tx_pin && rx == _hw_set[_pin_set].rx_pin) {
+      // We are good, this set of pins is supported
+ 	    return true;
+ 	  }
+  }
+  _pin_set = 0; // Default to standard
+  return false;
+}
+
+bool UartClass::swap(uint8_t state)
+{
+  if(state == 1) // Use alternative pin position
+  {
+    _pin_set = state;
+    return true;
+  }
+  else if(state == 0) // Use default pin position
+  {
+    _pin_set = 0;
+    return true;
+  }
+  else  // Invalid swap value. Use default position
+  {
+    _pin_set = 0;
     return false;
+  }
 }
 
 void UartClass::begin(unsigned long baud, uint16_t config)

@@ -1,0 +1,70 @@
+#######################################
+# Syntax Coloring Map For Wire
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+#masked	LITERAL1
+#unused	LITERAL1
+#disable	LITERAL1
+#feedback	LITERAL1
+#link	LITERAL1
+#event_a	LITERAL1
+#event_b	LITERAL1
+#input	LITERAL1
+#ac	LITERAL1
+#input_pullup	LITERAL1
+#usart	LITERAL1
+#spi	LITERAL1
+#tca0	LITERAL1
+#tcb	LITERAL1
+
+#disable	LITERAL1
+#no_swap	LITERAL1
+#enable	LITERAL1
+#pin_swap	LITERAL1
+
+#disable	LITERAL1
+#synchronizer	LITERAL1
+#filter	LITERAL1
+
+#disable	LITERAL1
+#d_flip_flop	LITERAL1
+#jk_flip_flop	LITERAL1
+#d_latch	LITERAL1
+#sr_latch	LITERAL1
+#rs_latch	LITERAL1
+
+
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+begin	KEYWORD2
+end	KEYWORD2
+init	KEYWORD2
+attachInterrupt	KEYWORD2
+detachInterrupt	KEYWORD2
+
+
+#######################################
+# Instances (KEYWORD2)
+#######################################
+
+Logic	KEYWORD2
+block0	KEYWORD2
+block1	KEYWORD2
+block2	KEYWORD2
+block3	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+in	LITERAL1
+out	LITERAL1
+filter	LITERAL1
+sequencer	LITERAL1
