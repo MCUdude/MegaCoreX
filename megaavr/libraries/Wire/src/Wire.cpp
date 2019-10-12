@@ -97,7 +97,6 @@ bool TwoWire::swap(uint8_t state)
   }
 #endif
   return false;
->>>>>>> upstream/master
 }
 
 void TwoWire::begin(void)
