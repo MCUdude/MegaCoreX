@@ -24,11 +24,12 @@
 #define NUM_ANALOG_INPUTS              8
 #define NUM_RESERVED_PINS              0
 #define NUM_INTERNALLY_USED_PINS       0
-#define NUM_I2C_PINS                   2  // (SDA / SCL)
-#define NUM_SPI_PINS                   3  // (MISO / MOSI / SCK)
+#define NUM_I2C_PINS                   2 // (SDA / SCL)
+#define NUM_SPI_PINS                   3 // (MISO / MOSI / SCK)
 #define NUM_TOTAL_FREE_PINS            (NUM_DIGITAL_PINS)
 #define NUM_TOTAL_PINS                 (NUM_DIGITAL_PINS)
-#define ANALOG_INPUT_OFFSET            12 
+#define ANALOG_INPUT_OFFSET            12
+#define LED_BUILTIN                    7 // PA7
 #define digitalPinToAnalogInput(p)     ((p < NUM_ANALOG_INPUTS) ? (p) : (p) - 12)
 #define digitalOrAnalogPinToDigital(p) ((p < 8) ? ((p) + ANALOG_INPUT_OFFSET) : ((p) >= 12 && (p) <= 19) ? (p) :  NOT_A_PIN)
 
@@ -74,8 +75,6 @@ static const uint8_t SCK  = PIN_SPI_SCK;
 #define PIN_WIRE_SCL_PINSWAP_1 (11)
 static const uint8_t SDA = PIN_WIRE_SDA;
 static const uint8_t SCL = PIN_WIRE_SCL;
-
-#define LED_BUILTIN 15
 
 // USART 0
 // No pinswap by default
