@@ -12,7 +12,6 @@ menu.bootloader=Bootloader
 # General
 4809.name=ATmega4809
 4809.upload.tool=avrdude
-4809.upload.maximum_size=49152
 4809.upload.maximum_data_size=6144
 4809.upload.speed=115200
 4809.bootloader.tool=avrdude
@@ -137,12 +136,14 @@ menu.bootloader=Bootloader
 
 # Bootloader
 4809.menu.bootloader.no_bootloader=No bootloader
+4809.menu.bootloader.no_bootloader.upload.maximum_size=49152
 4809.menu.bootloader.no_bootloader.upload.extra_params=
 4809.menu.bootloader.no_bootloader.build.text_section_start=.text=0x0
 4809.menu.bootloader.no_bootloader.bootloader.file=/empty/empty.hex
 4809.menu.bootloader.no_bootloader.bootloader.BOOTEND=0x00
 
 4809.menu.bootloader.uart0_default=Optiboot (UART0 default pins)
+4809.menu.bootloader.uart0_default.upload.maximum_size=48640
 4809.menu.bootloader.uart0_default.upload.protocol=arduino
 4809.menu.bootloader.uart0_default.upload.extra_params=
 4809.menu.bootloader.uart0_default.build.text_section_start=.text=0x200
@@ -151,6 +152,7 @@ menu.bootloader=Bootloader
 4809.menu.bootloader.uart0_default.bootloader.SYSCFG0=0xC9
 
 4809.menu.bootloader.uart0_alternative=Optiboot (UART0 alternative pins)
+4809.menu.bootloader.uart0_alternative.upload.maximum_size=48640
 4809.menu.bootloader.uart0_alternative.upload.protocol=arduino
 4809.menu.bootloader.uart0_alternative.upload.extra_params=
 4809.menu.bootloader.uart0_alternative.build.text_section_start=.text=0x200
@@ -159,6 +161,7 @@ menu.bootloader=Bootloader
 4809.menu.bootloader.uart0_alternative.bootloader.SYSCFG0=0xC9
 
 4809.menu.bootloader.uart1_default=Optiboot (UART1 default pins)
+4809.menu.bootloader.uart1_default.upload.maximum_size=48640
 4809.menu.bootloader.uart1_default.upload.protocol=arduino
 4809.menu.bootloader.uart1_default.upload.extra_params=
 4809.menu.bootloader.uart1_default.build.text_section_start=.text=0x200
@@ -167,6 +170,7 @@ menu.bootloader=Bootloader
 4809.menu.bootloader.uart1_default.bootloader.SYSCFG0=0xC9
 
 4809.menu.bootloader.uart1_alternative=Optiboot (UART1 alternative pins)
+4809.menu.bootloader.uart1_alternative.upload.maximum_size=48640
 4809.menu.bootloader.uart1_alternative.upload.protocol=arduino
 4809.menu.bootloader.uart1_alternative.upload.extra_params=
 4809.menu.bootloader.uart1_alternative.build.text_section_start=.text=0x200
@@ -175,6 +179,7 @@ menu.bootloader=Bootloader
 4809.menu.bootloader.uart1_alternative.bootloader.SYSCFG0=0xC9
 
 4809.menu.bootloader.uart2_default=Optiboot (UART2 default pins)
+4809.menu.bootloader.uart2_default.upload.maximum_size=48640
 4809.menu.bootloader.uart2_default.upload.protocol=arduino
 4809.menu.bootloader.uart2_default.upload.extra_params=
 4809.menu.bootloader.uart2_default.build.text_section_start=.text=0x200
@@ -183,6 +188,7 @@ menu.bootloader=Bootloader
 4809.menu.bootloader.uart2_default.bootloader.SYSCFG0=0xC9
 
 4809.menu.bootloader.uart2_alternative=Optiboot (UART2 alternative pins)
+4809.menu.bootloader.uart2_alternative.upload.maximum_size=48640
 4809.menu.bootloader.uart2_alternative.upload.protocol=arduino
 4809.menu.bootloader.uart2_alternative.upload.extra_params=
 4809.menu.bootloader.uart2_alternative.build.text_section_start=.text=0x200
@@ -191,6 +197,7 @@ menu.bootloader=Bootloader
 4809.menu.bootloader.uart2_alternative.bootloader.SYSCFG0=0xC9
 
 4809.menu.bootloader.uart3_default=Optiboot (UART3 default pins)
+4809.menu.bootloader.uart3_default.upload.maximum_size=48640
 4809.menu.bootloader.uart3_default.upload.protocol=arduino
 4809.menu.bootloader.uart3_default.upload.extra_params=
 4809.menu.bootloader.uart3_default.build.text_section_start=.text=0x200
@@ -199,6 +206,7 @@ menu.bootloader=Bootloader
 4809.menu.bootloader.uart3_default.bootloader.SYSCFG0=0xC9
 
 4809.menu.bootloader.uart3_alternative=Optiboot (UART3 alternative pins)
+4809.menu.bootloader.uart3_alternative.upload.maximum_size=48640
 4809.menu.bootloader.uart3_alternative.upload.protocol=arduino
 4809.menu.bootloader.uart3_alternative.upload.extra_params=
 4809.menu.bootloader.uart3_alternative.build.text_section_start=.text=0x200
@@ -214,7 +222,6 @@ menu.bootloader=Bootloader
 # General
 4808.name=ATmega4808
 4808.upload.tool=avrdude
-4808.upload.maximum_size=49152
 4808.upload.maximum_data_size=6144
 4808.upload.speed=115200
 4808.bootloader.tool=avrdude
@@ -331,12 +338,14 @@ menu.bootloader=Bootloader
 
 # Bootloader
 4808.menu.bootloader.no_bootloader=No bootloader
+4808.menu.bootloader.no_bootloader.upload.maximum_size=49152
 4808.menu.bootloader.no_bootloader.upload.extra_params=
 4808.menu.bootloader.no_bootloader.build.text_section_start=.text=0x0
 4808.menu.bootloader.no_bootloader.bootloader.file=/empty/empty.hex
 4808.menu.bootloader.no_bootloader.bootloader.BOOTEND=0x00
 
 4808.menu.bootloader.uart0_default=Optiboot (UART0 default pins)
+4808.menu.bootloader.uart0_default.upload.maximum_size=48640
 4808.menu.bootloader.uart0_default.upload.protocol=arduino
 4808.menu.bootloader.uart0_default.upload.extra_params=
 4808.menu.bootloader.uart0_default.build.text_section_start=.text=0x200
@@ -345,6 +354,7 @@ menu.bootloader=Bootloader
 4808.menu.bootloader.uart0_default.bootloader.SYSCFG0=0xC9
 
 4808.menu.bootloader.uart0_alternative=Optiboot (UART0 alternative pins)
+4808.menu.bootloader.uart0_alternative.upload.maximum_size=48640
 4808.menu.bootloader.uart0_alternative.upload.protocol=arduino
 4808.menu.bootloader.uart0_alternative.upload.extra_params=
 4808.menu.bootloader.uart0_alternative.build.text_section_start=.text=0x200
@@ -353,6 +363,7 @@ menu.bootloader=Bootloader
 4808.menu.bootloader.uart0_alternative.bootloader.SYSCFG0=0xC9
 
 4808.menu.bootloader.uart1_default=Optiboot (UART1 default pins)
+4808.menu.bootloader.uart1_default.upload.maximum_size=48640
 4808.menu.bootloader.uart1_default.upload.protocol=arduino
 4808.menu.bootloader.uart1_default.upload.extra_params=
 4808.menu.bootloader.uart1_default.build.text_section_start=.text=0x200
@@ -361,6 +372,7 @@ menu.bootloader=Bootloader
 4808.menu.bootloader.uart1_default.bootloader.SYSCFG0=0xC9
 
 4808.menu.bootloader.uart1_alternative=Optiboot (UART1 alternative pins)
+4808.menu.bootloader.uart1_alternative.upload.maximum_size=48640
 4808.menu.bootloader.uart1_alternative.upload.protocol=arduino
 4808.menu.bootloader.uart1_alternative.upload.extra_params=
 4808.menu.bootloader.uart1_alternative.build.text_section_start=.text=0x200
@@ -369,6 +381,7 @@ menu.bootloader=Bootloader
 4808.menu.bootloader.uart1_alternative.bootloader.SYSCFG0=0xC9
 
 4808.menu.bootloader.uart2_default=Optiboot (UART2 default pins)
+4808.menu.bootloader.uart2_default.upload.maximum_size=48640
 4808.menu.bootloader.uart2_default.upload.protocol=arduino
 4808.menu.bootloader.uart2_default.upload.extra_params=
 4808.menu.bootloader.uart2_default.build.text_section_start=.text=0x200
@@ -377,6 +390,7 @@ menu.bootloader=Bootloader
 4808.menu.bootloader.uart2_default.bootloader.SYSCFG0=0xC9
 
 4808.menu.bootloader.uart2_alternative=Optiboot (UART2 alternative pins)
+4808.menu.bootloader.uart2_alternative.upload.maximum_size=48640
 4808.menu.bootloader.uart2_alternative.upload.protocol=arduino
 4808.menu.bootloader.uart2_alternative.upload.extra_params=
 4808.menu.bootloader.uart2_alternative.build.text_section_start=.text=0x200
@@ -392,7 +406,6 @@ menu.bootloader=Bootloader
 # General
 3209.name=ATmega3209
 3209.upload.tool=avrdude
-3209.upload.maximum_size=32768
 3209.upload.maximum_data_size=4096
 3209.upload.speed=115200
 3209.bootloader.tool=avrdude
@@ -511,12 +524,14 @@ menu.bootloader=Bootloader
 
 # Bootloader
 3209.menu.bootloader.no_bootloader=No bootloader
+3209.menu.bootloader.no_bootloader.upload.maximum_size=32768
 3209.menu.bootloader.no_bootloader.upload.extra_params=
 3209.menu.bootloader.no_bootloader.build.text_section_start=.text=0x0
 3209.menu.bootloader.no_bootloader.bootloader.file=/empty/empty.hex
 3209.menu.bootloader.no_bootloader.bootloader.BOOTEND=0x00
 
 3209.menu.bootloader.uart0_default=Optiboot (UART0 default pins)
+3209.menu.bootloader.uart0_default.upload.maximum_size=32256
 3209.menu.bootloader.uart0_default.upload.protocol=arduino
 3209.menu.bootloader.uart0_default.upload.extra_params=
 3209.menu.bootloader.uart0_default.build.text_section_start=.text=0x200
@@ -525,6 +540,7 @@ menu.bootloader=Bootloader
 3209.menu.bootloader.uart0_default.bootloader.SYSCFG0=0xC9
 
 3209.menu.bootloader.uart0_alternative=Optiboot (UART0 alternative pins)
+3209.menu.bootloader.uart0_alternative.upload.maximum_size=32256
 3209.menu.bootloader.uart0_alternative.upload.protocol=arduino
 3209.menu.bootloader.uart0_alternative.upload.extra_params=
 3209.menu.bootloader.uart0_alternative.build.text_section_start=.text=0x200
@@ -533,6 +549,7 @@ menu.bootloader=Bootloader
 3209.menu.bootloader.uart0_alternative.bootloader.SYSCFG0=0xC9
 
 3209.menu.bootloader.uart1_default=Optiboot (UART1 default pins)
+3209.menu.bootloader.uart1_default.upload.maximum_size=32256
 3209.menu.bootloader.uart1_default.upload.protocol=arduino
 3209.menu.bootloader.uart1_default.upload.extra_params=
 3209.menu.bootloader.uart1_default.build.text_section_start=.text=0x200
@@ -541,6 +558,7 @@ menu.bootloader=Bootloader
 3209.menu.bootloader.uart1_default.bootloader.SYSCFG0=0xC9
 
 3209.menu.bootloader.uart1_alternative=Optiboot (UART1 alternative pins)
+3209.menu.bootloader.uart1_alternative.upload.maximum_size=32256
 3209.menu.bootloader.uart1_alternative.upload.protocol=arduino
 3209.menu.bootloader.uart1_alternative.upload.extra_params=
 3209.menu.bootloader.uart1_alternative.build.text_section_start=.text=0x200
@@ -549,6 +567,7 @@ menu.bootloader=Bootloader
 3209.menu.bootloader.uart1_alternative.bootloader.SYSCFG0=0xC9
 
 3209.menu.bootloader.uart2_default=Optiboot (UART2 default pins)
+3209.menu.bootloader.uart2_default.upload.maximum_size=32256
 3209.menu.bootloader.uart2_default.upload.protocol=arduino
 3209.menu.bootloader.uart2_default.upload.extra_params=
 3209.menu.bootloader.uart2_default.build.text_section_start=.text=0x200
@@ -557,6 +576,7 @@ menu.bootloader=Bootloader
 3209.menu.bootloader.uart2_default.bootloader.SYSCFG0=0xC9
 
 3209.menu.bootloader.uart2_alternative=Optiboot (UART2 alternative pins)
+3209.menu.bootloader.uart2_alternative.upload.maximum_size=32256
 3209.menu.bootloader.uart2_alternative.upload.protocol=arduino
 3209.menu.bootloader.uart2_alternative.upload.extra_params=
 3209.menu.bootloader.uart2_alternative.build.text_section_start=.text=0x200
@@ -565,6 +585,7 @@ menu.bootloader=Bootloader
 3209.menu.bootloader.uart2_alternative.bootloader.SYSCFG0=0xC9
 
 3209.menu.bootloader.uart3_default=Optiboot (UART3 default pins)
+3209.menu.bootloader.uart3_default.upload.maximum_size=32256
 3209.menu.bootloader.uart3_default.upload.protocol=arduino
 3209.menu.bootloader.uart3_default.upload.extra_params=
 3209.menu.bootloader.uart3_default.build.text_section_start=.text=0x200
@@ -573,6 +594,7 @@ menu.bootloader=Bootloader
 3209.menu.bootloader.uart3_default.bootloader.SYSCFG0=0xC9
 
 3209.menu.bootloader.uart3_alternative=Optiboot (UART3 alternative pins)
+3209.menu.bootloader.uart3_alternative.upload.maximum_size=32256
 3209.menu.bootloader.uart3_alternative.upload.protocol=arduino
 3209.menu.bootloader.uart3_alternative.upload.extra_params=
 3209.menu.bootloader.uart3_alternative.build.text_section_start=.text=0x200
@@ -588,7 +610,6 @@ menu.bootloader=Bootloader
 # General
 3208.name=ATmega3208
 3208.upload.tool=avrdude
-3208.upload.maximum_size=32768
 3208.upload.maximum_data_size=4096
 3208.upload.speed=115200
 3208.bootloader.tool=avrdude
@@ -705,12 +726,14 @@ menu.bootloader=Bootloader
 
 # Bootloader
 3208.menu.bootloader.no_bootloader=No bootloader
+3208.menu.bootloader.no_bootloader.upload.maximum_size=32768
 3208.menu.bootloader.no_bootloader.upload.extra_params=
 3208.menu.bootloader.no_bootloader.build.text_section_start=.text=0x0
 3208.menu.bootloader.no_bootloader.bootloader.file=/empty/empty.hex
 3208.menu.bootloader.no_bootloader.bootloader.BOOTEND=0x00
 
 3208.menu.bootloader.uart0_default=Optiboot (UART0 default pins)
+3208.menu.bootloader.uart0_default.upload.maximum_size=32256
 3208.menu.bootloader.uart0_default.upload.protocol=arduino
 3208.menu.bootloader.uart0_default.upload.extra_params=
 3208.menu.bootloader.uart0_default.build.text_section_start=.text=0x200
@@ -719,6 +742,7 @@ menu.bootloader=Bootloader
 3208.menu.bootloader.uart0_default.bootloader.SYSCFG0=0xC9
 
 3208.menu.bootloader.uart0_alternative=Optiboot (UART0 alternative pins)
+3208.menu.bootloader.uart0_alternative.upload.maximum_size=32256
 3208.menu.bootloader.uart0_alternative.upload.protocol=arduino
 3208.menu.bootloader.uart0_alternative.upload.extra_params=
 3208.menu.bootloader.uart0_alternative.build.text_section_start=.text=0x200
@@ -727,6 +751,7 @@ menu.bootloader=Bootloader
 3208.menu.bootloader.uart0_alternative.bootloader.SYSCFG0=0xC9
 
 3208.menu.bootloader.uart1_default=Optiboot (UART1 default pins)
+3208.menu.bootloader.uart1_default.upload.maximum_size=32256
 3208.menu.bootloader.uart1_default.upload.protocol=arduino
 3208.menu.bootloader.uart1_default.upload.extra_params=
 3208.menu.bootloader.uart1_default.build.text_section_start=.text=0x200
@@ -735,6 +760,7 @@ menu.bootloader=Bootloader
 3208.menu.bootloader.uart1_default.bootloader.SYSCFG0=0xC9
 
 3208.menu.bootloader.uart1_alternative=Optiboot (UART1 alternative pins)
+3208.menu.bootloader.uart1_alternative.upload.maximum_size=32256
 3208.menu.bootloader.uart1_alternative.upload.protocol=arduino
 3208.menu.bootloader.uart1_alternative.upload.extra_params=
 3208.menu.bootloader.uart1_alternative.build.text_section_start=.text=0x200
@@ -743,6 +769,7 @@ menu.bootloader=Bootloader
 3208.menu.bootloader.uart1_alternative.bootloader.SYSCFG0=0xC9
 
 3208.menu.bootloader.uart2_default=Optiboot (UART2 default pins)
+3208.menu.bootloader.uart2_default.upload.maximum_size=32256
 3208.menu.bootloader.uart2_default.upload.protocol=arduino
 3208.menu.bootloader.uart2_default.upload.extra_params=
 3208.menu.bootloader.uart2_default.build.text_section_start=.text=0x200
@@ -751,6 +778,7 @@ menu.bootloader=Bootloader
 3208.menu.bootloader.uart2_default.bootloader.SYSCFG0=0xC9
 
 3208.menu.bootloader.uart2_alternative=Optiboot (UART2 alternative pins)
+3208.menu.bootloader.uart2_alternative.upload.maximum_size=32256
 3208.menu.bootloader.uart2_alternative.upload.protocol=arduino
 3208.menu.bootloader.uart2_alternative.upload.extra_params=
 3208.menu.bootloader.uart2_alternative.build.text_section_start=.text=0x200
@@ -766,7 +794,6 @@ menu.bootloader=Bootloader
 # General
 1609.name=ATmega1609
 1609.upload.tool=avrdude
-1609.upload.maximum_size=16384
 1609.upload.maximum_data_size=2048
 1609.upload.speed=115200
 1609.bootloader.tool=avrdude
@@ -885,12 +912,14 @@ menu.bootloader=Bootloader
 
 # Bootloader
 1609.menu.bootloader.no_bootloader=No bootloader
+1609.menu.bootloader.no_bootloader.upload.maximum_size=16384
 1609.menu.bootloader.no_bootloader.upload.extra_params=
 1609.menu.bootloader.no_bootloader.build.text_section_start=.text=0x0
 1609.menu.bootloader.no_bootloader.bootloader.file=/empty/empty.hex
 1609.menu.bootloader.no_bootloader.bootloader.BOOTEND=0x00
 
 1609.menu.bootloader.uart0_default=Optiboot (UART0 default pins)
+1609.menu.bootloader.uart0_default.upload.maximum_size=15872
 1609.menu.bootloader.uart0_default.upload.protocol=arduino
 1609.menu.bootloader.uart0_default.upload.extra_params=
 1609.menu.bootloader.uart0_default.build.text_section_start=.text=0x200
@@ -899,6 +928,7 @@ menu.bootloader=Bootloader
 1609.menu.bootloader.uart0_default.bootloader.SYSCFG0=0xC9
 
 1609.menu.bootloader.uart0_alternative=Optiboot (UART0 alternative pins)
+1609.menu.bootloader.uart0_alternative.upload.maximum_size=15872
 1609.menu.bootloader.uart0_alternative.upload.protocol=arduino
 1609.menu.bootloader.uart0_alternative.upload.extra_params=
 1609.menu.bootloader.uart0_alternative.build.text_section_start=.text=0x200
@@ -907,6 +937,7 @@ menu.bootloader=Bootloader
 1609.menu.bootloader.uart0_alternative.bootloader.SYSCFG0=0xC9
 
 1609.menu.bootloader.uart1_default=Optiboot (UART1 default pins)
+1609.menu.bootloader.uart1_default.upload.maximum_size=15872
 1609.menu.bootloader.uart1_default.upload.protocol=arduino
 1609.menu.bootloader.uart1_default.upload.extra_params=
 1609.menu.bootloader.uart1_default.build.text_section_start=.text=0x200
@@ -915,6 +946,7 @@ menu.bootloader=Bootloader
 1609.menu.bootloader.uart1_default.bootloader.SYSCFG0=0xC9
 
 1609.menu.bootloader.uart1_alternative=Optiboot (UART1 alternative pins)
+1609.menu.bootloader.uart1_alternative.upload.maximum_size=15872
 1609.menu.bootloader.uart1_alternative.upload.protocol=arduino
 1609.menu.bootloader.uart1_alternative.upload.extra_params=
 1609.menu.bootloader.uart1_alternative.build.text_section_start=.text=0x200
@@ -923,6 +955,7 @@ menu.bootloader=Bootloader
 1609.menu.bootloader.uart1_alternative.bootloader.SYSCFG0=0xC9
 
 1609.menu.bootloader.uart2_default=Optiboot (UART2 default pins)
+1609.menu.bootloader.uart2_default.upload.maximum_size=15872
 1609.menu.bootloader.uart2_default.upload.protocol=arduino
 1609.menu.bootloader.uart2_default.upload.extra_params=
 1609.menu.bootloader.uart2_default.build.text_section_start=.text=0x200
@@ -931,6 +964,7 @@ menu.bootloader=Bootloader
 1609.menu.bootloader.uart2_default.bootloader.SYSCFG0=0xC9
 
 1609.menu.bootloader.uart2_alternative=Optiboot (UART2 alternative pins)
+1609.menu.bootloader.uart2_alternative.upload.maximum_size=15872
 1609.menu.bootloader.uart2_alternative.upload.protocol=arduino
 1609.menu.bootloader.uart2_alternative.upload.extra_params=
 1609.menu.bootloader.uart2_alternative.build.text_section_start=.text=0x200
@@ -939,6 +973,7 @@ menu.bootloader=Bootloader
 1609.menu.bootloader.uart2_alternative.bootloader.SYSCFG0=0xC9
 
 1609.menu.bootloader.uart3_default=Optiboot (UART3 default pins)
+1609.menu.bootloader.uart3_default.upload.maximum_size=15872
 1609.menu.bootloader.uart3_default.upload.protocol=arduino
 1609.menu.bootloader.uart3_default.upload.extra_params=
 1609.menu.bootloader.uart3_default.build.text_section_start=.text=0x200
@@ -947,6 +982,7 @@ menu.bootloader=Bootloader
 1609.menu.bootloader.uart3_default.bootloader.SYSCFG0=0xC9
 
 1609.menu.bootloader.uart3_alternative=Optiboot (UART3 alternative pins)
+1609.menu.bootloader.uart3_alternative.upload.maximum_size=15872
 1609.menu.bootloader.uart3_alternative.upload.protocol=arduino
 1609.menu.bootloader.uart3_alternative.upload.extra_params=
 1609.menu.bootloader.uart3_alternative.build.text_section_start=.text=0x200
@@ -962,7 +998,6 @@ menu.bootloader=Bootloader
 # General
 1608.name=ATmega1608
 1608.upload.tool=avrdude
-1608.upload.maximum_size=16384
 1608.upload.maximum_data_size=2048
 1608.upload.speed=115200
 1608.bootloader.tool=avrdude
@@ -1079,12 +1114,14 @@ menu.bootloader=Bootloader
 
 # Bootloader
 1608.menu.bootloader.no_bootloader=No bootloader
+1608.menu.bootloader.no_bootloader.upload.maximum_size=16384
 1608.menu.bootloader.no_bootloader.upload.extra_params=
 1608.menu.bootloader.no_bootloader.build.text_section_start=.text=0x0
 1608.menu.bootloader.no_bootloader.bootloader.file=/empty/empty.hex
 1608.menu.bootloader.no_bootloader.bootloader.BOOTEND=0x00
 
 1608.menu.bootloader.uart0_default=Optiboot (UART0 default pins)
+1608.menu.bootloader.uart0_default.upload.maximum_size=15872
 1608.menu.bootloader.uart0_default.upload.protocol=arduino
 1608.menu.bootloader.uart0_default.upload.extra_params=
 1608.menu.bootloader.uart0_default.build.text_section_start=.text=0x200
@@ -1093,6 +1130,7 @@ menu.bootloader=Bootloader
 1608.menu.bootloader.uart0_default.bootloader.SYSCFG0=0xC9
 
 1608.menu.bootloader.uart0_alternative=Optiboot (UART0 alternative pins)
+1608.menu.bootloader.uart0_alternative.upload.maximum_size=15872
 1608.menu.bootloader.uart0_alternative.upload.protocol=arduino
 1608.menu.bootloader.uart0_alternative.upload.extra_params=
 1608.menu.bootloader.uart0_alternative.build.text_section_start=.text=0x200
@@ -1101,6 +1139,7 @@ menu.bootloader=Bootloader
 1608.menu.bootloader.uart0_alternative.bootloader.SYSCFG0=0xC9
 
 1608.menu.bootloader.uart1_default=Optiboot (UART1 default pins)
+1608.menu.bootloader.uart1_default.upload.maximum_size=15872
 1608.menu.bootloader.uart1_default.upload.protocol=arduino
 1608.menu.bootloader.uart1_default.upload.extra_params=
 1608.menu.bootloader.uart1_default.build.text_section_start=.text=0x200
@@ -1109,6 +1148,7 @@ menu.bootloader=Bootloader
 1608.menu.bootloader.uart1_default.bootloader.SYSCFG0=0xC9
 
 1608.menu.bootloader.uart1_alternative=Optiboot (UART1 alternative pins)
+1608.menu.bootloader.uart1_alternative.upload.maximum_size=15872
 1608.menu.bootloader.uart1_alternative.upload.protocol=arduino
 1608.menu.bootloader.uart1_alternative.upload.extra_params=
 1608.menu.bootloader.uart1_alternative.build.text_section_start=.text=0x200
@@ -1117,6 +1157,7 @@ menu.bootloader=Bootloader
 1608.menu.bootloader.uart1_alternative.bootloader.SYSCFG0=0xC9
 
 1608.menu.bootloader.uart2_default=Optiboot (UART2 default pins)
+1608.menu.bootloader.uart2_default.upload.maximum_size=15872
 1608.menu.bootloader.uart2_default.upload.protocol=arduino
 1608.menu.bootloader.uart2_default.upload.extra_params=
 1608.menu.bootloader.uart2_default.build.text_section_start=.text=0x200
@@ -1125,6 +1166,7 @@ menu.bootloader=Bootloader
 1608.menu.bootloader.uart2_default.bootloader.SYSCFG0=0xC9
 
 1608.menu.bootloader.uart2_alternative=Optiboot (UART2 alternative pins)
+1608.menu.bootloader.uart2_alternative.upload.maximum_size=15872
 1608.menu.bootloader.uart2_alternative.upload.protocol=arduino
 1608.menu.bootloader.uart2_alternative.upload.extra_params=
 1608.menu.bootloader.uart2_alternative.build.text_section_start=.text=0x200
@@ -1140,7 +1182,6 @@ menu.bootloader=Bootloader
 # General
 809.name=ATmega809
 809.upload.tool=avrdude
-809.upload.maximum_size=8192
 809.upload.maximum_data_size=1024
 809.upload.speed=115200
 809.bootloader.tool=avrdude
@@ -1259,12 +1300,14 @@ menu.bootloader=Bootloader
 
 # Bootloader
 809.menu.bootloader.no_bootloader=No bootloader
+809.menu.bootloader.no_bootloader.upload.maximum_size=8192
 809.menu.bootloader.no_bootloader.upload.extra_params=
 809.menu.bootloader.no_bootloader.build.text_section_start=.text=0x0
 809.menu.bootloader.no_bootloader.bootloader.file=/empty/empty.hex
 809.menu.bootloader.no_bootloader.bootloader.BOOTEND=0x00
 
 809.menu.bootloader.uart0_default=Optiboot (UART0 default pins)
+809.menu.bootloader.uart0_default.upload.maximum_size=7680
 809.menu.bootloader.uart0_default.upload.protocol=arduino
 809.menu.bootloader.uart0_default.upload.extra_params=
 809.menu.bootloader.uart0_default.build.text_section_start=.text=0x200
@@ -1273,6 +1316,7 @@ menu.bootloader=Bootloader
 809.menu.bootloader.uart0_default.bootloader.SYSCFG0=0xC9
 
 809.menu.bootloader.uart0_alternative=Optiboot (UART0 alternative pins)
+809.menu.bootloader.uart0_alternative.upload.maximum_size=7680
 809.menu.bootloader.uart0_alternative.upload.protocol=arduino
 809.menu.bootloader.uart0_alternative.upload.extra_params=
 809.menu.bootloader.uart0_alternative.build.text_section_start=.text=0x200
@@ -1281,6 +1325,7 @@ menu.bootloader=Bootloader
 809.menu.bootloader.uart0_alternative.bootloader.SYSCFG0=0xC9
 
 809.menu.bootloader.uart1_default=Optiboot (UART1 default pins)
+809.menu.bootloader.uart1_default.upload.maximum_size=7680
 809.menu.bootloader.uart1_default.upload.protocol=arduino
 809.menu.bootloader.uart1_default.upload.extra_params=
 809.menu.bootloader.uart1_default.build.text_section_start=.text=0x200
@@ -1289,6 +1334,7 @@ menu.bootloader=Bootloader
 809.menu.bootloader.uart1_default.bootloader.SYSCFG0=0xC9
 
 809.menu.bootloader.uart1_alternative=Optiboot (UART1 alternative pins)
+809.menu.bootloader.uart1_alternative.upload.maximum_size=7680
 809.menu.bootloader.uart1_alternative.upload.protocol=arduino
 809.menu.bootloader.uart1_alternative.upload.extra_params=
 809.menu.bootloader.uart1_alternative.build.text_section_start=.text=0x200
@@ -1297,6 +1343,7 @@ menu.bootloader=Bootloader
 809.menu.bootloader.uart1_alternative.bootloader.SYSCFG0=0xC9
 
 809.menu.bootloader.uart2_default=Optiboot (UART2 default pins)
+809.menu.bootloader.uart2_default.upload.maximum_size=7680
 809.menu.bootloader.uart2_default.upload.protocol=arduino
 809.menu.bootloader.uart2_default.upload.extra_params=
 809.menu.bootloader.uart2_default.build.text_section_start=.text=0x200
@@ -1305,6 +1352,7 @@ menu.bootloader=Bootloader
 809.menu.bootloader.uart2_default.bootloader.SYSCFG0=0xC9
 
 809.menu.bootloader.uart2_alternative=Optiboot (UART2 alternative pins)
+809.menu.bootloader.uart2_alternative.upload.maximum_size=7680
 809.menu.bootloader.uart2_alternative.upload.protocol=arduino
 809.menu.bootloader.uart2_alternative.upload.extra_params=
 809.menu.bootloader.uart2_alternative.build.text_section_start=.text=0x200
@@ -1313,6 +1361,7 @@ menu.bootloader=Bootloader
 809.menu.bootloader.uart2_alternative.bootloader.SYSCFG0=0xC9
 
 809.menu.bootloader.uart3_default=Optiboot (UART3 default pins)
+809.menu.bootloader.uart3_default.upload.maximum_size=7680
 809.menu.bootloader.uart3_default.upload.protocol=arduino
 809.menu.bootloader.uart3_default.upload.extra_params=
 809.menu.bootloader.uart3_default.build.text_section_start=.text=0x200
@@ -1321,6 +1370,7 @@ menu.bootloader=Bootloader
 809.menu.bootloader.uart3_default.bootloader.SYSCFG0=0xC9
 
 809.menu.bootloader.uart3_alternative=Optiboot (UART3 alternative pins)
+809.menu.bootloader.uart3_alternative.upload.maximum_size=7680
 809.menu.bootloader.uart3_alternative.upload.protocol=arduino
 809.menu.bootloader.uart3_alternative.upload.extra_params=
 809.menu.bootloader.uart3_alternative.build.text_section_start=.text=0x200
@@ -1336,7 +1386,6 @@ menu.bootloader=Bootloader
 # General
 808.name=ATmega808
 808.upload.tool=avrdude
-808.upload.maximum_size=8192
 808.upload.maximum_data_size=1024
 808.upload.speed=115200
 808.bootloader.tool=avrdude
@@ -1453,12 +1502,14 @@ menu.bootloader=Bootloader
 
 # Bootloader
 808.menu.bootloader.no_bootloader=No bootloader
+808.menu.bootloader.no_bootloader.upload.maximum_size=8192
 808.menu.bootloader.no_bootloader.upload.extra_params=
 808.menu.bootloader.no_bootloader.build.text_section_start=.text=0x0
 808.menu.bootloader.no_bootloader.bootloader.file=/empty/empty.hex
 808.menu.bootloader.no_bootloader.bootloader.BOOTEND=0x00
 
 808.menu.bootloader.uart0_default=Optiboot (UART0 default pins)
+808.menu.bootloader.uart0_default.upload.maximum_size=7680
 808.menu.bootloader.uart0_default.upload.protocol=arduino
 808.menu.bootloader.uart0_default.upload.extra_params=
 808.menu.bootloader.uart0_default.build.text_section_start=.text=0x200
@@ -1467,6 +1518,7 @@ menu.bootloader=Bootloader
 808.menu.bootloader.uart0_default.bootloader.SYSCFG0=0xC9
 
 808.menu.bootloader.uart0_alternative=Optiboot (UART0 alternative pins)
+808.menu.bootloader.uart0_alternative.upload.maximum_size=7680
 808.menu.bootloader.uart0_alternative.upload.protocol=arduino
 808.menu.bootloader.uart0_alternative.upload.extra_params=
 808.menu.bootloader.uart0_alternative.build.text_section_start=.text=0x200
@@ -1475,6 +1527,7 @@ menu.bootloader=Bootloader
 808.menu.bootloader.uart0_alternative.bootloader.SYSCFG0=0xC9
 
 808.menu.bootloader.uart1_default=Optiboot (UART1 default pins)
+808.menu.bootloader.uart1_default.upload.maximum_size=7680
 808.menu.bootloader.uart1_default.upload.protocol=arduino
 808.menu.bootloader.uart1_default.upload.extra_params=
 808.menu.bootloader.uart1_default.build.text_section_start=.text=0x200
@@ -1483,6 +1536,7 @@ menu.bootloader=Bootloader
 808.menu.bootloader.uart1_default.bootloader.SYSCFG0=0xC9
 
 808.menu.bootloader.uart1_alternative=Optiboot (UART1 alternative pins)
+808.menu.bootloader.uart1_alternative.upload.maximum_size=7680
 808.menu.bootloader.uart1_alternative.upload.protocol=arduino
 808.menu.bootloader.uart1_alternative.upload.extra_params=
 808.menu.bootloader.uart1_alternative.build.text_section_start=.text=0x200
@@ -1491,6 +1545,7 @@ menu.bootloader=Bootloader
 808.menu.bootloader.uart1_alternative.bootloader.SYSCFG0=0xC9
 
 808.menu.bootloader.uart2_default=Optiboot (UART2 default pins)
+808.menu.bootloader.uart2_default.upload.maximum_size=7680
 808.menu.bootloader.uart2_default.upload.protocol=arduino
 808.menu.bootloader.uart2_default.upload.extra_params=
 808.menu.bootloader.uart2_default.build.text_section_start=.text=0x200
@@ -1499,6 +1554,7 @@ menu.bootloader=Bootloader
 808.menu.bootloader.uart2_default.bootloader.SYSCFG0=0xC9
 
 808.menu.bootloader.uart2_alternative=Optiboot (UART2 alternative pins)
+808.menu.bootloader.uart2_alternative.upload.maximum_size=7680
 808.menu.bootloader.uart2_alternative.upload.protocol=arduino
 808.menu.bootloader.uart2_alternative.upload.extra_params=
 808.menu.bootloader.uart2_alternative.build.text_section_start=.text=0x200
