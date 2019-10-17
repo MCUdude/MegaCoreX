@@ -4,8 +4,8 @@
 | Three_input_NAND.ino                                                  |
 |                                                                       |
 | A library for interfacing with the megaAVR Configurable Custom Logic. |
-| Developed in 2019 by MCUdude for use with MegaCoreX.                  |
-| https://github.com/MCUdude/MegaCoreX                                  |
+| Developed in 2019 by MCUdude.                                         |
+| https://github.com/MCUdude/                                           |
 |                                                                       |
 | In this example we use the configurable logic peripherals the the     |
 | megaAVR to create a 3-input NAND gate using logic block 0 on PORT A.  |

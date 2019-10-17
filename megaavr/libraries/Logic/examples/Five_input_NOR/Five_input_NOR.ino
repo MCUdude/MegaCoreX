@@ -4,8 +4,8 @@
 | Five_input_NOR.ino                                                    |
 |                                                                       |
 | A library for interfacing with the megaAVR Configurable Custom Logic. |
-| Developed in 2019 by MCUdude for use with MegaCoreX.                  |
-| https://github.com/MCUdude/MegaCoreX                                  |
+| Developed in 2019 by MCUdude.                                         |
+| https://github.com/MCUdude/                                           |
 |                                                                       |
 | In this example we use two logic blocks to get five inputs.           |
 | The output of block 1 is connected to one of the inputs of block 0.   |
