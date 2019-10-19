@@ -165,7 +165,7 @@ Logic::start(); // Start CCL hardware
 
 
 
-## end()
+## stop()
 Method for stopping the CCL hardware.
 
 ##### Usage

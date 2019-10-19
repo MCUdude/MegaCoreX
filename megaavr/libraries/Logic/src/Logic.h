@@ -69,7 +69,7 @@ class Logic
 {
   public:
     static void start(bool state = true);
-    static void end();
+    static void stop();
 
     Logic(const uint8_t block_number);
     void init();

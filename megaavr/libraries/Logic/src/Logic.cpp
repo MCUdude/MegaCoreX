@@ -175,7 +175,7 @@ void Logic::start(bool state)
 
 
 // static
-void Logic::end()
+void Logic::stop()
 {
   start(false);
 }
