@@ -81,7 +81,7 @@ void AnalogComparator::start(bool state)
     AC.CTRLA &= ~AC_ENABLE_bm;
 }
 
-void AnalogComparator::end()
+void AnalogComparator::stop()
 {
   start(false);
 }

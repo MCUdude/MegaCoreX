@@ -66,7 +66,7 @@ class AnalogComparator
     AnalogComparator(const uint8_t comparator_number, AC_t& ac);
     void init();
     void start(bool state = true);
-    void end();
+    void stop();
     void attachInterrupt(voidFuncPtr callback, PinStatus mode);
     void detachInterrupt();
 

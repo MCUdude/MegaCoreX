@@ -12,7 +12,7 @@
 #######################################
 
 start	KEYWORD2
-end	KEYWORD2
+stop	KEYWORD2
 init	KEYWORD2
 attachInterrupt	KEYWORD2
 detachInterrupt	KEYWORD2
