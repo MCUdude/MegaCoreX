@@ -132,7 +132,7 @@ The megaAVR-0 microcontrollers are equipped with four independent configurable l
 The megaAVR-0 microcontrollers support alternative pin assignments for some of its built in peripherals.
 This is specified by invoking the `swap()` or `pins()` method before `begin()` for the associated peripheral.
 They will return `true` if that swap or pin combination is supported.
-For `Serial` peripherals the method is `pins(tx,rx)`, and for `Wire` it's `pins(sda,scl)`.
+For `Serial` peripherals the method is `pins(tx,rx)`, for `Wire` it's `pins(sda,scl)` and for `SPI` it's `pins(mosi,miso,sck,ss)`.
 (Note that this is the same pin sequence as used for the ESP8266 `pins` method, but the opposite of the one SoftwareSerial uses.)
 
 Note that `swap()` and `pins()` does the exact same thing, but `swap()` is MUX swap oriented, while `pins()` is pin oriented.
@@ -150,36 +150,43 @@ Serial3.begin(9600);
 // Wire pin swapping
 Wire.swap(1);
 Wire.begin();
+
+// SPI pin swapping
+SPI.swap(1);
+SPI.begin();
 ```
 
 Available pin combinations for the *48 pin standard* pinout are:
 
-| Peripheral | Default                       | Alternative                  |
-|------------|-------------------------------|------------------------------|
-| Serial     | swap(0)  **or**  pins(0,1)    | swap(1)  **or**  pins(4,5)   |
-| Serial1    | swap(0)  **or**  pins(12,13)  | swap(1)  **or**  pins(14,15) |
-| Serial2    | swap(0)  **or**  pins(32,35)  | swap(1)  **or**  pins(38,39) |
-| Serial3    | swap(0)  **or**  pins(8,9)    | swap(1)  **or**  pins(12,13) |
-| Wire       | swap(0)  **or**  pins(2,3)    | swap(1)  **or**  pins(16,17) |
+| Peripheral | Default                        | Alternative 1                      | Alternative 2                      |
+|------------|------------------------------- |------------------------------------|------------------------------------|
+| Serial     | swap(0)  **or**  pins(0,1)     | swap(1)  **or**  pins(4,5)         |                                    |
+| Serial1    | swap(0)  **or**  pins(12,13)   | swap(1)  **or**  pins(14,15)       |                                    |
+| Serial2    | swap(0)  **or**  pins(32,35)   | swap(1)  **or**  pins(38,39)       |                                    |
+| Serial3    | swap(0)  **or**  pins(8,9)     | swap(1)  **or**  pins(12,13)       |                                    |
+| Wire       | swap(0)  **or**  pins(2,3)     | swap(1)  **or**  pins(16,17)       |                                    |
+| SPI        | swap(0)  **or**  pins(4,5,6,7) | swap(1)  **or**  pins(14,15,16,17) | swap(2)  **or**  pins(30,31,32,33) |
+
 
 Available pin combinations for the *28 pin* and *32 pin standard* pinouts are:
 
-| Peripheral | Default                       | Alternative                  |
-|------------|-------------------------------|------------------------------|
-| Serial     | swap(0)  **or**  pins(0,1)    | swap(1)  **or**  pins(4,5)   |
-| Serial1    | swap(0)  **or**  pins(8,9)    | [No swap available]          |
-| Serial2    | swap(0)  **or**  pins(20,21)  | swap(1)  **or**  pins(24,25) |
-| Wire       | swap(0)  **or**  pins(2,3)    | swap(1)  **or**  pins(10,11) |
+| Peripheral | Default                        | Alternative                      |
+|------------|--------------------------------|----------------------------------|
+| Serial     | swap(0)  **or**  pins(0,1)     | swap(1)  **or**  pins(4,5)       |
+| Serial1    | swap(0)  **or**  pins(8,9)     |                                  |
+| Serial2    | swap(0)  **or**  pins(20,21)   | swap(1)  **or**  pins(24,25)     |
+| Wire       | swap(0)  **or**  pins(2,3)     | swap(1)  **or**  pins(10,11)     |
+| SPI        | swap(0)  **or**  pins(4,5,6,7) | swap(1)  **or**  pins(8,9,10,11) |
 
 Available pin combinations for the *Uno WiFi* pinout are:
 
-| Peripheral | Default                      | Alternative                  |
-|------------|------------------------------|------------------------------|
-| Serial     | swap(0)  **or**  pins(27,26) | swap(1)  **or**  pins(9,10)  |
-| Serial1    | swap(0)  **or**  pins(1,0)   | swap(1)  **or**  pins(32,33) |
-| Serial2    | swap(0)  **or**  pins(24,23) | swap(1)  **or**  pins(2,7)   |
-| Wire       | swap(0)  **or**  pins(20,21) | [No swap available]          |
-
+| Peripheral | Default                            | Alternative                  |
+|------------|------------------------------------|------------------------------|
+| Serial     | swap(0)  **or**  pins(27,26)       | swap(1)  **or**  pins(9,10)  |
+| Serial1    | swap(0)  **or**  pins(1,0)         | swap(1)  **or**  pins(32,33) |
+| Serial2    | swap(0)  **or**  pins(24,23)       | swap(1)  **or**  pins(2,7)   |
+| Wire       | swap(0)  **or**  pins(20,21)       |                              |
+| SPI        | swap(0)  **or**  pins(32,33,34,10) |                              |
 
 ## How to install
 #### Boards Manager Installation

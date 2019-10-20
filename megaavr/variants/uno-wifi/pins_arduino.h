@@ -48,8 +48,6 @@
 #define digitalPinHasPWM(p)         ((p) == 3 || (p) == 5 || (p) == 6 || (p) == 9 || (p) == 10)
 
 #define SPI_MUX              (PORTMUX_SPI0_ALT1_gc)
-#define SPI_MUX_PINSWAP_1    (PORTMUX_SPI0_ALT2_gc)
-#define SPI_MUX_PINSWAP_2    (PORTMUX_SPI0_DEFAULT_gc)
 #define PIN_SPI_MISO         (33)
 #define PIN_SPI_SCK          (34)
 #define PIN_SPI_MOSI         (32)

@@ -26,30 +26,101 @@
 
 const SPISettings DEFAULT_SPI_SETTINGS = SPISettings();
 
-SPIClass::SPIClass(uint8_t uc_pinMISO, uint8_t uc_pinSCK, uint8_t uc_pinMOSI, uint8_t uc_pinSS, uint8_t uc_mux)
+SPIClass::SPIClass()
 {
   initialized = false;
 
-  // pins
-  _uc_mux = uc_mux;
-  _uc_pinMiso = uc_pinMISO;
-  _uc_pinSCK = uc_pinSCK;
-  _uc_pinMosi = uc_pinMOSI;
-  _uc_pinSS = uc_pinSS;
+  // Default mux setting
+ #if defined(SPI_MUX)
+   _uc_mux = SPI_MUX;
+ #endif
+}
+
+bool SPIClass::pins(uint8_t pinMOSI, uint8_t pinMISO, uint8_t pinSCK, uint8_t pinSS)
+{
+#if defined(SPI_MUX)
+  #if defined(SPI_MUX_PINSWAP_1) || defined(SPI_MUX_PINSWAP_2)
+
+    _uc_mux = SPI_MUX;
+    #if defined(SPI_MUX_PINSWAP_1) && defined(PIN_SPI_MOSI_PINSWAP_1)
+      if(pinMOSI == PIN_SPI_MOSI_PINSWAP_1 && pinMISO == PIN_SPI_MISO_PINSWAP_1 && pinSCK == PIN_SPI_SCK_PINSWAP_1 && pinSS == PIN_SPI_SS_PINSWAP_1) 
+      {
+        _uc_mux = SPI_MUX_PINSWAP_1;
+      }
+    #endif
+    #if defined(SPI_MUX_PINSWAP_2) && defined(PIN_SPI_MOSI_PINSWAP_2)
+      if(pinMOSI == PIN_SPI_MOSI_PINSWAP_2 && pinMISO == PIN_SPI_MISO_PINSWAP_2 && pinSCK == PIN_SPI_SCK_PINSWAP_2 && pinSS == PIN_SPI_SS_PINSWAP_2) 
+      {
+        _uc_mux = SPI_MUX_PINSWAP_2;
+      }
+    #endif
+
+    if(_uc_mux != SPI_MUX)
+      return true;
+
+  #endif
+
+  return pinMOSI == PIN_SPI_MOSI && pinMISO == PIN_SPI_MISO && pinSCK == PIN_SPI_SCK && pinSS == PIN_SPI_SS;
+#else
+  return false;
+#endif
+}
+
+bool SPIClass::swap(uint8_t state)
+{
+  if(state == 0)
+  {
+    pins(PIN_SPI_MOSI, PIN_SPI_MISO, PIN_SPI_SCK, PIN_SPI_SS);
+    return true;
+  }
+  #if defined(SPI_MUX_PINSWAP_1)
+  else if(state == 1)
+    {
+      pins(PIN_SPI_MOSI_PINSWAP_1, PIN_SPI_MISO_PINSWAP_1, PIN_SPI_SCK_PINSWAP_1, PIN_SPI_SS_PINSWAP_1);
+      return true;
+    }
+  #endif
+  #if defined(SPI_MUX_PINSWAP_2)
+    else if(state == 2)
+    {
+      pins(PIN_SPI_MOSI_PINSWAP_2, PIN_SPI_MISO_PINSWAP_2, PIN_SPI_SCK_PINSWAP_2, PIN_SPI_SS_PINSWAP_2);
+      return true;
+    }
+  #endif
+  else
+    return false;
 }
 
 void SPIClass::begin()
 {
   init();
 
-  PORTMUX.TWISPIROUTEA |= _uc_mux;
+  PORTMUX.TWISPIROUTEA = _uc_mux | (PORTMUX.TWISPIROUTEA & ~3);
 
-  // We don't need HW SS since slave/master mode is selected via registers, so make it simply INPUT
-  pinMode(_uc_pinSS, INPUT);
-  pinMode(_uc_pinMosi, OUTPUT);
-  pinMode(_uc_pinSCK, OUTPUT);
   // MISO is set to input by the controller
-
+  if(_uc_mux == SPI_MUX)
+  {
+    pinMode(PIN_SPI_SS, INPUT);
+    pinMode(PIN_SPI_MOSI, OUTPUT);
+    pinMode(PIN_SPI_SCK, OUTPUT);
+  }
+  #if defined(SPI_MUX_PINSWAP_1)
+    else if(_uc_mux == SPI_MUX_PINSWAP_1)
+    {
+      pinMode(PIN_SPI_SS_PINSWAP_1, INPUT);
+      pinMode(PIN_SPI_MOSI_PINSWAP_1, OUTPUT);
+      pinMode(PIN_SPI_SCK_PINSWAP_1, OUTPUT);
+    }
+  #endif
+  #if defined(SPI_MUX_PINSWAP_2)
+    else if(_uc_mux == SPI_MUX_PINSWAP_2)
+    {
+      pinMode(PIN_SPI_SS_PINSWAP_2, INPUT);
+      pinMode(PIN_SPI_MOSI_PINSWAP_2, OUTPUT);
+      pinMode(PIN_SPI_SCK_PINSWAP_2, OUTPUT);
+    }
+  #endif
+  
   SPI0.CTRLB |= (SPI_SSD_bm);
   SPI0.CTRLA |= (SPI_ENABLE_bm | SPI_MASTER_bm);
 
@@ -264,5 +335,5 @@ void SPIClass::transfer(void *buf, size_t count)
 }
 
 #if SPI_INTERFACES_COUNT > 0
-  SPIClass SPI (PIN_SPI_MISO,  PIN_SPI_SCK,  PIN_SPI_MOSI,  PIN_SPI_SS,  SPI_MUX);
+  SPIClass SPI;
 #endif
