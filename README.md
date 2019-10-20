@@ -3,9 +3,9 @@
 An Arduino core for the new megaAVR series!
 
 **TODO:**
-* SPI pin swap integration in libraries
 * Readme
   - Need some good intro text at the beginning
+  - Bootloader info
 
 
 # Table of contents
@@ -16,7 +16,8 @@ An Arduino core for the new megaAVR series!
 * [Reset pin](#reset-pin)
 * [Pinout](#pinout)
 * [PWM output](#pwm-output)
-* [Configurable Custom Logic](#configurable-custom-logic-ccl)
+* [Configurable Custom Logic (CCL)](#configurable-custom-logic-ccl)
+* [Analog Comparator (AC)](#analog-comparator-ac)
 * [Alternative pins](#alternative-pins)
 * [How to install](#how-to-install)
   - [Boards Manager Installation](#boards-manager-installation)
@@ -46,9 +47,9 @@ An Arduino core for the new megaAVR series!
 
 
 ## Programming
-Programming must be done with a UPDI compatible programmer, such as the JTAGICE 3 or any of the new EDBG chips that can be found on newer AVR explained and curoisity boards.
+Programming must be done with a UPDI compatible programmer, such as the [microUPDI](https://github.com/MCUdude/microUPDI), [JTAG2UPDI](https://github.com/ElTangas/jtag2updi) or an official Atmel/Microchip UPDI compatible programmer.
 
-Unlike the Arduino UNO WiFi Rev2 boards package MegaCoreX does not auto detect the programmer you're using. You'll have to select the correct programmer in the *Programmers*. If you're using an Arduino Uno Wifi Rev2 board, a Curiosity Nano or an Xplained pro board you'll have to choose mEDBG, nEDBG or EDBG.
+Unlike the Arduino UNO WiFi Rev2 boards package MegaCoreX does not auto detect the programmer you're using. You'll have to select the correct programmer in the *Programmers*. If you're using an Arduino Uno Wifi Rev2 board, a Curiosity Nano or an Xplained Pro board you'll have to choose mEDBG, nEDBG or EDBG.
 
 
 ## Supported clock frequencies
@@ -118,14 +119,18 @@ PWM output, `analogWrite()`, is available for the following pins:
 | *Uno WiFi*        | 6                  | 3, 5, 6, 9, 10, 27                 |
 
 The repeat frequency for the pulses on all PWM outputs can be changed with the new function `analogWriteFrequency(kHz)`, where
-`kHz` values of 1 (default), 4, 8, 16, 32 and 64 are supported. Note that these values are very approximate. A best effort within
-the constraints of the hardware will be made to match the request.
+`kHz` values of 1 (default), 4, 8, 16, 32 and 64 are supported. Note that these values are very approximate. A best effort within the constraints of the hardware will be made to match the request.
 
 Note also that tone() will use TCB1, so the corresponding PWM output is not available if it is used.
 
 
-## Configurable custom logic (CCL)
+## Configurable Custom Logic (CCL)
 The megaAVR-0 microcontrollers are equipped with four independent configurable logic blocks that can be used to improve speed and performence. The CCL pins are marked on all pinout diagrams in a dark blue/grey color. The logic blocks can be used independently from eachother, connected together or generate interrupt for to the CPU. I've made a [light weight, high level library](https://github.com/MCUdude/MegaCoreX/tree/master/megaavr/libraries/Logic) for easy integraion with the CCL hardware.
+
+
+## Analog Comparator (AC)
+The megaAVR-0 microcontrollers are equipped with an analog comparator. It compares the voltage levels on two inputs and gives a digital output based on this comparison. The megAVR chip has four positive AC pins and three negative. There's also a configurable internal voltage reference that can be used on the negative comparator pin instead of an external voltage.  
+Try out the [Comparator library](https://github.com/MCUdude/MegaCoreX/tree/master/megaavr/libraries/Comparator) for more information, library reference and examples.
 
 
 ## Alternative pins
