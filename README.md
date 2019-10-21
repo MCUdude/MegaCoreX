@@ -5,12 +5,13 @@ An Arduino core for the new megaAVR series!
 **TODO:**
 * Readme
   - Need some good intro text at the beginning
-  - Bootloader info
 
 
 # Table of contents
 * [Supported microcontrollers](#supported-microcontrollers)
 * [Programming](#programming)
+  - [Using a UPDI programmer](#using-a-updi-programmer)
+  - [Using a bootloader](#using-a-bootloader)
 * [Supported clock frequencies](#supported-clock-frequencies)
 * [BOD option](#bod-option)
 * [Reset pin](#reset-pin)
@@ -32,25 +33,28 @@ An Arduino core for the new megaAVR series!
 
 ## Supported microcontrollers
 
-|                        | ATmega4809                 | ATmega4808                  | ATmega3209       | ATmega3208                  | ATmega1609       | ATmega1608                  | ATmega809        | ATmega808                   |
-|------------------------|----------------------------|-----------------------------|------------------|-----------------------------|------------------|-----------------------------|------------------|-----------------------------|
-| **Flash**              | 48 kB                      | 48 kB                       | 32 kB            | 32 kB                       | 16 kB            | 16 kB                       | 8 kB             | 8 kB                        |
-| **RAM**                | 6 kB                       | 6 kB                        | 4 kB             | 4 kB                        | 2 kB             | 2 kB                        | 1 kB             | 1 kB                        |
-| **EEPROM**             | 256 B                      | 256 B                       | 256 B            | 256 B                       | 256 B            | 256 B                       | 256 B            | 256 B                       |
-| **Serial ports**       | 4                          | 3                           | 4                | 3                           | 4                | 3                           | 4                | 3                           |
-| **IO pins**            | 40/41*                     | 26/27* <br/> 23†/24††       | 40/41*           | 26/27* <br/> 23†/24††       | 40/41*           | 26/27* <br/> 23†/24††       | 40/41*           | 26/27* <br/> 23†/24††       |
-| **Available packages** | TQFP48<br/>QFN48<br/>DIP40 | TQFP32<br/>QFN32<br/>SSOP28 | TQFP48<br/>QFN48 | TQFP32<br/>QFN32<br/>SSOP28 | TQFP48<br/>QFN48 | TQFP32<br/>QFN32<br/>SSOP28 | TQFP48<br/>QFN48 | TQFP32<br/>QFN32<br/>SSOP28 |
+|                  | Mega4809                   | Mega4808                          | Mega3209         | Mega3208                          | Mega1609         | Mega1608                          | Mega809          | Mega808                           |
+|------------------|----------------------------|-----------------------------------|------------------|-----------------------------------|------------------|-----------------------------------|------------------|-----------------------------------|
+| **Flash**        | 48 kB                      | 48 kB                             | 32 kB            | 32 kB                             | 16 kB            | 16 kB                             | 8 kB             | 8 kB                              |
+| **RAM**          | 6 kB                       | 6 kB                              | 4 kB             | 4 kB                              | 2 kB             | 2 kB                              | 1 kB             | 1 kB                              |
+| **EEPROM**       | 256 B                      | 256 B                             | 256 B            | 256 B                             | 256 B            | 256 B                             | 256 B            | 256 B                             |
+| **Serial ports** | 4                          | 3                                 | 4                | 3                                 | 4                | 3                                 | 4                | 3                                 |
+| **IO pins**      | 41<br/>33***               | 27*<br/>24**                      | 41               | 27*<br/>24**                      | 41               | 27*<br/>24**                      | 41               | 27*<br/>24**                      |
+| **Packages**     | TQFP48<br/>QFN48<br/>DIP40 | TQFP32<br/>QFN32<br/>SSOP28       | TQFP48<br/>QFN48 | TQFP32<br/>QFN32<br/>SSOP28       | TQFP48<br/>QFN48 | TQFP32<br/>QFN32<br/>SSOP28       | TQFP48<br/>QFN48 | TQFP32<br/>QFN32<br/>SSOP28       |
 
-<b>*</b> Physical reset pin is disabled  
-<b>†</b> SSOP28 package  
-<b>††</b> SSOP28 package and reset disabled
+<b>&ast;</b> TQFP32/QFN32 package  
+<b>&ast;&ast;</b> SSOP28 package  
+<b>&ast;&ast;&ast;</b> DIP40 package
 
 
 ## Programming
+### Using a UPDI programmer
 Programming must be done with a UPDI compatible programmer, such as the [microUPDI](https://github.com/MCUdude/microUPDI), [JTAG2UPDI](https://github.com/ElTangas/jtag2updi) or an official Atmel/Microchip UPDI compatible programmer.
 
 Unlike the Arduino UNO WiFi Rev2 boards package MegaCoreX does not auto detect the programmer you're using. You'll have to select the correct programmer in the *Programmers*. If you're using an Arduino Uno Wifi Rev2 board, a Curiosity Nano or an Xplained Pro board you'll have to choose mEDBG, nEDBG or EDBG.
 
+### Using a bootloader
+Programming can also be done using the [Optiboot bootloader](https://github.com/optiboot/Optiboot). It is available for all megaAVR-0 chips, and can be used with all hardware serial ports including alternative pin positions. Simply select what UART number to use, default/alternative pin position and click "Burn bootloader". The bootloader will flash an LED connected to PA7 (digital pin 7 on most pinouts) twice when a hardware reset occurs. The upload speed is 115200 baud. Note that that the reset pin cannot be used as a GPIO when using a bootloader. It doesn't matter if you have set the reset pin as GPIO in the tools menu or not; the bootloader option will override this setting.
 
 ## Supported clock frequencies
 MegaCoreX lets you choose what clock frequency you want to run your microcontroller at.
