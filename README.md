@@ -1,10 +1,9 @@
 # MegaCoreX
+An Arduino core for ATmega4809, ATmega4808, ATmega3209, ATmega3208, ATmega1609, ATmega1608, ATmega809 and ATmega808. This megaAVR-0 chip family offers lots of features and peripherals at an incredible price point. Its largest variant, the ATmega4809 can be found in products like the Arduino Uno WiFi Rev2 and the Arduino Nano Every. Some of their key features include multiple serial ports, SPI and i2c interfaces, built-in programmable logic, up to 16 analog input pins, and an analog comparator with a built-in programmable voltage reference and hysteresis.
 
-An Arduino core for the new megaAVR series!
+Compared to older AVR families they also have more advanced and accurate internal oscillators which can provide base frequencies of 16 and 20 MHz. These can again be divided down internally to reduce the processor speed and power consumption. This means in most applications an external clock isn't necessary anymore. You can read more about clocks and clock frequencies in the [Supported clock frequencies](#supported-clock-frequencies) section.
 
-**TODO:**
-* Readme
-  - Need some good intro text at the beginning
+For programming, these chips use a UPDI programming interface. This is a bi-directional single wire interface and requires a programmer that supports UPDI. If you rather prefer uploading using a USB to serial adapter there is an option to use the Optiboot bootloader. Read more about UPDI and bootloaders in the [Programming](#programming) section below.
 
 
 # Table of contents
@@ -51,10 +50,10 @@ An Arduino core for the new megaAVR series!
 ### Using a UPDI programmer
 Programming must be done with a UPDI compatible programmer, such as the [microUPDI](https://github.com/MCUdude/microUPDI), [JTAG2UPDI](https://github.com/ElTangas/jtag2updi) or an official Atmel/Microchip UPDI compatible programmer.
 
-Unlike the Arduino UNO WiFi Rev2 boards package MegaCoreX does not auto detect the programmer you're using. You'll have to select the correct programmer in the *Programmers*. If you're using an Arduino Uno Wifi Rev2 board, a Curiosity Nano or an Xplained Pro board you'll have to choose mEDBG, nEDBG or EDBG.
+Unlike the Arduino UNO WiFi Rev2 boards package MegaCoreX does not auto-detect the programmer you're using. You'll have to select the correct programmer in the *Programmers*. If you're using an Arduino Uno Wifi Rev2 board, a Curiosity Nano or an Xplained Pro board you'll have to choose mEDBG, nEDBG or EDBG.
 
 ### Using a bootloader
-Programming can also be done using the [Optiboot bootloader](https://github.com/optiboot/Optiboot). It is available for all megaAVR-0 chips, and can be used with all hardware serial ports including alternative pin positions. Simply select what UART number to use, default/alternative pin position and click "Burn bootloader". The bootloader will flash an LED connected to PA7 (digital pin 7 on most pinouts) twice when a hardware reset occurs. The upload speed is 115200 baud. Note that that the reset pin cannot be used as a GPIO when using a bootloader. It doesn't matter if you have set the reset pin as GPIO in the tools menu or not; the bootloader option will override this setting.
+Programming can also be done using the [Optiboot bootloader](https://github.com/optiboot/Optiboot). It is available for all megaAVR-0 chips and can be used with all hardware serial ports including alternative pin positions. Simply select what UART number to use, default/alternative pin position and click "Burn bootloader". The bootloader will flash an LED connected to PA7 (digital pin 7 on most pinouts) twice when a hardware reset occurs. The upload speed is 115200 baud. Note that that the reset pin cannot be used as a GPIO when using a bootloader. It doesn't matter if you have set the reset pin as GPIO in the tools menu or not; the bootloader option will override this setting.
 
 ## Supported clock frequencies
 MegaCoreX lets you choose what clock frequency you want to run your microcontroller at.
@@ -73,12 +72,12 @@ MegaCoreX lets you choose what clock frequency you want to run your microcontrol
 | 8 MHz     | External clock      |                          |
 | 1 MHz     | External clock      |                          |
 
-Note that unlike other AVRs none of these chips are able to drive an external crystal or resonator. If you need an external oscillator it has to be one with a driven clock output. 
+Note that unlike other AVRs **none of these chips can drive an external crystal or resonator**. If you need an external oscillator it has to be one with a driven clock output. 
 The microcontroller will freeze if the external clock suddenly drops out. If not present on boot, it will automatically choose the 16 MHz internal oscillator instead.
 
 
 ## BOD option
-Brown out detection, or BOD for short lets the microcontroller sense the input voltage and shut down if the voltage goes below the brown out setting. Below is a table that shows the available BOD options:
+Brownout detection or BOD for short lets the microcontroller sense the input voltage and shut down if the voltage goes below the brownout setting. Below is a table that shows the available BOD options:
 
 | BOD threshold                  |
 |--------------------------------|
@@ -94,14 +93,14 @@ Brown out detection, or BOD for short lets the microcontroller sense the input v
 
 
 ## Reset pin
-None of the megaAVR-0 microcontrollers needs the reset line in order to be reprogrammed over the UPDI interface. This means that the reset pin can be used as a GPIO pin instead! There's no need for a high voltage programmer in order to turn that pin into a reset pin again either. If you have a development board you can instead use the reset button as a general purpose button for your project.
+None of the megaAVR-0 microcontrollers needs the reset line to be reprogrammed over the UPDI interface. This means that the reset pin can be used as a GPIO pin instead! There's no need for a high voltage programmer to turn that pin into a reset pin again either. If you have a development board you can instead use the reset button as a general-purpose button for your project.
 
 
 ## Pinout
 This core provides several different Arduino pin mappings based on your current hardware
-- **48 pin standard**: This pinout is much closer to the actual hardware than the Uno WiFi pinout. It will not be compatible with shields or anything like that, but it's much more clean and elegant from a hardware point of view. The only pin swap done by default is the PWM output pins. This is done to prevent them from "colliding" with other peripherals. Note that this pinout is only available on ATmega3209/ATmega4809.
+- **48 pin standard**: This pinout is much closer to the actual hardware than the Uno WiFi pinout. It will not be compatible with shields or anything like that, but it's much cleaner and elegant from a hardware point of view. The only pin swap done by default is the PWM output pins. This is done to prevent them from "colliding" with other peripherals. Note that this pinout is only available on ATmega3209/ATmega4809.
 - **32 pin standard**: This is the pinout for the 32 pin version of the ATmega3208/4808. Again, it will not be compatible with shields or anything like that, but it's clean and elegant from a hardware point of view. The only pin swap done by default is the PWM output pins. This is done to prevent them from "colliding" with other peripherals.
-- **28 pin standard**: This is the pinout for the 28 pin version of the ATmega3208/4808. Will not be compatible with shields or anything like that, but it's still clean and elegant from a hardware point of view. Only pin swap done by default is the PWM output pins. This is done to prevent them from "colliding" with other peripherals.
+- **28 pin standard**: This is the pinout for the 28 pin version of the ATmega3208/4808. It will not be compatible with shields or anything like that, but it's still clean and elegant from a hardware point of view. Only pin swap done by default is the PWM output pins. This is done to prevent them from "colliding" with other peripherals.
 - **Uno WiFi**: This pinout is 100% compatible with the Arduino Uno WiFi Rev2 hardware. If you have code that's written for the Uno WiFi Rev2 it will work without any modifications if you choose this pinout. Note that this pinout does pin swapping on serial interfaces and PWM pins by default, and some peripherals are renamed to match the original 328P Uno hardware better. Note that this pinout is only available on ATmega3209/ATmega4809.
 
 Please have a look at the pins_arduino.h files for detailed info.<br/> <br/>
@@ -123,13 +122,13 @@ PWM output, `analogWrite()`, is available for the following pins:
 | *Uno WiFi*        | 6                  | 3, 5, 6, 9, 10, 27                 |
 
 The repeat frequency for the pulses on all PWM outputs can be changed with the new function `analogWriteFrequency(kHz)`, where
-`kHz` values of 1 (default), 4, 8, 16, 32 and 64 are supported. Note that these values are very approximate. A best effort within the constraints of the hardware will be made to match the request.
+`kHz` values of 1 (default), 4, 8, 16, 32 and 64 are supported. Note that these values are very approximate. The best effort within the constraints of the hardware will be made to match the request.
 
 Note also that tone() will use TCB1, so the corresponding PWM output is not available if it is used.
 
 
 ## Configurable Custom Logic (CCL)
-The megaAVR-0 microcontrollers are equipped with four independent configurable logic blocks that can be used to improve speed and performence. The CCL pins are marked on all pinout diagrams in a dark blue/grey color. The logic blocks can be used independently from eachother, connected together or generate interrupt for to the CPU. I've made a [light weight, high level library](https://github.com/MCUdude/MegaCoreX/tree/master/megaavr/libraries/Logic) for easy integraion with the CCL hardware.
+The megaAVR-0 microcontrollers are equipped with four independent configurable logic blocks that can be used to improve speed and performance. The CCL pins are marked on all pinout diagrams in a dark blue/grey color. The logic blocks can be used independently from each other, connected together or generate an interrupt to the CPU. I've made a [light weight, high-level library](https://github.com/MCUdude/MegaCoreX/tree/master/megaavr/libraries/Logic) for easy integration with the CCL hardware.
 
 
 ## Analog Comparator (AC)
@@ -138,7 +137,7 @@ Try out the [Comparator library](https://github.com/MCUdude/MegaCoreX/tree/maste
 
 
 ## Alternative pins
-The megaAVR-0 microcontrollers support alternative pin assignments for some of its built in peripherals.
+The megaAVR-0 microcontrollers support alternative pin assignments for some of its built-in peripherals.
 This is specified by invoking the `swap()` or `pins()` method before `begin()` for the associated peripheral.
 They will return `true` if that swap or pin combination is supported.
 For `Serial` peripherals the method is `pins(tx,rx)`, for `Wire` it's `pins(sda,scl)` and for `SPI` it's `pins(mosi,miso,sck,ss)`.
@@ -203,11 +202,11 @@ Available pin combinations for the *Uno WiFi* pinout are:
 
 #### Manual Installation
 Click on the "Download ZIP" button. Extract the ZIP file, and move the extracted folder to the location "**~/Documents/Arduino/hardware**". Create the "hardware" folder if it doesn't exist.
-Open Arduino IDE, and a new category in the boards menu called "MightyCoreX" will show up.
+Open Arduino IDE and a new category in the boards menu called "MightyCoreX" will show up.
 
 
 ## Minimal setup
-Here's some simple schematics that shows a minimal setup. The straight 6-pin header may in the future be used for serial uploads without having to use a UPDI programmer. As of today, we're still waiting for a stable version of Optiboot.
+Here are some simple schematics that show a minimal setup. The straight 6-pin header may in the future be used for serial uploads without having to use a UPDI programmer. As of today, we're still waiting for a stable version of Optiboot.
 <b>Click to enlarge:</b> <br/>
 
 | 48-pin *ATmega809/1609/3209/4809*                     | 40-pin *ATmega4809*                                   | 32-pin *ATmega808/1608/3208/4808*                     |
@@ -216,25 +215,25 @@ Here's some simple schematics that shows a minimal setup. The straight 6-pin hea
 
 ## Getting your hardware working
 ### Arduino Uno WiFi Rev2
-[The Arduino Uno WiFi Rev2](https://store.arduino.cc/usa/arduino-uno-wifi-rev2) is the easiest board out of these to get started with, because it's officially supported by Arduino. It uses an ATmega4809, and recommended pinout is *Uno WiFi*. Printing to the serial monitor on your PC is done by initializing `Serial.begin(baud)`. You'll also have to choose **Atmel mEDBG (ATmega32u4)** as your programmer in order to upload code. For more information about this board please see the product page and its schematic.
+[The Arduino Uno WiFi Rev2](https://store.arduino.cc/usa/arduino-uno-wifi-rev2) is the easiest board out of these to get started with because it's officially supported by Arduino. It uses an ATmega4809 and the recommended pinout is *Uno WiFi*. Printing to the serial monitor on your PC is done by initializing `Serial.begin(baud)`. You'll also have to choose **Atmel mEDBG (ATmega32u4)** as your programmer to upload code. For more information about this board please see the product page and its schematic.
 
 Click to enlarge:  
 <img src="https://i.imgur.com/IXKlx7a.png" width="400">
 
 ### Curiosity Nano
-[The Curiosity Nano](https://www.microchip.com/developmenttools/ProductDetails/DM320115) uses an ATmega4809 but has a different pinout than the Uno Wifi Rev2. Recommended pinout for this board is *48 pin standard*. The on-board LED is connected t pin PF5 (digital pin 39). Note that UART3 is connected to the nEDBG chip (often refered to as the debug serial port). This means you'll have to use `Serial3.begin(baud)` in order to print to the serial monitor. You'll also have to choose **Atmel nEDBG (ATSAMD21E18)** as your programmer in order to upload code. For more information about this board please refer to the userguide and its schematic.
+[The Curiosity Nano](https://www.microchip.com/developmenttools/ProductDetails/DM320115) uses an ATmega4809 but has a different pinout than the Uno Wifi Rev2. The recommended pinout for this board is *48 pin standard*. The on-board LED is connected t pin PF5 (digital pin 39). Note that UART3 is connected to the nEDBG chip (often referred to as the debug serial port). This means you'll have to use `Serial3.begin(baud)` to print to the serial monitor. You'll also have to choose **Atmel nEDBG (ATSAMD21E18)** as your programmer to upload code. For more information about this board please refer to the user guide and its schematic.
 
 Click to enlarge:  
 <img src="https://i.imgur.com/Hapb3xX.jpg" width="350">
 
 ### AVR-IOT WG
-[The AVR-IOT WG](https://www.microchip.com/developmenttools/ProductDetails/AC164160) uses the ATmega4808 in a 32 pin package. *32 pin standard* is the correct pinout for this board. Note that UART2 is connected to the nEDBG chip (often refered to as the debug serial port). This means tou'll have to use `Serial2.begin(baud)` in order to print to the serial monitor. You'll also have to choose **Atmel nEDBG (ATSAMD21E18)** as your programmer in order to upload code. For more information about this board please refer to the userguide and its schematic.
+[The AVR-IOT WG](https://www.microchip.com/developmenttools/ProductDetails/AC164160) uses the ATmega4808 in a 32 pin package. *32 pin standard* is the correct pinout for this board. Note that UART2 is connected to the nEDBG chip (often referred to as the debug serial port). This means you'll have to use `Serial2.begin(baud)` to print to the serial monitor. You'll also have to choose **Atmel nEDBG (ATSAMD21E18)** as your programmer to upload code. For more information about this board please refer to the user guide and its schematic.
 
 Click to enlarge:  
 <img src="https://i.imgur.com/oWqoqLC.png" width="350">
 
 ### ATmega4809 Xplained Pro
-[The ATmega4809 Xplained Pro](https://www.microchip.com/developmenttools/ProductDetails/atmega4809-xpro) uses an ATmega4809. Recommended pinout for this board is *48 pin standard*. Note that the UART1 is connected to the EDBG chip (often refered to as the debug serial port). This means you'll have to use `Serial1.begin(baud)` in order to print to the serial monitor. You'll also have to choose **Atmel EDBG (AT32UC3A4256)** as your programmer in order to upload code. For more information about this board please refer to the userguide and its schematic.
+[The ATmega4809 Xplained Pro](https://www.microchip.com/developmenttools/ProductDetails/atmega4809-xpro) uses an ATmega4809. The recommended pinout for this board is *48 pin standard*. Note that the UART1 is connected to the EDBG chip (often referred to as the debug serial port). This means you'll have to use `Serial1.begin(baud)` to print to the serial monitor. You'll also have to choose **Atmel EDBG (AT32UC3A4256)** as your programmer to upload code. For more information about this board please refer to the user guide and its schematic.
 
 Click to enlarge:  
 <img src="https://i.imgur.com/ssZs0dC.jpg" width="400">
