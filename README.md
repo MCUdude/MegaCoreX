@@ -75,6 +75,8 @@ MegaCoreX lets you choose what clock frequency you want to run your microcontrol
 Note that unlike other AVRs **none of these chips can drive an external crystal or resonator**. If you need an external oscillator it has to be one with a driven clock output. 
 The microcontroller will freeze if the external clock suddenly drops out. If not present on boot, it will automatically choose the 16 MHz internal oscillator instead.
 
+Another thing to watch out for is the lowest possible baudrates when running at 16 or 20 MHz. At 16 MHz the lowest baud rate is 1200 baud. When running at 20 MHz the lowest is 2400 baud. This is caused by the way the internal baud rate generator works. If you need lower baud rates you'll either have to reduce the main clock speed or use the software serial library instead.
+
 
 ## BOD option
 Brownout detection or BOD for short lets the microcontroller sense the input voltage and shut down if the voltage goes below the brownout setting. Below is a table that shows the available BOD options:
