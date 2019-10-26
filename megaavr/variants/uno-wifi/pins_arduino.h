@@ -304,7 +304,7 @@ const uint8_t digital_pin_to_bit_mask[] = {
   PIN1_bm, // 12 PE1
   PIN2_bm, // 13 PE2
   PIN0_bm, // 14 PD0/AI0
-  PIN1_bm, // 15 PD1AI1
+  PIN1_bm, // 15 PD1/AI1
   PIN2_bm, // 16 PD2/AI2
   PIN3_bm, // 17 PD3/AI3
   PIN4_bm, // 18 PD4/AI4
