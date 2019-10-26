@@ -96,7 +96,7 @@ Brownout detection or BOD for short lets the microcontroller sense the input vol
 
 
 ## Reset pin
-None of the megaAVR-0 microcontrollers needs the reset line to be reprogrammed over the UPDI interface. This means that the reset pin can be used as a GPIO pin instead! There's no need for a high voltage programmer to turn that pin into a reset pin again either. If you have a development board you can instead use the reset button as a general-purpose button for your project.
+None of the megaAVR-0 microcontrollers needs the reset line to be reprogrammed over the UPDI interface. This means that the reset pin can be used as a GPIO pin instead! There's no need for a high voltage programmer to turn that pin into a reset pin again either. If you have a development board you can instead use the reset button as a general-purpose button for your project. Note that the reset pin cannot be usd as a GPIO when using a bootloader
 
 
 ## Pinout
@@ -105,6 +105,7 @@ This core provides several different Arduino pin mappings based on your current 
 - **32 pin standard**: This is the pinout for the 32 pin version of the ATmega3208/4808. Again, it will not be compatible with shields or anything like that, but it's clean and elegant from a hardware point of view. The only pin swap done by default is the PWM output pins. This is done to prevent them from "colliding" with other peripherals.
 - **28 pin standard**: This is the pinout for the 28 pin version of the ATmega3208/4808. It will not be compatible with shields or anything like that, but it's still clean and elegant from a hardware point of view. Only pin swap done by default is the PWM output pins. This is done to prevent them from "colliding" with other peripherals.
 - **Uno WiFi**: This pinout is 100% compatible with the Arduino Uno WiFi Rev2 hardware. If you have code that's written for the Uno WiFi Rev2 it will work without any modifications if you choose this pinout. Note that this pinout does pin swapping on serial interfaces and PWM pins by default, and some peripherals are renamed to match the original 328P Uno hardware better. Note that this pinout is only available on ATmega3209/ATmega4809.
+- **Uno WiFi**: This pinout is 100% compatible with the Arduino Nano Every. If you have code that's written for the Nano Every it will work without any modifications if you choose this pinout. Note that this pinout does pin swapping on serial interfaces and PWM pins by default, and some peripherals are renamed to match the original 328P Uno hardware better. This pinout is only available when ATmega4809 is selected.
 
 Please have a look at the pins_arduino.h files for detailed info.<br/> <br/>
 <b>Click to enlarge:</b> 
@@ -196,8 +197,15 @@ Available pin combinations for the *Uno WiFi* pinout are:
 | Serial     | swap(0)  **or**  pins(27,26)       | swap(1)  **or**  pins(9,10)  |
 | Serial1    | swap(0)  **or**  pins(1,0)         | swap(1)  **or**  pins(32,33) |
 | Serial2    | swap(0)  **or**  pins(24,23)       | swap(1)  **or**  pins(2,7)   |
-| Wire       | swap(0)  **or**  pins(20,21)       |                              |
-| SPI        | swap(0)  **or**  pins(32,33,34,10) |                              |
+
+Available pin combinations for the *Nano Every* pinout are:
+
+| Peripheral | Default                            | Alternative                  |
+|------------|------------------------------------|------------------------------|
+| Serial     | swap(0)  **or**  pins(25,24)       | swap(1)  **or**  pins(9,10)  |
+| Serial1    | swap(0)  **or**  pins(1,0)         | swap(1)  **or**  pins(34,35) |
+| Serial2    | swap(0)  **or**  pins(24,23)       | swap(1)  **or**  pins(2,7)   |
+
 
 ## How to install
 #### Boards Manager Installation
@@ -227,7 +235,7 @@ Click to enlarge:
 [The Arduino Nano Every](https://store.arduino.cc/arduino-nano-every) is one of the few megaAVR-0 based boards that's officially supported by Arduino. It uses an ATmega4809 and the *only* supported pinout is *Nano Every*. Printing to the serial monitor on your PC is done by initializing `Serial.begin(baud)`. The Nano Every does not support a bootloader, so select *No bootloader* in the tools menu. Burning bootloader or upload using programmer will not work either. However, all fuses are set every time you upload our program. For more information about this board please see the product page and its schematic.
 
 Click to enlarge:  
-<img src="https://i.imgur.com/AewGAZN.png" width="400">
+<img src="https://i.imgur.com/ueHO5kG.png" width="400">
 
 ### Curiosity Nano
 [The Curiosity Nano](https://www.microchip.com/developmenttools/ProductDetails/DM320115) uses an ATmega4809 but has a different pinout than the Uno Wifi Rev2. The recommended pinout for this board is *48 pin standard*. The on-board LED is connected t pin PF5 (digital pin 39). Note that UART3 is connected to the nEDBG chip (often referred to as the debug serial port). This means you'll have to use `Serial3.begin(baud)` to print to the serial monitor. You'll also have to choose **Atmel nEDBG (ATSAMD21E18)** as your programmer to upload code. For more information about this board please refer to the user guide and its schematic.
