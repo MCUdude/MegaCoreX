@@ -105,7 +105,7 @@ This core provides several different Arduino pin mappings based on your current 
 - **32 pin standard**: This is the pinout for the 32 pin version of the ATmega3208/4808. Again, it will not be compatible with shields or anything like that, but it's clean and elegant from a hardware point of view. The only pin swap done by default is the PWM output pins. This is done to prevent them from "colliding" with other peripherals.
 - **28 pin standard**: This is the pinout for the 28 pin version of the ATmega3208/4808. It will not be compatible with shields or anything like that, but it's still clean and elegant from a hardware point of view. Only pin swap done by default is the PWM output pins. This is done to prevent them from "colliding" with other peripherals.
 - **Uno WiFi**: This pinout is 100% compatible with the Arduino Uno WiFi Rev2 hardware. If you have code that's written for the Uno WiFi Rev2 it will work without any modifications if you choose this pinout. Note that this pinout does pin swapping on serial interfaces and PWM pins by default, and some peripherals are renamed to match the original 328P Uno hardware better. Note that this pinout is only available on ATmega3209/ATmega4809.
-- **Uno WiFi**: This pinout is 100% compatible with the Arduino Nano Every. If you have code that's written for the Nano Every it will work without any modifications if you choose this pinout. Note that this pinout does pin swapping on serial interfaces and PWM pins by default, and some peripherals are renamed to match the original 328P Uno hardware better. This pinout is only available when ATmega4809 is selected.
+- **Nano Every**: This pinout is 100% compatible with the Arduino Nano Every. If you have code that's written for the Nano Every it will work without any modifications if you choose this pinout. Note that this pinout does pin swapping on serial interfaces and PWM pins by default, and some peripherals are renamed to match the original 328P Uno hardware better. This pinout is only available when ATmega4809 is selected.
 
 Please have a look at the pins_arduino.h files for detailed info.<br/> <br/>
 <b>Click to enlarge:</b> 
@@ -124,6 +124,7 @@ PWM output, `analogWrite()`, is available for the following pins:
 | *32 pin standard* | 6                  | 8, 9, 10, 11, 24, 25               |
 | *48 pin standard* | 9                  | 13, 14, 15, 16, 17, 18, 19, 38, 39 |
 | *Uno WiFi*        | 6                  | 3, 5, 6, 9, 10, 27                 |
+| *Nano Every*      | 5                  | 3, 5, 6, 9, 10                     |
 
 The repeat frequency for the pulses on all PWM outputs can be changed with the new function `analogWriteFrequency(kHz)`, where
 `kHz` values of 1 (default), 4, 8, 16, 32 and 64 are supported. Note that these values are very approximate. The best effort within the constraints of the hardware will be made to match the request.
