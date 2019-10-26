@@ -35,6 +35,14 @@ menu.bootloader=Bootloader
 4809.menu.pinout.uno_wifi.build.variant=uno-wifi
 4809.menu.pinout.uno_wifi.build.compat=
 
+4809.menu.pinout.nano_every=Nano Every
+4809.menu.pinout.nano_every.build.variant=nano-every
+4809.menu.pinout.nano_every.upload.tool=avrdude_nanoevery
+4809.menu.pinout.nano_every.upload.use_1200bps_touch=true
+4809.menu.pinout.nano_every.upload.protocol=jtag2updi
+4809.menu.pinout.nano_every.program.extra_params=-P{serial.port} -e
+4809.menu.pinout.nano_every.build.compat=
+
 # Reset pin
 4809.menu.resetpin.reset=Reset
 4809.menu.resetpin.reset.bootloader.SYSCFG0=0xC9
