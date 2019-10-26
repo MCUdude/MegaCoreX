@@ -64,20 +64,6 @@ static const uint8_t SDA = PIN_WIRE_SDA;
 static const uint8_t SCL = PIN_WIRE_SCL;
 #define TWI_MUX       (PORTMUX_TWI0_DEFAULT_gc)
 
-// Nano every main USART available on Arduino header pins
-// USART1 on mega4809 (alternative pins)
-// Mapped to HWSERIAL0 in Serial library
-#define HWSERIAL1                       (&USART1)
-#define HWSERIAL1_DRE_VECTOR            (USART1_DRE_vect)
-#define HWSERIAL1_DRE_VECTOR_NUM        (USART1_DRE_vect_num)
-#define HWSERIAL1_RXC_VECTOR            (USART1_RXC_vect)
-#define HWSERIAL1_MUX                   (PORTMUX_USART1_ALT1_gc)
-#define HWSERIAL1_MUX_PINSWAP_1         (PORTMUX_USART1_DEFAULT_gc)
-#define PIN_WIRE_HWSERIAL1_TX           (1)
-#define PIN_WIRE_HWSERIAL1_RX           (0)
-#define PIN_WIRE_HWSERIAL1_TX_PINSWAP_1 (34)
-#define PIN_WIRE_HWSERIAL1_RX_PINSWAP_1 (35)
-
 // Nano Every debug USART (not available on headers, only via the SAMD11 virtual COM port)
 // USART3 on mega4809 (alternative pins)
 // Mapped to HWSERIAL0 in Serial library
@@ -91,6 +77,20 @@ static const uint8_t SCL = PIN_WIRE_SCL;
 #define PIN_WIRE_HWSERIAL0_RX           (24)
 #define PIN_WIRE_HWSERIAL0_TX_PINSWAP_1 (9)
 #define PIN_WIRE_HWSERIAL0_RX_PINSWAP_1 (10)
+
+// Nano every main USART available on Arduino header pins
+// USART1 on mega4809 (alternative pins)
+// Mapped to HWSERIAL1 in Serial library
+#define HWSERIAL1                       (&USART1)
+#define HWSERIAL1_DRE_VECTOR            (USART1_DRE_vect)
+#define HWSERIAL1_DRE_VECTOR_NUM        (USART1_DRE_vect_num)
+#define HWSERIAL1_RXC_VECTOR            (USART1_RXC_vect)
+#define HWSERIAL1_MUX                   (PORTMUX_USART1_ALT1_gc)
+#define HWSERIAL1_MUX_PINSWAP_1         (PORTMUX_USART1_DEFAULT_gc)
+#define PIN_WIRE_HWSERIAL1_TX           (1)
+#define PIN_WIRE_HWSERIAL1_RX           (0)
+#define PIN_WIRE_HWSERIAL1_TX_PINSWAP_1 (34)
+#define PIN_WIRE_HWSERIAL1_RX_PINSWAP_1 (35)
 
 // Nano Every pare USART available on testpoints
 // USART0 on mega4809 (alternative pins)
@@ -183,9 +183,9 @@ const uint8_t digital_pin_to_port[] = {
   PA, // 31 PA7
   PB, // 32 PB3
   PC, // 33 PC7
-  PC, // 34 PC0/MOSI/USART1_Tx
-  PC, // 35 PC1/MISO/USART1_Rx
-  PC, // 36 PC2/SCK
+  PC, // 34 PC0/USART1_Tx
+  PC, // 35 PC1/USART1_Rx
+  PC, // 36 PC2
   PF, // 37 PF0/USART2_Tx
   PF, // 38 PF1/USART2_Rx
   PD, // 39 PD7/VREF/AIN7
@@ -228,9 +228,9 @@ const uint8_t digital_pin_to_bit_position[] = {
   PIN7_bp,  // 31 PA7
   PIN3_bp,  // 32 PB3
   PIN7_bp,  // 33 PC7
-  PIN0_bp,  // 34 PC0/MOSI/USART1_Tx
-  PIN1_bp,  // 35 PC1/MISO/USART1_Rx
-  PIN2_bp,  // 36 PC2/SCK
+  PIN0_bp,  // 34 PC0/USART1_Tx
+  PIN1_bp,  // 35 PC1/USART1_Rx
+  PIN2_bp,  // 36 PC2
   PIN0_bp,  // 37 PF0/USART2_Tx
   PIN1_bp,  // 38 PF1/USART2_Rx
   PIN7_bp,  // 39 PD7/VREF/AIN7
@@ -273,9 +273,9 @@ const uint8_t digital_pin_to_bit_mask[] = {
   PIN7_bm,  // 31 PA7
   PIN3_bm,  // 32 PB3
   PIN7_bm,  // 33 PC7
-  PIN0_bm,  // 34 PC0/MOSI/USART1_Tx
-  PIN1_bm,  // 35 PC1/MISO/USART1_Rx
-  PIN2_bm,  // 36 PC2/SCK
+  PIN0_bm,  // 34 PC0/USART1_Tx
+  PIN1_bm,  // 35 PC1/USART1_Rx
+  PIN2_bm,  // 36 PC2
   PIN0_bm,  // 37 PF0/USART2_Tx
   PIN1_bm,  // 38 PF1/USART2_Rx
   PIN7_bm,  // 39 PD7/VREF/AIN7
@@ -317,9 +317,9 @@ const uint8_t digital_pin_to_timer[] = {
   NOT_ON_TIMER,  // 31 PA7
   NOT_ON_TIMER,  // 32 PB3
   NOT_ON_TIMER,  // 33 PC7
-  NOT_ON_TIMER,  // 34 PC0/MOSI/USART1_Tx
-  NOT_ON_TIMER,  // 35 PC1/MISO/USART1_Rx
-  NOT_ON_TIMER,  // 36 PC2/SCK
+  NOT_ON_TIMER,  // 34 PC0/USART1_Tx
+  NOT_ON_TIMER,  // 35 PC1/USART1_Rx
+  NOT_ON_TIMER,  // 36 PC2
   NOT_ON_TIMER,  // 37 PF0/USART2_Tx
   NOT_ON_TIMER,  // 38 PF1/USART2_Rx
   NOT_ON_TIMER,  // 39 PD7/VREF/AIN7
