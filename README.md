@@ -15,10 +15,11 @@ For programming, these chips use a UPDI programming interface. This is a bi-dire
 * [BOD option](#bod-option)
 * [Reset pin](#reset-pin)
 * [Pinout](#pinout)
-* [PWM output](#pwm-output)
-* [Configurable Custom Logic (CCL)](#configurable-custom-logic-ccl)
-* [Analog Comparator (AC)](#analog-comparator-ac)
-* [Alternative pins](#alternative-pins)
+* [Hardware features](#hardware-features)
+  - [PWM output](#pwm-output)
+  - [Configurable Custom Logic (CCL)](#configurable-custom-logic-ccl)
+  - [Analog Comparator (AC)](#analog-comparator-ac)
+  - [Alternative pins](#alternative-pins)
 * [How to install](#how-to-install)
   - [Boards Manager Installation](#boards-manager-installation)
   - [Manual Installation](#manual-installation)
@@ -115,7 +116,18 @@ Please have a look at the pins_arduino.h files for detailed info.<br/> <br/>
 |<img src="https://i.imgur.com/3PUBB6H.jpg" width="350"><br/><img src="https://i.imgur.com/QbOOOTd.png" width="350"><br/><img src="https://i.imgur.com/0hlkqf0.jpg" width="350">|<img src="https://i.imgur.com/40AniKA.png" width="350"><br/><br/><br/><br/><img src="https://i.imgur.com/jJw2RJl.png" width="350"><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>|
 
 
-## PWM output
+## Hardware features
+Here's some hardware spesific features that differs from the older AVR families.
+
+### Interrupt pins
+Unlike older AVRs the megaAVR-0 microcontrollers have fully featured interrupts on every pin.  
+Supported states are *RISING*, *FALLING*, *CHANGE*, *HIGH* and *LOW*. This means there's no need to use the `digitalPinToInterrupt` macro. Simply call attachInterrupt like this:  
+  
+```c
+attachInterrupt(myPin, myInterruptFunction, RISING);
+```
+
+### PWM output
 PWM output, `analogWrite()`, is available for the following pins:
 
 | Pinout            | Number of PWM pins | Available PWM pins                 |
@@ -131,17 +143,14 @@ The repeat frequency for the pulses on all PWM outputs can be changed with the n
 
 Note also that tone() will use TCB1, so the corresponding PWM output is not available if it is used.
 
-
-## Configurable Custom Logic (CCL)
+### Configurable Custom Logic (CCL)
 The megaAVR-0 microcontrollers are equipped with four independent configurable logic blocks that can be used to improve speed and performance. The CCL pins are marked on all pinout diagrams in a dark blue/grey color. The logic blocks can be used independently from each other, connected together or generate an interrupt to the CPU. I've made a [light weight, high-level library](https://github.com/MCUdude/MegaCoreX/tree/master/megaavr/libraries/Logic) for easy integration with the CCL hardware.
 
-
-## Analog Comparator (AC)
+### Analog Comparator (AC)
 The megaAVR-0 microcontrollers are equipped with an analog comparator. It compares the voltage levels on two inputs and gives a digital output based on this comparison. The megAVR chip has four positive AC pins and three negative. There's also a configurable internal voltage reference that can be used on the negative comparator pin instead of an external voltage.  
 Try out the [Comparator library](https://github.com/MCUdude/MegaCoreX/tree/master/megaavr/libraries/Comparator) for more information, library reference and examples.
 
-
-## Alternative pins
+### Alternative pins
 The megaAVR-0 microcontrollers support alternative pin assignments for some of its built-in peripherals.
 This is specified by invoking the `swap()` or `pins()` method before `begin()` for the associated peripheral.
 They will return `true` if that swap or pin combination is supported.
