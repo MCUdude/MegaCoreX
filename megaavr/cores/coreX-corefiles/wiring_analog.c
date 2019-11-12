@@ -130,11 +130,11 @@ void analogWrite(uint8_t pin, int val)
 	// call for the analog output pins.
 	pinMode(pin, OUTPUT);
 
-	if(val < 1){	/* if zero or negative drive digital low */
+	if(val <= 0){   /* if zero or negative drive digital low */
 
 		digitalWrite(pin, LOW);
 
-	} else if(val > 255){	/* if max or greater drive digital high */
+	} else if(val >= 255){  /* if max or greater drive digital high */
 
 		digitalWrite(pin, HIGH);
 
