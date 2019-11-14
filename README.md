@@ -14,6 +14,7 @@ For programming, these chips use a UPDI programming interface. This is a bi-dire
 * [Supported clock frequencies](#supported-clock-frequencies)
 * [BOD option](#bod-option)
 * [Reset pin](#reset-pin)
+* [Printf support](#printf-support)
 * [Pinout](#pinout)
 * [Hardware features](#hardware-features)
   - [PWM output](#pwm-output)
@@ -98,6 +99,12 @@ Brownout detection or BOD for short lets the microcontroller sense the input vol
 
 ## Reset pin
 None of the megaAVR-0 microcontrollers needs the reset line to be reprogrammed over the UPDI interface. This means that the reset pin can be used as a GPIO pin instead! There's no need for a high voltage programmer to turn that pin into a reset pin again either. If you have a development board you can instead use the reset button as a general-purpose button for your project. Note that the reset pin cannot be usd as a GPIO when using a bootloader
+
+
+## Printf support
+Unlike the official Arduino core, MegaCoreX has printf support out of the box. If you're not familiar with printf you should probably [read this first](https://www.tutorialspoint.com/c_standard_library/c_function_printf.htm). It's added to the Print class and will work with all libraries that inherit Print. Printf is a standard C function that lets you format text much easier than using Arduino's built-in print and println. Note that this implementation of printf will NOT print floats or doubles. This is a limitation of the avr-libc printf implementation on AVR microcontrollers, and nothing I can easily fix.
+
+If you're using a serial port, simply use `Serial.printf("Milliseconds since start: %ld\n", millis());`. Other libraries that inherit the Print class (and thus supports printf) are SoftwareSerial and the LiquidCrystal LCD library.
 
 
 ## Pinout
