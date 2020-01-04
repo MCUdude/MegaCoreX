@@ -19,13 +19,13 @@
           "checksum": "SHA-256:294b01e0cf0e319540a80395894c4952730c039755def5766f856adfb0267279",
           "size": "157659",
           "boards": [
-            {"name": "ATmega4809"}
-            {"name": "ATmega4808"}
-            {"name": "ATmega3209"}
-            {"name": "ATmega3208"}
-            {"name": "ATmega1609"}
-            {"name": "ATmega1608"}
-            {"name": "ATmega809"}
+            {"name": "ATmega4809"},
+            {"name": "ATmega4808"},
+            {"name": "ATmega3209"},
+            {"name": "ATmega3208"},
+            {"name": "ATmega1609"},
+            {"name": "ATmega1608"},
+            {"name": "ATmega809"},
             {"name": "ATmega808"}
           ],
           "toolsDependencies": [
@@ -56,13 +56,13 @@
           "checksum": "SHA-256:a24350ea441b7dd66d8f928b18419631fcf3cec238437aef6bf9250eb79c2af0",
           "size": "172336",
           "boards": [
-            {"name": "ATmega4809"}
-            {"name": "ATmega4808"}
-            {"name": "ATmega3209"}
-            {"name": "ATmega3208"}
-            {"name": "ATmega1609"}
-            {"name": "ATmega1608"}
-            {"name": "ATmega809"}
+            {"name": "ATmega4809"},
+            {"name": "ATmega4808"},
+            {"name": "ATmega3209"},
+            {"name": "ATmega3208"},
+            {"name": "ATmega1609"},
+            {"name": "ATmega1608"},
+            {"name": "ATmega809"},
             {"name": "ATmega808"}
           ],
           "toolsDependencies": [
