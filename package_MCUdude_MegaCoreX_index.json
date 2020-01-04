@@ -1,0 +1,90 @@
+{
+  "packages": [
+    {
+      "name": "MegaCoreX",
+      "maintainer": "MCUdude",
+      "websiteURL": "https://github.com/MCUdude/MegaCoreX",
+      "email": "",
+      "help": {
+        "online": ""
+      },
+      "platforms": [
+        {
+          "name": "MegaCoreX",
+          "architecture": "megaavr",
+          "version": "1.0.0",
+          "category": "Contributed",
+          "url": "https://MCUdude.github.io/MegaCoreX/MegaCoreX-1.0.0.tar.gz",
+          "archiveFileName": "MegaCoreX-1.0.0.tar.gz",
+          "checksum": "SHA-256:294b01e0cf0e319540a80395894c4952730c039755def5766f856adfb0267279",
+          "size": "157659",
+          "boards": [
+            {"name": "ATmega4809"}
+            {"name": "ATmega4808"}
+            {"name": "ATmega3209"}
+            {"name": "ATmega3208"}
+            {"name": "ATmega1609"}
+            {"name": "ATmega1608"}
+            {"name": "ATmega809"}
+            {"name": "ATmega808"}
+          ],
+          "toolsDependencies": [
+            {
+              "packager": "arduino",
+              "name": "avr-gcc",
+              "version": "7.3.0-atmel3.6.1-arduino5"
+            },
+            {
+              "packager": "arduino",
+              "name": "avrdude",
+              "version": "6.3.0-arduino17"
+            },
+            {
+              "packager": "arduino",
+              "name": "arduinoOTA",
+              "version": "1.3.0"
+            }
+          ]
+        },
+        {
+          "name": "MegaCoreX",
+          "architecture": "megaavr",
+          "version": "1.0.1",
+          "category": "Contributed",
+          "url": "https://MCUdude.github.io/MegaCoreX/MegaCoreX-1.0.1.tar.bz2",
+          "archiveFileName": "MegaCoreX-1.0.1.tar.bz2",
+          "checksum": "SHA-256:a24350ea441b7dd66d8f928b18419631fcf3cec238437aef6bf9250eb79c2af0",
+          "size": "172336",
+          "boards": [
+            {"name": "ATmega4809"}
+            {"name": "ATmega4808"}
+            {"name": "ATmega3209"}
+            {"name": "ATmega3208"}
+            {"name": "ATmega1609"}
+            {"name": "ATmega1608"}
+            {"name": "ATmega809"}
+            {"name": "ATmega808"}
+          ],
+          "toolsDependencies": [
+            {
+              "packager": "arduino",
+              "name": "avr-gcc",
+              "version": "7.3.0-atmel3.6.1-arduino5"
+            },
+            {
+              "packager": "arduino",
+              "name": "avrdude",
+              "version": "6.3.0-arduino17"
+            },
+            {
+              "packager": "arduino",
+              "name": "arduinoOTA",
+              "version": "1.3.0"
+            }
+          ]
+        }
+      ],
+      "tools": []
+    }
+  ]
+}
