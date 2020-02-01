@@ -100,14 +100,12 @@ void SPIClass::begin()
   // MISO is set to input by the controller
   if(_uc_mux == SPI_MUX)
   {
-    pinMode(PIN_SPI_SS, INPUT);
     pinMode(PIN_SPI_MOSI, OUTPUT);
     pinMode(PIN_SPI_SCK, OUTPUT);
   }
   #if defined(SPI_MUX_PINSWAP_1)
     else if(_uc_mux == SPI_MUX_PINSWAP_1)
     {
-      pinMode(PIN_SPI_SS_PINSWAP_1, INPUT);
       pinMode(PIN_SPI_MOSI_PINSWAP_1, OUTPUT);
       pinMode(PIN_SPI_SCK_PINSWAP_1, OUTPUT);
     }
@@ -115,12 +113,12 @@ void SPIClass::begin()
   #if defined(SPI_MUX_PINSWAP_2)
     else if(_uc_mux == SPI_MUX_PINSWAP_2)
     {
-      pinMode(PIN_SPI_SS_PINSWAP_2, INPUT);
       pinMode(PIN_SPI_MOSI_PINSWAP_2, OUTPUT);
       pinMode(PIN_SPI_SCK_PINSWAP_2, OUTPUT);
     }
   #endif
   
+  // We don't need HW SS since salve/master mode is selected via registers
   SPI0.CTRLB |= (SPI_SSD_bm);
   SPI0.CTRLA |= (SPI_ENABLE_bm | SPI_MASTER_bm);
 
