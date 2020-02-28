@@ -125,7 +125,7 @@ static const uint8_t SCL = PIN_WIRE_SCL;
 #define PIN_A12  (8)  // AIN11
 #define PIN_A13  (6)  // AIN14
 #define PIN_A14  (3)  // AIN15
-#define PIN_A14  (29) // AIN6
+#define PIN_A15  (29) // AIN6
 
 static const uint8_t A0  = PIN_A0;
 static const uint8_t A1  = PIN_A1;
