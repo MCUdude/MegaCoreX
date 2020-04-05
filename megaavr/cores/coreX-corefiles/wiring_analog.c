@@ -69,12 +69,8 @@ void analogReference(uint8_t mode)
 int analogRead(uint8_t pin)
 {
 	pin = digitalPinToAnalogInput(pin);
-	if(pin > NUM_ANALOG_INPUTS) return NOT_A_PIN;
-	
-	/* Check if TWI is operating on double bonded pin (Master Enable is high 
-		in both Master and Slave mode for bus error detection, so this can 
-		indicate an active state for Wire) */
-	if(isDoubleBondedActive(pin)) return 0;
+	if(pin > NUM_ANALOG_INPUTS)
+		return NOT_A_PIN;
 
 	uint8_t low, high;
 
@@ -121,7 +117,8 @@ void analogWrite(uint8_t pin, int val)
 {
 
 	uint8_t bit_pos  = digitalPinToBitPosition(pin);
-	if(bit_pos == NOT_A_PIN || isDoubleBondedActive(pin)) return;
+	if(bit_pos == NOT_A_PIN)
+		return;
 
 	// We need to make sure the PWM output is enabled for those pins
 	// that support it, as we turn it off when digitally reading or
@@ -204,7 +201,7 @@ void analogWrite(uint8_t pin, int val)
 // best effort will be made to find something that matches.
 //
 void analogWriteFrequency(uint8_t kHz) {
-  static const byte index2setting[] = {
+	static const byte index2setting[] = {
 #if F_CPU > 1000000L
 #if F_CPU > 2000000L
 #if F_CPU > 4000000L

@@ -116,7 +116,6 @@ extern const uint8_t digital_pin_to_timer[];
 #define TIMERB3 5
 
 void setup_timers();
-bool isDoubleBondedActive(uint8_t pin);
 
 #define digitalPinToPort(pin) ( (pin < NUM_TOTAL_PINS) ? digital_pin_to_port[pin] : NOT_A_PIN )
 #define digitalPinToBitPosition(pin) ( (pin < NUM_TOTAL_PINS) ? digital_pin_to_bit_position[pin] : NOT_A_PIN )

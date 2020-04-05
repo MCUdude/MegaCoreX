@@ -117,23 +117,6 @@ void setup_timers() {
 //   }
 }
 
-FORCE_INLINE bool isDoubleBondedActive(uint8_t pin) {
-  (void)pin;
-
-  /* Check if TWI is operating on double bonded pin (Master Enable is high 
-  in both Master and Slave mode for bus error detection, so this can 
-  indicate an active state for Wire) */
-  //if(((pin == PIN_A4) || (pin == PIN_A5)) && (TWI0.MCTRLA & TWI_ENABLE_bm)) return true;
-
-  /* Special check for SPI_SS double bonded pin -- no action if SPI is active 
-    (Using SPI Enable bit as indicator of SPI activity) */
-  //if((pin == 10) && (SPI0.CTRLA & SPI_ENABLE_bm)) return true;
-
-  // May check Serial1 that may conflict with A-timers (swapped or not)
-
-  return false;
-}
-
 void initVariant() {
 // Not used
 }
