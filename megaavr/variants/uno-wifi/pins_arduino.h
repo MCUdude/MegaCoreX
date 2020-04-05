@@ -45,20 +45,31 @@
 
 #define EXTERNAL_NUM_INTERRUPTS     (47)
 
-#define digitalPinHasPWM(p)         ((p) == 3 || (p) == 5 || (p) == 6 || (p) == 9 || (p) == 10)
+#define digitalPinHasPWM(p)         ((p) == 3 || (p) == 5 || (p) == 6 || (p) == 9 || (p) == 10 || (p) == 27)
 
+// Timer pin mapping
+#define TCA0_PINS PORTMUX_TCA0_PORTB_gc
+#define TCB0_PINS PORTMUX_TCB0_bm
+#define TCB1_PINS PORTMUX_TCB1_bm
+#define TCB2_PINS PORTMUX_TCB2_bm
+#define TCB3_PINS 0x00
+
+// SPI 0
+// Pinswap enabled by default and no alternative available
+#define SPI_INTERFACES_COUNT 1
 #define SPI_MUX              (PORTMUX_SPI0_ALT1_gc)
 #define PIN_SPI_MISO         (33)
 #define PIN_SPI_SCK          (34)
 #define PIN_SPI_MOSI         (32)
 #define PIN_SPI_SS           (10)
-
 static const uint8_t SS   = PIN_SPI_SS;
 static const uint8_t MOSI = PIN_SPI_MOSI;
 static const uint8_t MISO = PIN_SPI_MISO;
 static const uint8_t SCK  = PIN_SPI_SCK;
 
-// No pinswap available
+// TWI 0
+// No pinswap enabled by default, and no alternative available
+#define TWI_MUX              (PORTMUX_TWI0_DEFAULT_gc)
 #define PIN_WIRE_SDA         (20)
 #define PIN_WIRE_SCL         (21)
 static const uint8_t SDA = PIN_WIRE_SDA;
@@ -107,10 +118,6 @@ static const uint8_t SCL = PIN_WIRE_SCL;
 #define PIN_WIRE_HWSERIAL2_RX_PINSWAP_1 (7)
 
 #define HWSERIAL3_MUX         (PORTMUX_USART2_NONE_gc)
-#define TWI_MUX               (PORTMUX_TWI0_DEFAULT_gc) //PORTMUX_TWI0_ALT1_gc
-
-#define MUX_SPI (SPI_MUX)
-#define SPI_INTERFACES_COUNT 1
 
 #define LED_BUILTIN 25
 
@@ -403,5 +410,24 @@ const uint8_t digital_pin_to_timer[] = {
 #define SERIAL_PORT_USBVIRTUAL    Serial
 #define SERIAL_PORT_HARDWARE_OPEN Serial2
 #define SerialNina                Serial2
+
+void initVariant() __attribute__((weak));
+void initVariant() {
+  // NINA - SPI boot
+  pinMode(NINA_GPIO0, OUTPUT);
+  digitalWrite(NINA_GPIO0, HIGH);
+
+  // disable the NINA
+  pinMode(NINA_RESETN, OUTPUT);
+  digitalWrite(NINA_RESETN, HIGH);
+
+  // NINA SS HIGH by default
+  pinMode(SPIWIFI_SS, OUTPUT);
+  digitalWrite(SPIWIFI_SS, HIGH);
+
+  // IMU SS HIGH by default
+  pinMode(SPIIMU_SS, OUTPUT);
+  digitalWrite(SPIIMU_SS, HIGH);
+}
 
 #endif

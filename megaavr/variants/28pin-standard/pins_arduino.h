@@ -41,6 +41,13 @@
 
 #define digitalPinHasPWM(p)         ((p) >= 8 && (p) <= 11)
 
+// Timer pin mapping
+#define TCA0_PINS PORTMUX_TCA0_PORTC_gc
+#define TCB0_PINS PORTMUX_TCB0_bm
+#define TCB1_PINS PORTMUX_TCB1_bm
+#define TCB2_PINS PORTMUX_TCB2_bm
+#define TCB3_PINS 0x00
+
 // SPI 0
 // No pinswap by default
 // Pinswap 2 not available
@@ -61,7 +68,7 @@ static const uint8_t MOSI = PIN_SPI_MOSI;
 static const uint8_t MISO = PIN_SPI_MISO;
 static const uint8_t SCK  = PIN_SPI_SCK;
 
-// TWO 0
+// TWI 0
 // No pinswap enabled by default
 #define TWI_MUX                (PORTMUX_TWI0_DEFAULT_gc)
 #define TWI_MUX_PINSWAP        (PORTMUX_TWI0_ALT2_gc)
@@ -239,7 +246,9 @@ const uint8_t digital_pin_to_timer[] = {
   NOT_ON_TIMER  // 22 PF6 RESET
 };
 
-
 #endif
+
+void initVariant() __attribute__((weak));
+void initVariant() { }
 
 #endif

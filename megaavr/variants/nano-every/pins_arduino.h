@@ -45,24 +45,35 @@
 
 #define EXTERNAL_NUM_INTERRUPTS     (48)
 
-#define digitalPinHasPWM(p)         ((p) == 3 || (p) == 5 || (p) == 6 || (p) == 9 || (p) == 10)
+#define digitalPinHasPWM(p)         ((p) == 3 || (p) == 5 || (p) == 6 || (p) == 9 || (p) == 10 || (p) == 27)
 
-#define SPI_MUX       (PORTMUX_SPI0_ALT2_gc)
+// Timer pin mapping
+#define TCA0_PINS PORTMUX_TCA0_PORTB_gc
+#define TCB0_PINS PORTMUX_TCB0_bm
+#define TCB1_PINS PORTMUX_TCB1_bm
+#define TCB2_PINS 0x00
+#define TCB3_PINS 0x00
+
+// SPI 0
+// Pinswap enabled by default and no alternative available
 #define SPI_INTERFACES_COUNT 1
-#define PIN_SPI_MISO  (12)
-#define PIN_SPI_SCK   (13)
-#define PIN_SPI_MOSI  (11)
-#define PIN_SPI_SS    (8)
+#define SPI_MUX              (PORTMUX_SPI0_ALT2_gc)
+#define PIN_SPI_MISO         (12)
+#define PIN_SPI_SCK          (13)
+#define PIN_SPI_MOSI         (11)
+#define PIN_SPI_SS           (8)
 static const uint8_t SS   = PIN_SPI_SS;
 static const uint8_t MOSI = PIN_SPI_MOSI;
 static const uint8_t MISO = PIN_SPI_MISO;
 static const uint8_t SCK  = PIN_SPI_SCK;
 
-#define PIN_WIRE_SDA  (22)
-#define PIN_WIRE_SCL  (23)
+// TWI 0
+// No pinswap enabled by default, and no alternative available
+#define TWI_MUX              (PORTMUX_TWI0_DEFAULT_gc)
+#define PIN_WIRE_SDA         (22)
+#define PIN_WIRE_SCL         (23)
 static const uint8_t SDA = PIN_WIRE_SDA;
 static const uint8_t SCL = PIN_WIRE_SCL;
-#define TWI_MUX       (PORTMUX_TWI0_DEFAULT_gc)
 
 // Nano Every debug USART (not available on headers, only via the SAMD11 virtual COM port)
 // USART3 on mega4809 (alternative pins)
@@ -330,9 +341,6 @@ const uint8_t digital_pin_to_timer[] = {
 
 #endif
 
-
-
-
 // These serial port names are intended to allow libraries and architecture-neutral
 // sketches to automatically default to the correct port name for a particular type
 // of use.  For example, a GPS module would normally connect to SERIAL_PORT_HARDWARE_OPEN,
@@ -351,5 +359,8 @@ const uint8_t digital_pin_to_timer[] = {
 #define SERIAL_PORT_MONITOR       Serial
 #define SERIAL_PORT_HARDWARE      Serial1
 #define SERIAL_PORT_USBVIRTUAL    Serial
+
+void initVariant() __attribute__((weak));
+void initVariant() { }
 
 #endif
