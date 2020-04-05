@@ -107,13 +107,13 @@ void tone(uint8_t pin, unsigned int frequency, unsigned long duration)
     }
 
     // Calculate compare value, assuming F_CPU/2 used as clock
-    compare_val = F_CPU_CORRECTED / frequency / 4 - 1;
+    compare_val = F_CPU / frequency / 4 - 1;
     // If compare larger than 16bits, need to prescale (will be DIV64)
     uint8_t prescaler = 0;
     if (compare_val > 0xFFFF){
 	// recalculate with new prescaler
 	prescaler = timerPrescaler();
-	compare_val = F_CPU_CORRECTED / frequency / 2 / prescaler - 1;
+	compare_val = F_CPU / frequency / 2 / prescaler - 1;
 	if (compare_val > 0xFFFF) compare_val = 0xFFFF; // request lower frequency than supported
     }
 

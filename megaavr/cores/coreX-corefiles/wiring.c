@@ -29,8 +29,6 @@
 
 #include "wiring_private.h"
 
-uint32_t F_CPU_CORRECTED = F_CPU;
-
 volatile uint32_t timer_millis = 0;
 
 inline uint16_t clockCyclesPerMicrosecondComp(uint32_t clk){
@@ -38,7 +36,7 @@ inline uint16_t clockCyclesPerMicrosecondComp(uint32_t clk){
 }
 
 inline uint16_t clockCyclesPerMicrosecond(){
-	return clockCyclesPerMicrosecondComp(F_CPU_CORRECTED);
+	return clockCyclesPerMicrosecondComp(F_CPU);
 }
 
 inline unsigned long clockCyclesToMicroseconds(unsigned long cycles){
@@ -350,7 +348,7 @@ void init()
 
 	/********************* TCB for system time tracking **************************/
 
-	// BUG: we can compensate for F_CPU_CORRECTED by fine tuning value of TIME_TRACKING_TIMER_COUNT
+	// BUG: we can compensate for F_CPU by fine tuning value of TIME_TRACKING_TIMER_COUNT
 
 	/* Select vanilla 16 bit periodic interrupt mode */
 	_timer->CTRLB = TCB_CNTMODE_INT_gc;
