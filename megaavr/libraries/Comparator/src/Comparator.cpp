@@ -86,7 +86,7 @@ void AnalogComparator::stop()
   start(false);
 }
 
-void AnalogComparator::attachInterrupt(void (*userFunc)(void), PinStatus mode)
+void AnalogComparator::attachInterrupt(void (*userFunc)(void), uint8_t mode)
 {
   AC_INTMODE_t intmode;
   switch (mode) 

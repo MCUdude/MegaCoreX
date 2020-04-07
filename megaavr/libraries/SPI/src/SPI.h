@@ -52,7 +52,7 @@
 
 class SPISettings {
   public:
-  SPISettings(uint32_t clock, BitOrder bitOrder, uint8_t dataMode) {
+  SPISettings(uint32_t clock, uint8_t bitOrder, uint8_t dataMode) {
     if (__builtin_constant_p(clock)) {
       init_AlwaysInline(clock, bitOrder, dataMode);
     } else {
@@ -64,11 +64,11 @@ class SPISettings {
   SPISettings() { init_AlwaysInline(4000000, MSBFIRST, SPI_MODE0); }
 
   private:
-  void init_MightInline(uint32_t clock, BitOrder bitOrder, uint8_t dataMode) {
+  void init_MightInline(uint32_t clock, uint8_t bitOrder, uint8_t dataMode) {
     init_AlwaysInline(clock, bitOrder, dataMode);
   }
 
-  void init_AlwaysInline(uint32_t clock, BitOrder bitOrder, uint8_t dataMode) __attribute__((__always_inline__)) {
+  void init_AlwaysInline(uint32_t clock, uint8_t bitOrder, uint8_t dataMode) __attribute__((__always_inline__)) {
     // Clock settings are defined as follows. Note that this shows SPI2X
     // inverted, so the bits form increasing numbers. Also note that
     // fosc/64 appears twice.  If FOSC is 16 Mhz
@@ -93,12 +93,11 @@ class SPISettings {
     // away. When clock is not known, use a loop instead, which generates
     // shorter code.
     
-    /*  This is no longer the case since, F_CPU_CORRECTED is variable */
     /*  set at run time.                                             */
 
     uint32_t clockSetting = 0; 
     
-    clockSetting = F_CPU_CORRECTED / 2;
+    clockSetting = F_CPU / 2;
     clockDiv = 0;
     while ((clockDiv < 6) && (clock < clockSetting)) {
       clockSetting /= 2;
@@ -162,7 +161,7 @@ class SPIClass {
   void begin();
   void end();
 
-  void setBitOrder(BitOrder order);
+  void setBitOrder(uint8_t bitOrder);
   void setDataMode(uint8_t uc_mode);
   void setClockDivider(uint8_t uc_div);
 

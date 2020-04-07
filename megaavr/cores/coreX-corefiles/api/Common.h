@@ -6,35 +6,30 @@ extern "C"{
 
 void yield(void);
 
-typedef enum {
-  LOW     = 0,
-  HIGH    = 1,
-  CHANGE  = 2,
-  FALLING = 3,
-  RISING  = 4,
-} PinStatus;
+#define LOW            0
+#define HIGH           1
 
-typedef enum {
-  INPUT           = 0x0,
-  OUTPUT          = 0x1,
-  INPUT_PULLUP    = 0x2,
-  INPUT_PULLDOWN  = 0x3,
-} PinMode;
+#define FALLING        2
+#define RISING         3
+#define CHANGE         4
 
-typedef enum {
-  LSBFIRST = 0,
-  MSBFIRST = 1,
-} BitOrder;
+#define INPUT          0
+#define OUTPUT         1
+#define INPUT_PULLUP   2
+//#define INPUT_PULLDOWN 3
 
-#define PI          3.1415926535897932384626433832795
-#define HALF_PI     1.5707963267948966192313216916398
-#define TWO_PI      6.283185307179586476925286766559
-#define DEG_TO_RAD  0.017453292519943295769236907684886
-#define RAD_TO_DEG  57.295779513082320876798154814105
-#define EULER       2.718281828459045235360287471352
+#define LSBFIRST       0
+#define MSBFIRST       1
 
-#define SERIAL      0x0
-#define DISPLAY     0x1
+#define PI             3.1415926535897932384626433832795
+#define HALF_PI        1.5707963267948966192313216916398
+#define TWO_PI         6.283185307179586476925286766559
+#define DEG_TO_RAD     0.017453292519943295769236907684886
+#define RAD_TO_DEG     57.295779513082320876798154814105
+#define EULER          2.718281828459045235360287471352
+
+#define SERIAL         0
+#define DISPLAY        1
 
 #ifndef min
 #define min(a,b) \
@@ -100,9 +95,9 @@ typedef uint32_t pin_size_t;
 typedef uint8_t pin_size_t;
 #endif
 
-void pinMode(pin_size_t pinNumber, PinMode pinMode);
-void digitalWrite(pin_size_t pinNumber, PinStatus status);
-PinStatus digitalRead(pin_size_t pinNumber);
+void pinMode(pin_size_t pinNumber, uint8_t pinMode);
+void digitalWrite(pin_size_t pinNumber, uint8_t status);
+int digitalRead(pin_size_t pinNumber);
 int analogRead(pin_size_t pinNumber);
 void analogReference(uint8_t mode);
 void analogWrite(pin_size_t pinNumber, int value);
@@ -115,10 +110,10 @@ void delayMicroseconds(unsigned int us);
 unsigned long pulseIn(pin_size_t pin, uint8_t state, unsigned long timeout);
 unsigned long pulseInLong(pin_size_t pin, uint8_t state, unsigned long timeout);
 
-void shiftOut(pin_size_t dataPin, pin_size_t clockPin, BitOrder bitOrder, uint8_t val);
-pin_size_t shiftIn(pin_size_t dataPin, pin_size_t clockPin, BitOrder bitOrder);
+void shiftOut(pin_size_t dataPin, pin_size_t clockPin, uint8_t bitOrder, uint8_t val);
+pin_size_t shiftIn(pin_size_t dataPin, pin_size_t clockPin, uint8_t bitOrder);
 
-void attachInterrupt(pin_size_t interruptNumber, voidFuncPtr callback, PinStatus mode);
+void attachInterrupt(pin_size_t interruptNumber, voidFuncPtr callback, uint8_t mode);
 void detachInterrupt(pin_size_t interruptNumber);
 
 void setup(void);

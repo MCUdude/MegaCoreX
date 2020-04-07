@@ -67,7 +67,7 @@ class AnalogComparator
     void init();
     void start(bool state = true);
     void stop();
-    void attachInterrupt(voidFuncPtr callback, PinStatus mode);
+    void attachInterrupt(voidFuncPtr callback, uint8_t mode);
     void detachInterrupt();
 
     out::output_t      output = out::disable;
