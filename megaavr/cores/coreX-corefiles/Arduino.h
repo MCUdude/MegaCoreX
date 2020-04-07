@@ -45,27 +45,30 @@ extern "C"{
  /* Values shifted to avoid clashing with ADC REFSEL defines
 	Will shift back in analog_reference function
   */
-#define INTERNAL0V55 (VREF_ADC0REFSEL_0V55_gc >> VREF_ADC0REFSEL_gp)
-#define INTERNAL1V1 (VREF_ADC0REFSEL_1V1_gc >> VREF_ADC0REFSEL_gp)
-#define INTERNAL2V5 (VREF_ADC0REFSEL_2V5_gc >> VREF_ADC0REFSEL_gp)
-#define INTERNAL4V3 (VREF_ADC0REFSEL_4V34_gc >> VREF_ADC0REFSEL_gp)
-#define INTERNAL1V5 (VREF_ADC0REFSEL_1V5_gc >> VREF_ADC0REFSEL_gp)
+#define INTERNAL0V55    (VREF_ADC0REFSEL_0V55_gc >> VREF_ADC0REFSEL_gp)
+#define INTERNAL1V1     (VREF_ADC0REFSEL_1V1_gc >> VREF_ADC0REFSEL_gp)
+#define INTERNAL2V5     (VREF_ADC0REFSEL_2V5_gc >> VREF_ADC0REFSEL_gp)
+#define INTERNAL4V3     (VREF_ADC0REFSEL_4V34_gc >> VREF_ADC0REFSEL_gp)
+#define INTERNAL4V34    INTERNAL4V3
+#define INTERNAL1V5     (VREF_ADC0REFSEL_1V5_gc >> VREF_ADC0REFSEL_gp)
 
-#define DEFAULT     INTERNAL0V55
-#define INTERNAL    ADC_REFSEL_INTREF_gc
-#define VDD         ADC_REFSEL_VDDREF_gc
-#define EXTERNAL    ADC_REFSEL_VREFA_gc
+#define DEFAULT         ADC_REFSEL_VDDREF_gc
+#define INTERNAL        ADC_REFSEL_INTREF_gc
+#define VDD             ADC_REFSEL_VDDREF_gc
+#define EXTERNAL        ADC_REFSEL_VREFA_gc
 
-#define VCC_5V0 2
-#define VCC_3V3 1
-#define VCC_1V8 0
+#define ADC_TEMPERATURE ADC_MUXPOS_TEMPSENSE_gc
 
-#define interrupts() sei()
-#define noInterrupts() cli()
+#define VCC_5V0         2
+#define VCC_3V3         1
+#define VCC_1V8         0
+
+#define interrupts()    sei()
+#define noInterrupts()  cli()
 
 // avr-libc defines _NOP() since 1.6.2
 #ifndef _NOP
-#define _NOP() do { __asm__ volatile ("nop"); } while (0)
+	#define _NOP() do { __asm__ volatile ("nop"); } while (0)
 #endif
 
 /* Allows performing a correction on the CPU value using the signature row 
