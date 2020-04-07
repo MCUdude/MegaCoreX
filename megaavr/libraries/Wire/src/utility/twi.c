@@ -208,7 +208,7 @@ void TWI_MasterSetBaud(uint32_t frequency){
 		t_rise = 1000;
 	}
 	
-	uint32_t baud = ((F_CPU_CORRECTED/frequency) - (((F_CPU_CORRECTED*t_rise)/1000)/1000)/1000 - 10)/2;
+	uint32_t baud = ((F_CPU/frequency) - (((F_CPU*t_rise)/1000)/1000)/1000 - 10)/2;
 	TWI0.MBAUD = (uint8_t)baud;
 
 }
