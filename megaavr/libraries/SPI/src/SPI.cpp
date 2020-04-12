@@ -70,20 +70,21 @@ bool SPIClass::swap(uint8_t state)
 {
   if(state == 0)
   {
+    _uc_mux = SPI_MUX;
     pins(PIN_SPI_MOSI, PIN_SPI_MISO, PIN_SPI_SCK, PIN_SPI_SS);
     return true;
   }
   #if defined(SPI_MUX_PINSWAP_1)
   else if(state == 1)
     {
-      pins(PIN_SPI_MOSI_PINSWAP_1, PIN_SPI_MISO_PINSWAP_1, PIN_SPI_SCK_PINSWAP_1, PIN_SPI_SS_PINSWAP_1);
+      _uc_mux = SPI_MUX_PINSWAP_1;
       return true;
     }
   #endif
   #if defined(SPI_MUX_PINSWAP_2)
     else if(state == 2)
     {
-      pins(PIN_SPI_MOSI_PINSWAP_2, PIN_SPI_MISO_PINSWAP_2, PIN_SPI_SCK_PINSWAP_2, PIN_SPI_SS_PINSWAP_2);
+      _uc_mux = SPI_MUX_PINSWAP_2;
       return true;
     }
   #endif
