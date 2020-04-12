@@ -16,6 +16,7 @@ For programming, these chips use a UPDI programming interface. This is a bi-dire
 * [Reset pin](#reset-pin)
 * [Printf support](#printf-support)
 * [Fast IO](#fast-io)
+* [Pin macros](#pin-macros)
 * [Pinout](#pinout)
 * [Hardware features](#hardware-features)
   - [PWM output](#pwm-output)
@@ -111,6 +112,18 @@ If you're using a serial port, simply use `Serial.printf("Milliseconds since sta
 ## Fast IO
 For timing critical applications the standard `digitalRead()` and `digitalWrite()` functions may be too slow. To solve this, MegaCoreX also includes some improved variants that compiles down to a single instruction.
 Call `digitalReadFast(myPin)` or `digitalWriteFast(mypin, state)` to use these. Note that in order to gain any speed improvements, the pin number has to be a constant.
+
+
+## Pin macros
+Note that you don't have to use the digital pin numbers to refer to the pins. You can also use some predefined macros that maps "Arduino pins" to the port and port number:
+
+```c++
+// Use PIN_PA0 macro to refer to pin PA0 (Arduino pin 0)
+digitalWrite(PIN_PA0, HIGH);
+
+// Results in the exact same compiled code
+digitalWrite(0, HIGH);
+
 
 
 ## Pinout
