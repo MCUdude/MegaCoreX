@@ -123,7 +123,7 @@ digitalWrite(PIN_PA0, HIGH);
 
 // Results in the exact same compiled code
 digitalWrite(0, HIGH);
-
+```
 
 
 ## Pinout
