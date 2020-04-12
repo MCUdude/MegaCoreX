@@ -15,6 +15,7 @@ For programming, these chips use a UPDI programming interface. This is a bi-dire
 * [BOD option](#bod-option)
 * [Reset pin](#reset-pin)
 * [Printf support](#printf-support)
+* [Fast IO](#fast-io)
 * [Pinout](#pinout)
 * [Hardware features](#hardware-features)
   - [PWM output](#pwm-output)
@@ -105,6 +106,11 @@ None of the megaAVR-0 microcontrollers needs the reset line to be reprogrammed o
 Unlike the official Arduino core, MegaCoreX has printf support out of the box. If you're not familiar with printf you should probably [read this first](https://www.tutorialspoint.com/c_standard_library/c_function_printf.htm). It's added to the Print class and will work with all libraries that inherit Print. Printf is a standard C function that lets you format text much easier than using Arduino's built-in print and println. Note that this implementation of printf will NOT print floats or doubles. This is a limitation of the avr-libc printf implementation on AVR microcontrollers, and nothing I can easily fix.
 
 If you're using a serial port, simply use `Serial.printf("Milliseconds since start: %ld\n", millis());`. Other libraries that inherit the Print class (and thus supports printf) are SoftwareSerial and the LiquidCrystal LCD library.
+
+
+## Fast IO
+For timing critical applications the standard `digitalRead()` and `digitalWrite()` functions may be too slow. To solve this, MegaCoreX also includes some improved variants that compiles down to a single instruction.
+Call `digitalReadFast(myPin)` or `digitalWriteFast(mypin, state)` to use these. Note that in order to gain any speed improvements, the pin number has to be a constant.
 
 
 ## Pinout

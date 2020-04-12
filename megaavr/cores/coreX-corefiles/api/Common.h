@@ -97,7 +97,13 @@ typedef uint8_t pin_size_t;
 
 void pinMode(pin_size_t pinNumber, uint8_t pinMode);
 void digitalWrite(pin_size_t pinNumber, uint8_t status);
-int digitalRead(pin_size_t pinNumber);
+void _dwfast(pin_size_t pinNumber, uint8_t status);
+#define digitalWriteFast(pin, val) \
+	(__builtin_constant_p(pin) ? /*&& __builtin_constant_p(val)*/ _dwfast(pin, val) : digitalWrite(pin, val))
+uint8_t digitalRead(pin_size_t pinNumber);
+uint8_t _drfast(pin_size_t pinNumber);
+#define digitalReadFast(pin) \
+	(__builtin_constant_p(pin) ? /*&& __builtin_constant_p(val)*/ _drfast(pin) : digitalRead(pin))
 int analogRead(pin_size_t pinNumber);
 void analogReference(uint8_t mode);
 void analogWrite(pin_size_t pinNumber, int value);

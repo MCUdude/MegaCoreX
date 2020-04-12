@@ -191,10 +191,29 @@ void digitalWrite(uint8_t pin, uint8_t val)
 		/* Restore system status */
 		SREG = status;
 	}
-
 }
 
-int digitalRead(uint8_t pin)
+
+inline __attribute__((always_inline)) void _dwfast(uint8_t pin, uint8_t val)
+{
+	// Mega-0, Tiny-1 style IOPORTs
+	// Assumes VPORTs exist starting at 0 for each PORT structure
+	uint8_t mask = 1 << digital_pin_to_bit_position[pin];
+	uint8_t port = digital_pin_to_port[pin];
+	VPORT_t *vport;
+
+	// Write pin value from VPORTx.OUT register
+	vport = (VPORT_t *)(port * 4);
+
+	if (val == HIGH)
+		vport->OUT |= mask;
+	else if (val == LOW)
+		vport->OUT &= ~mask;
+	else // CHANGE
+		vport->IN = mask;
+}
+
+uint8_t digitalRead(uint8_t pin)
 {
 	/* Get bit mask and check valid pin */
 	uint8_t bit_mask = digitalPinToBitMask(pin);
@@ -209,10 +228,25 @@ int digitalRead(uint8_t pin)
 	PORT_t *port = digitalPinToPortStruct(pin);
 
 	/* Read pin value from PORTx.IN register */
-	if(port->IN & bit_mask){
+	if(port->IN & bit_mask)
 		return HIGH;
-	} else {
+	else
 		return LOW;
-	}
+
 	return LOW;
+}
+
+inline  __attribute__((always_inline)) uint8_t _drfast(uint8_t pin)
+{
+	// Mega-0, Tiny-1 style IOPORTs
+	// Assumes VPORTs exist starting at 0 for each PORT structure
+	uint8_t mask = 1 << digital_pin_to_bit_position[pin];
+	uint8_t port = digital_pin_to_port[pin];
+	VPORT_t *vport;
+
+	// Old style port logic is a small integer 0 for PORTA, 1 for PORTB etc.
+	vport = (VPORT_t *)(port * 4);
+
+	// Read pin value from VPORTx.IN register
+	return !!(vport->IN & mask);
 }
