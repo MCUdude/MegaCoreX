@@ -1,5 +1,3 @@
-/* -*- mode: jde; c-basic-offset: 2; indent-tabs-mode: nil -*- */
-
 /*
   Part of the Wiring project - http://wiring.uniandes.edu.co
 
@@ -24,27 +22,28 @@
   Modified 1 August 2010 by Mark Sproul
 */
 
-#include <inttypes.h>
-#include <avr/io.h>
 #include <avr/interrupt.h>
+#include <avr/io.h>
 #include <avr/pgmspace.h>
+#include <inttypes.h>
 #include <stdio.h>
 
 #include "wiring_private.h"
 
 static volatile voidFuncPtr intFunc[EXTERNAL_NUM_INTERRUPTS];
 
-void attachInterrupt(uint8_t pin, void (*userFunc)(void), uint8_t mode) {
-
+void attachInterrupt(uint8_t pin, void (*userFunc)(void), uint8_t mode)
+{
   /* Get bit position and check pin validity */
   uint8_t bit_pos = digitalPinToBitPosition(pin);
-  if(bit_pos == NOT_A_PIN) return;
+  if (bit_pos == NOT_A_PIN) return;
 
   /* Get interrupt number from pin */
   uint8_t interruptNum = (digitalPinToPort(pin) * 8) + bit_pos;
 
   /* Check interrupt number and apply function pointer to correct array index */
-  if(interruptNum < EXTERNAL_NUM_INTERRUPTS) {
+  if (interruptNum < EXTERNAL_NUM_INTERRUPTS)
+  {
     intFunc[interruptNum] = userFunc;
 
     // Configure the interrupt mode (trigger on low input, any change, rising
@@ -52,7 +51,8 @@ void attachInterrupt(uint8_t pin, void (*userFunc)(void), uint8_t mode) {
     // to the configuration bits in the hardware register, so we simply apply
     // the setting in the pin control register
 
-    switch (mode) {
+    switch (mode)
+    {
       case CHANGE:
         mode = PORT_ISC_BOTHEDGES_gc;
         break;
@@ -74,7 +74,7 @@ void attachInterrupt(uint8_t pin, void (*userFunc)(void), uint8_t mode) {
 
     /* Get pointer to correct pin control register */
     PORT_t *port = digitalPinToPortStruct(pin);
-    volatile uint8_t* pin_ctrl_reg = getPINnCTRLregister(port, bit_pos);
+    volatile uint8_t *pin_ctrl_reg = getPINnCTRLregister(port, bit_pos);
 
     /* Clear any previous setting */
     *pin_ctrl_reg &= ~(PORT_ISC_gm);
@@ -84,20 +84,22 @@ void attachInterrupt(uint8_t pin, void (*userFunc)(void), uint8_t mode) {
   }
 }
 
-void detachInterrupt(uint8_t pin) {
+void detachInterrupt(uint8_t pin)
+{
   /* Get bit position and check pin validity */
   uint8_t bit_pos = digitalPinToBitPosition(pin);
-  if(bit_pos == NOT_A_PIN) return;
+  if (bit_pos == NOT_A_PIN) return;
 
   /* Get interrupt number from pin */
   uint8_t interruptNum = (digitalPinToPort(pin) * 8) + bit_pos;
 
-  if(interruptNum < EXTERNAL_NUM_INTERRUPTS) {
+  if (interruptNum < EXTERNAL_NUM_INTERRUPTS)
+  {
     // Disable the interrupt.
 
     /* Get pointer to correct pin control register */
     PORT_t *port = digitalPinToPortStruct(pin);
-    volatile uint8_t* pin_ctrl_reg = getPINnCTRLregister(port, bit_pos);
+    volatile uint8_t *pin_ctrl_reg = getPINnCTRLregister(port, bit_pos);
 
     /* Clear ISC setting */
     *pin_ctrl_reg &= ~(PORT_ISC_gm);
@@ -106,8 +108,8 @@ void detachInterrupt(uint8_t pin) {
   }
 }
 
-static void port_interrupt_handler(uint8_t port) {
-
+static void port_interrupt_handler(uint8_t port)
+{
   PORT_t *portStruct = portToPortStruct(port);
   /* Copy flags */
   uint8_t int_flags = portStruct->INTFLAGS;
@@ -115,23 +117,23 @@ static void port_interrupt_handler(uint8_t port) {
   uint8_t bit_pos = PIN0_bp, bit_mask = PIN0_bm;
 
   /* Iterate through flags */
-  while(bit_pos <= PIN7_bp){
-
+  while (bit_pos <= PIN7_bp)
+  {
     /* Check if flag raised */
-    if(int_flags & bit_mask){
-
-    /* Get interrupt */
-    uint8_t interrupt_num = port*8 + bit_pos;
+    if (int_flags & bit_mask)
+    {
+      /* Get interrupt */
+      uint8_t interrupt_num = port * 8 + bit_pos;
 
       /* Check if function defined */
-      if(intFunc[interrupt_num] != 0){
-
+      if (intFunc[interrupt_num] != 0)
+      {
         /* Call function */
         intFunc[interrupt_num]();
       }
     }
     bit_pos++;
-    bit_mask = (bit_mask << 1); 
+    bit_mask = (bit_mask << 1);
   }
 
   /* Clear flags that have been handled */
@@ -139,9 +141,10 @@ static void port_interrupt_handler(uint8_t port) {
 }
 
 #define IMPLEMENT_ISR(vect, port) \
-ISR(vect) { \
-  port_interrupt_handler(port);\
-} \
+  ISR(vect)                       \
+  {                               \
+    port_interrupt_handler(port); \
+  }
 
 IMPLEMENT_ISR(PORTA_PORT_vect, PA)
 IMPLEMENT_ISR(PORTB_PORT_vect, PB)

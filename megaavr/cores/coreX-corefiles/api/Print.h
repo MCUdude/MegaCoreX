@@ -87,4 +87,3 @@ class Print
 
     virtual void flush() { /* Empty implementation for backward compatibility */ }
 };
-

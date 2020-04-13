@@ -1,5 +1,3 @@
-/* -*- mode: jde; c-basic-offset: 2; indent-tabs-mode: nil -*- */
-
 /*
   Part of the Wiring project - http://wiring.org.co
   Copyright (c) 2004-06 Hernando Barragan
@@ -21,20 +19,23 @@
   Boston, MA  02111-1307  USA
 */
 
-extern "C" {
+extern "C"
+{
   #include "stdlib.h"
 }
 
 void randomSeed(unsigned long seed)
 {
-  if (seed != 0) {
+  if (seed != 0)
+  {
     srandom(seed);
   }
 }
 
 long random(long howbig)
 {
-  if (howbig == 0) {
+  if (howbig == 0)
+  {
     return 0;
   }
   return random() % howbig;
@@ -42,7 +43,8 @@ long random(long howbig)
 
 long random(long howsmall, long howbig)
 {
-  if (howsmall >= howbig) {
+  if (howsmall >= howbig)
+  {
     return howsmall;
   }
   long diff = howbig - howsmall;

@@ -40,7 +40,7 @@ UartClass::UartClass(
   volatile uint8_t uart_mux_swap) :
     _hwserial_module(hwserial_module),
     _hw_set { { hwserial_rx_pin, hwserial_tx_pin, uart_mux },
- 	          { hwserial_rx_pin_swap, hwserial_tx_pin_swap, uart_mux_swap } },
+            { hwserial_rx_pin_swap, hwserial_tx_pin_swap, uart_mux_swap } },
     _pin_set(0),
     _written(false),
     _rx_buffer_head(0), _rx_buffer_tail(0),
@@ -66,11 +66,14 @@ void UartClass::_rx_complete_irq(void)
     // just before the tail (meaning that the head would advance to the
     // current location of the tail), we're about to overflow the buffer
     // and so we don't write the character or advance the head.
-    if (i != _rx_buffer_tail) {
+    if (i != _rx_buffer_tail)
+    {
       _rx_buffer[_rx_buffer_head] = c;
       _rx_buffer_head = i;
     }
-  } else {
+  } 
+  else
+  {
     // Parity error, read byte but discard it
     (*_hwserial_module).RXDATAL;
   }

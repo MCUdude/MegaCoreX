@@ -55,12 +55,13 @@ ISR(HWSERIAL0_DRE_VECTOR)
 #endif
 
 #if defined(HWSERIAL0)
-  UartClass Serial(HWSERIAL0, PIN_WIRE_HWSERIAL0_RX, PIN_WIRE_HWSERIAL0_TX, PIN_WIRE_HWSERIAL0_RX_PINSWAP_1, PIN_WIRE_HWSERIAL0_TX_PINSWAP_1, HWSERIAL0_DRE_VECTOR_NUM, HWSERIAL0_MUX, HWSERIAL0_MUX_PINSWAP_1);
+UartClass Serial(HWSERIAL0, PIN_WIRE_HWSERIAL0_RX, PIN_WIRE_HWSERIAL0_TX, PIN_WIRE_HWSERIAL0_RX_PINSWAP_1, PIN_WIRE_HWSERIAL0_TX_PINSWAP_1, HWSERIAL0_DRE_VECTOR_NUM, HWSERIAL0_MUX, HWSERIAL0_MUX_PINSWAP_1);
 #endif
 
 // Function that can be weakly referenced by serialEventRun to prevent
 // pulling in this file if it's not otherwise used.
-bool Serial0_available() {
+bool Serial0_available()
+{
   return Serial.available();
 }
 

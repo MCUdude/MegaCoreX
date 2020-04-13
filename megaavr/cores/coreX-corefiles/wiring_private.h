@@ -23,20 +23,21 @@
 #ifndef WiringPrivate_h
 #define WiringPrivate_h
 
-#include <avr/io.h>
 #include <avr/interrupt.h>
-#include <stdio.h>
+#include <avr/io.h>
 #include <stdarg.h>
+#include <stdio.h>
 
 #include "Arduino.h"
 
 #ifdef __cplusplus
-extern "C"{
+extern "C"
+{
 #endif
 
-uint32_t countPulseASM(volatile uint8_t *port, uint8_t bit, uint8_t stateMask, unsigned long maxloops);
+  uint32_t countPulseASM(volatile uint8_t *port, uint8_t bit, uint8_t stateMask, unsigned long maxloops);
 
-typedef void (*voidFuncPtr)(void);
+  typedef void (*voidFuncPtr)(void);
 
 #ifdef __cplusplus
 } // extern "C"

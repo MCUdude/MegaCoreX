@@ -19,8 +19,9 @@
 #ifndef HID_h
 #define HID_h
 
-#include <stdint.h>
 #include <Arduino.h>
+#include <stdint.h>
+
 #include "api/PluggableUSB.h"
 
 #if defined(USBCON)
@@ -29,16 +30,16 @@
 
 // HID 'Driver'
 // ------------
-#define HID_GET_REPORT        0x01
-#define HID_GET_IDLE          0x02
-#define HID_GET_PROTOCOL      0x03
-#define HID_SET_REPORT        0x09
-#define HID_SET_IDLE          0x0A
-#define HID_SET_PROTOCOL      0x0B
+#define HID_GET_REPORT 0x01
+#define HID_GET_IDLE 0x02
+#define HID_GET_PROTOCOL 0x03
+#define HID_SET_REPORT 0x09
+#define HID_SET_IDLE 0x0A
+#define HID_SET_PROTOCOL 0x0B
 
-#define HID_HID_DESCRIPTOR_TYPE         0x21
-#define HID_REPORT_DESCRIPTOR_TYPE      0x22
-#define HID_PHYSICAL_DESCRIPTOR_TYPE    0x23
+#define HID_HID_DESCRIPTOR_TYPE 0x21
+#define HID_REPORT_DESCRIPTOR_TYPE 0x22
+#define HID_PHYSICAL_DESCRIPTOR_TYPE 0x23
 
 // HID subclass HID1.11 Page 8 4.2 Subclass
 #define HID_SUBCLASS_NONE 0
@@ -51,18 +52,18 @@
 
 // Normal or bios protocol (Keyboard/Mouse) HID1.11 Page 54 7.2.5 Get_Protocol Request
 // "protocol" variable is used for this purpose.
-#define HID_BOOT_PROTOCOL	0
-#define HID_REPORT_PROTOCOL	1
+#define HID_BOOT_PROTOCOL 0
+#define HID_REPORT_PROTOCOL 1
 
 // HID Request Type HID1.11 Page 51 7.2.1 Get_Report Request
-#define HID_REPORT_TYPE_INPUT   1
-#define HID_REPORT_TYPE_OUTPUT  2
+#define HID_REPORT_TYPE_INPUT 1
+#define HID_REPORT_TYPE_OUTPUT 2
 #define HID_REPORT_TYPE_FEATURE 3
 
 typedef struct
 {
-  uint8_t len;      // 9
-  uint8_t dtype;    // 0x21
+  uint8_t len;   // 9
+  uint8_t dtype; // 0x21
   uint8_t addr;
   uint8_t versionL; // 0x101
   uint8_t versionH; // 0x101
@@ -72,17 +73,18 @@ typedef struct
   uint8_t descLenH;
 } HIDDescDescriptor;
 
-typedef struct 
+typedef struct
 {
   InterfaceDescriptor hid;
-  HIDDescDescriptor   desc;
-  EndpointDescriptor  in;
+  HIDDescDescriptor desc;
+  EndpointDescriptor in;
 } HIDDescriptor;
 
-class HIDSubDescriptor {
-public:
-  HIDSubDescriptor *next = NULL;
-  HIDSubDescriptor(const void *d, const uint16_t l) : data(d), length(l) { }
+class HIDSubDescriptor
+{
+ public:
+  HIDSubDescriptor* next = NULL;
+  HIDSubDescriptor(const void* d, const uint16_t l) : data(d), length(l) {}
 
   const void* data;
   const uint16_t length;
@@ -90,20 +92,20 @@ public:
 
 class HID_ : public PluggableUSBModule
 {
-public:
+ public:
   HID_(void);
   int begin(void);
   int SendReport(uint8_t id, const void* data, int len);
   void AppendDescriptor(HIDSubDescriptor* node);
 
-protected:
+ protected:
   // Implementation of the PluggableUSBModule
   int getInterface(uint8_t* interfaceCount);
   int getDescriptor(USBSetup& setup);
   bool setup(USBSetup& setup);
   uint8_t getShortName(char* name);
 
-private:
+ private:
   unsigned int epType[1];
 
   HIDSubDescriptor* rootNode;
@@ -118,7 +120,10 @@ private:
 // https://isocpp.org/wiki/faq/ctors#static-init-order-on-first-use
 HID_& HID();
 
-#define D_HIDREPORT(length) { 9, 0x21, 0x01, 0x01, 0, 1, 0x22, lowByte(length), highByte(length) }
+#define D_HIDREPORT(length)                                            \
+  {                                                                    \
+    9, 0x21, 0x01, 0x01, 0, 1, 0x22, lowByte(length), highByte(length) \
+  }
 
 #else
 

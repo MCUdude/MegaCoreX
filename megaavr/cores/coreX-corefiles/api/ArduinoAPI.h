@@ -30,23 +30,23 @@
 #include "HardwareI2C.h"
 #include "HardwareSerial.h"
 #include "IPAddress.h"
+#include "PluggableUSB.h"
 #include "Print.h"
 #include "Printable.h"
-#include "PluggableUSB.h"
 #include "Server.h"
-#include "String.h"
 #include "Stream.h"
-#include "Udp.h"
+#include "String.h"
 #include "USBAPI.h"
+#include "Udp.h"
 #include "WCharacter.h"
 #endif
 
 /* Standard C library includes */
-#include <stdlib.h>
-#include <stdint.h>
-#include <stdbool.h>
-#include <string.h>
 #include <math.h>
+#include <stdbool.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include <string.h>
 
 // Misc Arduino core functions
 #include "Common.h"
