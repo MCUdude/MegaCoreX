@@ -151,6 +151,34 @@ static const uint8_t A13 = PIN_A13;
 static const uint8_t A14 = PIN_A14;
 static const uint8_t A15 = PIN_A15;
 
+#define PIN_PA0 0
+#define PIN_PA1 1
+#define PIN_PA2 2
+#define PIN_PA3 3
+#define PIN_PA4 4
+#define PIN_PA5 5
+#define PIN_PA6 6
+#define PIN_PA7 7
+#define PIN_PC0 8
+#define PIN_PC1 9
+#define PIN_PC2 10
+#define PIN_PC3 11
+#define PIN_PD0 12
+#define PIN_PD1 13
+#define PIN_PD2 14
+#define PIN_PD3 15
+#define PIN_PD4 16
+#define PIN_PD5 17
+#define PIN_PD6 18
+#define PIN_PD7 19
+#define PIN_PF0 20
+#define PIN_PF1 21
+#define PIN_PF2 22
+#define PIN_PF3 23
+#define PIN_PF4 24
+#define PIN_PF5 25
+#define PIN_PF6 26
+
 #define PINS_COUNT    (27u)
 
 #ifdef ARDUINO_MAIN
@@ -246,34 +274,6 @@ const uint8_t digital_pin_to_bit_mask[] = {
   PIN5_bm, // 25 PF5/AIN15/TCB1 PWM
   PIN6_bm  // 26 PF6 RESET
 };
-
-#define PIN_PA0 0
-#define PIN_PA1 1
-#define PIN_PA2 2
-#define PIN_PA3 3
-#define PIN_PA4 4
-#define PIN_PA5 5
-#define PIN_PA6 6
-#define PIN_PA7 7
-#define PIN_PC0 8
-#define PIN_PC1 9
-#define PIN_PC2 10
-#define PIN_PC3 11
-#define PIN_PD0 12
-#define PIN_PD1 13
-#define PIN_PD2 14
-#define PIN_PD3 15
-#define PIN_PD4 16
-#define PIN_PD5 17
-#define PIN_PD6 18
-#define PIN_PD7 19
-#define PIN_PF0 20
-#define PIN_PF1 21
-#define PIN_PF2 22
-#define PIN_PF3 23
-#define PIN_PF4 24
-#define PIN_PF5 25
-#define PIN_PF6 26
 
 const uint8_t digital_pin_to_timer[] = {
   NOT_ON_TIMER, //  0 PA0/USART0_Tx/CLKIN

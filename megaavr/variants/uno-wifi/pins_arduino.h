@@ -172,6 +172,48 @@ static const uint8_t A15 = PIN_A15;
 #define SPIIMU_SS     (30u)
 #define SPIIMU_INT    (31u)
 
+#define PIN_PC5 0
+#define PIN_PC4 1
+#define PIN_PA0 2
+#define PIN_PF5 3
+#define PIN_PC6 4
+#define PIN_PB2 5
+#define PIN_PF4 6
+#define PIN_PA1 7
+#define PIN_PE3 8
+#define PIN_PB0 9
+#define PIN_PB1 10
+#define PIN_PE0 11
+#define PIN_PE1 12
+#define PIN_PE2 13
+#define PIN_PD0 14
+#define PIN_PD1 15
+#define PIN_PD2 16
+#define PIN_PD3 17
+#define PIN_PD4 18
+#define PIN_PD5 19
+#define PIN_PA2 20
+#define PIN_PA3 21
+#define PIN_PC3 22
+#define PIN_PA5 23
+#define PIN_PA4 24
+#define PIN_PD6 25
+#define PIN_PB5 26
+#define PIN_PB4 27
+#define PIN_PA6 28
+#define PIN_PA7 29
+#define PIN_PB3 30
+#define PIN_PC7 31
+#define PIN_PC0 32
+#define PIN_PC1 33
+#define PIN_PC2 34
+#define PIN_PF2 35
+#define PIN_PF3 36
+#define PIN_PF0 37
+#define PIN_PF1 38
+#define PIN_PD7 39
+#define PIN_PF6 40
+
 #ifdef ARDUINO_MAIN
 
 // On the Arduino board, digital pins are also used
@@ -338,49 +380,6 @@ const uint8_t digital_pin_to_bit_mask[] = {
   PIN7_bm, // 39 PD7 VREF
   PIN6_bm  // 40 PF6 RESET
 };
-
-
-#define PIN_PC5 0
-#define PIN_PC4 1
-#define PIN_PA0 2
-#define PIN_PF5 3
-#define PIN_PC6 4
-#define PIN_PB2 5
-#define PIN_PF4 6
-#define PIN_PA1 7
-#define PIN_PE3 8
-#define PIN_PB0 9
-#define PIN_PB1 10
-#define PIN_PE0 11
-#define PIN_PE1 12
-#define PIN_PE2 13
-#define PIN_PD0 14
-#define PIN_PD1 15
-#define PIN_PD2 16
-#define PIN_PD3 17
-#define PIN_PD4 18
-#define PIN_PD5 19
-#define PIN_PA2 20
-#define PIN_PA3 21
-#define PIN_PC3 22
-#define PIN_PA5 23
-#define PIN_PA4 24
-#define PIN_PD6 25
-#define PIN_PB5 26
-#define PIN_PB4 27
-#define PIN_PA6 28
-#define PIN_PA7 29
-#define PIN_PB3 30
-#define PIN_PC7 31
-#define PIN_PC0 32
-#define PIN_PC1 33
-#define PIN_PC2 34
-#define PIN_PF2 35
-#define PIN_PF3 36
-#define PIN_PF0 37
-#define PIN_PF1 38
-#define PIN_PD7 39
-#define PIN_PF6 40
 
 const uint8_t digital_pin_to_timer[] = {
   NOT_ON_TIMER, // 0 PC5/USART1_Rx
