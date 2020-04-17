@@ -118,7 +118,28 @@ unsigned long micros()
   // Restore SREG
   SREG = status;
 
-  return (m * 1000L) + (t / (TIME_TRACKING_TIMER_COUNT / 1000));
+#if (F_CPU == 20000000L)
+  t = t >> 4;
+  return m * 1000 + (t - (t >> 2) + (t >> 4) - (t >> 6));
+#elif (F_CPU == 16000000L)
+  return m * 1000 + (t >> 4);
+#elif (F_CPU == 10000000L)
+  t = t >> 3;
+  return m * 1000 + (t - (t >> 2) + (t >> 4) - (t >> 6));
+#elif (F_CPU == 8000000L)
+  return m * 1000 + (t >> 3);
+#elif (F_CPU == 5000000L)
+  t = t >> 2;
+  return m * 1000 + (t - (t >> 2) + (t >> 4) - (t >> 6));
+#elif (F_CPU == 4000000L)
+  return m * 1000 + (t >> 2);
+#elif (F_CPU == 2000000L)
+  return m * 1000 + (t >> 1);
+#elif (F_CPU == 1000000L)
+  return m * 1000 + t;
+#else
+  return 0;
+#endif
 }
 
 void delay(unsigned long ms)
