@@ -28,7 +28,7 @@
 
 // WIRE_HAS_END means Wire has end()
 #define WIRE_HAS_END 1
-class TwoWire : public HardwareI2C
+class TwoWire : public Stream
 {
   private:
     static uint8_t rxBuffer[];
