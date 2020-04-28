@@ -23,6 +23,7 @@
 #ifndef Pins_Arduino_h
 #define Pins_Arduino_h
 
+#include <Arduino.h>
 #include <avr/pgmspace.h>
 #include "timers.h"
 
