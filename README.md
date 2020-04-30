@@ -39,13 +39,14 @@ For programming, these chips use a UPDI programming interface. This is a bi-dire
 
 |                  | Mega4809                   | Mega4808                          | Mega3209         | Mega3208                          | Mega1609         | Mega1608                          | Mega809          | Mega808                           |
 |------------------|----------------------------|-----------------------------------|------------------|-----------------------------------|------------------|-----------------------------------|------------------|-----------------------------------|
-| **Flash**        | 48 kB                      | 48 kB                             | 32 kB            | 32 kB                             | 16 kB            | 16 kB                             | 8 kB             | 8 kB                              |
-| **RAM**          | 6 kB                       | 6 kB                              | 4 kB             | 4 kB                              | 2 kB             | 2 kB                              | 1 kB             | 1 kB                              |
-| **EEPROM**       | 256 B                      | 256 B                             | 256 B            | 256 B                             | 256 B            | 256 B                             | 256 B            | 256 B                             |
+| **Flash**        | 48 kiB                     | 48 kiB                            | 32 kiB           | 32 kiB                            | 16 kiB           | 16 kiB                            | 8 kiB            | 8 kiB                             |
+| **RAM**          | 6 kiB                      | 6 kiB                             | 4 kiB            | 4 kiB                             | 2 kiB            | 2 kiB                             | 1 kiB            | 1 kiB                             |
+| **EEPROM**       | 256 B + 64 B†              | 256 B + 64 B†                     | 256 B + 64 B†    | 256 B + 64 B†                     | 256 B + 64 B†    | 256 B + 64 B†                     | 256 B + 64 B†    | 256 B + 64 B†                     |
 | **Serial ports** | 4                          | 3                                 | 4                | 3                                 | 4                | 3                                 | 4                | 3                                 |
 | **IO pins**      | 41<br/>33***               | 27*<br/>24**                      | 41               | 27*<br/>24**                      | 41               | 27*<br/>24**                      | 41               | 27*<br/>24**                      |
 | **Packages**     | TQFP48<br/>QFN48<br/>DIP40 | TQFP32<br/>QFN32<br/>SSOP28       | TQFP48<br/>QFN48 | TQFP32<br/>QFN32<br/>SSOP28       | TQFP48<br/>QFN48 | TQFP32<br/>QFN32<br/>SSOP28       | TQFP48<br/>QFN48 | TQFP32<br/>QFN32<br/>SSOP28       |
 
+<b>†</b> 64 bytes of USERROW, accessible from address 256 to 319
 <b>&ast;</b> TQFP32/QFN32 package  
 <b>&ast;&ast;</b> SSOP28 package  
 <b>&ast;&ast;&ast;</b> DIP40 package
