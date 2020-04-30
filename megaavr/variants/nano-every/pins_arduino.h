@@ -43,7 +43,7 @@
 
 #define MILLIS_USE_TIMERB3 // Use TCB3 for millis generation
 
-#define EXTERNAL_NUM_INTERRUPTS     (48)
+#define EXTERNAL_NUM_INTERRUPTS     (47)
 
 #define digitalPinHasPWM(p)         ((p) == 3 || (p) == 5 || (p) == 6 || (p) == 9 || (p) == 10 || (p) == 27)
 
