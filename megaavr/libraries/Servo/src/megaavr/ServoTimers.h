@@ -49,8 +49,9 @@ __attribute__ ((used)) static volatile TCB_t* _timer =
 #endif
 
 typedef enum {
-    timer0,
-    _Nbr_16timers } timer16_Sequence_t;
+  timer0,
+  _Nbr_16timers
+} timer16_Sequence_t;
 
 
 #endif  /* __SERVO_TIMERS_H__ */

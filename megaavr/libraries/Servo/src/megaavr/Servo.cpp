@@ -3,16 +3,21 @@
 #include <Arduino.h>
 #include <Servo.h>
 
-#define usToTicks(_us)    ((( _us / 16) * clockCyclesPerMicrosecond()) / 4)              // converts microseconds to tick
-#define ticksToUs(_ticks) (((unsigned) _ticks * 16 * 4) / clockCyclesPerMicrosecond())   // converts from ticks back to microseconds
+#if (F_CPU > 10000000L)
+  #define usToTicks(_us)    ((( _us / 2) * clockCyclesPerMicrosecond()))            // converts microseconds to tick
+  #define ticksToUs(_ticks) (((unsigned) _ticks * 2) / clockCyclesPerMicrosecond()) // converts from ticks back to microseconds
+  #define TRIM_DURATION  37                                                         // compensation ticks to trim adjust for digitalWrite delays
+#else
+  #define usToTicks(_us)    ((( _us ) * clockCyclesPerMicrosecond()))               // converts microseconds to tick
+  #define ticksToUs(_ticks) (((unsigned) _ticks ) / clockCyclesPerMicrosecond())    // converts from ticks back to microseconds
+  #define TRIM_DURATION  74                                                         // compensation ticks to trim adjust for digitalWrite delays
+#endif
 
-#define TRIM_DURATION  5                                   // compensation ticks to trim adjust for digitalWrite delays
+static servo_t servos[MAX_SERVOS];                       // static array of servo structures
 
-static servo_t servos[MAX_SERVOS];                         // static array of servo structures
+uint8_t ServoCount = 0;                                  // the total number of attached servos
 
-uint8_t ServoCount = 0;                                    // the total number of attached servos
-
-static volatile int8_t currentServoIndex[_Nbr_16timers];   // index for the servo being pulsed for each timer (or -1 if refresh interval)
+static volatile int8_t currentServoIndex[_Nbr_16timers]; // index for the servo being pulsed for each timer (or -1 if refresh interval)
 
 // convenience macros
 #define SERVO_INDEX_TO_TIMER(_servo_nbr) ((timer16_Sequence_t)(_servo_nbr / SERVOS_PER_TIMER))   // returns the timer controlling this servo
@@ -81,11 +86,17 @@ ISR(TCB3_INT_vect)
 
 static void initISR(__attribute__ ((unused)) timer16_Sequence_t timer)
 {
-  //TCA0.SINGLE.CTRLA = (TCA_SINGLE_CLKSEL_DIV16_gc) | (TCA_SINGLE_ENABLE_bm);
-  _timer->CTRLA = TCB_CLKSEL_CLKTCA_gc;
+  //divide CLK_PER by 2 instead of using TCA0-prescaled at 16/20MHz
+  #if (F_CPU > 10000000L)
+    _timer->CTRLA = TCB_CLKSEL_CLKDIV2_gc;
+  #else // and don't divide it at all at lower clock speeds
+    _timer->CTRLA = TCB_CLKSEL_CLKDIV1_gc;
+  #endif
   // Timer to Periodic interrupt mode
   // This write will also disable any active PWM outputs
   _timer->CTRLB = TCB_CNTMODE_INT_gc;
+
+  _timer->CCMP = 0x8000; //Experience has shown that without this, it goes off the rails
   // Enable interrupt
   _timer->INTCTRL = TCB_CAPTEI_bm;
   // Enable timer
@@ -120,12 +131,12 @@ Servo::Servo()
   }
 }
 
-uint8_t Servo::attach(int pin)
+uint8_t Servo::attach(uint8_t pin)
 {
   return this->attach(pin, MIN_PULSE_WIDTH, MAX_PULSE_WIDTH);
 }
 
-uint8_t Servo::attach(int pin, int min, int max)
+uint8_t Servo::attach(uint8_t pin, int16_t min, int16_t max)
 {
   timer16_Sequence_t timer;
 
@@ -156,7 +167,7 @@ void Servo::detach()
   }
 }
 
-void Servo::write(int value)
+void Servo::write(int16_t value)
 {
   // treat values less than 544 as angles in degrees (valid values in microseconds are handled as microseconds)
   if (value < MIN_PULSE_WIDTH)
@@ -171,7 +182,7 @@ void Servo::write(int value)
   writeMicroseconds(value);
 }
 
-void Servo::writeMicroseconds(int value)
+void Servo::writeMicroseconds(int16_t value)
 {
   // calculate and store the values for the given channel
   byte channel = this->servoIndex;
