@@ -20,6 +20,7 @@ For programming, these chips use a UPDI programming interface. This is a bi-dire
 * [Pinout](#pinout)
 * [Hardware features](#hardware-features)
   - [PWM output](#pwm-output)
+  - [Analog read resolution](#analog-resolution)
   - [Configurable Custom Logic (CCL)](#configurable-custom-logic-ccl)
   - [Analog Comparator (AC)](#analog-comparator-ac)
   - [Alternative pins](#alternative-pins)
@@ -37,16 +38,16 @@ For programming, these chips use a UPDI programming interface. This is a bi-dire
 
 ## Supported microcontrollers
 
-|                  | Mega4809                   | Mega4808                          | Mega3209         | Mega3208                          | Mega1609         | Mega1608                          | Mega809          | Mega808                           |
-|------------------|----------------------------|-----------------------------------|------------------|-----------------------------------|------------------|-----------------------------------|------------------|-----------------------------------|
-| **Flash**        | 48 kiB                     | 48 kiB                            | 32 kiB           | 32 kiB                            | 16 kiB           | 16 kiB                            | 8 kiB            | 8 kiB                             |
-| **RAM**          | 6 kiB                      | 6 kiB                             | 4 kiB            | 4 kiB                             | 2 kiB            | 2 kiB                             | 1 kiB            | 1 kiB                             |
-| **EEPROM**       | 256 B + 64 B†              | 256 B + 64 B†                     | 256 B + 64 B†    | 256 B + 64 B†                     | 256 B + 64 B†    | 256 B + 64 B†                     | 256 B + 64 B†    | 256 B + 64 B†                     |
-| **Serial ports** | 4                          | 3                                 | 4                | 3                                 | 4                | 3                                 | 4                | 3                                 |
-| **IO pins**      | 41<br/>33***               | 27*<br/>24**                      | 41               | 27*<br/>24**                      | 41               | 27*<br/>24**                      | 41               | 27*<br/>24**                      |
-| **Packages**     | TQFP48<br/>QFN48<br/>DIP40 | TQFP32<br/>QFN32<br/>SSOP28       | TQFP48<br/>QFN48 | TQFP32<br/>QFN32<br/>SSOP28       | TQFP48<br/>QFN48 | TQFP32<br/>QFN32<br/>SSOP28       | TQFP48<br/>QFN48 | TQFP32<br/>QFN32<br/>SSOP28       |
+|                  | Mega4809                   | Mega4808                          | Mega3209          | Mega3208                          | Mega1609          | Mega1608                          | Mega809           | Mega808                           |
+|------------------|----------------------------|-----------------------------------|-------------------|-----------------------------------|-------------------|-----------------------------------|-------------------|-----------------------------------|
+| **Flash**        | 48 kiB                     | 48 kiB                            | 32 kiB            | 32 kiB                            | 16 kiB            | 16 kiB                            | 8 kiB             | 8 kiB                             |
+| **RAM**          | 6 kiB                      | 6 kiB                             | 4 kiB             | 4 kiB                             | 2 kiB             | 2 kiB                             | 1 kiB             | 1 kiB                             |
+| **EEPROM**       | 256 B +<br/>64 B†          | 256 B +<br/>64 B†                 | 256 B +<br/>64 B† | 256 B +<br/>64 B†                 | 256 B +<br/>64 B† | 256 B +<br/>64 B†                 | 256 B +<br/>64 B† | 256 B +<br/>64 B†                 |
+| **Serial ports** | 4                          | 3                                 | 4                 | 3                                 | 4                 | 3                                 | 4                 | 3                                 |
+| **IO pins**      | 41<br/>33***               | 27*<br/>24**                      | 41                | 27*<br/>24**                      | 41                | 27*<br/>24**                      | 41                | 27*<br/>24**                      |
+| **Packages**     | TQFP48<br/>QFN48<br/>DIP40 | TQFP32<br/>QFN32<br/>SSOP28       | TQFP48<br/>QFN48  | TQFP32<br/>QFN32<br/>SSOP28       | TQFP48<br/>QFN48  | TQFP32<br/>QFN32<br/>SSOP28       | TQFP48<br/>QFN48  | TQFP32<br/>QFN32<br/>SSOP28       |
 
-<b>†</b> 64 bytes of USERROW, accessible from address 256 to 319
+<b>†</b> 64 bytes of USERROW, accessible from address 256 to 319 using the EEPROM.h library  
 <b>&ast;</b> TQFP32/QFN32 package  
 <b>&ast;&ast;</b> SSOP28 package  
 <b>&ast;&ast;&ast;</b> DIP40 package
@@ -169,6 +170,13 @@ The repeat frequency for the pulses on all PWM outputs can be changed with the n
 `kHz` values of 1 (default), 4, 8, 16, 32 and 64 are supported. Note that these values are very approximate. The best effort within the constraints of the hardware will be made to match the request.
 
 Note also that tone() will use TCB1, so the corresponding PWM output is not available if it is used.
+
+### Analog read resolution
+The default analog read resolution for these chips is 10 bit, which gives you values between 0 - 1023. If you need less resolution you can turn it down to 8 bits instead, which gives you values between 0 - 255.  
+Simply call `analogReadResolution` like this:  
+```c
+analogReadResolution(8); // Set resolution to 8 bits
+```
 
 ### Configurable Custom Logic (CCL)
 The megaAVR-0 microcontrollers are equipped with four independent configurable logic blocks that can be used to improve speed and performance. The CCL pins are marked on all pinout diagrams in a dark blue/grey color. The logic blocks can be used independently from each other, connected together or generate an interrupt to the CPU. I've made a [light weight, high-level library](https://github.com/MCUdude/MegaCoreX/tree/master/megaavr/libraries/Logic) for easy integration with the CCL hardware.

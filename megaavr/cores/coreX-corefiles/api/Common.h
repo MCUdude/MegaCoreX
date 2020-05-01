@@ -105,6 +105,7 @@ uint8_t _drfast(pin_size_t pinNumber);
 #define digitalReadFast(pin) \
 	(__builtin_constant_p(pin) ? /*&& __builtin_constant_p(val)*/ _drfast(pin) : digitalRead(pin))
 int analogRead(pin_size_t pinNumber);
+uint8_t analogReadResolution(uint8_t res);
 void analogReference(uint8_t mode);
 void analogWrite(pin_size_t pinNumber, int value);
 void analogWriteFrequency(uint8_t kHz);
