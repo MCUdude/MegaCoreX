@@ -19,6 +19,7 @@ menu.bootloader=Bootloader
 4809.build.board=AVR_ATmega4809
 4809.build.mcu=atmega4809
 4809.build.extra_flags={build.oscillator} {build.compat}
+4809.build.export_merged_output=false
 
 # Fuses we don't need to modify in the tools menu
 4809.bootloader.WDTCFG=0x00
@@ -250,6 +251,7 @@ menu.bootloader=Bootloader
 4808.build.board=AVR_ATmega4808
 4808.build.mcu=atmega4808
 4808.build.extra_flags={build.oscillator}
+4808.build.export_merged_output=false
 
 # Fuses we don't need to modify in the tools menu
 4808.bootloader.WDTCFG=0x00
@@ -441,6 +443,7 @@ menu.bootloader=Bootloader
 3209.build.board=AVR_ATmega3209
 3209.build.mcu=atmega3209
 3209.build.extra_flags={build.oscillator} {build.compat}
+3209.build.export_merged_output=false
 
 # Fuses we don't need to modify in the tools menu
 3209.bootloader.WDTCFG=0x00
@@ -653,6 +656,7 @@ menu.bootloader=Bootloader
 3208.build.board=AVR_ATmega3208
 3208.build.mcu=atmega3208
 3208.build.extra_flags={build.oscillator}
+3208.build.export_merged_output=false
 
 # Fuses we don't need to modify in the tools menu
 3208.bootloader.WDTCFG=0x00
@@ -843,6 +847,7 @@ menu.bootloader=Bootloader
 1609.build.board=AVR_ATmega1609
 1609.build.mcu=atmega1609
 1609.build.extra_flags={build.oscillator} {build.compat}
+1609.build.export_merged_output=false
 
 # Fuses we don't need to modify in the tools menu
 1609.bootloader.WDTCFG=0x00
@@ -1055,6 +1060,7 @@ menu.bootloader=Bootloader
 1608.build.board=AVR_ATmega1608
 1608.build.mcu=atmega1608
 1608.build.extra_flags={build.oscillator}
+1608.build.export_merged_output=false
 
 # Fuses we don't need to modify in the tools menu
 1608.bootloader.WDTCFG=0x00
@@ -1245,6 +1251,7 @@ menu.bootloader=Bootloader
 809.build.board=AVR_ATmega809
 809.build.mcu=atmega809
 809.build.extra_flags={build.oscillator} {build.compat}
+809.build.export_merged_output=false
 
 # Fuses we don't need to modify in the tools menu
 809.bootloader.WDTCFG=0x00
@@ -1457,6 +1464,7 @@ menu.bootloader=Bootloader
 808.build.board=AVR_ATmega808
 808.build.mcu=atmega808
 808.build.extra_flags={build.oscillator}
+808.build.export_merged_output=false
 
 # Fuses we don't need to modify in the tools menu
 808.bootloader.WDTCFG=0x00
