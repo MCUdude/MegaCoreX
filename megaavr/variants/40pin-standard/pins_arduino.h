@@ -79,21 +79,25 @@
 
 // PWM pins
 #if defined(MILLIS_USE_TIMERB0)
-    #define digitalPinHasPWM(p)     (((p) >= PIN_PC0 && (p) <= PIN_PC5) || (p) == PIN_PF5)
+  #define digitalPinHasPWM(p)  (((p) == PIN_PC0) || ((p) == PIN_PC1) || ((p) == PIN_PC2) || ((p) == PIN_PC3) || \
+                                ((p) == PIN_PC4) || ((p) == PIN_PC5) || ((p) == PIN_PF5))
 #elif defined(MILLIS_USE_TIMERB1)
-    #define digitalPinHasPWM(p)     (((p) >= PIN_PC0 && (p) <= PIN_PC5) || (p) == PIN_PF4)
+  #define digitalPinHasPWM(p)  (((p) == PIN_PC0) || ((p) == PIN_PC1) || ((p) == PIN_PC2) || ((p) == PIN_PC3) || \
+                                ((p) == PIN_PC4) || ((p) == PIN_PC5) || ((p) == PIN_PF4))
 #elif defined(MILLIS_USE_TIMERB2)
-    #define digitalPinHasPWM(p)     (((p) >= PIN_PC0 && (p) <= PIN_PC5) || (p) == PIN_PF4 || (p) == PIN_PF5)
+  #define digitalPinHasPWM(p)  (((p) == PIN_PC0) || ((p) == PIN_PC1) || ((p) == PIN_PC2) || ((p) == PIN_PC3) || \
+                                ((p) == PIN_PC4) || ((p) == PIN_PC5) || ((p) == PIN_PF4) || ((p) == PIN_PF5))
 #else // default to MILLIS_USE_TIMERB3
-    #define digitalPinHasPWM(p)     (((p) >= PIN_PC0 && (p) <= PIN_PC5) || (p) == PIN_PF4 || (p) == PIN_PF5)
+  #define digitalPinHasPWM(p)  (((p) == PIN_PC0) || ((p) == PIN_PC1) || ((p) == PIN_PC2) || ((p) == PIN_PC3) || \
+                                ((p) == PIN_PC4) || ((p) == PIN_PC5) || ((p) == PIN_PF4) || ((p) == PIN_PF5))
 #endif
 
 // Timer pin swaps
-#define TCA0_PINS PORTMUX_TCA0_PORTC_gc
-#define TCB0_PINS PORTMUX_TCB0_bm
-#define TCB1_PINS PORTMUX_TCB1_bm
-#define TCB2_PINS PORTMUX_TCB2_bm
-#define TCB3_PINS 0x00
+#define TCA0_PINS PORTMUX_TCA0_PORTC_gc // TCA0 output on PC[0:5]
+#define TCB0_PINS PORTMUX_TCB0_bm       // TCB0 output on PF4 instead of PA2
+#define TCB1_PINS PORTMUX_TCB1_bm       // TCB1 output on PF5 instead of PA3
+#define TCB2_PINS PORTMUX_TCB2_bm       // TCB2 output on PB4 instead of PC0
+#define TCB3_PINS 0x00                  // TCB3 output on PB5 instead of PC1
 
 // SPI 0
 // No pinswap enabled by default
@@ -214,12 +218,12 @@ const uint8_t digital_pin_to_port[] = {
   PA, //  5 PA5/MISO
   PA, //  6 PA6/SCK
   PA, //  7 PA7/SS/CLKOUT
-  PC, //  8 PC0/USART1_Tx/TCA0 PWM
-  PC, //  9 PC1/USART1_Rx/TCA0 PWM
-  PC, // 10 PC2/TCA0 PWM
-  PC, // 11 PC3/TCA0 PWM
-  PC, // 12 PC4/TCA0 PWM
-  PC, // 13 PC5/TCA0 PWM
+  PC, //  8 PC0/USART1_Tx
+  PC, //  9 PC1/USART1_Rx
+  PC, // 10 PC2
+  PC, // 11 PC3
+  PC, // 12 PC4
+  PC, // 13 PC5
   PD, // 14 PD0/AIN0
   PD, // 15 PD1/AIN1
   PD, // 16 PD2/AIN2
@@ -236,8 +240,8 @@ const uint8_t digital_pin_to_port[] = {
   PF, // 27 PF1/USART2_Rx/TOSC2
   PF, // 28 PF2/AIN12
   PF, // 29 PF3/AIN13
-  PF, // 30 PF4/AIN14/TCB0 PWM
-  PF, // 31 PF5/AIN15/TCB1 PWM/LED_BUILTIN
+  PF, // 30 PF4/AIN14
+  PF, // 31 PF5/AIN15/LED_BUILTIN
   PF  // 32 PF6 RESET
 };
 
@@ -251,12 +255,12 @@ const uint8_t digital_pin_to_bit_position[] = {
   PIN5_bp, //  5 PA5/MISO
   PIN6_bp, //  6 PA6/SCK
   PIN7_bp, //  7 PA7/SS/CLKOUT
-  PIN0_bp, //  8 PC0/USART1_Tx/TCA0 PWM
-  PIN1_bp, //  9 PC1/USART1_Rx/TCA0 PWM
-  PIN2_bp, // 10 PC2/TCA0 PWM
-  PIN3_bp, // 11 PC3/TCA0 PWM
-  PIN4_bp, // 12 PC4/TCA0 PWM
-  PIN5_bp, // 13 PC5/TCA0 PWM
+  PIN0_bp, //  8 PC0/USART1_Tx
+  PIN1_bp, //  9 PC1/USART1_Rx
+  PIN2_bp, // 10 PC2
+  PIN3_bp, // 11 PC3
+  PIN4_bp, // 12 PC4
+  PIN5_bp, // 13 PC5
   PIN0_bp, // 14 PD0/AIN0
   PIN1_bp, // 15 PD1/AIN1
   PIN2_bp, // 16 PD2/AIN2
@@ -273,8 +277,8 @@ const uint8_t digital_pin_to_bit_position[] = {
   PIN1_bp, // 27 PF1/USART2_Rx/TOSC2
   PIN2_bp, // 28 PF2/AIN12
   PIN3_bp, // 29 PF3/AIN13
-  PIN4_bp, // 30 PF4/AIN14/TCB0 PWM
-  PIN5_bp, // 31 PF5/AIN15/TCB1 PWM/LED_BUILTIN
+  PIN4_bp, // 30 PF4/AIN14
+  PIN5_bp, // 31 PF5/AIN15/LED_BUILTIN
   PIN6_bp  // 42 PF6 RESET
 };
 
@@ -288,12 +292,12 @@ const uint8_t digital_pin_to_bit_mask[] = {
   PIN5_bm, //  5 PA5/MISO
   PIN6_bm, //  6 PA6/SCK
   PIN7_bm, //  7 PA7/SS/CLKOUT
-  PIN0_bm, //  8 PC0/USART1_Tx/TCA0 PWM
-  PIN1_bm, //  9 PC1/USART1_Rx/TCA0 PWM
-  PIN2_bm, // 10 PC2/TCA0 PWM
-  PIN3_bm, // 11 PC3/TCA0 PWM
-  PIN4_bm, // 12 PC4/TCA0 PWM
-  PIN5_bm, // 13 PC5/TCA0 PWM
+  PIN0_bm, //  8 PC0/USART1_Tx
+  PIN1_bm, //  9 PC1/USART1_Rx
+  PIN2_bm, // 10 PC2
+  PIN3_bm, // 11 PC3
+  PIN4_bm, // 12 PC4
+  PIN5_bm, // 13 PC5
   PIN0_bm, // 14 PD0/AIN0
   PIN1_bm, // 15 PD1/AIN1
   PIN2_bm, // 16 PD2/AIN2
@@ -310,8 +314,8 @@ const uint8_t digital_pin_to_bit_mask[] = {
   PIN1_bm, // 27 PF1/USART2_Rx/TOSC2
   PIN2_bm, // 28 PF2/AIN12
   PIN3_bm, // 29 PF3/AIN13
-  PIN4_bm, // 30 PF4/AIN14/TCB0 PWM
-  PIN5_bm, // 31 PF5/AIN15/TCB1 PWM/LED_BUILTIN
+  PIN4_bm, // 30 PF4/AIN14
+  PIN5_bm, // 31 PF5/AIN15/LED_BUILTIN
   PIN6_bm  // 32 PF6 RESET
 };
 
@@ -324,12 +328,12 @@ const uint8_t digital_pin_to_timer[] = {
   NOT_ON_TIMER, //  5 PA5/MISO
   NOT_ON_TIMER, //  6 PA6/SCK
   NOT_ON_TIMER, //  7 PA7/SS/CLKOUT
-  TIMERA0,      //  8 PC0/USART1_Tx/TCA0 PWM
-  TIMERA0,      //  9 PC1/USART1_Rx/TCA0 PWM
-  TIMERA0,      // 10 PC2/TCA0 PWM
-  TIMERA0,      // 11 PC3/TCA0 PWM
-  TIMERA0,      // 12 PC4/TCA0 PWM
-  TIMERA0,      // 13 PC5/TCA0 PWM
+  TIMERA0,      //  8 PC0/USART1_Tx
+  TIMERA0,      //  9 PC1/USART1_Rx
+  TIMERA0,      // 10 PC2
+  TIMERA0,      // 11 PC3
+  TIMERA0,      // 12 PC4
+  TIMERA0,      // 13 PC5
   NOT_ON_TIMER, // 14 PD0/AIN0
   NOT_ON_TIMER, // 15 PD1/AIN1
   NOT_ON_TIMER, // 16 PD2/AIN2
@@ -349,12 +353,12 @@ const uint8_t digital_pin_to_timer[] = {
 #ifdef MILLIS_USE_TIMERB0
   NOT_ON_TIMER, // 30 PF4/AIN14
 #else
-  TIMERB0,      // 30 PF4/AIN14/TCB0 PWM
+  TIMERB0,      // 30 PF4/AIN14
 #endif
 #ifdef MILLIS_USE_TIMERB1
   NOT_ON_TIMER, // 31 PF5/AIN15/LED_BUILTIN
 #else
-  TIMERB1,      // 31 PF5/AIN15/TCB1 PWM/LED_BUILTIN
+  TIMERB1,      // 31 PF5/AIN15/LED_BUILTIN
 #endif
   NOT_ON_TIMER  // 32 PF6 RESET
 };

@@ -70,11 +70,14 @@
 
 // PWM pins
 #if defined(MILLIS_USE_TIMERB0)
-  #define digitalPinHasPWM(p)     (((p) >= PIN_PD0 && (p) <= PIN_PD5) || (p) == PIN_PA3 || (p) == PIN_PC0)
+  #define digitalPinHasPWM(p)  (((p) == PIN_PD0) || ((p) == PIN_PD1) || ((p) == PIN_PD1) || ((p) == PIN_PD3) || \
+                                ((p) == PIN_PD4) || ((p) == PIN_PD5) || ((p) == PIN_PA3) || ((p) == PIN_PC0))
 #elif defined(MILLIS_USE_TIMERB1)
-  #define digitalPinHasPWM(p)     (((p) >= PIN_PD0 && (p) <= PIN_PD5) || (p) == PIN_PA2 || (p) == PIN_PC0)
+  #define digitalPinHasPWM(p)  (((p) == PIN_PD0) || ((p) == PIN_PD1) || ((p) == PIN_PD1) || ((p) == PIN_PD3) || \
+                                ((p) == PIN_PD4) || ((p) == PIN_PD5) || ((p) == PIN_PA2) || ((p) == PIN_PC0))
 #else // default to MILLIS_USE_TIMERB2
-  #define digitalPinHasPWM(p)     (((p) >= PIN_PD0 && (p) <= PIN_PD5) || (p) == PIN_PA2 || (p) == PIN_PA3)
+  #define digitalPinHasPWM(p)  (((p) == PIN_PD0) || ((p) == PIN_PD1) || ((p) == PIN_PD1) || ((p) == PIN_PD3) || \
+                                ((p) == PIN_PD4) || ((p) == PIN_PD5) || ((p) == PIN_PA2) || ((p) == PIN_PA3))
 #endif
 
 // Timer pin mapping
