@@ -28,9 +28,14 @@ menu.bootloader=Bootloader
 4809.bootloader.LOCKBIT=0xC5
 
 # Pinouts
-4809.menu.pinout.48pin_standard=40/48 pin standard
+4809.menu.pinout.48pin_standard=48 pin standard
 4809.menu.pinout.48pin_standard.build.variant=48pin-standard
 4809.menu.pinout.48pin_standard.build.compat=
+
+4809.menu.pinout.40pin_standard=40 pin standard
+4809.menu.pinout.40pin_standard.build.variant=40pin-standard
+4809.menu.pinout.40pin_standard.build.compat=
+
 4809.menu.pinout.uno_wifi=Uno WiFi
 4809.menu.pinout.uno_wifi.build.variant=uno-wifi
 4809.menu.pinout.uno_wifi.build.compat=
@@ -445,7 +450,7 @@ menu.bootloader=Bootloader
 3209.bootloader.LOCKBIT=0xC5
 
 # Pinouts
-3209.menu.pinout.48pin_standard=40/48 pin standard
+3209.menu.pinout.48pin_standard=48 pin standard
 3209.menu.pinout.48pin_standard.build.variant=48pin-standard
 3209.menu.pinout.48pin_standard.build.compat=
 3209.menu.pinout.uno_wifi=Uno WiFi
@@ -847,7 +852,7 @@ menu.bootloader=Bootloader
 1609.bootloader.LOCKBIT=0xC5
 
 # Pinouts
-1609.menu.pinout.48pin_standard=40/48 pin standard
+1609.menu.pinout.48pin_standard=48 pin standard
 1609.menu.pinout.48pin_standard.build.variant=48pin-standard
 1609.menu.pinout.48pin_standard.build.compat=
 1609.menu.pinout.uno_wifi=Uno WiFi
@@ -1249,7 +1254,7 @@ menu.bootloader=Bootloader
 809.bootloader.LOCKBIT=0xC5
 
 # Pinouts
-809.menu.pinout.48pin_standard=40/48 pin standard
+809.menu.pinout.48pin_standard=48 pin standard
 809.menu.pinout.48pin_standard.build.variant=48pin-standard
 809.menu.pinout.48pin_standard.build.compat=
 809.menu.pinout.uno_wifi=Uno WiFi

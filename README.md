@@ -131,6 +131,7 @@ digitalWrite(0, HIGH);
 ## Pinout
 This core provides several different Arduino pin mappings based on your current hardware
 - **48 pin standard**: This pinout is much closer to the actual hardware than the Uno WiFi pinout. It will not be compatible with shields or anything like that, but it's much cleaner and elegant from a hardware point of view. The only pin swap done by default is the PWM output pins. This is done to prevent them from "colliding" with other peripherals. Note that this pinout is only available on ATmega3209/ATmega4809.
+- **40 pin standard**: This pinout is more or less identical to the 48 pin variant, but with a reduced pin number. Note that this pinout is only available on ATmega4809.
 - **32 pin standard**: This is the pinout for the 32 pin version of the ATmega3208/4808. Again, it will not be compatible with shields or anything like that, but it's clean and elegant from a hardware point of view. The only pin swap done by default is the PWM output pins. This is done to prevent them from "colliding" with other peripherals.
 - **28 pin standard**: This is the pinout for the 28 pin version of the ATmega3208/4808. It will not be compatible with shields or anything like that, but it's still clean and elegant from a hardware point of view. Only pin swap done by default is the PWM output pins. This is done to prevent them from "colliding" with other peripherals.
 - **Uno WiFi**: This pinout is 100% compatible with the Arduino Uno WiFi Rev2 hardware. If you have code that's written for the Uno WiFi Rev2 it will work without any modifications if you choose this pinout. Note that this pinout does pin swapping on serial interfaces and PWM pins by default, and some peripherals are renamed to match the original 328P Uno hardware better. Note that this pinout is only available on ATmega3209/ATmega4809.
@@ -141,7 +142,7 @@ Please have a look at the pins_arduino.h files for detailed info.<br/> <br/>
 
 | **MegaCoreX ATmega809/1609/3209/4809 pinout**                                                                                                                                 | **MegaCoreX ATmega808/1608/3208/4808 pinout**                                                                                                                                                                                        |
 |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|<img src="https://i.imgur.com/3PUBB6H.jpg" width="350"><br/><img src="https://i.imgur.com/QbOOOTd.png" width="350"><br/><img src="https://i.imgur.com/0hlkqf0.jpg" width="350">|<img src="https://i.imgur.com/40AniKA.png" width="350"><br/><br/><br/><br/><img src="https://i.imgur.com/jJw2RJl.png" width="350"><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>|
+|<img src="https://i.imgur.com/3PUBB6H.jpg" width="350"><br/><img src="https://i.imgur.com/QbOOOTd.png" width="350"><br/><img src="https://i.imgur.com/Hp21SXJ.jpg" width="350">|<img src="https://i.imgur.com/40AniKA.png" width="350"><br/><br/><br/><br/><img src="https://i.imgur.com/jJw2RJl.png" width="350"><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>|
 
 
 ## Hardware features
@@ -162,6 +163,7 @@ PWM output, `analogWrite()`, is available for the following pins:
 |-------------------|--------------------|------------------------------------|
 | *28 pin standard* | 4                  | 8, 9, 10, 11                       |
 | *32 pin standard* | 6                  | 8, 9, 10, 11, 24, 25               |
+| *40 pin standard* | 8                  | 8, 9, 10, 11, 12, 13, 30, 31       |
 | *48 pin standard* | 9                  | 13, 14, 15, 16, 17, 18, 19, 38, 39 |
 | *Uno WiFi*        | 6                  | 3, 5, 6, 9, 10, 27                 |
 | *Nano Every*      | 5                  | 3, 5, 6, 9, 10                     |
