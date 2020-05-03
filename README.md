@@ -20,7 +20,7 @@ For programming, these chips use a UPDI programming interface. This is a bi-dire
 * [Pinout](#pinout)
 * [Hardware features](#hardware-features)
   - [PWM output](#pwm-output)
-  - [Analog read resolution](#analog-resolution)
+  - [Analog read resolution](#analog-read-resolution)
   - [Configurable Custom Logic (CCL)](#configurable-custom-logic-ccl)
   - [Analog Comparator (AC)](#analog-comparator-ac)
   - [Alternative pins](#alternative-pins)
@@ -44,7 +44,7 @@ For programming, these chips use a UPDI programming interface. This is a bi-dire
 | **RAM**          | 6 kiB                      | 6 kiB                             | 4 kiB             | 4 kiB                             | 2 kiB             | 2 kiB                             | 1 kiB             | 1 kiB                             |
 | **EEPROM**       | 256 B +<br/>64 B†          | 256 B +<br/>64 B†                 | 256 B +<br/>64 B† | 256 B +<br/>64 B†                 | 256 B +<br/>64 B† | 256 B +<br/>64 B†                 | 256 B +<br/>64 B† | 256 B +<br/>64 B†                 |
 | **Serial ports** | 4                          | 3                                 | 4                 | 3                                 | 4                 | 3                                 | 4                 | 3                                 |
-| **IO pins**      | 41<br/>33***               | 27*<br/>24**                      | 41                | 27*<br/>24**                      | 41                | 27*<br/>24**                      | 41                | 27*<br/>24**                      |
+| **IO pins**      | 41<br/>33&ast;&ast;&ast;   | 27&ast;<br/>24&ast;&ast;          | 41                | 27&ast;<br/>24&ast;&ast;          | 41                | 27&ast;<br/>24&ast;&ast;          | 41                | 27&ast;<br/>24&ast;&ast;          |
 | **Packages**     | TQFP48<br/>QFN48<br/>DIP40 | TQFP32<br/>QFN32<br/>SSOP28       | TQFP48<br/>QFN48  | TQFP32<br/>QFN32<br/>SSOP28       | TQFP48<br/>QFN48  | TQFP32<br/>QFN32<br/>SSOP28       | TQFP48<br/>QFN48  | TQFP32<br/>QFN32<br/>SSOP28       |
 
 <b>†</b> 64 bytes of USERROW, accessible from address 256 to 319 using the EEPROM.h library  
@@ -117,7 +117,8 @@ Call `digitalReadFast(myPin)` or `digitalWriteFast(mypin, state)` to use these. 
 
 
 ## Pin macros
-Note that you don't have to use the digital pin numbers to refer to the pins. You can also use some predefined macros that maps "Arduino pins" to the port and port number:
+Note that you don't have to use the digital pin numbers to refer to the pins. You can also use some predefined macros that maps "Arduino pins" to the port and port number.
+Note that all my Arduino cores has these macros if you prefer to use these rather than the default Arduino pin number.  
 
 ```c++
 // Use PIN_PA0 macro to refer to pin PA0 (Arduino pin 0)
@@ -142,7 +143,7 @@ Please have a look at the pins_arduino.h files for detailed info.<br/> <br/>
 
 | **MegaCoreX ATmega809/1609/3209/4809 pinout**                                                                                                                                 | **MegaCoreX ATmega808/1608/3208/4808 pinout**                                                                                                                                                                                        |
 |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|<img src="https://i.imgur.com/3PUBB6H.jpg" width="350"><br/><img src="https://i.imgur.com/QbOOOTd.png" width="350"><br/><img src="https://i.imgur.com/Hp21SXJ.jpg" width="350">|<img src="https://i.imgur.com/40AniKA.png" width="350"><br/><br/><br/><br/><img src="https://i.imgur.com/jJw2RJl.png" width="350"><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>|
+|<img src="https://i.imgur.com/3PUBB6H.jpg" width="350"><br/><img src="https://i.imgur.com/QbOOOTd.png" width="350"><br/><img src="https://i.imgur.com/Hp21SXJ.jpg" width="350">|<img src="https://i.imgur.com/2YlmE8p.png" width="350"><br/><br/><br/><br/><img src="https://i.imgur.com/zXyWvi1.png" width="350"><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>|
 
 
 ## Hardware features
@@ -161,8 +162,8 @@ PWM output, `analogWrite()`, is available for the following pins:
 
 | Pinout            | Number of PWM pins | Available PWM pins                 |
 |-------------------|--------------------|------------------------------------|
-| *28 pin standard* | 4                  | 8, 9, 10, 11                       |
-| *32 pin standard* | 6                  | 8, 9, 10, 11, 24, 25               |
+| *28 pin standard* | 8                  | 2, 3, 12, 13, 14, 15, 16, 17       |
+| *32 pin standard* | 8                  | 2, 3, 12, 13, 14, 15, 16, 17       |
 | *40 pin standard* | 8                  | 8, 9, 10, 11, 12, 13, 30, 31       |
 | *48 pin standard* | 9                  | 13, 14, 15, 16, 17, 18, 19, 38, 39 |
 | *Uno WiFi*        | 6                  | 3, 5, 6, 9, 10, 27                 |
