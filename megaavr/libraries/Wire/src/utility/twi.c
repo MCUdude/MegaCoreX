@@ -1,27 +1,26 @@
 /******************************************************************************
 * (c) 2018 Microchip Technology Inc. and its subsidiaries.
-* 
-* Subject to your compliance with these terms, you may use Microchip software 
-* and any derivatives exclusively with Microchip products. It is your 
-* responsibility to comply with third party license terms applicable to your 
-* use of third party software (including open source software) that may 
+*
+* Subject to your compliance with these terms, you may use Microchip software
+* and any derivatives exclusively with Microchip products. It is your
+* responsibility to comply with third party license terms applicable to your
+* use of third party software (including open source software) that may
 * accompany Microchip software.
 *
-* THIS SOFTWARE IS SUPPLIED BY MICROCHIP "AS IS".  NO WARRANTIES, WHETHER 
-* EXPRESS, IMPLIED OR STATUTORY, APPLY TO THIS SOFTWARE, INCLUDING ANY IMPLIED 
-* WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY, AND FITNESS FOR A PARTICULAR 
-* PURPOSE. IN NO EVENT WILL MICROCHIP BE LIABLE FOR ANY INDIRECT, SPECIAL, 
-* PUNITIVE, INCIDENTAL OR CONSEQUENTIAL LOSS, DAMAGE, COST OR EXPENSE OF ANY 
-* KIND WHATSOEVER RELATED TO THE SOFTWARE, HOWEVER CAUSED, EVEN IF MICROCHIP 
-* HAS BEEN ADVISED OF THE POSSIBILITY OR THE DAMAGES ARE FORESEEABLE.  TO THE 
-* FULLEST EXTENT ALLOWED BY LAW, MICROCHIP'S TOTAL LIABILITY ON ALL CLAIMS IN 
-* ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT OF FEES, IF ANY, 
+* THIS SOFTWARE IS SUPPLIED BY MICROCHIP "AS IS".  NO WARRANTIES, WHETHER
+* EXPRESS, IMPLIED OR STATUTORY, APPLY TO THIS SOFTWARE, INCLUDING ANY IMPLIED
+* WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY, AND FITNESS FOR A PARTICULAR
+* PURPOSE. IN NO EVENT WILL MICROCHIP BE LIABLE FOR ANY INDIRECT, SPECIAL,
+* PUNITIVE, INCIDENTAL OR CONSEQUENTIAL LOSS, DAMAGE, COST OR EXPENSE OF ANY
+* KIND WHATSOEVER RELATED TO THE SOFTWARE, HOWEVER CAUSED, EVEN IF MICROCHIP
+* HAS BEEN ADVISED OF THE POSSIBILITY OR THE DAMAGES ARE FORESEEABLE.  TO THE
+* FULLEST EXTENT ALLOWED BY LAW, MICROCHIP'S TOTAL LIABILITY ON ALL CLAIMS IN
+* ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT OF FEES, IF ANY,
 * THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
 *
  *****************************************************************************/
 
 #include "twi.h"
-
 #include "Arduino.h"
 
 /* Master variables */
@@ -59,13 +58,14 @@ static volatile TWI_MODE_t twi_mode;
  *  Enables master read and write interrupts.
  *  Remember to enable interrupts globally from the main application.
  *
- *  \param frequency				    The required baud.
+ *  \param frequency            The required baud.
  */
 void TWI_MasterInit(uint32_t frequency)
 {
-  if (twi_mode != TWI_MODE_UNKNOWN) return;
+  if (twi_mode != TWI_MODE_UNKNOWN)
+    return;
 
-  // Enable input pullup for the default or pin swapped pin position
+// Enable input pullup for the default or pin swapped pin position
   if ((PORTMUX.TWISPIROUTEA & 0x30) == TWI_MUX)
   {
     pinMode(PIN_WIRE_SDA, INPUT_PULLUP);
@@ -98,11 +98,12 @@ void TWI_MasterInit(uint32_t frequency)
  *  Assigns slave's own address.
  *  Remember to enable interrupts globally from the main application.
  *
- *  \param address				    The TWI Slave's own address.
+ *  \param address            The TWI Slave's own address.
  */
-void TWI_SlaveInit(uint8_t address)
+void TWI_SlaveInit(uint8_t address, uint8_t receive_broadcast, uint8_t second_address)
 {
-  if (twi_mode != TWI_MODE_UNKNOWN) return;
+  if (twi_mode != TWI_MODE_UNKNOWN)
+    return;
 
   twi_mode = TWI_MODE_SLAVE;
 
@@ -113,7 +114,8 @@ void TWI_SlaveInit(uint8_t address)
   slave_callUserRequest = 0;
   slave_callUserReceive = 0;
 
-  TWI0.SADDR = address << 1;
+  TWI0.SADDR = address << 1 | receive_broadcast;
+  TWI0.SADDRMASK = second_address;
   TWI0.SCTRLA = TWI_DIEN_bm | TWI_APIEN_bm | TWI_PIEN_bm | TWI_ENABLE_bm;
 
   /* Bus Error Detection circuitry needs Master enabled to work */
@@ -130,7 +132,7 @@ void TWI_Flush(void)
  *  TWI module disable function.
  *  Disables both master and slave modes
  *
- *  \param frequency				    The required baud.
+ *  \param frequency            The required baud.
  */
 void TWI_Disable(void)
 {
@@ -139,7 +141,7 @@ void TWI_Disable(void)
   TWI0.MSTATUS = TWI_BUSSTATE_IDLE_gc;
   TWI0.SADDR = 0x00;
   TWI0.SCTRLA = 0x00;
-
+  TWI0.SADDRMASK = 0;
   twi_mode = TWI_MODE_UNKNOWN;
 }
 
@@ -182,38 +184,39 @@ uint8_t TWI_MasterReady(void)
  *
  *  Sets the baud rate used by TWI Master.
  *
- *  \param frequency				    The required baud.
+ *  \param frequency            The required baud.
  */
 void TWI_MasterSetBaud(uint32_t frequency)
 {
-  //		Formula is: BAUD = ((F_CLKPER/frequency) - F_CLKPER*T_RISE - 10)/2;
-  //		Where T_RISE varies depending on operating frequency...
-  //			From 1617 DS: 1000ns @ 100kHz / 300ns @ 400kHz / 120ns @ 1MHz
+  // Formula is: BAUD = ((F_CLKPER/frequency) - F_CLKPER*T_RISE - 10)/2;
+  // Where T_RISE varies depending on operating frequency...
+  // From 1617 DS: 1000ns @ 100kHz / 300ns @ 400kHz / 120ns @ 1MHz
 
   uint16_t t_rise;
+  uint16_t freq_khz = frequency / 1000;
 
-  if (frequency < 200000)
+  if (freq_khz < 200)
   {
-    frequency = 100000;
+    freq_khz = 100;
     t_rise = 1000;
   }
-  else if (frequency < 800000)
+  else if (freq_khz < 800)
   {
-    frequency = 400000;
+    freq_khz = 400;
     t_rise = 300;
   }
-  else if (frequency < 1200000)
+  else if (freq_khz < 1200)
   {
-    frequency = 1000000;
+    freq_khz = 1000;
     t_rise = 120;
   }
   else
   {
-    frequency = 100000;
+    freq_khz = 100;
     t_rise = 1000;
   }
 
-  uint32_t baud = ((F_CPU / frequency) - (((F_CPU * t_rise) / 1000) / 1000) / 1000 - 10) / 2;
+  uint32_t baud = ((F_CPU / 1000 / freq_khz) - (((F_CPU * t_rise) / 1000) / 1000) / 1000 - 10) / 2;
   TWI0.MBAUD = (uint8_t)baud;
 }
 
@@ -279,11 +282,8 @@ uint8_t TWI_MasterRead(uint8_t slave_address,
  *  \param bytesToWrite   Number of bytes to write.
  *  \param bytesToRead    Number of bytes to read.
  *
- *  \retval 0:success
- *  \retval 1:data too long to fit in transmit buffer
- *  \retval 2:received NACK on transmit of address
- *  \retval 3:received NACK on transmit of data
- *  \retval 4:other error
+ *  \retval true  If transaction could be started.
+ *  \retval false If transaction could not be started.
  */
 uint8_t TWI_MasterWriteRead(uint8_t slave_address,
                             uint8_t* write_data,
@@ -291,7 +291,8 @@ uint8_t TWI_MasterWriteRead(uint8_t slave_address,
                             uint8_t bytes_to_read,
                             uint8_t send_stop)
 {
-  if (twi_mode != TWI_MODE_MASTER) return false;
+  if (twi_mode != TWI_MODE_MASTER)
+    return false;
 
   /*Initiate transaction if bus is ready. */
   if (master_trans_status == TWIM_STATUS_READY)
@@ -311,8 +312,8 @@ uint8_t TWI_MasterWriteRead(uint8_t slave_address,
   trigger_action:
 
     /* If write command, send the START condition + Address +
-		 * 'R/_W = 0'
-		 */
+     * 'R/_W = 0'
+     */
     if (master_bytesToWrite > 0)
     {
       twi_mode = TWI_MODE_MASTER_TRANSMIT;
@@ -321,8 +322,8 @@ uint8_t TWI_MasterWriteRead(uint8_t slave_address,
     }
 
     /* If read command, send the START condition + Address +
-		 * 'R/_W = 1'
-		 */
+     * 'R/_W = 1'
+     */
     else if (master_bytesToRead > 0)
     {
       twi_mode = TWI_MODE_MASTER_RECEIVE;
@@ -356,22 +357,8 @@ uint8_t TWI_MasterWriteRead(uint8_t slave_address,
     }
     else
     {
-      // return 0 if success, >0 otherwise (follow classic AVR conventions)
-      switch (master_result)
-      {
-        case TWIM_RESULT_OK:
-          ret = 0;
-          break;
-        case TWIM_RESULT_BUFFER_OVERFLOW:
-          ret = 1;
-          break;
-        case TWIM_RESULT_NACK_RECEIVED:
-          ret = 3;
-          break;
-        default:
-          ret = 4;
-          break;
-      }
+      // return 0 if success, 1 otherwise
+      ret = (master_result == TWIM_RESULT_OK ? 0 : 1);
     }
 
     return ret;
@@ -479,8 +466,8 @@ void TWI_MasterWriteHandler()
   }
 
   /* If bytes to read, send START condition + Address +
-	 * 'R/_W = 1'
-	 */
+   * 'R/_W = 1'
+   */
   else if (master_bytesRead < bytesToRead)
   {
     twi_mode = TWI_MODE_MASTER_RECEIVE;
@@ -597,8 +584,8 @@ void TWI_SlaveInterruptHandler()
   else if (currentStatus & TWI_APIF_bm)
   {
     /* Call user onReceive function if end of Master Write/Slave Read.
-		 * This should be hit when there is a STOP or REPSTART 
-		 */
+     * This should be hit when there is a STOP or REPSTART
+     */
     if (slave_callUserReceive == 1)
     {
       TWI_onSlaveReceive(slave_bytesRead);
@@ -616,10 +603,10 @@ void TWI_SlaveInterruptHandler()
     {
       TWI_SlaveStopHandler();
 
-      /* If CLKHOLD is high, we have missed an address match 
-			  from a fast start after stop. 
-			  Because the flag is shared we need to handle this here.
-			*/
+      /* If CLKHOLD is high, we have missed an address match
+        from a fast start after stop.
+        Because the flag is shared we need to handle this here.
+      */
       if (TWI0.SSTATUS & TWI_CLKHOLD_bm)
       {
         /* CLKHOLD will be cleared by servicing the address match */
@@ -700,7 +687,7 @@ void TWI_SlaveStopHandler()
 
 /*! \brief TWI slave data interrupt handler.
  *
- *  This is the slave data handler that takes care of sending data to or 
+ *  This is the slave data handler that takes care of sending data to or
  *  receiving data from a master
  *
  */
@@ -776,8 +763,8 @@ void TWI_SlaveReadHandler()
     /* Send ACK and wait for data interrupt */
     TWI0.SCTRLB = TWI_SCMD_RESPONSE_gc;
   }
-  /* If buffer overflow, send NACK and wait for next START. 
-		Set result buffer overflow */
+  /* If buffer overflow, send NACK and wait for next START.
+    Set result buffer overflow */
   else
   {
     TWI0.SCTRLB = TWI_ACKACT_bm | TWI_SCMD_COMPTRANS_gc;
@@ -785,7 +772,7 @@ void TWI_SlaveReadHandler()
   }
 }
 
-/* 
+/*
  * Function twi_attachSlaveRxEvent
  * Desc     sets function called before a slave read operation
  * Input    function: callback function to use
@@ -798,7 +785,7 @@ void TWI_attachSlaveRxEvent(void (*function)(int), uint8_t* read_data, uint8_t b
   slave_bytesToRead = bytes_to_read;
 }
 
-/* 
+/*
  * Function twi_attachSlaveTxEvent
  * Desc     sets function called before a slave write operation
  * Input    function: callback function to use

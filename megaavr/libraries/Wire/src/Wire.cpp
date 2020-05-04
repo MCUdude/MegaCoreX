@@ -15,7 +15,7 @@
   You should have received a copy of the GNU Lesser General Public
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- 
+
   Modified 2012 by Todd Krein (todd@krein.org) to implement repeated starts
   Modified 2017 by Chuck Todd (ctodd@cableone.net) to correct Unconfigured Slave Mode reboot
 */
@@ -119,7 +119,7 @@ void TwoWire::begin(void)
   TWI_MasterInit(DEFAULT_FREQUENCY);
 }
 
-void TwoWire::begin(uint8_t address)
+void TwoWire::begin(uint8_t address, bool receive_broadcast, uint8_t second_address)
 {
   rxBufferIndex = 0;
   rxBufferLength = 0;
@@ -127,15 +127,35 @@ void TwoWire::begin(uint8_t address)
   txBufferIndex = 0;
   txBufferLength = 0;
 
-  TWI_SlaveInit(address);
+  TWI_SlaveInit(address, receive_broadcast, second_address);
 
   TWI_attachSlaveTxEvent(onRequestService, txBuffer);                // default callback must exist
   TWI_attachSlaveRxEvent(onReceiveService, rxBuffer, BUFFER_LENGTH); // default callback must exist
 }
 
+void TwoWire::begin(int address, bool receive_broadcast, uint8_t second_address)
+{
+  begin((uint8_t)address, receive_broadcast, second_address);
+}
+
+void TwoWire::begin(uint8_t address, bool receive_broadcast)
+{
+  begin(address, receive_broadcast, 0);
+}
+
+void TwoWire::begin(int address, bool receive_broadcast)
+{
+  begin((uint8_t)address, receive_broadcast, 0);
+}
+
+void TwoWire::begin(uint8_t address)
+{
+  begin(address, 0, 0);
+}
+
 void TwoWire::begin(int address)
 {
-  begin((uint8_t)address);
+  begin((uint8_t)address, 0, 0);
 }
 
 void TwoWire::end(void)
@@ -196,17 +216,17 @@ void TwoWire::beginTransmission(int address)
 }
 
 //
-//	Originally, 'endTransmission' was an f(void) function.
-//	It has been modified to take one parameter indicating
-//	whether or not a STOP should be performed on the bus.
-//	Calling endTransmission(false) allows a sketch to
-//	perform a repeated start.
+//  Originally, 'endTransmission' was an f(void) function.
+//  It has been modified to take one parameter indicating
+//  whether or not a STOP should be performed on the bus.
+//  Calling endTransmission(false) allows a sketch to
+//  perform a repeated start.
 //
-//	WARNING: Nothing in the library keeps track of whether
-//	the bus tenure has been properly ended with a STOP. It
-//	is very possible to leave the bus in a hung state if
-//	no call to endTransmission(true) is made. Some I2C
-//	devices will behave oddly if they do not see a STOP.
+//  WARNING: Nothing in the library keeps track of whether
+//  the bus tenure has been properly ended with a STOP. It
+//  is very possible to leave the bus in a hung state if
+//  no call to endTransmission(true) is made. Some I2C
+//  devices will behave oddly if they do not see a STOP.
 //
 uint8_t TwoWire::endTransmission(bool sendStop)
 {
@@ -223,8 +243,8 @@ uint8_t TwoWire::endTransmission(bool sendStop)
   return status;
 }
 
-//	This provides backwards compatibility with the original
-//	definition, and expected behaviour, of endTransmission
+//  This provides backwards compatibility with the original
+//  definition, and expected behaviour, of endTransmission
 //
 uint8_t TwoWire::endTransmission(void)
 {
@@ -310,20 +330,20 @@ int TwoWire::peek(void)
 // e.g. when MDATA regsiter is written before MADDR
 void TwoWire::flush(void)
 {
-  // 	/* Clear buffers */
-  // 	for(uint8_t i = 0; i < BUFFER_LENGTH; i++){
-  // 		txBuffer[i] = 0;
-  // 		rxBuffer[i] = 0;
-  // 	}
+  //   /* Clear buffers */
+  //   for(uint8_t i = 0; i < BUFFER_LENGTH; i++){
+  //     txBuffer[i] = 0;
+  //     rxBuffer[i] = 0;
+  //   }
   //
-  // 	/* Clear buffer variables */
-  // 	txBufferIndex = 0;
-  // 	txBufferLength = 0;
-  // 	rxBufferIndex = 0;
-  // 	rxBufferLength = 0;
+  //   /* Clear buffer variables */
+  //   txBufferIndex = 0;
+  //   txBufferLength = 0;
+  //   rxBufferIndex = 0;
+  //   rxBufferLength = 0;
   //
-  // 	/* Turn off and on TWI module */
-  // 	TWI_Flush();
+  //   /* Turn off and on TWI module */
+  //   TWI_Flush();
 }
 
 // behind the scenes function that is called when data is received

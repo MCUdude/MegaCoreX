@@ -1,21 +1,21 @@
 /******************************************************************************
 * (c) 2018 Microchip Technology Inc. and its subsidiaries.
-* 
-* Subject to your compliance with these terms, you may use Microchip software 
-* and any derivatives exclusively with Microchip products. It is your 
-* responsibility to comply with third party license terms applicable to your 
-* use of third party software (including open source software) that may 
+*
+* Subject to your compliance with these terms, you may use Microchip software
+* and any derivatives exclusively with Microchip products. It is your
+* responsibility to comply with third party license terms applicable to your
+* use of third party software (including open source software) that may
 * accompany Microchip software.
 *
-* THIS SOFTWARE IS SUPPLIED BY MICROCHIP "AS IS".  NO WARRANTIES, WHETHER 
-* EXPRESS, IMPLIED OR STATUTORY, APPLY TO THIS SOFTWARE, INCLUDING ANY IMPLIED 
-* WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY, AND FITNESS FOR A PARTICULAR 
-* PURPOSE. IN NO EVENT WILL MICROCHIP BE LIABLE FOR ANY INDIRECT, SPECIAL, 
-* PUNITIVE, INCIDENTAL OR CONSEQUENTIAL LOSS, DAMAGE, COST OR EXPENSE OF ANY 
-* KIND WHATSOEVER RELATED TO THE SOFTWARE, HOWEVER CAUSED, EVEN IF MICROCHIP 
-* HAS BEEN ADVISED OF THE POSSIBILITY OR THE DAMAGES ARE FORESEEABLE.  TO THE 
-* FULLEST EXTENT ALLOWED BY LAW, MICROCHIP'S TOTAL LIABILITY ON ALL CLAIMS IN 
-* ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT OF FEES, IF ANY, 
+* THIS SOFTWARE IS SUPPLIED BY MICROCHIP "AS IS".  NO WARRANTIES, WHETHER
+* EXPRESS, IMPLIED OR STATUTORY, APPLY TO THIS SOFTWARE, INCLUDING ANY IMPLIED
+* WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY, AND FITNESS FOR A PARTICULAR
+* PURPOSE. IN NO EVENT WILL MICROCHIP BE LIABLE FOR ANY INDIRECT, SPECIAL,
+* PUNITIVE, INCIDENTAL OR CONSEQUENTIAL LOSS, DAMAGE, COST OR EXPENSE OF ANY
+* KIND WHATSOEVER RELATED TO THE SOFTWARE, HOWEVER CAUSED, EVEN IF MICROCHIP
+* HAS BEEN ADVISED OF THE POSSIBILITY OR THE DAMAGES ARE FORESEEABLE.  TO THE
+* FULLEST EXTENT ALLOWED BY LAW, MICROCHIP'S TOTAL LIABILITY ON ALL CLAIMS IN
+* ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT OF FEES, IF ANY,
 * THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
 *
  *****************************************************************************/
@@ -34,7 +34,7 @@
 #define TWIS_STATUS_BUSY 1
 
 /*! Transaction result enumeration. */
-typedef enum TWIM_RESULT_enum
+typedef enum __attribute__((packed)) TWIM_RESULT_enum
 {
   TWIM_RESULT_UNKNOWN = (0x00 << 0),
   TWIM_RESULT_OK = (0x01 << 0),
@@ -46,7 +46,7 @@ typedef enum TWIM_RESULT_enum
 } TWIM_RESULT_t;
 
 /* Transaction result enumeration */
-typedef enum TWIS_RESULT_enum
+typedef enum __attribute__((packed)) TWIS_RESULT_enum
 {
   TWIS_RESULT_UNKNOWN = (0x00 << 0),
   TWIS_RESULT_OK = (0x01 << 0),
@@ -58,7 +58,7 @@ typedef enum TWIS_RESULT_enum
 } TWIS_RESULT_t;
 
 /*! TWI Modes */
-typedef enum TWI_MODE_enum
+typedef enum __attribute__((packed)) TWI_MODE_enum
 {
   TWI_MODE_UNKNOWN = 0,
   TWI_MODE_MASTER = 1,
@@ -74,7 +74,7 @@ typedef enum TWI_MODE_enum
 #define ADD_WRITE_BIT(address) (address & ~0x01)
 
 void TWI_MasterInit(uint32_t frequency);
-void TWI_SlaveInit(uint8_t address);
+void TWI_SlaveInit(uint8_t address, uint8_t receive_broadcast, uint8_t second_address);
 void TWI_Flush(void);
 void TWI_Disable(void);
 TWI_BUSSTATE_t TWI_MasterState(void);
