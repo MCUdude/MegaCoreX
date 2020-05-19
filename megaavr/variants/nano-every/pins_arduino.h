@@ -215,7 +215,7 @@ const uint8_t digital_pin_to_port[] = {
   PB, // 10 PB1/USART3_Rx
   PE, // 11 PE0/AIN8
   PE, // 12 PE1/AIN9
-  PE, // 13 PE2/AIN10
+  PE, // 13 PE2/AIN10/LED_BUILTIN
   PD, // 14 PD3/AIN3
   PD, // 15 PD2/AIN2
   PD, // 16 PD1/AIN1
@@ -260,7 +260,7 @@ const uint8_t digital_pin_to_bit_position[] = {
   PIN1_bp,  // 10 PB1/USART3_Rx
   PIN0_bp,  // 11 PE0/AIN8
   PIN1_bp,  // 12 PE1/AIN9
-  PIN2_bp,  // 13 PE2/AIN10
+  PIN2_bp,  // 13 PE2/AIN10/LED_BUILTIN
   PIN3_bp,  // 14 PD3/AIN3
   PIN2_bp,  // 15 PD2/AIN2
   PIN1_bp,  // 16 PD1/AIN1
@@ -305,7 +305,7 @@ const uint8_t digital_pin_to_bit_mask[] = {
   PIN1_bm,  // 10 PB1/USART3_Rx
   PIN0_bm,  // 11 PE0/AIN8
   PIN1_bm,  // 12 PE1/AIN9
-  PIN2_bm,  // 13 PE2/AIN19
+  PIN2_bm,  // 13 PE2/AIN10/LED_BUILTIN
   PIN3_bm,  // 14 PD3/AIN3
   PIN2_bm,  // 15 PD2/AIN2
   PIN1_bm,  // 16 PD1/AIN1
@@ -349,7 +349,7 @@ const uint8_t digital_pin_to_timer[] = {
   TIMERA0,       // 10 PB1/USART3_Rx
   NOT_ON_TIMER,  // 11 PE0/AIN8
   NOT_ON_TIMER,  // 12 PE1/AIN9
-  NOT_ON_TIMER,  // 13 PE2/AIN10
+  NOT_ON_TIMER,  // 13 PE2/AIN10/LED_BUILTIN
   NOT_ON_TIMER,  // 14 PD3/AIN3
   NOT_ON_TIMER,  // 15 PD2/AIN2
   NOT_ON_TIMER,  // 16 PD1/AIN1

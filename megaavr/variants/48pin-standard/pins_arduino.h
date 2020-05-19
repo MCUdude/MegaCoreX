@@ -241,7 +241,7 @@ const uint8_t digital_pin_to_port[] = {
   PA, //  4 PA4/MOSI
   PA, //  5 PA5/MISO
   PA, //  6 PA6/SCK
-  PA, //  7 PA7/SS/CLKOUT
+  PA, //  7 PA7/SS/CLKOUT/LED_BUILTIN
   PB, //  8 PB0/USART3_Tx
   PB, //  9 PB1/USART3_Rx
   PB, // 10 PB2
@@ -273,7 +273,7 @@ const uint8_t digital_pin_to_port[] = {
   PF, // 36 PF2/AIN12
   PF, // 37 PF3/AIN13
   PF, // 38 PF4/AIN14
-  PF, // 39 PF5/AIN15/LED_BUILTIN
+  PF, // 39 PF5/AIN15
   PF  // 40 PF6 RESET
 };
 
@@ -286,7 +286,7 @@ const uint8_t digital_pin_to_bit_position[] = {
   PIN4_bp, //  4 PA4/MOSI
   PIN5_bp, //  5 PA5/MISO
   PIN6_bp, //  6 PA6/SCK
-  PIN7_bp, //  7 PA7/SS/CLKOUT
+  PIN7_bp, //  7 PA7/SS/CLKOUT/LED_BUILTIN
   PIN0_bp, //  8 PB0/USART3_Tx
   PIN1_bp, //  9 PB1/USART3_Rx
   PIN2_bp, // 10 PB2
@@ -318,7 +318,7 @@ const uint8_t digital_pin_to_bit_position[] = {
   PIN2_bp, // 36 PF2/AIN12
   PIN3_bp, // 37 PF3/AIN13
   PIN4_bp, // 38 PF4/AIN14
-  PIN5_bp, // 39 PF5/AIN15/LED_BUILTIN
+  PIN5_bp, // 39 PF5/AIN15
   PIN6_bp  // 40 PF6 RESET
 };
 
@@ -331,7 +331,7 @@ const uint8_t digital_pin_to_bit_mask[] = {
   PIN4_bm, //  4 PA4/MOSI
   PIN5_bm, //  5 PA5/MISO
   PIN6_bm, //  6 PA6/SCK
-  PIN7_bm, //  7 PA7/SS/CLKOUT
+  PIN7_bm, //  7 PA7/SS/CLKOUT/LED_BUILTIN
   PIN0_bm, //  8 PB0/USART3_Tx
   PIN1_bm, //  9 PB1/USART3_Rx
   PIN2_bm, // 10 PB2
@@ -363,7 +363,7 @@ const uint8_t digital_pin_to_bit_mask[] = {
   PIN2_bm, // 36 PF2/AIN12
   PIN3_bm, // 37 PF3/AIN13
   PIN4_bm, // 38 PF4/AIN14
-  PIN5_bm, // 39 PF5/AIN15/LED_BUILTIN
+  PIN5_bm, // 39 PF5/AIN15
   PIN6_bm  // 40 PF6 RESET
 };
 
@@ -375,7 +375,7 @@ const uint8_t digital_pin_to_timer[] = {
   NOT_ON_TIMER, //  4 PA4/MOSI
   NOT_ON_TIMER, //  5 PA5/MISO
   NOT_ON_TIMER, //  6 PA6/SCK
-  NOT_ON_TIMER, //  7 PA7/SS/CLKOUT
+  NOT_ON_TIMER, //  7 PA7/SS/CLKOUT/LED_BUILTIN
   NOT_ON_TIMER, //  8 PB0/USART3_Tx
   NOT_ON_TIMER, //  9 PB1/USART3_Rx
   NOT_ON_TIMER, // 10 PB2
@@ -420,9 +420,9 @@ const uint8_t digital_pin_to_timer[] = {
   NOT_ON_TIMER, // 38 PF4/AIN14
 #endif
 #if !defined(MILLIS_USE_TIMERB1)
-  TIMERB1,      // 39 PF5/AIN15/LED_BUILTIN
+  TIMERB1,      // 39 PF5/AIN15
 #else
-  NOT_ON_TIMER, // 39 PF5/AIN15/LED_BUILTIN
+  NOT_ON_TIMER, // 39 PF5/AIN15
 #endif
   NOT_ON_TIMER  // 40 PF6 RESET
 };

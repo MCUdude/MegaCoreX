@@ -180,7 +180,7 @@ const uint8_t digital_pin_to_port[] = {
   PA, //  4 PA4/MOSI
   PA, //  5 PA5/MISO
   PA, //  6 PA6/SCK
-  PA, //  7 PA7/SS/CLKOUT
+  PA, //  7 PA7/SS/CLKOUT/LED_BUILTIN
   PC, //  8 PC0/USART1_Tx/TCA0 PWM
   PC, //  9 PC1/USART1_Rx/TCA0 PWM
   PC, // 10 PC2/TCA0 PWM
@@ -188,7 +188,7 @@ const uint8_t digital_pin_to_port[] = {
   PD, // 12 PD0/AIN0
   PD, // 13 PD1/AIN1
   PD, // 14 PD2/AIN2
-  PD, // 15 PD3/AIN3/LED_BUILTIN
+  PD, // 15 PD3/AIN3
   PD, // 16 PD4/AIN4
   PD, // 17 PD5/AIN5
   PD, // 18 PD6/AIN6
@@ -207,7 +207,7 @@ const uint8_t digital_pin_to_bit_position[] = {
   PIN4_bp, //  4 PA4/MOSI
   PIN5_bp, //  5 PA5/MISO
   PIN6_bp, //  6 PA6/SCK
-  PIN7_bp, //  7 PA7/SS/CLKOUT
+  PIN7_bp, //  7 PA7/SS/CLKOUT/LED_BUILTIN
   PIN0_bp, //  8 PC0/USART1_Tx
   PIN1_bp, //  9 PC1/USART1_Rx
   PIN2_bp, // 10 PC2
@@ -215,7 +215,7 @@ const uint8_t digital_pin_to_bit_position[] = {
   PIN0_bp, // 12 PD0/AIN0
   PIN1_bp, // 13 PD1/AIN1
   PIN2_bp, // 14 PD2/AIN2
-  PIN3_bp, // 15 PD3/AIN3/LED_BUILTIN
+  PIN3_bp, // 15 PD3/AIN3
   PIN4_bp, // 16 PD4/AIN4
   PIN5_bp, // 17 PD5/AIN5
   PIN6_bp, // 18 PD6/AIN6
@@ -234,7 +234,7 @@ const uint8_t digital_pin_to_bit_mask[] = {
   PIN4_bm, //  4 PA4/MOSI
   PIN5_bm, //  5 PA5/MISO
   PIN6_bm, //  6 PA6/SCK
-  PIN7_bm, //  7 PA7/SS/CLKOUT
+  PIN7_bm, //  7 PA7/SS/CLKOUT/LED_BUILTIN
   PIN0_bm, //  8 PC0/USART1_Tx
   PIN1_bm, //  9 PC1/USART1_Rx
   PIN2_bm, // 10 PC2
@@ -242,7 +242,7 @@ const uint8_t digital_pin_to_bit_mask[] = {
   PIN0_bm, // 12 PD0/AIN0
   PIN1_bm, // 13 PD1/AIN1
   PIN2_bm, // 14 PD2/AIN2
-  PIN3_bm, // 15 PD3/AIN3/LED_BUILTIN
+  PIN3_bm, // 15 PD3/AIN3
   PIN4_bm, // 16 PD4/AIN4
   PIN5_bm, // 17 PD5/AIN5
   PIN6_bm, // 18 PD6/AIN6
@@ -268,7 +268,7 @@ const uint8_t digital_pin_to_timer[] = {
   NOT_ON_TIMER, //  4 PA4/MOSI
   NOT_ON_TIMER, //  5 PA5/MISO
   NOT_ON_TIMER, //  6 PA6/SCK
-  NOT_ON_TIMER, //  7 PA7/SS/CLKOUT
+  NOT_ON_TIMER, //  7 PA7/SS/CLKOUT/LED_BUILTIN
 #if !defined(MILLIS_USE_TIMERB2)
   TIMERB2,      //  8 PC0/USART1_Tx
 #else
@@ -280,7 +280,7 @@ const uint8_t digital_pin_to_timer[] = {
   TIMERA0,      // 12 PD0/AIN0
   TIMERA0,      // 13 PD1/AIN1
   TIMERA0,      // 14 PD2/AIN2
-  TIMERA0,      // 15 PD3/AIN3/LED_BUILTIN
+  TIMERA0,      // 15 PD3/AIN3
   TIMERA0,      // 16 PD4/AIN4
   TIMERA0,      // 17 PD5/AIN5
   NOT_ON_TIMER, // 18 PD6/AIN6
