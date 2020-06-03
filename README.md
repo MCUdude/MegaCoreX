@@ -69,7 +69,9 @@ MegaCoreX lets you choose what clock frequency you want to run your microcontrol
 |-----------|---------------------|--------------------------|
 | 20 MHz    | Internal oscillator |                          |
 | 16 MHz    | Internal oscillator | **Default option**       |
+| 10 MHz    | Internal oscillator | Derived from 20 MHz osc. |
 | 8 MHz     | Internal oscillator | Derived from 16 MHz osc. |
+| 5 MHz     | Internal oscillator | Derived from 20 MHz osc. |
 | 4 MHz     | Internal oscillator | Derived from 16 MHz osc. |
 | 2 MHz     | Internal oscillator | Derived from 16 MHz osc. |
 | 1 MHz     | Internal oscillator | Derived from 16 MHz osc. |

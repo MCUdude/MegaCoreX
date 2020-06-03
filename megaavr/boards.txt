@@ -87,11 +87,23 @@ menu.bootloader=Bootloader
 4809.menu.clock.internal_20MHz.build.oscillator=
 4809.menu.clock.internal_20MHz.build.f_cpu=20000000L
 
+4809.menu.clock.internal_10MHz_div=Internal 10 MHz
+4809.menu.clock.internal_10MHz_div.upload.speed=115200
+4809.menu.clock.internal_10MHz_div.bootloader.OSCCFG=0x02
+4809.menu.clock.internal_10MHz_div.build.oscillator=
+4809.menu.clock.internal_10MHz_div.build.f_cpu=10000000L
+
 4809.menu.clock.internal_8MHz_div=Internal 8 MHz
 4809.menu.clock.internal_8MHz_div.upload.speed=115200
 4809.menu.clock.internal_8MHz_div.bootloader.OSCCFG=0x01
 4809.menu.clock.internal_8MHz_div.build.oscillator=
 4809.menu.clock.internal_8MHz_div.build.f_cpu=8000000L
+
+4809.menu.clock.internal_5MHz_div=Internal 5 MHz
+4809.menu.clock.internal_5MHz_div.upload.speed=115200
+4809.menu.clock.internal_5MHz_div.bootloader.OSCCFG=0x02
+4809.menu.clock.internal_5MHz_div.build.oscillator=
+4809.menu.clock.internal_5MHz_div.build.f_cpu=5000000L
 
 4809.menu.clock.internal_4MHz_div=Internal 4 MHz
 4809.menu.clock.internal_4MHz_div.upload.speed=115200
@@ -312,11 +324,23 @@ menu.bootloader=Bootloader
 4808.menu.clock.internal_20MHz.build.oscillator=
 4808.menu.clock.internal_20MHz.build.f_cpu=20000000L
 
+4808.menu.clock.internal_10MHz_div=Internal 10 MHz
+4808.menu.clock.internal_10MHz_div.upload.speed=115200
+4808.menu.clock.internal_10MHz_div.bootloader.OSCCFG=0x02
+4808.menu.clock.internal_10MHz_div.build.oscillator=
+4808.menu.clock.internal_10MHz_div.build.f_cpu=10000000L
+
 4808.menu.clock.internal_8MHz_div=Internal 8 MHz
 4808.menu.clock.internal_8MHz_div.upload.speed=115200
 4808.menu.clock.internal_8MHz_div.bootloader.OSCCFG=0x01
 4808.menu.clock.internal_8MHz_div.build.oscillator=
 4808.menu.clock.internal_8MHz_div.build.f_cpu=8000000L
+
+4808.menu.clock.internal_5MHz_div=Internal 5 MHz
+4808.menu.clock.internal_5MHz_div.upload.speed=115200
+4808.menu.clock.internal_5MHz_div.bootloader.OSCCFG=0x02
+4808.menu.clock.internal_5MHz_div.build.oscillator=
+4808.menu.clock.internal_5MHz_div.build.f_cpu=5000000L
 
 4808.menu.clock.internal_4MHz_div=Internal 4 MHz
 4808.menu.clock.internal_4MHz_div.upload.speed=115200
@@ -512,11 +536,23 @@ menu.bootloader=Bootloader
 3209.menu.clock.internal_20MHz.build.oscillator=
 3209.menu.clock.internal_20MHz.build.f_cpu=20000000L
 
+3209.menu.clock.internal_10MHz_div=Internal 10 MHz
+3209.menu.clock.internal_10MHz_div.upload.speed=115200
+3209.menu.clock.internal_10MHz_div.bootloader.OSCCFG=0x02
+3209.menu.clock.internal_10MHz_div.build.oscillator=
+3209.menu.clock.internal_10MHz_div.build.f_cpu=10000000L
+
 3209.menu.clock.internal_8MHz_div=Internal 8 MHz
 3209.menu.clock.internal_8MHz_div.upload.speed=115200
 3209.menu.clock.internal_8MHz_div.bootloader.OSCCFG=0x01
 3209.menu.clock.internal_8MHz_div.build.oscillator=
 3209.menu.clock.internal_8MHz_div.build.f_cpu=8000000L
+
+3209.menu.clock.internal_5MHz_div=Internal 5 MHz
+3209.menu.clock.internal_5MHz_div.upload.speed=115200
+3209.menu.clock.internal_5MHz_div.bootloader.OSCCFG=0x02
+3209.menu.clock.internal_5MHz_div.build.oscillator=
+3209.menu.clock.internal_5MHz_div.build.f_cpu=5000000L
 
 3209.menu.clock.internal_4MHz_div=Internal 4 MHz
 3209.menu.clock.internal_4MHz_div.upload.speed=115200
@@ -731,11 +767,23 @@ menu.bootloader=Bootloader
 3208.menu.clock.internal_20MHz.build.oscillator=
 3208.menu.clock.internal_20MHz.build.f_cpu=20000000L
 
+3208.menu.clock.internal_10MHz_div=Internal 10 MHz
+3208.menu.clock.internal_10MHz_div.upload.speed=115200
+3208.menu.clock.internal_10MHz_div.bootloader.OSCCFG=0x02
+3208.menu.clock.internal_10MHz_div.build.oscillator=
+3208.menu.clock.internal_10MHz_div.build.f_cpu=10000000L
+
 3208.menu.clock.internal_8MHz_div=Internal 8 MHz
 3208.menu.clock.internal_8MHz_div.upload.speed=115200
 3208.menu.clock.internal_8MHz_div.bootloader.OSCCFG=0x01
 3208.menu.clock.internal_8MHz_div.build.oscillator=
 3208.menu.clock.internal_8MHz_div.build.f_cpu=8000000L
+
+3208.menu.clock.internal_5MHz_div=Internal 5 MHz
+3208.menu.clock.internal_5MHz_div.upload.speed=115200
+3208.menu.clock.internal_5MHz_div.bootloader.OSCCFG=0x02
+3208.menu.clock.internal_5MHz_div.build.oscillator=
+3208.menu.clock.internal_5MHz_div.build.f_cpu=5000000L
 
 3208.menu.clock.internal_4MHz_div=Internal 4 MHz
 3208.menu.clock.internal_4MHz_div.upload.speed=115200
@@ -930,11 +978,23 @@ menu.bootloader=Bootloader
 1609.menu.clock.internal_20MHz.build.oscillator=
 1609.menu.clock.internal_20MHz.build.f_cpu=20000000L
 
+1609.menu.clock.internal_10MHz_div=Internal 10 MHz
+1609.menu.clock.internal_10MHz_div.upload.speed=115200
+1609.menu.clock.internal_10MHz_div.bootloader.OSCCFG=0x02
+1609.menu.clock.internal_10MHz_div.build.oscillator=
+1609.menu.clock.internal_10MHz_div.build.f_cpu=10000000L
+
 1609.menu.clock.internal_8MHz_div=Internal 8 MHz
 1609.menu.clock.internal_8MHz_div.upload.speed=115200
 1609.menu.clock.internal_8MHz_div.bootloader.OSCCFG=0x01
 1609.menu.clock.internal_8MHz_div.build.oscillator=
 1609.menu.clock.internal_8MHz_div.build.f_cpu=8000000L
+
+1609.menu.clock.internal_5MHz_div=Internal 5 MHz
+1609.menu.clock.internal_5MHz_div.upload.speed=115200
+1609.menu.clock.internal_5MHz_div.bootloader.OSCCFG=0x02
+1609.menu.clock.internal_5MHz_div.build.oscillator=
+1609.menu.clock.internal_5MHz_div.build.f_cpu=5000000L
 
 1609.menu.clock.internal_4MHz_div=Internal 4 MHz
 1609.menu.clock.internal_4MHz_div.upload.speed=115200
@@ -1149,11 +1209,23 @@ menu.bootloader=Bootloader
 1608.menu.clock.internal_20MHz.build.oscillator=
 1608.menu.clock.internal_20MHz.build.f_cpu=20000000L
 
+1608.menu.clock.internal_10MHz_div=Internal 10 MHz
+1608.menu.clock.internal_10MHz_div.upload.speed=115200
+1608.menu.clock.internal_10MHz_div.bootloader.OSCCFG=0x02
+1608.menu.clock.internal_10MHz_div.build.oscillator=
+1608.menu.clock.internal_10MHz_div.build.f_cpu=10000000L
+
 1608.menu.clock.internal_8MHz_div=Internal 8 MHz
 1608.menu.clock.internal_8MHz_div.upload.speed=115200
 1608.menu.clock.internal_8MHz_div.bootloader.OSCCFG=0x01
 1608.menu.clock.internal_8MHz_div.build.oscillator=
 1608.menu.clock.internal_8MHz_div.build.f_cpu=8000000L
+
+1608.menu.clock.internal_5MHz_div=Internal 5 MHz
+1608.menu.clock.internal_5MHz_div.upload.speed=115200
+1608.menu.clock.internal_5MHz_div.bootloader.OSCCFG=0x02
+1608.menu.clock.internal_5MHz_div.build.oscillator=
+1608.menu.clock.internal_5MHz_div.build.f_cpu=5000000L
 
 1608.menu.clock.internal_4MHz_div=Internal 4 MHz
 1608.menu.clock.internal_4MHz_div.upload.speed=115200
@@ -1348,11 +1420,23 @@ menu.bootloader=Bootloader
 809.menu.clock.internal_20MHz.build.oscillator=
 809.menu.clock.internal_20MHz.build.f_cpu=20000000L
 
+809.menu.clock.internal_10MHz_div=Internal 10 MHz
+809.menu.clock.internal_10MHz_div.upload.speed=115200
+809.menu.clock.internal_10MHz_div.bootloader.OSCCFG=0x02
+809.menu.clock.internal_10MHz_div.build.oscillator=
+809.menu.clock.internal_10MHz_div.build.f_cpu=10000000L
+
 809.menu.clock.internal_8MHz_div=Internal 8 MHz
 809.menu.clock.internal_8MHz_div.upload.speed=115200
 809.menu.clock.internal_8MHz_div.bootloader.OSCCFG=0x01
 809.menu.clock.internal_8MHz_div.build.oscillator=
 809.menu.clock.internal_8MHz_div.build.f_cpu=8000000L
+
+809.menu.clock.internal_5MHz_div=Internal 5 MHz
+809.menu.clock.internal_5MHz_div.upload.speed=115200
+809.menu.clock.internal_5MHz_div.bootloader.OSCCFG=0x02
+809.menu.clock.internal_5MHz_div.build.oscillator=
+809.menu.clock.internal_5MHz_div.build.f_cpu=5000000L
 
 809.menu.clock.internal_4MHz_div=Internal 4 MHz
 809.menu.clock.internal_4MHz_div.upload.speed=115200
@@ -1567,11 +1651,23 @@ menu.bootloader=Bootloader
 808.menu.clock.internal_20MHz.build.oscillator=
 808.menu.clock.internal_20MHz.build.f_cpu=20000000L
 
+808.menu.clock.internal_10MHz_div=Internal 10 MHz
+808.menu.clock.internal_10MHz_div.upload.speed=115200
+808.menu.clock.internal_10MHz_div.bootloader.OSCCFG=0x02
+808.menu.clock.internal_10MHz_div.build.oscillator=
+808.menu.clock.internal_10MHz_div.build.f_cpu=10000000L
+
 808.menu.clock.internal_8MHz_div=Internal 8 MHz
 808.menu.clock.internal_8MHz_div.upload.speed=115200
 808.menu.clock.internal_8MHz_div.bootloader.OSCCFG=0x01
 808.menu.clock.internal_8MHz_div.build.oscillator=
 808.menu.clock.internal_8MHz_div.build.f_cpu=8000000L
+
+808.menu.clock.internal_5MHz_div=Internal 5 MHz
+808.menu.clock.internal_5MHz_div.upload.speed=115200
+808.menu.clock.internal_5MHz_div.bootloader.OSCCFG=0x02
+808.menu.clock.internal_5MHz_div.build.oscillator=
+808.menu.clock.internal_5MHz_div.build.f_cpu=5000000L
 
 808.menu.clock.internal_4MHz_div=Internal 4 MHz
 808.menu.clock.internal_4MHz_div.upload.speed=115200

@@ -188,7 +188,6 @@ void delayMicroseconds(unsigned int us)
   us -= 5; //=2 cycles
 
 #elif F_CPU >= 20000000L
-  // for the 20 MHz clock on rare Arduino boards
 
   // for a one-microsecond delay, simply return.  the overhead
   // of the function call takes 18 (20) cycles, which is 1us
@@ -213,7 +212,6 @@ void delayMicroseconds(unsigned int us)
   us -= 7; // 2 cycles
 
 #elif F_CPU >= 16000000L
-  // for the 16 MHz clock on most Arduino boards
 
   // for a one-microsecond delay, simply return.  the overhead
   // of the function call takes 14 (16) cycles, which is 1us
@@ -230,7 +228,6 @@ void delayMicroseconds(unsigned int us)
   us -= 5; // = 2 cycles,
 
 #elif F_CPU >= 12000000L
-  // for the 12 MHz clock if somebody is working with USB
 
   // for a 1 microsecond delay, simply return.  the overhead
   // of the function call takes 14 (16) cycles, which is 1.5us
@@ -246,8 +243,23 @@ void delayMicroseconds(unsigned int us)
   // us is at least 6 so we can substract 5
   us -= 5; //2 cycles
 
+#elif F_CPU >= 10000000L
+
+  // for a 1 microsecond delay, simply return.  the overhead
+  // of the function call takes 14 (16) cycles, which is 1.5us
+  if (us <= 1) return; //  = 3 cycles, (4 when true)
+
+  // the following loop takes 2/5 of a microsecond (4 cycles)
+  // per iteration, so execute it 2.5 times for each microsecond of
+  // delay requested.
+  us = (us << 1) + (us >> 1); // x2.5 us, = 5 cycles
+
+  // account for the time taken in the preceding commands.
+  // we just burned 20 (22) cycles above, remove 5, (5*4=20)
+  // us is at least 6 so we can subtract 5
+  us -= 5; //2 cycles
+
 #elif F_CPU >= 8000000L
-  // for the 8 MHz internal clock
 
   // for a 1 and 2 microsecond delay, simply return.  the overhead
   // of the function call takes 14 (16) cycles, which is 2us
@@ -263,10 +275,21 @@ void delayMicroseconds(unsigned int us)
   // us is at least 6 so we can substract 4
   us -= 4; // = 2 cycles
 
+#elif F_CPU >= 5000000L
+
+  // For a 1 ~ 3 microsecond delay, simply return. The overhead
+  // of the function call takes 14 (16) cycles, which is 3us
+  if (us <= 3) return; //  = 3 cycles, (4 when true)
+
+  // The following loop takes 4/5th microsecond (4 cycles)
+  // per iteration, so we want to add it to 1/4th of itself
+  us += (us >> 2);
+
+  us -= 2; // = 2 cycles
+
 #elif F_CPU >= 4000000L
   // The overhead of the function call is 14 (16) cycles which is 4 us
-  if (us <= 2)
-    return;
+  if (us <= 2) return;
 
   // Subtract microseconds that were wasted in this function
   us -= 2;
@@ -276,8 +299,7 @@ void delayMicroseconds(unsigned int us)
 #elif F_CPU >= 2000000L
   // The overhead of the function call is 14 (16) cycles which is 8.68 us
   // Plus the if-statement that takes 3 cycles (4 when true): ~11us
-  if (us <= 13)
-    return;
+  if (us <= 13) return;
 
   // Subtract microseconds that were wasted in this function
   us -= 11; // 2 cycles
@@ -285,7 +307,6 @@ void delayMicroseconds(unsigned int us)
   us = (us >> 1); // 3 cycles
 
 #else
-  // for the 1 MHz internal clock (default settings for common Atmega microcontrollers)
 
   // the overhead of the function calls is 14 (16) cycles
   if (us <= 16) return; //= 3 cycles, (4 when true)
@@ -329,19 +350,25 @@ void init()
 #if (F_CPU == 20000000L)
   /* No division on clock */
   _PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, 0x00);
-#elif (F_CPU >= 16000000L)
+#elif (F_CPU == 16000000L)
   /* No division on clock */
   _PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, 0x00);
-#elif (F_CPU >= 8000000L)
+#elif (F_CPU == 10000000L)
   /* Clock DIV2 */
   _PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, (CLKCTRL_PEN_bm | CLKCTRL_PDIV_2X_gc));
-#elif (F_CPU >= 4000000L)
+#elif (F_CPU == 8000000L)
+  /* Clock DIV2 */
+  _PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, (CLKCTRL_PEN_bm | CLKCTRL_PDIV_2X_gc));
+#elif (F_CPU == 5000000L)
   /* Clock DIV4 */
   _PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, (CLKCTRL_PEN_bm | CLKCTRL_PDIV_4X_gc));
-#elif (F_CPU >= 2000000L)
+#elif (F_CPU == 4000000L)
+  /* Clock DIV4 */
+  _PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, (CLKCTRL_PEN_bm | CLKCTRL_PDIV_4X_gc));
+#elif (F_CPU == 2000000L)
   /* Clock DIV8 */
   _PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, (CLKCTRL_PEN_bm | CLKCTRL_PDIV_8X_gc));
-#elif (F_CPU >= 1000000L)
+#elif (F_CPU == 1000000L)
   /* Clock DIV16 */
   _PROTECTED_WRITE(CLKCTRL_MCLKCTRLB, (CLKCTRL_PEN_bm | CLKCTRL_PDIV_16X_gc));
 #else
