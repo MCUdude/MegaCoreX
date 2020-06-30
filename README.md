@@ -92,7 +92,7 @@ Brownout detection or BOD for short lets the microcontroller sense the input vol
 
 | BOD threshold                  |
 |--------------------------------|
-| 4.2 V                          |
+| 4.3 V                          |
 | 4.0 V                          |
 | 3.7 V                          |
 | 3.3 V                          |
@@ -104,7 +104,7 @@ Brownout detection or BOD for short lets the microcontroller sense the input vol
 
 
 ## Reset pin
-None of the megaAVR-0 microcontrollers needs the reset line to be reprogrammed over the UPDI interface. This means that the reset pin can be used as a GPIO pin instead! There's no need for a high voltage programmer to turn that pin into a reset pin again either. If you have a development board you can instead use the reset button as a general-purpose button for your project. Note that the reset pin cannot be usd as a GPIO when using a bootloader
+None of the megaAVR-0 microcontrollers needs the reset line to be reprogrammed over the UPDI interface. This means that the reset pin can be used as a GPIO pin instead! There's no need for a high voltage programmer to turn that pin into a reset pin again either. If you have a development board you can instead use the reset button as a general-purpose button for your project. Note that the reset pin cannot be usd as a GPIO when using a bootloader.
 
 
 ## Printf support
