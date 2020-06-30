@@ -52,13 +52,13 @@ menu.bootloader=Bootloader
 4809.menu.resetpin.reset=Reset
 4809.menu.resetpin.reset.bootloader.SYSCFG0=0xC9
 4809.menu.resetpin.gpio=GPIO
-4809.menu.resetpin.gpio.bootloader.SYSCFG0=0xC5
+4809.menu.resetpin.gpio.bootloader.SYSCFG0=0xC1
 
 # Brown out detection
 4809.menu.BOD.2v6=BOD 2.6V
 4809.menu.BOD.2v6.bootloader.BODCFG=0x54
-4809.menu.BOD.4v2=BOD 4.2V
-4809.menu.BOD.4v2.bootloader.BODCFG=0xF4
+4809.menu.BOD.4v3=BOD 4.3V
+4809.menu.BOD.4v3.bootloader.BODCFG=0xF4
 4809.menu.BOD.4v0=BOD 4.0V
 4809.menu.BOD.4v0.bootloader.BODCFG=0xD4
 4809.menu.BOD.3v7=BOD 3.7V
@@ -289,13 +289,13 @@ menu.bootloader=Bootloader
 4808.menu.resetpin.reset=Reset
 4808.menu.resetpin.reset.bootloader.SYSCFG0=0xCD
 4808.menu.resetpin.gpio=GPIO
-4808.menu.resetpin.gpio.bootloader.SYSCFG0=0xC5
+4808.menu.resetpin.gpio.bootloader.SYSCFG0=0xC1
 
 # Brown out detection
 4808.menu.BOD.2v6=BOD 2.6V
 4808.menu.BOD.2v6.bootloader.BODCFG=0x54
-4808.menu.BOD.4v2=BOD 4.2V
-4808.menu.BOD.4v2.bootloader.BODCFG=0xF4
+4808.menu.BOD.4v3=BOD 4.3V
+4808.menu.BOD.4v3.bootloader.BODCFG=0xF4
 4808.menu.BOD.4v0=BOD 4.0V
 4808.menu.BOD.4v0.bootloader.BODCFG=0xD4
 4808.menu.BOD.3v7=BOD 3.7V
@@ -501,13 +501,13 @@ menu.bootloader=Bootloader
 3209.menu.resetpin.reset=Reset
 3209.menu.resetpin.reset.bootloader.SYSCFG0=0xCD
 3209.menu.resetpin.gpio=GPIO
-3209.menu.resetpin.gpio.bootloader.SYSCFG0=0xC5
+3209.menu.resetpin.gpio.bootloader.SYSCFG0=0xC1
 
 # Brown out detection
 3209.menu.BOD.2v6=BOD 2.6V
 3209.menu.BOD.2v6.bootloader.BODCFG=0x54
-3209.menu.BOD.4v2=BOD 4.2V
-3209.menu.BOD.4v2.bootloader.BODCFG=0xF4
+3209.menu.BOD.4v3=BOD 4.3V
+3209.menu.BOD.4v3.bootloader.BODCFG=0xF4
 3209.menu.BOD.4v0=BOD 4.0V
 3209.menu.BOD.4v0.bootloader.BODCFG=0xD4
 3209.menu.BOD.3v7=BOD 3.7V
@@ -732,13 +732,13 @@ menu.bootloader=Bootloader
 3208.menu.resetpin.reset=Reset
 3208.menu.resetpin.reset.bootloader.SYSCFG0=0xCD
 3208.menu.resetpin.gpio=GPIO
-3208.menu.resetpin.gpio.bootloader.SYSCFG0=0xC5
+3208.menu.resetpin.gpio.bootloader.SYSCFG0=0xC1
 
 # Brown out detection
 3208.menu.BOD.2v6=BOD 2.6V
 3208.menu.BOD.2v6.bootloader.BODCFG=0x54
-3208.menu.BOD.4v2=BOD 4.2V
-3208.menu.BOD.4v2.bootloader.BODCFG=0xF4
+3208.menu.BOD.4v3=BOD 4.3V
+3208.menu.BOD.4v3.bootloader.BODCFG=0xF4
 3208.menu.BOD.4v0=BOD 4.0V
 3208.menu.BOD.4v0.bootloader.BODCFG=0xD4
 3208.menu.BOD.3v7=BOD 3.7V
@@ -943,13 +943,13 @@ menu.bootloader=Bootloader
 1609.menu.resetpin.reset=Reset
 1609.menu.resetpin.reset.bootloader.SYSCFG0=0xCD
 1609.menu.resetpin.gpio=GPIO
-1609.menu.resetpin.gpio.bootloader.SYSCFG0=0xC5
+1609.menu.resetpin.gpio.bootloader.SYSCFG0=0xC1
 
 # Brown out detection
 1609.menu.BOD.2v6=BOD 2.6V
 1609.menu.BOD.2v6.bootloader.BODCFG=0x54
-1609.menu.BOD.4v2=BOD 4.2V
-1609.menu.BOD.4v2.bootloader.BODCFG=0xF4
+1609.menu.BOD.4v3=BOD 4.3V
+1609.menu.BOD.4v3.bootloader.BODCFG=0xF4
 1609.menu.BOD.4v0=BOD 4.0V
 1609.menu.BOD.4v0.bootloader.BODCFG=0xD4
 1609.menu.BOD.3v7=BOD 3.7V
@@ -1174,13 +1174,13 @@ menu.bootloader=Bootloader
 1608.menu.resetpin.reset=Reset
 1608.menu.resetpin.reset.bootloader.SYSCFG0=0xCD
 1608.menu.resetpin.gpio=GPIO
-1608.menu.resetpin.gpio.bootloader.SYSCFG0=0xC5
+1608.menu.resetpin.gpio.bootloader.SYSCFG0=0xC1
 
 # Brown out detection
 1608.menu.BOD.2v6=BOD 2.6V
 1608.menu.BOD.2v6.bootloader.BODCFG=0x54
-1608.menu.BOD.4v2=BOD 4.2V
-1608.menu.BOD.4v2.bootloader.BODCFG=0xF4
+1608.menu.BOD.4v3=BOD 4.3V
+1608.menu.BOD.4v3.bootloader.BODCFG=0xF4
 1608.menu.BOD.4v0=BOD 4.0V
 1608.menu.BOD.4v0.bootloader.BODCFG=0xD4
 1608.menu.BOD.3v7=BOD 3.7V
@@ -1385,13 +1385,13 @@ menu.bootloader=Bootloader
 809.menu.resetpin.reset=Reset
 809.menu.resetpin.reset.bootloader.SYSCFG0=0xCD
 809.menu.resetpin.gpio=GPIO
-809.menu.resetpin.gpio.bootloader.SYSCFG0=0xC5
+809.menu.resetpin.gpio.bootloader.SYSCFG0=0xC1
 
 # Brown out detection
 809.menu.BOD.2v6=BOD 2.6V
 809.menu.BOD.2v6.bootloader.BODCFG=0x54
-809.menu.BOD.4v2=BOD 4.2V
-809.menu.BOD.4v2.bootloader.BODCFG=0xF4
+809.menu.BOD.4v3=BOD 4.3V
+809.menu.BOD.4v3.bootloader.BODCFG=0xF4
 809.menu.BOD.4v0=BOD 4.0V
 809.menu.BOD.4v0.bootloader.BODCFG=0xD4
 809.menu.BOD.3v7=BOD 3.7V
@@ -1616,13 +1616,13 @@ menu.bootloader=Bootloader
 808.menu.resetpin.reset=Reset
 808.menu.resetpin.reset.bootloader.SYSCFG0=0xCD
 808.menu.resetpin.gpio=GPIO
-808.menu.resetpin.gpio.bootloader.SYSCFG0=0xC5
+808.menu.resetpin.gpio.bootloader.SYSCFG0=0xC1
 
 # Brown out detection
 808.menu.BOD.2v6=BOD 2.6V
 808.menu.BOD.2v6.bootloader.BODCFG=0x54
-808.menu.BOD.4v2=BOD 4.2V
-808.menu.BOD.4v2.bootloader.BODCFG=0xF4
+808.menu.BOD.4v3=BOD 4.3V
+808.menu.BOD.4v3.bootloader.BODCFG=0xF4
 808.menu.BOD.4v0=BOD 4.0V
 808.menu.BOD.4v0.bootloader.BODCFG=0xD4
 808.menu.BOD.3v7=BOD 3.7V
