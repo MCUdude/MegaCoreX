@@ -114,13 +114,13 @@ If you're using a serial port, simply use `Serial.printf("Milliseconds since sta
 
 
 ## Fast IO
-For timing critical applications the standard `digitalRead()` and `digitalWrite()` functions may be too slow. To solve this, MegaCoreX also includes some improved variants that compiles down to a single instruction.
+For timing critical applications the standard `digitalRead()` and `digitalWrite()` functions may be too slow. To solve this, MegaCoreX also includes some improved variants that compile down to a single instruction.
 Call `digitalReadFast(myPin)` or `digitalWriteFast(mypin, state)` to use these. Note that in order to gain any speed improvements, the pin number has to be a constant.
 
 
 ## Pin macros
-Note that you don't have to use the digital pin numbers to refer to the pins. You can also use some predefined macros that maps "Arduino pins" to the port and port number.
-Note that all my Arduino cores has these macros if you prefer to use these rather than the default Arduino pin number.  
+Note that you don't have to use the digital pin numbers to refer to the pins. You can also use some predefined macros that map "Arduino pins" to the port and port number.
+Note that all my Arduino cores have these macros if you prefer to use these rather than the default Arduino pin number.  
 
 ```c++
 // Use PIN_PA0 macro to refer to pin PA0 (Arduino pin 0)
@@ -149,7 +149,7 @@ Please have a look at the pins_arduino.h files for detailed info.<br/> <br/>
 
 
 ## Hardware features
-Here's some hardware spesific features that differs from the older AVR families.
+Here's some hardware specific features that differ from the older AVR families.
 
 ### Interrupt pins
 Unlike older AVRs the megaAVR-0 microcontrollers have fully featured interrupts on every pin.  
@@ -191,16 +191,16 @@ The megaAVR-0 microcontrollers are equipped with an analog comparator. It compar
 Try out the [Comparator library](https://github.com/MCUdude/MegaCoreX/tree/master/megaavr/libraries/Comparator) for more information, library reference and examples.
 
 ### Alternative pins
-The megaAVR-0 microcontrollers support alternative pin assignments for some of its built-in peripherals.
+The megaAVR-0 microcontrollers support alternative pin assignments for some of their built-in peripherals.
 This is specified by invoking the `swap()` or `pins()` method before `begin()` for the associated peripheral.
 They will return `true` if that swap or pin combination is supported.
 For `Serial` peripherals the method is `pins(tx,rx)`, for `Wire` it's `pins(sda,scl)` and for `SPI` it's `pins(mosi,miso,sck,ss)`.
 (Note that this is the same pin sequence as used for the ESP8266 `pins` method, but the opposite of the one SoftwareSerial uses.)
 
-Note that `swap()` and `pins()` does the exact same thing, but `swap()` is MUX swap oriented, while `pins()` is pin oriented.
+Note that `swap()` and `pins()` do the exact same thing, but `swap()` is MUX swap oriented, while `pins()` is pin oriented.
 
 If you want to use this feature to implement communication with two different external devices connected to different pins using one internal peripheral,
-mote that the proper way to switch is first to invoke `end()` to cleanly shut down, then `swap()` or `pins()` to switch assigned pins, and finally `begin()` to cleanly start again.
+note that the proper way to switch is first to invoke `end()` to cleanly shut down, then `swap()` or `pins()` to switch assigned pins, and finally `begin()` to cleanly start again.
 
 `swap()` or `pins()` are called like this. **Use either `swap()` or `pins()`, not both!**
 
@@ -223,8 +223,8 @@ Available pin combinations for the *48 pin standard* pinout are:
 | Peripheral | Default                        | Alternative 1                      | Alternative 2                      |
 |------------|------------------------------- |------------------------------------|------------------------------------|
 | Serial     | swap(0)  **or**  pins(0,1)     | swap(1)  **or**  pins(4,5)         |                                    |
-| Serial1    | swap(0)  **or**  pins(12,13)   | swap(1)  **or**  pins(14,15)       |                                    |
-| Serial2    | swap(0)  **or**  pins(32,35)   | swap(1)  **or**  pins(38,39)       |                                    |
+| Serial1    | swap(0)  **or**  pins(14,15)   | swap(1)  **or**  pins(18,19)       |                                    |
+| Serial2    | swap(0)  **or**  pins(34,35)   | swap(1)  **or**  pins(38,39)       |                                    |
 | Serial3    | swap(0)  **or**  pins(8,9)     | swap(1)  **or**  pins(12,13)       |                                    |
 | Wire       | swap(0)  **or**  pins(2,3)     | swap(1)  **or**  pins(16,17)       |                                    |
 | SPI        | swap(0)  **or**  pins(4,5,6,7) | swap(1)  **or**  pins(14,15,16,17) | swap(2)  **or**  pins(30,31,32,33) |
