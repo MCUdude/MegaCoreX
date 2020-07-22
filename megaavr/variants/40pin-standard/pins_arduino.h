@@ -20,7 +20,8 @@
 #include <avr/pgmspace.h>
 #include "timers.h"
 
-#define DEFAULT_40PIN_PINOUT
+#define MEGACOREX_DEFAULT_40PIN_PINOUT
+#define __AVR_ATmegax09__
 
 // Pin macros
 #define PIN_PA0 0

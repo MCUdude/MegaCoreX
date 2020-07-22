@@ -18,7 +18,8 @@
 #include <avr/pgmspace.h>
 #include "timers.h"
 
-#define DEFAULT_28PIN_PINOUT
+#define MEGACOREX_DEFAULT_28PIN_PINOUT
+#define __AVR_ATmegax08__
 
 // Arduino pin macros
 #define PIN_PA0 0
