@@ -240,22 +240,25 @@ Available pin combinations for the *28 pin* and *32 pin standard* pinouts are:
 | Wire       | swap(0)  **or**  pins(2,3)     | swap(1)  **or**  pins(10,11)     |
 | SPI        | swap(0)  **or**  pins(4,5,6,7) | swap(1)  **or**  pins(8,9,10,11) |
 
+
 Available pin combinations for the *Uno WiFi* pinout are:
 
-| Peripheral | Default                            | Alternative                  |
-|------------|------------------------------------|------------------------------|
-| Serial     | swap(0)  **or**  pins(27,26)       | swap(1)  **or**  pins(9,10)  |
-| Serial1    | swap(0)  **or**  pins(1,0)         | swap(1)  **or**  pins(32,33) |
-| Serial2    | swap(0)  **or**  pins(24,23)       | swap(1)  **or**  pins(2,7)   |
+| Peripheral | Default                                                 | Alternative                                            |
+|------------|---------------------------------------------------------|--------------------------------------------------------|
+| Serial     | swap(0)  **or**  pins(27,26) (connected to mEDBG)       | swap(1)  **or**  pins(9,10)                            |
+| Serial1    | swap(0)  **or**  pins(1,0)                              | swap(1)  **or**  pins(32,33) (available on SPI header) |
+| Serial2    | swap(0)  **or**  pins(24,23) (connected to Wifi module) | swap(1)  **or**  pins(2,7)                             |
+| Serial3    | swap(0)  **or**  pins(6,3)                              | swap(1)  **or**  pins(37,38) (not broken out)          |
+
 
 Available pin combinations for the *Nano Every* pinout are:
 
-| Peripheral | Default                            | Alternative                                   |
-|------------|------------------------------------|-----------------------------------------------|
-| Serial     | swap(0)  **or**  pins(25,24)       | swap(1)  **or**  pins(9,10)                   |
-| Serial1    | swap(0)  **or**  pins(1,0)         | swap(1)  **or**  pins(34,35) (not broken out) |
-| Serial2    | swap(0)  **or**  pins(2,7)         | swap(1)  **or**  pins(28,27) (not broken out) |
-| Serial3    | swap(0)  **or**  pins(6,3)         | swap(1)  **or**  pins(37,38) (not broken out) |
+| Peripheral | Default                                                     | Alternative                                   |
+|------------|-------------------------------------------------------------|-----------------------------------------------|
+| Serial     | swap(0)  **or**  pins(25,24) (connected to USB-serial chip) | swap(1)  **or**  pins(9,10)                   |
+| Serial1    | swap(0)  **or**  pins(1,0)                                  | swap(1)  **or**  pins(34,35) (not broken out) |
+| Serial2    | swap(0)  **or**  pins(2,7)                                  | swap(1)  **or**  pins(28,27) (not broken out) |
+| Serial3    | swap(0)  **or**  pins(6,3)                                  | swap(1)  **or**  pins(37,38) (not broken out) |
 
 
 ## How to install
@@ -291,7 +294,7 @@ Here are some simple schematics that show a minimal setup. The straight 6-pin he
 [The Arduino Uno WiFi Rev2](https://store.arduino.cc/arduino-uno-wifi-rev2) is one of the few megaAVR-0 based boards that's officially supported by Arduino. It uses an ATmega4809 and the recommended pinout is *Uno WiFi*. Printing to the serial monitor on your PC is done by initializing `Serial.begin(baud)`. You'll also have to choose **Atmel mEDBG (ATmega32u4)** as your programmer to upload code. Uno WiFi Rev2 does not support a bootloader, so select *No bootloader* in the tools menu. For more information about this board please see the product page and its schematic.
 
 Click to enlarge:  
-<img src="https://i.imgur.com/xVo4kXu.png" width="400">
+<img src="https://i.imgur.com/UzDYb9f.png" width="400">
 
 ### Arduino Nano Every
 [The Arduino Nano Every](https://store.arduino.cc/arduino-nano-every) is one of the few megaAVR-0 based boards that's officially supported by Arduino. It uses an ATmega4809 and the *only* supported pinout is *Nano Every*. Printing to the serial monitor on your PC is done by initializing `Serial.begin(baud)`. The Nano Every does not support a bootloader, so select *No bootloader* in the tools menu. Burning bootloader or upload using programmer will not work either. However, all fuses are set every time you upload our program. For more information about this board please see the product page and its schematic.
