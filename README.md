@@ -255,6 +255,7 @@ Available pin combinations for the *Nano Every* pinout are:
 | Serial     | swap(0)  **or**  pins(25,24)       | swap(1)  **or**  pins(9,10)                   |
 | Serial1    | swap(0)  **or**  pins(1,0)         | swap(1)  **or**  pins(34,35) (not broken out) |
 | Serial2    | swap(0)  **or**  pins(2,7)         | swap(1)  **or**  pins(28,27) (not broken out) |
+| Serial3    | swap(0)  **or**  pins(6,3)         | swap(1)  **or**  pins(37,38) (not broken out) |
 
 
 ## How to install
@@ -290,13 +291,13 @@ Here are some simple schematics that show a minimal setup. The straight 6-pin he
 [The Arduino Uno WiFi Rev2](https://store.arduino.cc/arduino-uno-wifi-rev2) is one of the few megaAVR-0 based boards that's officially supported by Arduino. It uses an ATmega4809 and the recommended pinout is *Uno WiFi*. Printing to the serial monitor on your PC is done by initializing `Serial.begin(baud)`. You'll also have to choose **Atmel mEDBG (ATmega32u4)** as your programmer to upload code. Uno WiFi Rev2 does not support a bootloader, so select *No bootloader* in the tools menu. For more information about this board please see the product page and its schematic.
 
 Click to enlarge:  
-<img src="https://i.imgur.com/TFtONsy.png" width="400">
+<img src="https://i.imgur.com/xVo4kXu.png" width="400">
 
 ### Arduino Nano Every
 [The Arduino Nano Every](https://store.arduino.cc/arduino-nano-every) is one of the few megaAVR-0 based boards that's officially supported by Arduino. It uses an ATmega4809 and the *only* supported pinout is *Nano Every*. Printing to the serial monitor on your PC is done by initializing `Serial.begin(baud)`. The Nano Every does not support a bootloader, so select *No bootloader* in the tools menu. Burning bootloader or upload using programmer will not work either. However, all fuses are set every time you upload our program. For more information about this board please see the product page and its schematic.
 
 Click to enlarge:  
-<img src="https://i.imgur.com/lV5BOav.png" width="400">
+<img src="https://i.imgur.com/KyRef6p.png" width="400">
 
 ### Curiosity Nano
 [The Curiosity Nano](https://www.microchip.com/developmenttools/ProductDetails/DM320115) uses an ATmega4809 but has a different pinout than the Uno Wifi Rev2. The recommended pinout for this board is *48 pin standard*. The on-board LED is connected t pin PF5 (digital pin 39). Note that UART3 is connected to the nEDBG chip (often referred to as the debug serial port). This means you'll have to use `Serial3.begin(baud)` to print to the serial monitor. You'll also have to choose **Atmel nEDBG (ATSAMD21E18)** as your programmer to upload code. For more information about this board please refer to the user guide and its schematic.

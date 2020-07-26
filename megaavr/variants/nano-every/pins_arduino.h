@@ -122,8 +122,9 @@ static const uint8_t SCK  = PIN_SPI_SCK;
 static const uint8_t SDA = PIN_WIRE_SDA;
 static const uint8_t SCL = PIN_WIRE_SCL;
 
-// Nano Every debug USART (not available on headers, only via the SAMD11 virtual COM port)
-// USART3 on mega4809 (alternative pins)
+// Nano Every debug USART (Serial)
+// USART3 on mega4809
+// Maps to alternative pins by default
 // Mapped to HWSERIAL0 in Serial library
 #define HWSERIAL0                       (&USART3)
 #define HWSERIAL0_DRE_VECTOR            (USART3_DRE_vect)
@@ -136,8 +137,9 @@ static const uint8_t SCL = PIN_WIRE_SCL;
 #define PIN_WIRE_HWSERIAL0_TX_PINSWAP_1 (PIN_PB0)
 #define PIN_WIRE_HWSERIAL0_RX_PINSWAP_1 (PIN_PB1)
 
-// Nano every main USART available on Arduino header pins
-// USART1 on mega4809 (alternative pins)
+// Nano every USART (Serial1)
+// USART1 on mega4809
+// Maps to alternative pins by default
 // Mapped to HWSERIAL1 in Serial library
 #define HWSERIAL1                       (&USART1)
 #define HWSERIAL1_DRE_VECTOR            (USART1_DRE_vect)
@@ -150,8 +152,9 @@ static const uint8_t SCL = PIN_WIRE_SCL;
 #define PIN_WIRE_HWSERIAL1_TX_PINSWAP_1 (PIN_PC0)
 #define PIN_WIRE_HWSERIAL1_RX_PINSWAP_1 (PIN_PC1)
 
-// Nano Every pare USART available on testpoints
-// USART0 on mega4809 (default pins)
+// Nano Every USART (Serial2)
+// USART0 on mega4809
+// Maps to default pins by default
 // Mapped to HWSERIAL2 in Serial library
 #define HWSERIAL2                       (&USART0)
 #define HWSERIAL2_DRE_VECTOR            (USART0_DRE_vect)
@@ -164,8 +167,20 @@ static const uint8_t SCL = PIN_WIRE_SCL;
 #define PIN_WIRE_HWSERIAL2_TX_PINSWAP_1 (PIN_PA4)
 #define PIN_WIRE_HWSERIAL2_RX_PINSWAP_1 (PIN_PA5)
 
-// Hardware USART2 not in use because no pins are broken out
-#define HWSERIAL3_MUX         (PORTMUX_USART2_NONE_gc)
+// Nano Every USART (Serial3)
+// USART2 on mega4809
+// Maps to alternative pins by default
+// Mapped to HWSERIAL3 in Serial library
+#define HWSERIAL3                       (&USART2)
+#define HWSERIAL3_DRE_VECTOR            (USART2_DRE_vect)
+#define HWSERIAL3_DRE_VECTOR_NUM        (USART2_DRE_vect_num)
+#define HWSERIAL3_RXC_VECTOR            (USART2_RXC_vect)
+#define HWSERIAL3_MUX                   (PORTMUX_USART2_ALT1_gc)
+#define HWSERIAL3_MUX_PINSWAP_1         (PORTMUX_USART2_DEFAULT_gc)
+#define PIN_WIRE_HWSERIAL3_TX           (PIN_PF4)
+#define PIN_WIRE_HWSERIAL3_RX           (PIN_PF5)
+#define PIN_WIRE_HWSERIAL3_TX_PINSWAP_1 (PIN_PF0)
+#define PIN_WIRE_HWSERIAL3_RX_PINSWAP_1 (PIN_PF1)
 
 // Analog pins
 #define PIN_A0   PIN_PD3 // AIN3
