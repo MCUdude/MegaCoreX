@@ -243,22 +243,22 @@ Available pin combinations for the *28 pin* and *32 pin standard* pinouts are:
 
 Available pin combinations for the *Uno WiFi* pinout are:
 
-| Peripheral | Default                                                 | Alternative                                            |
-|------------|---------------------------------------------------------|--------------------------------------------------------|
-| Serial     | swap(0)  **or**  pins(27,26) (connected to mEDBG)       | swap(1)  **or**  pins(9,10)                            |
-| Serial1    | swap(0)  **or**  pins(1,0)                              | swap(1)  **or**  pins(32,33) (available on SPI header) |
-| Serial2    | swap(0)  **or**  pins(24,23) (connected to Wifi module) | swap(1)  **or**  pins(2,7)                             |
-| Serial3    | swap(0)  **or**  pins(6,3)                              | swap(1)  **or**  pins(37,38) (not broken out)          |
+| Peripheral | Default                                                      | Alternative                                            |
+|------------|--------------------------------------------------------------|--------------------------------------------------------|
+| Serial     | swap(0)  **or**  pins(27,26) <br/>(connected to mEDBG)       | swap(1)  **or**  pins(9,10)                            |
+| Serial1    | swap(0)  **or**  pins(1,0)                                   | swap(1)  **or**  pins(32,33) (available on SPI header) |
+| Serial2    | swap(0)  **or**  pins(24,23) <br/>(connected to Wifi module) | swap(1)  **or**  pins(2,7)                             |
+| Serial3    | swap(0)  **or**  pins(6,3)                                   | swap(1)  **or**  pins(37,38) (not broken out)          |
 
 
 Available pin combinations for the *Nano Every* pinout are:
 
-| Peripheral | Default                                                     | Alternative                                   |
-|------------|-------------------------------------------------------------|-----------------------------------------------|
-| Serial     | swap(0)  **or**  pins(25,24) (connected to USB-serial chip) | swap(1)  **or**  pins(9,10)                   |
-| Serial1    | swap(0)  **or**  pins(1,0)                                  | swap(1)  **or**  pins(34,35) (not broken out) |
-| Serial2    | swap(0)  **or**  pins(2,7)                                  | swap(1)  **or**  pins(28,27) (not broken out) |
-| Serial3    | swap(0)  **or**  pins(6,3)                                  | swap(1)  **or**  pins(37,38) (not broken out) |
+| Peripheral | Default                                                          | Alternative                                   |
+|------------|------------------------------------------------------------------|-----------------------------------------------|
+| Serial     | swap(0)  **or**  pins(25,24) <br/>(connected to USB-serial chip) | swap(1)  **or**  pins(9,10)                   |
+| Serial1    | swap(0)  **or**  pins(1,0)                                       | swap(1)  **or**  pins(34,35) (not broken out) |
+| Serial2    | swap(0)  **or**  pins(2,7)                                       | swap(1)  **or**  pins(28,27) (not broken out) |
+| Serial3    | swap(0)  **or**  pins(6,3)                                       | swap(1)  **or**  pins(37,38) (not broken out) |
 
 
 ## How to install
