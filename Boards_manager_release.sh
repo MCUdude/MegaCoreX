@@ -83,7 +83,7 @@ jq -r                                   \
     {
       "packager": "arduino",
       "name": "avr-gcc",
-      "version": "7.3.0-atmel3.6.1-arduino5"
+      "version": "7.3.0-atmel3.6.1-arduino7"
     },
     {
       "packager": "arduino",
