@@ -51,7 +51,7 @@ ISR(HWSERIAL0_DRE_VECTOR)
   Serial._tx_data_empty_irq();
 }
 #else
-#error "Don't know what the Data Received interrupt vector is called for Serial"
+#error "Don't know what the Data Register Empty interrupt vector is called for Serial"
 #endif
 
 #if defined(HWSERIAL0)
