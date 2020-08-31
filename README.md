@@ -5,6 +5,9 @@ Compared to older AVR families they also have more advanced and accurate interna
 
 For programming, these chips use a UPDI programming interface. This is a bi-directional single wire interface and requires a programmer that supports UPDI. If you rather prefer uploading using a USB to serial adapter there is an option to use the Optiboot bootloader. Read more about UPDI and bootloaders in the [Programming](#programming) section below.
 
+If you're looking for a sleek, reliable UPDI programmer that also acts as a USB to serial adapter, check out the microUPDI programmer! It's a small breakout board where you add your own Arduino Pro Micro board, and flash it with the right firmware using Arduino IDE. You can buy the microUPDI programmer over at my [Tindie store](https://www.tindie.com/products/MCUdude/microupdi-programmer/), and you can flash your Arduino Pro Micro with the correct firmware by installing [microUPDIcore](https://github.com/MCUdude/microUPDI).
+
+<img src="https://i.imgur.com/4QNsoYy.jpg" width="300"> <img src="https://i.imgur.com/wRKdPAw.jpg" width="300"> <img src="https://i.imgur.com/actXUKu.png" width="300">
 
 # Table of contents
 * [Supported microcontrollers](#supported-microcontrollers)
