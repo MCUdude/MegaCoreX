@@ -154,10 +154,10 @@ static const uint8_t SCL =     PIN_WIRE_SCL;
 #define HWSERIAL0_RXC_VECTOR            USART0_RXC_vect
 #define HWSERIAL0_MUX                   PORTMUX_USART0_DEFAULT_gc
 #define HWSERIAL0_MUX_PINSWAP_1         PORTMUX_USART0_ALT1_gc
-#define PIN_WIRE_HWSERIAL0_TX           PIN_PA0
-#define PIN_WIRE_HWSERIAL0_RX           PIN_PA1
-#define PIN_WIRE_HWSERIAL0_TX_PINSWAP_1 PIN_PA4
-#define PIN_WIRE_HWSERIAL0_RX_PINSWAP_1 PIN_PA5
+#define PIN_HWSERIAL0_TX                PIN_PA0
+#define PIN_HWSERIAL0_RX                PIN_PA1
+#define PIN_HWSERIAL0_TX_PINSWAP_1      PIN_PA4
+#define PIN_HWSERIAL0_RX_PINSWAP_1      PIN_PA5
 
 // USART1
 // No pinswap by default
@@ -167,10 +167,10 @@ static const uint8_t SCL =     PIN_WIRE_SCL;
 #define HWSERIAL1_RXC_VECTOR            USART1_RXC_vect
 #define HWSERIAL1_MUX                   PORTMUX_USART1_DEFAULT_gc
 #define HWSERIAL1_MUX_PINSWAP_1         PORTMUX_USART1_ALT1_gc
-#define PIN_WIRE_HWSERIAL1_TX           PIN_PC0
-#define PIN_WIRE_HWSERIAL1_RX           PIN_PC1
-#define PIN_WIRE_HWSERIAL1_TX_PINSWAP_1 PIN_PC4
-#define PIN_WIRE_HWSERIAL1_RX_PINSWAP_1 PIN_PC5
+#define PIN_HWSERIAL1_TX                PIN_PC0
+#define PIN_HWSERIAL1_RX                PIN_PC1
+#define PIN_HWSERIAL1_TX_PINSWAP_1      PIN_PC4
+#define PIN_HWSERIAL1_RX_PINSWAP_1      PIN_PC5
 
 // USART 2
 // No pinswap by default
@@ -180,10 +180,10 @@ static const uint8_t SCL =     PIN_WIRE_SCL;
 #define HWSERIAL2_RXC_VECTOR            USART2_RXC_vect
 #define HWSERIAL2_MUX                   PORTMUX_USART2_DEFAULT_gc
 #define HWSERIAL2_MUX_PINSWAP_1         PORTMUX_USART2_ALT1_gc
-#define PIN_WIRE_HWSERIAL2_TX           PIN_PF0
-#define PIN_WIRE_HWSERIAL2_RX           PIN_PF1
-#define PIN_WIRE_HWSERIAL2_TX_PINSWAP_1 PIN_PF4
-#define PIN_WIRE_HWSERIAL2_RX_PINSWAP_1 PIN_PF5
+#define PIN_HWSERIAL2_TX                PIN_PF0
+#define PIN_HWSERIAL2_RX                PIN_PF1
+#define PIN_HWSERIAL2_TX_PINSWAP_1      PIN_PF4
+#define PIN_HWSERIAL2_RX_PINSWAP_1      PIN_PF5
 
 // USART 3
 // No pinswap by default
@@ -193,10 +193,10 @@ static const uint8_t SCL =     PIN_WIRE_SCL;
 #define HWSERIAL3_RXC_VECTOR            USART3_RXC_vect
 #define HWSERIAL3_MUX                   PORTMUX_USART3_DEFAULT_gc
 #define HWSERIAL3_MUX_PINSWAP_1         PORTMUX_USART3_ALT1_gc
-#define PIN_WIRE_HWSERIAL3_TX           PIN_PB0
-#define PIN_WIRE_HWSERIAL3_RX           PIN_PB1
-#define PIN_WIRE_HWSERIAL3_TX_PINSWAP_1 PIN_PB4
-#define PIN_WIRE_HWSERIAL3_RX_PINSWAP_1 PIN_PB5
+#define PIN_HWSERIAL3_TX                PIN_PB0
+#define PIN_HWSERIAL3_RX                PIN_PB1
+#define PIN_HWSERIAL3_TX_PINSWAP_1      PIN_PB4
+#define PIN_HWSERIAL3_RX_PINSWAP_1      PIN_PB5
 
 // Analog pins
 #define PIN_A0   PIN_PD0
