@@ -80,7 +80,7 @@
 #define NUM_INTERNALLY_USED_PINS       0
 #define NUM_I2C_PINS                   2  // (SDA / SCL)
 #define NUM_SPI_PINS                   3  // (MISO / MOSI / SCK)
-#define NUM_TOTAL_FREE_PINS            (NUM_DIGITAL_PINS)
+#define NUM_TOTAL_FREE_PINS            NUM_DIGITAL_PINS
 #define NUM_TOTAL_PINS                 (NUM_DIGITAL_PINS + NUM_RESERVED_PINS + NUM_INTERNALLY_USED_PINS + NUM_I2C_PINS + NUM_SPI_PINS)
 #define ANALOG_INPUT_OFFSET            14
 #define LED_BUILTIN                    13
@@ -104,11 +104,11 @@
 // SPI 0
 // Pinswap enabled by default and no alternative available
 #define SPI_INTERFACES_COUNT 1
-#define SPI_MUX              (PORTMUX_SPI0_ALT2_gc)
-#define PIN_SPI_MISO         (PIN_PE1)
-#define PIN_SPI_SCK          (PIN_PE2)
-#define PIN_SPI_MOSI         (PIN_PE0)
-#define PIN_SPI_SS           (PIN_PE3)
+#define SPI_MUX              PORTMUX_SPI0_ALT2_gc
+#define PIN_SPI_MISO         PIN_PE1
+#define PIN_SPI_SCK          PIN_PE2
+#define PIN_SPI_MOSI         PIN_PE0
+#define PIN_SPI_SS           PIN_PE3
 static const uint8_t SS   = PIN_SPI_SS;
 static const uint8_t MOSI = PIN_SPI_MOSI;
 static const uint8_t MISO = PIN_SPI_MISO;
@@ -116,9 +116,9 @@ static const uint8_t SCK  = PIN_SPI_SCK;
 
 // TWI 0
 // No pinswap enabled by default, and no alternative available
-#define TWI_MUX              (PORTMUX_TWI0_DEFAULT_gc)
-#define PIN_WIRE_SDA         (PIN_PA2)
-#define PIN_WIRE_SCL         (PIN_PA3)
+#define TWI_MUX              PORTMUX_TWI0_DEFAULT_gc
+#define PIN_WIRE_SDA         PIN_PA2
+#define PIN_WIRE_SCL         PIN_PA3
 static const uint8_t SDA = PIN_WIRE_SDA;
 static const uint8_t SCL = PIN_WIRE_SCL;
 
@@ -126,61 +126,74 @@ static const uint8_t SCL = PIN_WIRE_SCL;
 // USART3 on mega4809
 // Maps to alternative pins by default
 // Mapped to HWSERIAL0 in Serial library
-#define HWSERIAL0                       (&USART3)
-#define HWSERIAL0_DRE_VECTOR            (USART3_DRE_vect)
-#define HWSERIAL0_DRE_VECTOR_NUM        (USART3_DRE_vect_num)
-#define HWSERIAL0_RXC_VECTOR            (USART3_RXC_vect)
-#define HWSERIAL0_MUX                   (PORTMUX_USART3_ALT1_gc)
-#define HWSERIAL0_MUX_PINSWAP_1         (PORTMUX_USART3_DEFAULT_gc)
-#define PIN_HWSERIAL0_TX                (PIN_PB4)
-#define PIN_HWSERIAL0_RX                (PIN_PB5)
-#define PIN_HWSERIAL0_TX_PINSWAP_1      (PIN_PB0)
-#define PIN_HWSERIAL0_RX_PINSWAP_1      (PIN_PB1)
+#define HWSERIAL0                       &USART3
+#define HWSERIAL0_DRE_VECTOR            USART3_DRE_vect
+#define HWSERIAL0_DRE_VECTOR_NUM        USART3_DRE_vect_num
+#define HWSERIAL0_RXC_VECTOR            USART3_RXC_vect
+#define HWSERIAL0_MUX                   PORTMUX_USART3_ALT1_gc
+#define HWSERIAL0_MUX_PINSWAP_1         PORTMUX_USART3_DEFAULT_gc
+#define PIN_HWSERIAL0_TX                PIN_PB4
+#define PIN_HWSERIAL0_RX                PIN_PB5
+#define PIN_HWSERIAL0_TX_PINSWAP_1      PIN_PB0
+#define PIN_HWSERIAL0_RX_PINSWAP_1      PIN_PB1
+#define PIN_HWSERIAL0_XCK_PINSWAP_1     PIN_PB2
+#define PIN_HWSERIAL0_XDIR_PINSWAP_1    PIN_PB3
 
 // Nano every USART (Serial1)
 // USART1 on mega4809
 // Maps to alternative pins by default
 // Mapped to HWSERIAL1 in Serial library
-#define HWSERIAL1                       (&USART1)
-#define HWSERIAL1_DRE_VECTOR            (USART1_DRE_vect)
-#define HWSERIAL1_DRE_VECTOR_NUM        (USART1_DRE_vect_num)
-#define HWSERIAL1_RXC_VECTOR            (USART1_RXC_vect)
-#define HWSERIAL1_MUX                   (PORTMUX_USART1_ALT1_gc)
-#define HWSERIAL1_MUX_PINSWAP_1         (PORTMUX_USART1_DEFAULT_gc)
-#define PIN_HWSERIAL1_TX                (PIN_PC4)
-#define PIN_HWSERIAL1_RX                (PIN_PC5)
-#define PIN_HWSERIAL1_TX_PINSWAP_1      (PIN_PC0)
-#define PIN_HWSERIAL1_RX_PINSWAP_1      (PIN_PC1)
+#define HWSERIAL1                       &USART1
+#define HWSERIAL1_DRE_VECTOR            USART1_DRE_vect
+#define HWSERIAL1_DRE_VECTOR_NUM        USART1_DRE_vect_num
+#define HWSERIAL1_RXC_VECTOR            USART1_RXC_vect
+#define HWSERIAL1_MUX                   PORTMUX_USART1_ALT1_gc
+#define HWSERIAL1_MUX_PINSWAP_1         PORTMUX_USART1_DEFAULT_gc
+#define PIN_HWSERIAL1_TX                PIN_PC4
+#define PIN_HWSERIAL1_RX                PIN_PC5
+#define PIN_HWSERIAL1_XCK               PIN_PC6
+#define PIN_HWSERIAL1_XDIR              PIN_PC7
+#define PIN_HWSERIAL1_TX_PINSWAP_1      PIN_PC0
+#define PIN_HWSERIAL1_RX_PINSWAP_1      PIN_PC1
+#define PIN_HWSERIAL1_XCK_PINSWAP_1     PIN_PC2
+#define PIN_HWSERIAL1_XDIR_PINSWAP_1    PIN_PC3
 
 // Nano Every USART (Serial2)
 // USART0 on mega4809
 // Maps to default pins by default
 // Mapped to HWSERIAL2 in Serial library
-#define HWSERIAL2                       (&USART0)
-#define HWSERIAL2_DRE_VECTOR            (USART0_DRE_vect)
-#define HWSERIAL2_DRE_VECTOR_NUM        (USART0_DRE_vect_num)
-#define HWSERIAL2_RXC_VECTOR            (USART0_RXC_vect)
-#define HWSERIAL2_MUX                   (PORTMUX_USART0_DEFAULT_gc)
-#define HWSERIAL2_MUX_PINSWAP_1         (PORTMUX_USART0_ALT1_gc)
-#define PIN_HWSERIAL2_TX                (PIN_PA0)
-#define PIN_HWSERIAL2_RX                (PIN_PA1)
-#define PIN_HWSERIAL2_TX_PINSWAP_1      (PIN_PA4)
-#define PIN_HWSERIAL2_RX_PINSWAP_1      (PIN_PA5)
+#define HWSERIAL2                       &USART0
+#define HWSERIAL2_DRE_VECTOR            USART0_DRE_vect
+#define HWSERIAL2_DRE_VECTOR_NUM        USART0_DRE_vect_num
+#define HWSERIAL2_RXC_VECTOR            USART0_RXC_vect
+#define HWSERIAL2_MUX                   PORTMUX_USART0_DEFAULT_gc
+#define HWSERIAL2_MUX_PINSWAP_1         PORTMUX_USART0_ALT1_gc
+#define PIN_HWSERIAL2_TX                PIN_PA0
+#define PIN_HWSERIAL2_RX                PIN_PA1
+#define PIN_HWSERIAL2_XCK               PIN_PA2
+#define PIN_HWSERIAL2_XDIR              PIN_PA3
+#define PIN_HWSERIAL2_TX_PINSWAP_1      PIN_PA4
+#define PIN_HWSERIAL2_RX_PINSWAP_1      PIN_PA5
+#define PIN_HWSERIAL2_XCK_PINSWAP_1     PIN_PA6
+#define PIN_HWSERIAL2_XDIR_PINSWAP_1    PIN_PA7
 
 // Nano Every USART (Serial3)
 // USART2 on mega4809
 // Maps to alternative pins by default
 // Mapped to HWSERIAL3 in Serial library
-#define HWSERIAL3                       (&USART2)
-#define HWSERIAL3_DRE_VECTOR            (USART2_DRE_vect)
-#define HWSERIAL3_DRE_VECTOR_NUM        (USART2_DRE_vect_num)
-#define HWSERIAL3_RXC_VECTOR            (USART2_RXC_vect)
-#define HWSERIAL3_MUX                   (PORTMUX_USART2_ALT1_gc)
-#define HWSERIAL3_MUX_PINSWAP_1         (PORTMUX_USART2_DEFAULT_gc)
-#define PIN_HWSERIAL3_TX                (PIN_PF4)
-#define PIN_HWSERIAL3_RX                (PIN_PF5)
-#define PIN_HWSERIAL3_TX_PINSWAP_1      (PIN_PF0)
-#define PIN_HWSERIAL3_RX_PINSWAP_1      (PIN_PF1)
+#define HWSERIAL3                       &USART2
+#define HWSERIAL3_DRE_VECTOR            USART2_DRE_vect
+#define HWSERIAL3_DRE_VECTOR_NUM        USART2_DRE_vect_num
+#define HWSERIAL3_RXC_VECTOR            USART2_RXC_vect
+#define HWSERIAL3_MUX                   PORTMUX_USART2_ALT1_gc
+#define HWSERIAL3_MUX_PINSWAP_1         PORTMUX_USART2_DEFAULT_gc
+#define PIN_HWSERIAL3_TX                PIN_PF4
+#define PIN_HWSERIAL3_RX                PIN_PF5
+#define PIN_HWSERIAL3_XCK               PIN_PF6
+#define PIN_HWSERIAL3_TX_PINSWAP_1      PIN_PF0
+#define PIN_HWSERIAL3_RX_PINSWAP_1      PIN_PF1
+#define PIN_HWSERIAL3_XCK_PINSWAP_1     PIN_PF2
+#define PIN_HWSERIAL3_XDIR_PINSWAP_1    PIN_PF3
 
 // Analog pins
 #define PIN_A0   PIN_PD3 // AIN3

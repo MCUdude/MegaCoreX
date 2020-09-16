@@ -59,14 +59,14 @@
 #define PIN_PF6 32
 
 #define PINS_COUNT                     33
-#define NUM_DIGITAL_PINS               (PINS_COUNT)
+#define NUM_DIGITAL_PINS               PINS_COUNT
 #define NUM_ANALOG_INPUTS              16
 #define NUM_RESERVED_PINS              0
 #define NUM_INTERNALLY_USED_PINS       0
 #define NUM_I2C_PINS                   2
 #define NUM_SPI_PINS                   3
-#define NUM_TOTAL_FREE_PINS            (PINS_COUNT)
-#define NUM_TOTAL_PINS                 (PINS_COUNT)
+#define NUM_TOTAL_FREE_PINS            PINS_COUNT
+#define NUM_TOTAL_PINS                 PINS_COUNT
 #define ANALOG_INPUT_OFFSET            14
 #define LED_BUILTIN                    PIN_PA7
 #define EXTERNAL_NUM_INTERRUPTS        47
@@ -104,21 +104,21 @@
 // No pinswap enabled by default
 // Pinswap 2 not available
 #define SPI_INTERFACES_COUNT   1
-#define SPI_MUX                (PORTMUX_SPI0_DEFAULT_gc)
-#define SPI_MUX_PINSWAP_1      (PORTMUX_SPI0_ALT1_gc)
-#define SPI_MUX_PINSWAP_2      (PORTMUX_SPI0_ALT2_gc)
-#define PIN_SPI_MISO           (PIN_PA5)
-#define PIN_SPI_SCK            (PIN_PA6)
-#define PIN_SPI_MOSI           (PIN_PA4)
-#define PIN_SPI_SS             (PIN_PA7)
-#define PIN_SPI_MISO_PINSWAP_1 (PIN_PC1)
-#define PIN_SPI_SCK_PINSWAP_1  (PIN_PC2)
-#define PIN_SPI_MOSI_PINSWAP_1 (PIN_PC0)
-#define PIN_SPI_SS_PINSWAP_1   (PIN_PC3)
-#define PIN_SPI_MISO_PINSWAP_2 (PIN_PE1)
-#define PIN_SPI_SCK_PINSWAP_2  (PIN_PE2)
-#define PIN_SPI_MOSI_PINSWAP_2 (PIN_PE0)
-#define PIN_SPI_SS_PINSWAP_2   (PIN_PE3)
+#define SPI_MUX                PORTMUX_SPI0_DEFAULT_gc
+#define SPI_MUX_PINSWAP_1      PORTMUX_SPI0_ALT1_gc
+#define SPI_MUX_PINSWAP_2      PORTMUX_SPI0_ALT2_gc
+#define PIN_SPI_MISO           PIN_PA5
+#define PIN_SPI_SCK            PIN_PA6
+#define PIN_SPI_MOSI           PIN_PA4
+#define PIN_SPI_SS             PIN_PA7
+#define PIN_SPI_MISO_PINSWAP_1 PIN_PC1
+#define PIN_SPI_SCK_PINSWAP_1  PIN_PC2
+#define PIN_SPI_MOSI_PINSWAP_1 PIN_PC0
+#define PIN_SPI_SS_PINSWAP_1   PIN_PC3
+#define PIN_SPI_MISO_PINSWAP_2 PIN_PE1
+#define PIN_SPI_SCK_PINSWAP_2  PIN_PE2
+#define PIN_SPI_MOSI_PINSWAP_2 PIN_PE0
+#define PIN_SPI_SS_PINSWAP_2   PIN_PE3
 static const uint8_t SS   = PIN_SPI_SS;
 static const uint8_t MOSI = PIN_SPI_MOSI;
 static const uint8_t MISO = PIN_SPI_MISO;
@@ -126,71 +126,80 @@ static const uint8_t SCK  = PIN_SPI_SCK;
 
 // TWI 0
 // No pinswap enabled by default
-#define TWI_MUX                (PORTMUX_TWI0_DEFAULT_gc)
-#define TWI_MUX_PINSWAP        (PORTMUX_TWI0_ALT2_gc)
-#define PIN_WIRE_SDA           (PIN_PA2)
-#define PIN_WIRE_SCL           (PIN_PA3)
-#define PIN_WIRE_SDA_PINSWAP_1 (PIN_PC2)
-#define PIN_WIRE_SCL_PINSWAP_1 (PIN_PC3)
+#define TWI_MUX                PORTMUX_TWI0_DEFAULT_gc
+#define TWI_MUX_PINSWAP        PORTMUX_TWI0_ALT2_gc
+#define PIN_WIRE_SDA           PIN_PA2
+#define PIN_WIRE_SCL           PIN_PA3
+#define PIN_WIRE_SDA_PINSWAP_1 PIN_PC2
+#define PIN_WIRE_SCL_PINSWAP_1 PIN_PC3
 static const uint8_t SDA = PIN_WIRE_SDA;
 static const uint8_t SCL = PIN_WIRE_SCL;
 
 // USART 0
 // No pinswap by default
-#define HWSERIAL0 (&USART0)
-#define HWSERIAL0_DRE_VECTOR            (USART0_DRE_vect)
-#define HWSERIAL0_DRE_VECTOR_NUM        (USART0_DRE_vect_num)
-#define HWSERIAL0_RXC_VECTOR            (USART0_RXC_vect)
-#define HWSERIAL0_MUX                   (PORTMUX_USART0_DEFAULT_gc)
-#define HWSERIAL0_MUX_PINSWAP_1         (PORTMUX_USART0_ALT1_gc)
-#define PIN_HWSERIAL0_TX                (PIN_PA0)
-#define PIN_HWSERIAL0_RX                (PIN_PA1)
-#define PIN_HWSERIAL0_TX_PINSWAP_1      (PIN_PA4)
-#define PIN_HWSERIAL0_RX_PINSWAP_1      (PIN_PA5)
+#define HWSERIAL0                       &USART0
+#define HWSERIAL0_DRE_VECTOR            USART0_DRE_vect
+#define HWSERIAL0_DRE_VECTOR_NUM        USART0_DRE_vect_num
+#define HWSERIAL0_RXC_VECTOR            USART0_RXC_vect
+#define HWSERIAL0_MUX                   PORTMUX_USART0_DEFAULT_gc
+#define HWSERIAL0_MUX_PINSWAP_1         PORTMUX_USART0_ALT1_gc
+#define PIN_HWSERIAL0_TX                PIN_PA0
+#define PIN_HWSERIAL0_RX                PIN_PA1
+#define PIN_HWSERIAL0_XCK               PIN_PA2
+#define PIN_HWSERIAL0_XDIR              PIN_PA3
+#define PIN_HWSERIAL0_TX_PINSWAP_1      PIN_PA4
+#define PIN_HWSERIAL0_RX_PINSWAP_1      PIN_PA5
+#define PIN_HWSERIAL0_XCK_PINSWAP_1     PIN_PA6
+#define PIN_HWSERIAL0_XDIR_PINSWAP_1    PIN_PA7
 
 // USART1
 // No pinswap by default
-#define HWSERIAL1                       (&USART1)
-#define HWSERIAL1_DRE_VECTOR            (USART1_DRE_vect)
-#define HWSERIAL1_DRE_VECTOR_NUM        (USART1_DRE_vect_num)
-#define HWSERIAL1_RXC_VECTOR            (USART1_RXC_vect)
-#define HWSERIAL1_MUX                   (PORTMUX_USART1_DEFAULT_gc)
-#define HWSERIAL1_MUX_PINSWAP_1         (PORTMUX_USART1_ALT1_gc)
-#define PIN_HWSERIAL1_TX                (PIN_PC0)
-#define PIN_HWSERIAL1_RX                (PIN_PC1)
-#define PIN_HWSERIAL1_TX_PINSWAP_1      (PIN_PC4)
-#define PIN_HWSERIAL1_RX_PINSWAP_1      (PIN_PC5)
+#define HWSERIAL1                       &USART1
+#define HWSERIAL1_DRE_VECTOR            USART1_DRE_vect
+#define HWSERIAL1_DRE_VECTOR_NUM        USART1_DRE_vect_num
+#define HWSERIAL1_RXC_VECTOR            USART1_RXC_vect
+#define HWSERIAL1_MUX                   PORTMUX_USART1_DEFAULT_gc
+#define HWSERIAL1_MUX_PINSWAP_1         PORTMUX_USART1_ALT1_gc
+#define PIN_HWSERIAL1_TX                PIN_PC0
+#define PIN_HWSERIAL1_RX                PIN_PC1
+#define PIN_HWSERIAL1_XCK               PIN_PC2
+#define PIN_HWSERIAL1_XDIR              PIN_PC3
+#define PIN_HWSERIAL1_TX_PINSWAP_1      PIN_PC4
+#define PIN_HWSERIAL1_RX_PINSWAP_1      PIN_PC5
 
 // USART 2
 // No pinswap by default
-#define HWSERIAL2 (&USART2)
-#define HWSERIAL2_DRE_VECTOR            (USART2_DRE_vect)
-#define HWSERIAL2_DRE_VECTOR_NUM        (USART2_DRE_vect_num)
-#define HWSERIAL2_RXC_VECTOR            (USART2_RXC_vect)
-#define HWSERIAL2_MUX                   (PORTMUX_USART2_DEFAULT_gc)
-#define HWSERIAL2_MUX_PINSWAP_1         (PORTMUX_USART2_ALT1_gc)
-#define PIN_HWSERIAL2_TX                (PIN_PF0)
-#define PIN_HWSERIAL2_RX                (PIN_PF1)
-#define PIN_HWSERIAL2_TX_PINSWAP_1      (PIN_PF4)
-#define PIN_HWSERIAL2_RX_PINSWAP_1      (PIN_PF5)
+#define HWSERIAL2                       &USART2
+#define HWSERIAL2_DRE_VECTOR            USART2_DRE_vect
+#define HWSERIAL2_DRE_VECTOR_NUM        USART2_DRE_vect_num
+#define HWSERIAL2_RXC_VECTOR            USART2_RXC_vect
+#define HWSERIAL2_MUX                   PORTMUX_USART2_DEFAULT_gc
+#define HWSERIAL2_MUX_PINSWAP_1         PORTMUX_USART2_ALT1_gc
+#define PIN_HWSERIAL2_TX                PIN_PF0
+#define PIN_HWSERIAL2_RX                PIN_PF1
+#define PIN_HWSERIAL2_XCK               PIN_PF2
+#define PIN_HWSERIAL2_XDIR              PIN_PF3
+#define PIN_HWSERIAL2_TX_PINSWAP_1      PIN_PF4
+#define PIN_HWSERIAL2_RX_PINSWAP_1      PIN_PF5
+#define PIN_HWSERIAL2_XCK_PINSWAP_1     PIN_PF6
 
 // Analog pins
-#define PIN_A0   (PIN_PD0)
-#define PIN_A1   (PIN_PD1)
-#define PIN_A2   (PIN_PD2)
-#define PIN_A3   (PIN_PD3)
-#define PIN_A4   (PIN_PD4)
-#define PIN_A5   (PIN_PD5)
-#define PIN_A6   (PIN_PD6)
-#define PIN_A7   (PIN_PD7)
-#define PIN_A8   (PIN_PE0)
-#define PIN_A9   (PIN_PE1)
-#define PIN_A10  (PIN_PE2)
-#define PIN_A11  (PIN_PE3)
-#define PIN_A12  (PIN_PF2)
-#define PIN_A13  (PIN_PF3)
-#define PIN_A14  (PIN_PF4)
-#define PIN_A15  (PIN_PF5)
+#define PIN_A0   PIN_PD0
+#define PIN_A1   PIN_PD1
+#define PIN_A2   PIN_PD2
+#define PIN_A3   PIN_PD3
+#define PIN_A4   PIN_PD4
+#define PIN_A5   PIN_PD5
+#define PIN_A6   PIN_PD6
+#define PIN_A7   PIN_PD7
+#define PIN_A8   PIN_PE0
+#define PIN_A9   PIN_PE1
+#define PIN_A10  PIN_PE2
+#define PIN_A11  PIN_PE3
+#define PIN_A12  PIN_PF2
+#define PIN_A13  PIN_PF3
+#define PIN_A14  PIN_PF4
+#define PIN_A15  PIN_PF5
 static const uint8_t A0  = PIN_A0;
 static const uint8_t A1  = PIN_A1;
 static const uint8_t A2  = PIN_A2;

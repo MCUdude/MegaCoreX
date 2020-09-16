@@ -156,8 +156,12 @@ static const uint8_t SCL =     PIN_WIRE_SCL;
 #define HWSERIAL0_MUX_PINSWAP_1         PORTMUX_USART0_ALT1_gc
 #define PIN_HWSERIAL0_TX                PIN_PA0
 #define PIN_HWSERIAL0_RX                PIN_PA1
+#define PIN_HWSERIAL0_XCK               PIN_PA2
+#define PIN_HWSERIAL0_XDIR              PIN_PA3
 #define PIN_HWSERIAL0_TX_PINSWAP_1      PIN_PA4
 #define PIN_HWSERIAL0_RX_PINSWAP_1      PIN_PA5
+#define PIN_HWSERIAL0_XCK_PINSWAP_1     PIN_PA6
+#define PIN_HWSERIAL0_XDIR_PINSWAP_1    PIN_PA7
 
 // USART1
 // No pinswap by default
@@ -169,8 +173,12 @@ static const uint8_t SCL =     PIN_WIRE_SCL;
 #define HWSERIAL1_MUX_PINSWAP_1         PORTMUX_USART1_ALT1_gc
 #define PIN_HWSERIAL1_TX                PIN_PC0
 #define PIN_HWSERIAL1_RX                PIN_PC1
+#define PIN_HWSERIAL1_XCK               PIN_PC2
+#define PIN_HWSERIAL1_XDIR              PIN_PC3
 #define PIN_HWSERIAL1_TX_PINSWAP_1      PIN_PC4
 #define PIN_HWSERIAL1_RX_PINSWAP_1      PIN_PC5
+#define PIN_HWSERIAL1_XCK_PINSWAP_1     PIN_PC6
+#define PIN_HWSERIAL1_XDIR_PINSWAP_1    PIN_PC7
 
 // USART 2
 // No pinswap by default
@@ -182,8 +190,11 @@ static const uint8_t SCL =     PIN_WIRE_SCL;
 #define HWSERIAL2_MUX_PINSWAP_1         PORTMUX_USART2_ALT1_gc
 #define PIN_HWSERIAL2_TX                PIN_PF0
 #define PIN_HWSERIAL2_RX                PIN_PF1
+#define PIN_HWSERIAL2_XCK               PIN_PF2
+#define PIN_HWSERIAL2_XDIR              PIN_PF3
 #define PIN_HWSERIAL2_TX_PINSWAP_1      PIN_PF4
 #define PIN_HWSERIAL2_RX_PINSWAP_1      PIN_PF5
+#define PIN_HWSERIAL2_XCK_PINSWAP_1     PIN_PF6
 
 // USART 3
 // No pinswap by default
@@ -195,6 +206,8 @@ static const uint8_t SCL =     PIN_WIRE_SCL;
 #define HWSERIAL3_MUX_PINSWAP_1         PORTMUX_USART3_ALT1_gc
 #define PIN_HWSERIAL3_TX                PIN_PB0
 #define PIN_HWSERIAL3_RX                PIN_PB1
+#define PIN_HWSERIAL3_XCK               PIN_PB2
+#define PIN_HWSERIAL3_XDIR              PIN_PB3
 #define PIN_HWSERIAL3_TX_PINSWAP_1      PIN_PB4
 #define PIN_HWSERIAL3_RX_PINSWAP_1      PIN_PB5
 
