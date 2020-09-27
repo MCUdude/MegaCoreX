@@ -1,118 +1,97 @@
-/**********************************************************/
-/* Optiboot bootloader for Arduino                        */
-/*                                                        */
-/* http://optiboot.googlecode.com                         */
-/*                                                        */
-/* Arduino-maintained version : See README.TXT            */
-/* http://code.google.com/p/arduino/                      */
-/*  It is the intent that changes not relevant to the     */
-/*  Arduino production envionment get moved from the      */
-/*  optiboot project to the arduino project in "lumps."   */
-/*                                                        */
-/* Heavily optimised bootloader that is faster and        */
-/* smaller than the Arduino standard bootloader           */
-/*                                                        */
-/* Enhancements:                                          */
-/*   Fits in 512 bytes, saving 1.5K of code space         */
-/*   Higher baud rate speeds up programming               */
-/*   Written almost entirely in C                         */
-/*   Customisable timeout with accurate timeconstant      */
-/*                                                        */
-/* What you lose:                                         */
-/*   Implements a skeleton STK500 protocol which is       */
-/*     missing several features including EEPROM          */
-/*     programming and non-page-aligned writes            */
-/*   High baud rate breaks compatibility with standard    */
-/*     Arduino flash settings                             */
-/*                                                        */
-/* Copyright 2013-2019 by Bill Westfield.                 */
-/* Copyright 2010 by Peter Knight.                        */
-/*                                                        */
-/* This program is free software; you can redistribute it */
-/* and/or modify it under the terms of the GNU General    */
-/* Public License as published by the Free Software       */
-/* Foundation; either version 2 of the License, or        */
-/* (at your option) any later version.                    */
-/*                                                        */
-/* This program is distributed in the hope that it will   */
-/* be useful, but WITHOUT ANY WARRANTY; without even the  */
-/* implied warranty of MERCHANTABILITY or FITNESS FOR A   */
-/* PARTICULAR PURPOSE.  See the GNU General Public        */
-/* License for more details.                              */
-/*                                                        */
-/* You should have received a copy of the GNU General     */
-/* Public License along with this program; if not, write  */
-/* to the Free Software Foundation, Inc.,                 */
-/* 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA */
-/*                                                        */
-/* Licence can be viewed at                               */
-/* http://www.fsf.org/licenses/gpl.txt                    */
-/*                                                        */
-/**********************************************************/
+/************************************************************/
+/* Optiboot bootloader for Mega0, Tiny0, Tiny1              */
+/*                                                          */
+/*   https://github.com/optiboot/optiboot                   */
+/*                                                          */
+/* Heavily optimised bootloader that is fast and small      */
+/* (512 bytes, 115200bps                                    */
+/*                                                          */
+/*   Written almost entirely in C                           */
+/*   Customisable timeout with accurate timeconstant        */
+/*                                                          */
+/*                                                          */
+/* Copyright 2013-2020 by Bill Westfield.                   */
+/* Copyright 2010 by Peter Knight.                          */
+/*                                                          */
+/* This program is free software; you can redistribute it   */
+/* and/or modify it under the terms of the GNU General      */
+/* Public License as published by the Free Software         */
+/* Foundation; either version 2 of the License, or          */
+/* (at your option) any later version.                      */
+/*                                                          */
+/* This program is distributed in the hope that it will     */
+/* be useful, but WITHOUT ANY WARRANTY; without even the    */
+/* implied warranty of MERCHANTABILITY or FITNESS FOR A     */
+/* PARTICULAR PURPOSE.  See the GNU General Public          */
+/* License for more details.                                */
+/*                                                          */
+/* You should have received a copy of the GNU General       */
+/* Public License along with this program; if not, write    */
+/* to the Free Software Foundation, Inc.,                   */
+/* 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA   */
+/*                                                          */
+/* Licence can be viewed at                                 */
+/* https://github.com/Optiboot/optiboot/blob/master/LICENSE */
+/*                                                          */
+/************************************************************/
 
 
-/**********************************************************/
-/*                                                        */
-/* Optional defines:                                      */
-/*                                                        */
-/**********************************************************/
-/*                                                        */
-/* BIGBOOT:                                              */
-/* Build a 1k bootloader, not 512 bytes. This turns on    */
-/* extra functionality.                                   */
-/*                                                        */
-/* BAUD_RATE:                                             */
-/* Set bootloader baud rate.                              */
-/*                                                        */
-/* LED_START_FLASHES:                                     */
-/* Number of LED flashes on bootup.                       */
-/*                                                        */
-/* LED_DATA_FLASH:                                        */
-/* Flash LED when transferring data. For boards without   */
-/* TX or RX LEDs, or for people who like blinky lights.   */
-/*                                                        */
-/* TIMEOUT_MS:                                            */
-/* Bootloader timeout period, in milliseconds.            */
-/* 500,1000,2000,4000,8000 supported.                     */
-/*                                                        */
-/* UART:                                                  */
-/* UART number (0..n) for devices with more than          */
-/* one hardware uart (644P, 1284P, etc)                   */
-/*                                                        */
-/**********************************************************/
-
-/**********************************************************/
-/* Version Numbers!                                       */
-/*                                                        */
-/* Arduino Optiboot now includes this Version number in   */
-/* the source and object code.                            */
-/*                                                        */
-/* Version 3 was released as zip from the optiboot        */
-/*  repository and was distributed with Arduino 0022.     */
-/* Version 4 starts with the arduino repository commit    */
-/*  that brought the arduino repository up-to-date with   */
-/*  the optiboot source tree changes since v3.            */
-/*    :                                                   */
-/* Version 9 splits off the Mega0/Xtiny support.          */
-/*  This is very different from normal AVR because of     */
-/*  changed peripherals and unified address space.        */
-/*                                                        */
-/* It would be good if versions implemented outside the   */
-/*  official repository used an out-of-seqeunce version   */
-/*  number (like 104.6 if based on based on 4.5) to       */
-/*  prevent collisions.  The CUSTOM_VERSION=n option      */
-/*  adds n to the high version to facilitate this.        */
-/*                                                        */
-/**********************************************************/
+/************************************************************/
+/*                                                          */
+/* Optional defines:                                        */
+/*                                                          */
+/************************************************************/
+/*                                                          */
+/* BIGBOOT:                                                 */
+/* Build a 1k bootloader, not 512 bytes. This turns on      */
+/* extra functionality.                                     */
+/*                                                          */
+/* BAUD_RATE:                                               */
+/* Set bootloader baud rate.                                */
+/*                                                          */
+/* LED_START_FLASHES:                                       */
+/* Number of LED flashes on bootup.                         */
+/*                                                          */
+/* LED_DATA_FLASH:                                          */
+/* Flash LED when transferring data. For boards without     */
+/* TX or RX LEDs, or for people who like blinky lights.     */
+/*                                                          */
+/* TIMEOUT_MS:                                              */
+/* Bootloader timeout period, in milliseconds.              */
+/* 500,1000,2000,4000,8000 supported.                       */
+/*                                                          */
+/* UARTTX:                                                  */
+/* UART TX pin (B0, etc) for devices with more than         */
+/* one hardware uart, or alternative pins                   */
+/*                                                          */
+/************************************************************/
 
-/**********************************************************/
-/* Edit History:					  */
-/*							  */
-/* Aug 2019						  */
-/* 9.0 Refactored for Mega0/Xtiny from optiboot.c         */
-/*   :                                                    */
-/* 4.1 WestfW: put version number in binary.		  */
-/**********************************************************/
+/************************************************************/
+/* Version Numbers!                                         */
+/*                                                          */
+/* Optiboot now includes a Version number in  the source    */
+/*  and object code, and returns this value via STK500      */
+/*                                                          */
+/* The iniital Mega0/Xtiny support is version 9.            */
+/*  This is very different from normal AVR because of       */
+/*  changed peripherals and unified address space.          */
+/*                                                          */
+/* It would be good if versions implemented outside the     */
+/*  official repository used an out-of-seqeunce version     */
+/*  number (like 104.6 if based on based on 4.5) to         */
+/*  prevent collisions.  The CUSTOM_VERSION=n option        */
+/*  adds n to the high version to facilitate this.          */
+/*                                                          */
+/************************************************************/
+
+/************************************************************/
+/* Edit History:                                            */
+/*                                                          */
+/* Aug 2019                                                 */
+/* 9.0 Refactored for Mega0/Xtiny from optiboot.c           */
+/*   :                                                      */
+/* 4.1 WestfW: put version number in binary.                */
+/************************************************************/
 
 #define OPTIBOOT_MAJVER 9
 #define OPTIBOOT_MINVER 0
@@ -130,7 +109,7 @@
 unsigned const int __attribute__((section(".version"))) __attribute__((used)) 
 optiboot_version = 256*(OPTIBOOT_MAJVER + OPTIBOOT_CUSTOMVER) + OPTIBOOT_MINVER;
 
-
+
 #include <inttypes.h>
 #include <avr/io.h>
 
@@ -225,7 +204,7 @@ typedef union {
 # warning F_CPU is ignored for this chip (run from internal osc.)
 #endif
 #ifdef SINGLESPEED
-# warning SINGLESPEED ignored for this chip.
+# warning SINGLESPEED ignored for this chip. (Fractional BRG)
 #endif
 #ifdef UART
 # warning UART is ignored for this chip (use UARTTX=PortPin instead)
@@ -311,7 +290,7 @@ void pre_main (void) {
     //   so entry to this function will always be here, indepedent
     //    of compilation, features, etc
     __asm__ __volatile__ (
-	"	rjmp	1f\n"
+    "	rjmp	1f\n"
 #ifndef APP_NOSPM
 	"	rjmp	do_nvmctrl\n"
 #else
@@ -540,7 +519,8 @@ int main (void) {
 
 	/* Get device signature bytes  */
 	else if(ch == STK_READ_SIGN) {
-	    // READ SIGN - return what Avrdude wants to hear
+	    // READ SIGN - return actual device signature from SIGROW
+ 	    // This enables the same binary to be ued on multiple chips.
 	    verifySpace();
 	    putch(SIGROW_DEVICEID0);
 	    putch(SIGROW_DEVICEID1);
@@ -625,30 +605,31 @@ void watchdogConfig (uint8_t x) {
 #ifndef APP_NOSPM
 
 /*
- * Separate function for doing spm stuff
- * It's needed for application to do SPM, as SPM instruction works only
- * from bootloader.
+ * Separate function for doing nvmctrl stuff.
+ * It's needed for application to do manipulate flash, since only the
+ * bootloader can write or erase flash, or write to the flash alias areas.
+ * Note that this is significantly different in the details than the
+ * do_spm() function provided on older AVRs.  Same "vector", though.
  *
  * How it works:
- * - do SPM
- * - wait for SPM to complete
- * - if chip have RWW/NRWW sections it does additionaly:
- *   - if command is WRITE or ERASE, AND data=0 then reenable RWW section
+ * - if the "command" is legal, write it to NVMCTRL.CTRLA
+ * - if the command is not legal, store data to *address
+ * - wait for NVM to complete
  *
- * In short:
- * If you play erase-fill-write, just set data to 0 in ERASE and WRITE
- * If you are brave, you have your code just below bootloader in NRWW section
- *   you could do fill-erase-write sequence with data!=0 in ERASE and
- *   data=0 in WRITE
+ * For example, to write a flash page:
+ *
  */
-static void do_nvmctrl(uint16_t address, uint8_t command, uint16_t data)  __attribute__ ((used));
-static void do_nvmctrl (uint16_t address, uint8_t command, uint16_t data) {
-    _PROTECTED_WRITE(WDT.CTRLA, command);
-    while (NVMCTRL.STATUS & (NVMCTRL_FBUSY_bm|NVMCTRL_EEBUSY_bm))
-	; // wait for flash and EEPROM not busy, just in case.
+static void do_nvmctrl(uint16_t address, uint8_t command, uint8_t data)  __attribute__ ((used));
+static void do_nvmctrl (uint16_t address, uint8_t command, uint8_t data) {
+     if (command <= NVMCTRL_CMD_gm) {
+ 	_PROTECTED_WRITE_SPM(NVMCTRL.CTRLA, command);
+ 	while (NVMCTRL.STATUS & (NVMCTRL_FBUSY_bm|NVMCTRL_EEBUSY_bm))
+ 	    ; // wait for flash and EEPROM not busy, just in case.
+     } else {
+ 	*(uint8_t *)address = data;
+     }
 }
 #endif
-
 
 
 #ifdef BIGBOOT
