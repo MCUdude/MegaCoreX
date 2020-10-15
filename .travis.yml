@@ -136,7 +136,7 @@ before_install:
   - set_library_testing "true"
 
   # Install a version of Arduino IDE with an outdated bundled arduino:megaavr platform to force installation of latest arduino:avr
-  - install_ide "$IDE_VERSION_LIST"
+  - install_ide "1.8.13"
   # Install Arduino AVR Boards to get the AVR toolchain
   - install_package "arduino:megaavr"
   # Install MegaCoreX from the repository
