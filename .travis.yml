@@ -11,7 +11,7 @@ env:
     - SKETCHBOOK_FOLDER="${HOME}/Arduino"
 
     # Use Arduino IDE version that supports the new AVRs
-    - IDE_VERSION_LIST_FULL='"1.8.12" "newest"'
+    - IDE_VERSION_LIST_FULL='"1.8.12" "1.8.13"'
 
 
   matrix:
