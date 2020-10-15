@@ -117,7 +117,7 @@ menu.bootloader=Bootloader
 4809.menu.clock.internal_2MHz.build.oscillator=
 4809.menu.clock.internal_2MHz.build.f_cpu=2000000L
 
-4809.menu.clock.internal_1MHz.=Internal 1 MHz
+4809.menu.clock.internal_1MHz=Internal 1 MHz
 4809.menu.clock.internal_1MHz.upload.speed=115200
 4809.menu.clock.internal_1MHz.bootloader.OSCCFG=0x01
 4809.menu.clock.internal_1MHz.build.oscillator=

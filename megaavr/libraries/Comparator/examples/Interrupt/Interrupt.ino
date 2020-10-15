@@ -25,19 +25,19 @@
 void setup()
 {
   // Configure serial port
-  Serial3.begin(9600);
-  
+  Serial2.begin(9600);
+
   // Configure relevant comparator parameters
   Comparator.input_p = in_p::in0;       // Use positive input 0 (PD2)
   Comparator.input_n = in_n::dacref;    // Connect the negative pin to the DACREF voltage
   Comparator.reference = ref::vref_2v5; // Set the DACREF voltage to 2.5V
-  Comparator.dacref = 255;              // Gives us 2.5V -> (255 / 256) * 2.5V = 2.5V    
+  Comparator.dacref = 255;              // Gives us 2.5V -> (255 / 256) * 2.5V = 2.5V
   Comparator.hysteresis = hyst::large;  // Use a 50mV hysteresis
   Comparator.output = out::disable;     // Use interrupt trigger instead of output pin
 
   // Initialize comparator
   Comparator.init();
-  
+
   // Set interrupt (supports RISING, FALLING and CHANGE)
   Comparator.attachInterrupt(interruptFunction, RISING);
 
@@ -53,5 +53,5 @@ void loop()
 // This function runs when an interrupt occurs
 void interruptFunction()
 {
-  Serial3.println("Output of analog comparator went high!");
+  Serial2.println("Output of analog comparator went high!");
 }
