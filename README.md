@@ -1,4 +1,6 @@
 # MegaCoreX
+[![Build Status](https://travis-ci.org/MCUdude/MegaCoreX.svg?branch=master)](https://travis-ci.org/MCUdude/MegaCoreX)
+
 An Arduino core for ATmega4809, ATmega4808, ATmega3209, ATmega3208, ATmega1609, ATmega1608, ATmega809 and ATmega808. This megaAVR-0 chip family offers lots of features and peripherals at an incredible price point. Its largest variant, the ATmega4809 can be found in products like the Arduino Uno WiFi Rev2 and the Arduino Nano Every. Some of their key features include multiple serial ports, SPI and i2c interfaces, built-in programmable logic, up to 16 analog input pins, and an analog comparator with a built-in programmable voltage reference and hysteresis.
 
 Compared to older AVR families they also have more advanced and accurate internal oscillators which can provide base frequencies of 16 and 20 MHz. These can again be divided down internally to reduce the processor speed and power consumption. This means in most applications an external clock isn't necessary anymore. You can read more about clocks and clock frequencies in the [Supported clock frequencies](#supported-clock-frequencies) section.
@@ -50,9 +52,9 @@ If you're looking for a sleek, reliable UPDI programmer that also acts as a USB 
 | **IO pins**      | 41<br/>33&ast;&ast;&ast;   | 27&ast;<br/>24&ast;&ast;          | 41                | 27&ast;<br/>24&ast;&ast;          | 41                | 27&ast;<br/>24&ast;&ast;          | 41                | 27&ast;<br/>24&ast;&ast;          |
 | **Packages**     | TQFP48<br/>QFN48<br/>DIP40 | TQFP32<br/>QFN32<br/>SSOP28       | TQFP48<br/>QFN48  | TQFP32<br/>QFN32<br/>SSOP28       | TQFP48<br/>QFN48  | TQFP32<br/>QFN32<br/>SSOP28       | TQFP48<br/>QFN48  | TQFP32<br/>QFN32<br/>SSOP28       |
 
-<b>†</b> 64 bytes of USERROW, accessible from address 256 to 319 using the EEPROM.h library  
-<b>&ast;</b> TQFP32/QFN32 package  
-<b>&ast;&ast;</b> SSOP28 package  
+<b>†</b> 64 bytes of USERROW, accessible from address 256 to 319 using the EEPROM.h library
+<b>&ast;</b> TQFP32/QFN32 package
+<b>&ast;&ast;</b> SSOP28 package
 <b>&ast;&ast;&ast;</b> DIP40 package
 
 
@@ -84,7 +86,7 @@ MegaCoreX lets you choose what clock frequency you want to run your microcontrol
 | 8 MHz     | External clock      |                          |
 | 1 MHz     | External clock      |                          |
 
-Note that unlike other AVRs **none of these chips can drive an external crystal or resonator**. If you need an external oscillator it has to be one with a driven clock output. 
+Note that unlike other AVRs **none of these chips can drive an external crystal or resonator**. If you need an external oscillator it has to be one with a driven clock output.
 The microcontroller will freeze if the external clock suddenly drops out. If not present on boot, it will automatically choose the 16 MHz internal oscillator instead.
 
 Another thing to watch out for is the lowest possible baudrates when running at 16 or 20 MHz. At 16 MHz the lowest baud rate is 1200 baud. When running at 20 MHz the lowest is 2400 baud. This is caused by the way the internal baud rate generator works. If you need lower baud rates you'll either have to reduce the main clock speed or use the software serial library instead.
@@ -123,7 +125,7 @@ Call `digitalReadFast(myPin)` or `digitalWriteFast(mypin, state)` to use these. 
 
 ## Pin macros
 Note that you don't have to use the digital pin numbers to refer to the pins. You can also use some predefined macros that map "Arduino pins" to the port and port number.
-Note that all my Arduino cores have these macros if you prefer to use these rather than the default Arduino pin number.  
+Note that all my Arduino cores have these macros if you prefer to use these rather than the default Arduino pin number.
 
 ```c++
 // Use PIN_PA0 macro to refer to pin PA0 (Arduino pin 0)
@@ -144,7 +146,7 @@ This core provides several different Arduino pin mappings based on your current 
 - **Nano Every**: This pinout is 100% compatible with the Arduino Nano Every. If you have code that's written for the Nano Every it will work without any modifications if you choose this pinout. Note that this pinout does pin swapping on serial interfaces and PWM pins by default, and some peripherals are renamed to match the original 328P Uno hardware better. This pinout is only available when ATmega4809 is selected.
 
 Please have a look at the pins_arduino.h files for detailed info.<br/> <br/>
-<b>Click to enlarge:</b> 
+<b>Click to enlarge:</b>
 
 | **MegaCoreX ATmega809/1609/3209/4809 pinout**                                                                                                                                 | **MegaCoreX ATmega808/1608/3208/4808 pinout**                                                                                                                                                                                        |
 |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -155,9 +157,9 @@ Please have a look at the pins_arduino.h files for detailed info.<br/> <br/>
 Here's some hardware specific features that differ from the older AVR families.
 
 ### Interrupt pins
-Unlike older AVRs the megaAVR-0 microcontrollers have fully featured interrupts on every pin.  
-Supported states are *RISING*, *FALLING*, *CHANGE*, *HIGH* and *LOW*. This means there's no need to use the `digitalPinToInterrupt` macro. Simply call attachInterrupt like this:  
-  
+Unlike older AVRs the megaAVR-0 microcontrollers have fully featured interrupts on every pin.
+Supported states are *RISING*, *FALLING*, *CHANGE*, *HIGH* and *LOW*. This means there's no need to use the `digitalPinToInterrupt` macro. Simply call attachInterrupt like this:
+
 ```c
 attachInterrupt(myPin, myInterruptFunction, RISING);
 ```
@@ -180,8 +182,8 @@ The repeat frequency for the pulses on all PWM outputs can be changed with the n
 Note also that tone() will use TCB1, so the corresponding PWM output is not available if it is used.
 
 ### Analog read resolution
-The default analog read resolution for these chips is 10 bit, which gives you values between 0 - 1023. If you need less resolution you can turn it down to 8 bits instead, which gives you values between 0 - 255.  
-Simply call `analogReadResolution` like this:  
+The default analog read resolution for these chips is 10 bit, which gives you values between 0 - 1023. If you need less resolution you can turn it down to 8 bits instead, which gives you values between 0 - 255.
+Simply call `analogReadResolution` like this:
 ```c
 analogReadResolution(8); // Set resolution to 8 bits
 ```
@@ -190,7 +192,7 @@ analogReadResolution(8); // Set resolution to 8 bits
 The megaAVR-0 microcontrollers are equipped with four independent configurable logic blocks that can be used to improve speed and performance. The CCL pins are marked on all pinout diagrams in a dark blue/grey color. The logic blocks can be used independently from each other, connected together or generate an interrupt to the CPU. I've made a [light weight, high-level library](https://github.com/MCUdude/MegaCoreX/tree/master/megaavr/libraries/Logic) for easy integration with the CCL hardware.
 
 ### Analog Comparator (AC)
-The megaAVR-0 microcontrollers are equipped with an analog comparator. It compares the voltage levels on two inputs and gives a digital output based on this comparison. The megAVR chip has four positive AC pins and three negative. There's also a configurable internal voltage reference that can be used on the negative comparator pin instead of an external voltage.  
+The megaAVR-0 microcontrollers are equipped with an analog comparator. It compares the voltage levels on two inputs and gives a digital output based on this comparison. The megAVR chip has four positive AC pins and three negative. There's also a configurable internal voltage reference that can be used on the negative comparator pin instead of an external voltage.
 Try out the [Comparator library](https://github.com/MCUdude/MegaCoreX/tree/master/megaavr/libraries/Comparator) for more information, library reference and examples.
 
 ### Alternative pins
@@ -296,29 +298,29 @@ Here are some simple schematics that show a minimal setup. The straight 6-pin he
 ### Arduino Uno WiFi Rev2
 [The Arduino Uno WiFi Rev2](https://store.arduino.cc/arduino-uno-wifi-rev2) is one of the few megaAVR-0 based boards that's officially supported by Arduino. It uses an ATmega4809 and the recommended pinout is *Uno WiFi*. Printing to the serial monitor on your PC is done by initializing `Serial.begin(baud)`. You'll also have to choose **Atmel mEDBG (ATmega32u4)** as your programmer to upload code. Uno WiFi Rev2 does not support a bootloader, so select *No bootloader* in the tools menu. For more information about this board please see the product page and its schematic.
 
-Click to enlarge:  
+Click to enlarge:
 <img src="https://i.imgur.com/UzDYb9f.png" width="400">
 
 ### Arduino Nano Every
 [The Arduino Nano Every](https://store.arduino.cc/arduino-nano-every) is one of the few megaAVR-0 based boards that's officially supported by Arduino. It uses an ATmega4809 and the *only* supported pinout is *Nano Every*. Printing to the serial monitor on your PC is done by initializing `Serial.begin(baud)`. The Nano Every does not support a bootloader, so select *No bootloader* in the tools menu. Burning bootloader or upload using programmer will not work either. However, all fuses are set every time you upload our program. For more information about this board please see the product page and its schematic.
 
-Click to enlarge:  
+Click to enlarge:
 <img src="https://i.imgur.com/KyRef6p.png" width="400">
 
 ### Curiosity Nano
 [The Curiosity Nano](https://www.microchip.com/developmenttools/ProductDetails/DM320115) uses an ATmega4809 but has a different pinout than the Uno Wifi Rev2. The recommended pinout for this board is *48 pin standard*. The on-board LED is connected t pin PF5 (digital pin 39). Note that UART3 is connected to the nEDBG chip (often referred to as the debug serial port). This means you'll have to use `Serial3.begin(baud)` to print to the serial monitor. You'll also have to choose **Atmel nEDBG (ATSAMD21E18)** as your programmer to upload code. For more information about this board please refer to the user guide and its schematic.
 
-Click to enlarge:  
+Click to enlarge:
 <img src="https://i.imgur.com/bmdfCFS.jpg" width="350">
 
 ### AVR-IOT WG
 [The AVR-IOT WG](https://www.microchip.com/developmenttools/ProductDetails/AC164160) uses the ATmega4808 in a 32 pin package. *32 pin standard* is the correct pinout for this board. Note that UART2 is connected to the nEDBG chip (often referred to as the debug serial port). This means you'll have to use `Serial2.begin(baud)` to print to the serial monitor. You'll also have to choose **Atmel nEDBG (ATSAMD21E18)** as your programmer to upload code. For more information about this board please refer to the user guide and its schematic.
 
-Click to enlarge:  
+Click to enlarge:
 <img src="https://i.imgur.com/IwHHZHx.png" width="350">
 
 ### ATmega4809 Xplained Pro
 [The ATmega4809 Xplained Pro](https://www.microchip.com/developmenttools/ProductDetails/atmega4809-xpro) uses an ATmega4809. The recommended pinout for this board is *48 pin standard*. Note that the UART1 is connected to the EDBG chip (often referred to as the debug serial port). This means you'll have to use `Serial1.begin(baud)` to print to the serial monitor. You'll also have to choose **Atmel EDBG (AT32UC3A4256)** as your programmer to upload code. For more information about this board please refer to the user guide and its schematic.
 
-Click to enlarge:  
+Click to enlarge:
 <img src="https://i.imgur.com/6G5FELO.jpg" width="400">
