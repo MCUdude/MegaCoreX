@@ -25,7 +25,9 @@
 #define __SERVO_TIMERS_H__
 
 #if !defined(SERVO_USE_TIMERB0) || !defined(SERVO_USE_TIMERB1) || !defined(SERVO_USE_TIMERB2) || !defined(SERVO_USE_TIMERB3)
-  #if defined(__AVR_ATmega808__) || defined(__AVR_ATmega1608__) || defined(__AVR_ATmega3208__) || defined(__AVR_ATmega4808__)
+  #if defined(__AVR_ATmega808__) || defined(__AVR_ATmega1608__)  \
+   || defined(__AVR_ATmega3208__) || defined(__AVR_ATmega4808__) \
+   || defined(NANO_EVERY_PINOUT) || defined(UNO_WIFI_REV2_PINOUT)
     #define SERVO_USE_TIMERB1
   #elif defined(__AVR_ATmega809__) || defined(__AVR_ATmega1609__) || defined(__AVR_ATmega3209__) || defined(__AVR_ATmega4809__)
     #define SERVO_USE_TIMERB3
