@@ -110,6 +110,83 @@ env:
     # pinout=28pin_standard, clock=external_16MHz, bootloader=no_bootloader
     - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:3208:pinout=28pin_standard,resetpin=reset,BOD=2v6,clock=external_16MHz,bootloader=no_bootloader" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
 
+    ## ATmega1609
+    # pinout=48pin_standard, clock=internal, bootloader=no_bootloader
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:1609:pinout=48pin_standard,resetpin=reset,BOD=2v6,clock=internal_16MHz,bootloader=no_bootloader" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:1609:pinout=48pin_standard,resetpin=reset,BOD=2v6,clock=internal_20MHz,bootloader=no_bootloader" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:1609:pinout=48pin_standard,resetpin=reset,BOD=2v6,clock=internal_10MHz,bootloader=no_bootloader" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:1609:pinout=48pin_standard,resetpin=reset,BOD=2v6,clock=internal_8MHz,bootloader=no_bootloader" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:1609:pinout=48pin_standard,resetpin=reset,BOD=2v6,clock=internal_5MHz,bootloader=no_bootloader" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:1609:pinout=48pin_standard,resetpin=reset,BOD=2v6,clock=internal_4MHz,bootloader=no_bootloader" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:1609:pinout=48pin_standard,resetpin=reset,BOD=2v6,clock=internal_2MHz,bootloader=no_bootloader" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:1609:pinout=48pin_standard,resetpin=reset,BOD=2v6,clock=internal_1MHz,bootloader=no_bootloader" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+    # pinout=48pin_standard, clock=internal_16MHz, bootloader=uart0_default
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:1609:pinout=48pin_standard,resetpin=reset,BOD=2v6,clock=internal_16MHz,bootloader=uart0_default" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+    # pinout=48pin_standard, clock=external_16MHz, bootloader=no_bootloader
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:1609:pinout=48pin_standard,resetpin=reset,BOD=2v6,clock=external_16MHz,bootloader=no_bootloader" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+
+    ## ATmega1608
+    # pinout=32pin_standard, clock=internal, bootloader=no_bootloader
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:1608:pinout=32pin_standard,resetpin=reset,BOD=2v6,clock=internal_16MHz,bootloader=no_bootloader" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:1608:pinout=32pin_standard,resetpin=reset,BOD=2v6,clock=internal_20MHz,bootloader=no_bootloader" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:1608:pinout=32pin_standard,resetpin=reset,BOD=2v6,clock=internal_10MHz,bootloader=no_bootloader" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:1608:pinout=32pin_standard,resetpin=reset,BOD=2v6,clock=internal_8MHz,bootloader=no_bootloader" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:1608:pinout=32pin_standard,resetpin=reset,BOD=2v6,clock=internal_5MHz,bootloader=no_bootloader" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:1608:pinout=32pin_standard,resetpin=reset,BOD=2v6,clock=internal_4MHz,bootloader=no_bootloader" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:1608:pinout=32pin_standard,resetpin=reset,BOD=2v6,clock=internal_2MHz,bootloader=no_bootloader" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:1608:pinout=32pin_standard,resetpin=reset,BOD=2v6,clock=internal_1MHz,bootloader=no_bootloader" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+    # pinout=32pin_standard, clock=internal_16MHz, bootloader=uart0_default
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:1608:pinout=32pin_standard,resetpin=reset,BOD=2v6,clock=internal_16MHz,bootloader=uart0_default" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+    # pinout=32pin_standard, clock=external_16MHz, bootloader=no_bootloader
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:1608:pinout=32pin_standard,resetpin=reset,BOD=2v6,clock=external_16MHz,bootloader=no_bootloader" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+    # pinout=28pin_standard, clock=internal, bootloader=no_bootloader
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:1608:pinout=28pin_standard,resetpin=reset,BOD=2v6,clock=internal_16MHz,bootloader=no_bootloader" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:1608:pinout=28pin_standard,resetpin=reset,BOD=2v6,clock=internal_20MHz,bootloader=no_bootloader" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:1608:pinout=28pin_standard,resetpin=reset,BOD=2v6,clock=internal_8MHz,bootloader=no_bootloader" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+    # pinout=28pin_standard, clock=internal_16MHz, bootloader=uart0_default
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:1608:pinout=28pin_standard,resetpin=reset,BOD=2v6,clock=internal_16MHz,bootloader=uart0_default" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+    # pinout=28pin_standard, clock=external_16MHz, bootloader=no_bootloader
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:1608:pinout=28pin_standard,resetpin=reset,BOD=2v6,clock=external_16MHz,bootloader=no_bootloader" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+
+    ## ATmega809
+    # pinout=48pin_standard, clock=internal, bootloader=no_bootloader
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:809:pinout=48pin_standard,resetpin=reset,BOD=2v6,clock=internal_16MHz,bootloader=no_bootloader" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:809:pinout=48pin_standard,resetpin=reset,BOD=2v6,clock=internal_20MHz,bootloader=no_bootloader" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:809:pinout=48pin_standard,resetpin=reset,BOD=2v6,clock=internal_10MHz,bootloader=no_bootloader" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:809:pinout=48pin_standard,resetpin=reset,BOD=2v6,clock=internal_8MHz,bootloader=no_bootloader" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:809:pinout=48pin_standard,resetpin=reset,BOD=2v6,clock=internal_5MHz,bootloader=no_bootloader" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:809:pinout=48pin_standard,resetpin=reset,BOD=2v6,clock=internal_4MHz,bootloader=no_bootloader" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:809:pinout=48pin_standard,resetpin=reset,BOD=2v6,clock=internal_2MHz,bootloader=no_bootloader" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:809:pinout=48pin_standard,resetpin=reset,BOD=2v6,clock=internal_1MHz,bootloader=no_bootloader" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+    # pinout=48pin_standard, clock=internal_16MHz, bootloader=uart0_default
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:809:pinout=48pin_standard,resetpin=reset,BOD=2v6,clock=internal_16MHz,bootloader=uart0_default" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+    # pinout=48pin_standard, clock=external_16MHz, bootloader=no_bootloader
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:809:pinout=48pin_standard,resetpin=reset,BOD=2v6,clock=external_16MHz,bootloader=no_bootloader" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+
+    ## ATmega808
+    # pinout=32pin_standard, clock=internal, bootloader=no_bootloader
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:808:pinout=32pin_standard,resetpin=reset,BOD=2v6,clock=internal_16MHz,bootloader=no_bootloader" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:808:pinout=32pin_standard,resetpin=reset,BOD=2v6,clock=internal_20MHz,bootloader=no_bootloader" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:808:pinout=32pin_standard,resetpin=reset,BOD=2v6,clock=internal_10MHz,bootloader=no_bootloader" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:808:pinout=32pin_standard,resetpin=reset,BOD=2v6,clock=internal_8MHz,bootloader=no_bootloader" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:808:pinout=32pin_standard,resetpin=reset,BOD=2v6,clock=internal_5MHz,bootloader=no_bootloader" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:808:pinout=32pin_standard,resetpin=reset,BOD=2v6,clock=internal_4MHz,bootloader=no_bootloader" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:808:pinout=32pin_standard,resetpin=reset,BOD=2v6,clock=internal_2MHz,bootloader=no_bootloader" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:808:pinout=32pin_standard,resetpin=reset,BOD=2v6,clock=internal_1MHz,bootloader=no_bootloader" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+    # pinout=32pin_standard, clock=internal_16MHz, bootloader=uart0_default
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:808:pinout=32pin_standard,resetpin=reset,BOD=2v6,clock=internal_16MHz,bootloader=uart0_default" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+    # pinout=32pin_standard, clock=external_16MHz, bootloader=no_bootloader
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:808:pinout=32pin_standard,resetpin=reset,BOD=2v6,clock=external_16MHz,bootloader=no_bootloader" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+    # pinout=28pin_standard, clock=internal, bootloader=no_bootloader
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:808:pinout=28pin_standard,resetpin=reset,BOD=2v6,clock=internal_16MHz,bootloader=no_bootloader" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:808:pinout=28pin_standard,resetpin=reset,BOD=2v6,clock=internal_20MHz,bootloader=no_bootloader" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:808:pinout=28pin_standard,resetpin=reset,BOD=2v6,clock=internal_8MHz,bootloader=no_bootloader" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+    # pinout=28pin_standard, clock=internal_16MHz, bootloader=uart0_default
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:808:pinout=28pin_standard,resetpin=reset,BOD=2v6,clock=internal_16MHz,bootloader=uart0_default" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+    # pinout=28pin_standard, clock=external_16MHz, bootloader=no_bootloader
+    - SKETCH_PATH="${SKETCHBOOK_FOLDER}/hardware/MegaCoreX/megaavr/libraries" BOARD_ID="MegaCoreX:megaavr:808:pinout=28pin_standard,resetpin=reset,BOD=2v6,clock=external_16MHz,bootloader=no_bootloader" ALLOW_FAILURE="false" IDE_VERSIONS="$IDE_VERSION_LIST_FULL"
+
+
 before_install:
   # Check for tabs (excluding subtrees and keywords.txt files)
   - find . -path './.git' -prune -or -path './megaavr/bootloaders/optiboot' -prune -or -path './megaavr/avrdude.conf' -prune -or -path './avr/travis-ci/arduino-ci-script' -prune -or \( -not -name 'keywords.txt' -and -type f \) -exec grep --with-filename --line-number --binary-files=without-match --regexp=$'\t' '{}' \; -exec echo 'Tab found.' \; -exec false '{}' +
