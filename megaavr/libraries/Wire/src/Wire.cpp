@@ -163,9 +163,9 @@ void TwoWire::end(void)
   TWI_Disable();
 }
 
-void TwoWire::setClock(uint32_t clock)
+void TwoWire::setClock(uint32_t frequency)
 {
-  TWI_MasterSetBaud(clock);
+  TWI_MasterSetBaud(frequency);
 }
 
 uint8_t TwoWire::requestFrom(uint8_t address, size_t quantity, bool sendStop)
@@ -184,19 +184,24 @@ uint8_t TwoWire::requestFrom(uint8_t address, size_t quantity, bool sendStop)
   return bytes_read;
 }
 
+uint8_t TwoWire::requestFrom(int address, int quantity, int sendStop)
+{
+  return requestFrom((uint8_t)address, (size_t)quantity, (bool)sendStop);
+}
+
 uint8_t TwoWire::requestFrom(uint8_t address, size_t quantity)
 {
   return requestFrom(address, quantity, true);
 }
 
+uint8_t TwoWire::requestFrom(uint8_t address, uint8_t quantity)
+{
+  return requestFrom(address, (size_t)quantity, true);
+}
+
 uint8_t TwoWire::requestFrom(int address, int quantity)
 {
   return requestFrom((uint8_t)address, (size_t)quantity, true);
-}
-
-uint8_t TwoWire::requestFrom(int address, int quantity, int sendStop)
-{
-  return requestFrom((uint8_t)address, (size_t)quantity, (bool)sendStop);
 }
 
 void TwoWire::beginTransmission(uint8_t address)
@@ -289,7 +294,7 @@ size_t TwoWire::write(const uint8_t *data, size_t quantity)
 // must be called in:
 // slave rx event callback
 // or after requestFrom(address, numBytes)
-int TwoWire::available(void)
+int TwoWire::available()
 {
   return rxBufferLength - rxBufferIndex;
 }
@@ -297,7 +302,7 @@ int TwoWire::available(void)
 // must be called in:
 // slave rx event callback
 // or after requestFrom(address, numBytes)
-int TwoWire::read(void)
+int TwoWire::read()
 {
   int value = -1;
 
@@ -314,7 +319,7 @@ int TwoWire::read(void)
 // must be called in:
 // slave rx event callback
 // or after requestFrom(address, numBytes)
-int TwoWire::peek(void)
+int TwoWire::peek()
 {
   int value = -1;
 
@@ -328,7 +333,7 @@ int TwoWire::peek(void)
 
 // can be used to get out of an error state in TWI module
 // e.g. when MDATA regsiter is written before MADDR
-void TwoWire::flush(void)
+void TwoWire::flush()
 {
   //   /* Clear buffers */
   //   for(uint8_t i = 0; i < BUFFER_LENGTH; i++){
@@ -371,7 +376,7 @@ void TwoWire::onReceiveService(int numBytes)
 }
 
 // behind the scenes function that is called when data is requested
-uint8_t TwoWire::onRequestService(void)
+uint8_t TwoWire::onRequestService()
 {
   // don't bother if user hasn't registered a callback
   if (!user_onRequest)
