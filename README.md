@@ -32,6 +32,7 @@ If you're looking for a sleek, reliable UPDI programmer that also acts as a USB 
 * [How to install](#how-to-install)
   - [Boards Manager Installation](#boards-manager-installation)
   - [Manual Installation](#manual-installation)
+  - [PlatformIO](#platformio)
 * [Minimal setup](#minimal-setup)
 * [Getting your hardware working](#getting-your-hardware-working)
   - [Arduino Uno WiFi Rev2](#arduino-uno-wifi-rev2)
@@ -284,6 +285,11 @@ Available pin combinations for the *Nano Every* pinout are:
 #### Manual Installation
 Click on the "Download ZIP" button. Extract the ZIP file, and move the extracted folder to the location "**~/Documents/Arduino/hardware**". Create the "hardware" folder if it doesn't exist.
 Open Arduino IDE and a new category in the boards menu called "MightyCoreX" will show up.
+
+#### PlatformIO
+[PlatformIO](http://platformio.org) is an open source ecosystem for IoT development and supports MegaCoreX.
+
+**See [PlatformIO.md](https://github.com/MCUdude/MegaCoreX/blob/master/PlatformIO.md) for more information.**
 
 
 ## Minimal setup
