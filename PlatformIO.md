@@ -265,3 +265,32 @@ PlatformIO detects serial ports automatically. However, if you want to override 
 
 ### `monitor_speed`
 Sets the serial monitor baud rate. Defaults to 9600 if not defined.
+
+
+## pyupdi
+[pyupdi](https://github.com/mraardvark/pyupdi) is a Python-based tool for programming tinyAVR and megaAVR devices with UPDI interface via a standard serial port. It can be installed directly in the PlatformIO virtual environment using the following command:
+
+```
+pip install https://github.com/mraardvark/pyupdi/archive/master.zip
+```
+
+Once pyupdi is installed it can be used as the uploader via a custom upload_command option:
+
+```ini
+[env:pyupdi_upload]
+platform = atmelmegaavr
+framework = arduino
+board = ATmega4809
+upload_speed = 115200
+upload_flags =
+  -d
+  mega4809
+  -c
+  $UPLOAD_PORT
+  -b
+  $UPLOAD_SPEED
+upload_command = pyupdi $UPLOAD_FLAGS -f $SOURCE
+```
+
+Note that the pyupdi target naming scheme is a little bit different, and therefore has to be manually specified under `upload_flags`.  
+The target `ATmega4809` is recognised as `mega4809` by pyupdi.
