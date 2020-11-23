@@ -97,13 +97,9 @@ typedef uint8_t pin_size_t;
 
 void pinMode(pin_size_t pinNumber, uint8_t pinMode);
 void digitalWrite(pin_size_t pinNumber, uint8_t status);
-void _dwfast(pin_size_t pinNumber, uint8_t status);
-#define digitalWriteFast(pin, val) \
-  (__builtin_constant_p(pin) ? /*&& __builtin_constant_p(val)*/ _dwfast(pin, val) : digitalWrite(pin, val))
+void digitalWriteFast(pin_size_t pinNumber, uint8_t status);
 uint8_t digitalRead(pin_size_t pinNumber);
-uint8_t _drfast(pin_size_t pinNumber);
-#define digitalReadFast(pin) \
-  (__builtin_constant_p(pin) ? /*&& __builtin_constant_p(val)*/ _drfast(pin) : digitalRead(pin))
+uint8_t digitalReadFast(pin_size_t pinNumber);
 int analogRead(pin_size_t pinNumber);
 uint8_t analogReadResolution(uint8_t res);
 void analogReference(uint8_t mode);
@@ -125,6 +121,14 @@ void detachInterrupt(pin_size_t interruptNumber);
 
 void setup(void);
 void loop(void);
+
+// Constant checks error handler
+void badArg(const char*) __attribute__((error("")));
+inline __attribute__((always_inline)) void check_constant_pin(pin_size_t pin)
+{
+  if(!__builtin_constant_p(pin))
+    badArg("Digital pin must be a constant");
+}
 
 #ifdef __cplusplus
 } // extern "C"

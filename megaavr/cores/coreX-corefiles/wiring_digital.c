@@ -202,8 +202,11 @@ void digitalWrite(uint8_t pin, uint8_t val)
   }
 }
 
-inline __attribute__((always_inline)) void _dwfast(uint8_t pin, uint8_t val)
+inline __attribute__((always_inline)) void digitalWriteFast(uint8_t pin, uint8_t val)
 {
+  // Make sure pin is constant and know at compile time
+  check_constant_pin(pin);
+
   // Mega-0, Tiny-1 style IOPORTs
   // Assumes VPORTs exist starting at 0 for each PORT structure
   uint8_t mask = 1 << digital_pin_to_bit_position[pin];
@@ -244,8 +247,11 @@ uint8_t digitalRead(uint8_t pin)
   return LOW;
 }
 
-inline __attribute__((always_inline)) uint8_t _drfast(uint8_t pin)
+inline __attribute__((always_inline)) uint8_t digitalReadFast(uint8_t pin)
 {
+  // Make sure pin is constant and know at compile time
+  check_constant_pin(pin);
+
   // Mega-0, Tiny-1 style IOPORTs
   // Assumes VPORTs exist starting at 0 for each PORT structure
   uint8_t mask = 1 << digital_pin_to_bit_position[pin];

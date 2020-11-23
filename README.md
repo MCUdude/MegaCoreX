@@ -120,8 +120,8 @@ If you're using a serial port, simply use `Serial.printf("Milliseconds since sta
 
 
 ## Fast IO
-For timing critical applications the standard `digitalRead()` and `digitalWrite()` functions may be too slow. To solve this, MegaCoreX also includes some improved variants that compile down to a single instruction.
-Call `digitalReadFast(myPin)` or `digitalWriteFast(mypin, state)` to use these. Note that in order to gain any speed improvements, the pin number has to be a constant.
+For timing critical applications the standard `digitalRead()` and `digitalWrite()` functions may be too slow. To solve this, MegaCoreX also includes some improved variants that compiles down to a single instruction.
+Call `digitalReadFast(myPin)` or `digitalWriteFast(mypin, state)` to use these. Note that the pin number has to be known at compile time.
 
 
 ## Pin macros
