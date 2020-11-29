@@ -32,7 +32,7 @@
 
 #define nvm_read_byte(idx) *(uint8_t *)((idx & 0xFF) | ((idx & 0x100) ? USER_SIGNATURES_START : EEPROM_START))
 
-void nvm_write_byte(uint16_t idx, uint8_t dat)
+static void nvm_write_byte(uint16_t idx, uint8_t dat)
 {
   *(uint8_t *)((idx & 0xFF) | ((idx & 0x100) ? USER_SIGNATURES_START : EEPROM_START)) = dat;
   uint8_t oldSREG = SREG;
