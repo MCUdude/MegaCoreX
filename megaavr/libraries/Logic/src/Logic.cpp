@@ -281,6 +281,7 @@ void Logic::init()
   }
 
   // Set logic output state and output filter
+  block.LUTCTRLA = 0x00;
   block.LUTCTRLA = (output ? CCL_OUTEN_bm : 0)
     | (edgedetect ? CCL_EDGEDET_EN_gc : 0 )
     | (filter << CCL_FILTSEL_gp)
