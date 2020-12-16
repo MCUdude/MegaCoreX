@@ -248,6 +248,9 @@ void Logic::init()
   initInput(input1, block.PORT_IN, block.input1_bm);
   initInput(input2, block.PORT_IN, block.input2_bm);
 
+  // Clear LUTCTRLA in case the CCL block gets reinitialized
+  block.LUTCTRLA = 0x00;
+
   // Set inputs modes
   block.LUTCTRLB = (input1 << CCL_INSEL1_gp) | (input0 << CCL_INSEL0_gp);
   block.LUTCTRLC = (input2 << CCL_INSEL2_gp);
@@ -281,7 +284,6 @@ void Logic::init()
   }
 
   // Set logic output state and output filter
-  block.LUTCTRLA = 0x00;
   block.LUTCTRLA = (output ? CCL_OUTEN_bm : 0)
     | (edgedetect ? CCL_EDGEDET_EN_gc : 0 )
     | (filter << CCL_FILTSEL_gp)
