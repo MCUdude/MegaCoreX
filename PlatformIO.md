@@ -283,7 +283,7 @@ upload_speed = 115200
 upload_port = /some/serial/port
 upload_flags =
   -d
-  ${env.board_build.mcu}
+  $BOARD_MCU
   -c
   $UPLOAD_PORT
   -b
