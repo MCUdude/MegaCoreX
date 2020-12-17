@@ -278,19 +278,15 @@ Once pyupdi is installed it can be used as the uploader via a custom upload_comm
 
 ```ini
 [env:pyupdi_upload]
-platform = atmelmegaavr
-framework = arduino
-board = ATmega4809
+upload_protocol = custom
 upload_speed = 115200
+upload_port = /some/serial/port
 upload_flags =
   -d
-  mega4809
+  ${env.board_build.mcu}
   -c
   $UPLOAD_PORT
   -b
   $UPLOAD_SPEED
 upload_command = pyupdi $UPLOAD_FLAGS -f $SOURCE
 ```
-
-Note that the pyupdi target naming scheme is a little bit different, and therefore has to be manually specified under `upload_flags`.  
-The target `ATmega4809` is recognised as `mega4809` by pyupdi.
