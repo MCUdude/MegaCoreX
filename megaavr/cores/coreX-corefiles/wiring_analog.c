@@ -84,11 +84,11 @@ uint8_t analogReadResolution(uint8_t res)
 {
   if (res==8)
   {
-    ADC0.CTRLA&=~ADC_RESSEL_bm;
+    ADC0.CTRLA |= ADC_RESSEL_bm;
     return 1;
   }
   // If argument wasn't 8, we'll be putting it to default value either way
-  ADC0.CTRLA |= ADC_RESSEL_bm;
+  ADC0.CTRLA &= ~ADC_RESSEL_bm;
   return (res == 10); // Only return true if the value passed was the valid option, 10.
 }
 
