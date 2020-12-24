@@ -41,7 +41,7 @@ Accepted values for DA-series and megaAVR 0-series parts:
 in::masked;           // Pin not in use
 in::unused;           // Pin not in use
 in::disable;          // Pin not in use
-in::feedback;         // Connect output of the logic block to this input
+in::feedback;         // Connect output of sequencer (if used) or even-numbered logic block (n or n-1) to this input
 in::link;             // Connect output of logic block n+1 to this input
 in::event_0;          // Connect input to event a
 in::event_a;          // Connect input to event a
