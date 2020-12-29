@@ -334,7 +334,7 @@ void Logic::detachInterrupt()
 {
   // Disable interrupt for a given block output
 #if defined(CCL_TRUTH4)
-  if(block_number > 4)
+  if(block.number > 4)
     CCL.INTCTRL1 &= ~(CCL_INTMODE1_gm << ((block.number & 3) * 2));
   else
     CCL.INTCTRL0 &= ~(CCL_INTMODE0_gm << (block.number * 2));
