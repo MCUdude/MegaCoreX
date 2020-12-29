@@ -41,7 +41,7 @@ Accepted values for DA-series and megaAVR 0-series parts:
 in::masked;           // Pin not in use
 in::unused;           // Pin not in use
 in::disable;          // Pin not in use
-in::feedback;         // Connect output of the logic block to this input
+in::feedback;         // Connect output of sequencer (if used) or even-numbered logic block (n or n-1) to this input
 in::link;             // Connect output of logic block n+1 to this input
 in::event_0;          // Connect input to event a
 in::event_a;          // Connect input to event a
@@ -166,7 +166,7 @@ Logic0.filter = filter::filter; // Enable filter on output of block 0
 
 
 ### clocksource
-Variable set the clock source for the LUT. The inputs are checked and output updated on the rising edge of this clock. Except on the Dx-series parts, only clk_per (peripheral clock, ie, the system clock) and in2 are available. If you don't know what this means, you want clk_per. If sequential logic is used, this is also used to clock that.
+Variable to set the clock source for the logic block; this is used for the synchronizer and filter only (otherwise, the logic blocks are asynchronous). Except on the Dx-series parts, only clk_per (peripheral clock, ie, the system clock) and in2 are available. If you don't know what this means, you want clk_per. If sequential logic is used, it is clocked from the clock source used by the even-numbered logic block.
 Accepted values:
 ```c++
 clocksource::clk_per;      // Clock from the peripheral clock (ie, system clock)
