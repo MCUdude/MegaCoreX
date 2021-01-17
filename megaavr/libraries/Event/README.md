@@ -119,13 +119,13 @@ Note that `evoutN_pin_pN7` is the same as `evoutN_pin_pN2` but where the pin is 
 | `user::adc0_start`                                                       |
 | `user::evouta_pin_pa2`                                                   |
 | `user::evouta_pin_pa7` <br/> **Pin swapped variant of `evouta_pin_pa2`** |
-| `user::evoutb_pin_pa2`                                                   |
-| `user::evoutc_pin_pa2`                                                   |
-| `user::evoutc_pin_pa7` <br/> **Pin swapped variant of `evoutc_pin_pc2`** |
-| `user::evoutd_pin_pa2`                                                   |
-| `user::evoutd_pin_pa7` <br/> **Pin swapped variant of `evoutd_pin_pd2`** |
-| `user::evoute_pin_pa2`                                                   |
-| `user::evoutf_pin_pa2`                                                   |
+| `user::evoutb_pin_pb2`                                                   |
+| `user::evoutc_pin_pc2`                                                   |
+| `user::evoutc_pin_pc7` <br/> **Pin swapped variant of `evoutc_pin_pc2`** |
+| `user::evoutd_pin_pd2`                                                   |
+| `user::evoutd_pin_pd7` <br/> **Pin swapped variant of `evoutd_pin_pd2`** |
+| `user::evoute_pin_pe2`                                                   |
+| `user::evoutf_pin_pf2`                                                   |
 | `user::usart0_irda`                                                      |
 | `user::usart1_irda`                                                      |
 | `user::usart2_irda`                                                      |
