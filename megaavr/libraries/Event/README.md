@@ -103,34 +103,38 @@ Event0.set_user(user::evoutd);       // Set evoutD (pin PD2) as event user
 ```
 
 ### User table
-Below is a table with all possible event users:
+Below is a table with all possible event users.   
+Note that `evoutN_pin_pN7` is the same as `evoutN_pin_pN2` but where the pin is swapped from 2 to 7. This means that for instance, `evouta_pin_pa2` can't be used in combination with `evouta_pin_pa7.`
 
-| Event users          |
-|----------------------|
-| `user::ccl0_event_a` |
-| `user::ccl0_event_b` |
-| `user::ccl1_event_a` |
-| `user::ccl1_event_b` |
-| `user::ccl2_event_a` |
-| `user::ccl2_event_b` |
-| `user::ccl3_event_a` |
-| `user::ccl3_event_b` |
-| `user::adc0_start`   |
-| `user::evouta`       |
-| `user::evoutb`       |
-| `user::evoutc`       |
-| `user::evoutd`       |
-| `user::evoute`       |
-| `user::evoutf`       |
-| `user::usart0_irda`  |
-| `user::usart1_irda`  |
-| `user::usart2_irda`  |
-| `user::usart3_irda`  |
-| `user::tca0`         |
-| `user::tcb0`         |
-| `user::tcb1`         |
-| `user::tcb2`         |
-| `user::tcb3`         |
+| Event users                                                              |
+|--------------------------------------------------------------------------|
+| `user::ccl0_event_a`                                                     |
+| `user::ccl0_event_b`                                                     |
+| `user::ccl1_event_a`                                                     |
+| `user::ccl1_event_b`                                                     |
+| `user::ccl2_event_a`                                                     |
+| `user::ccl2_event_b`                                                     |
+| `user::ccl3_event_a`                                                     |
+| `user::ccl3_event_b`                                                     |
+| `user::adc0_start`                                                       |
+| `user::evouta_pin_pa2`                                                   |
+| `user::evouta_pin_pa7` <br/> **Pin swapped variant of `evouta_pin_pa2`** |
+| `user::evoutb_pin_pa2`                                                   |
+| `user::evoutc_pin_pa2`                                                   |
+| `user::evoutc_pin_pa7` <br/> **Pin swapped variant of `evoutc_pin_pc2`** |
+| `user::evoutd_pin_pa2`                                                   |
+| `user::evoutd_pin_pa7` <br/> **Pin swapped variant of `evoutd_pin_pd2`** |
+| `user::evoute_pin_pa2`                                                   |
+| `user::evoutf_pin_pa2`                                                   |
+| `user::usart0_irda`                                                      |
+| `user::usart1_irda`                                                      |
+| `user::usart2_irda`                                                      |
+| `user::usart3_irda`                                                      |
+| `user::tca0`                                                             |
+| `user::tcb0`                                                             |
+| `user::tcb1`                                                             |
+| `user::tcb2`                                                             |
+| `user::tcb3`                                                             |
 
 
 ## clear_user()

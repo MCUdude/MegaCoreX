@@ -105,10 +105,23 @@ uint8_t Event::get_generator()
 void Event::set_user(user::user_t event_user)
 {
   // Figure out what user register to write to based on the passed parameter
-  volatile uint8_t *user_register = &EVSYS_USERCCLLUT0A + (volatile uint8_t&)event_user;
+  uint8_t event_user_mask = event_user & 0x7F;
+  volatile uint8_t *user_register = &EVSYS_USERCCLLUT0A + (volatile uint8_t&)event_user_mask;
 
   // Connect user to the channel we're working with
   *user_register = channel_number + 1;
+
+  // Set PORTMUX pin swap for EVOUT if selected as channel generator
+  if (event_user & 0x80)
+  {
+    #if defined(MEGAAVR_0)
+      PORTMUX_EVSYSROUTEA |= (1 << ((event_user & 0x7F) - 0x09));
+    #elif defined(AVR_DA)
+      PORTMUX_EVSYSROUTEA |= (1 << ((event_user & 0x7F) - 0x0E));
+    #elif defined(AVR_DB)
+      PORTMUX_EVSYSROUTEA |= (1 << ((event_user & 0x7F) - 0x0D));
+    #endif
+  }
 }
 
 
@@ -120,10 +133,23 @@ void Event::set_user(user::user_t event_user)
 void Event::clear_user(user::user_t event_user)
 {
   // Figure out what user register to write to based on the passed parameter
-  volatile uint8_t *user_register = &EVSYS_USERCCLLUT0A + (volatile uint8_t&)event_user;
+  uint8_t event_user_mask = event_user & 0x7F;
+  volatile uint8_t *user_register = &EVSYS_USERCCLLUT0A + (volatile uint8_t&)event_user_mask;
 
   // Disconnect from event generator
   *user_register = 0x00;
+
+  // Clear PORTMUX pin swap for EVOUT if selected as channel generator
+  if (event_user & 0x80)
+  {
+    #if defined(MEGAAVR_0)
+      PORTMUX_EVSYSROUTEA &= ~(1 << ((event_user & 0x7F) - 0x09));
+    #elif defined(AVR_DA)
+      PORTMUX_EVSYSROUTEA &= ~(1 << ((event_user & 0x7F) - 0x0E));
+    #elif defined(AVR_DB)
+      PORTMUX_EVSYSROUTEA &= ~(1 << ((event_user & 0x7F) - 0x0D));
+    #endif
+  }
 }
 
 
