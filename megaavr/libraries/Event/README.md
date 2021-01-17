@@ -147,7 +147,7 @@ Event::clear_user(user::evouta); // Remove the user::evouta from whatever event 
 
 
 ## soft_event()
-Creates a single software event similar to what a hardware event does. Great if you have to force trigger something!
+Creates a single software event similar to what a hardware event does. Great if you have to force trigger something. Note that a software event only lasts a single system clock cycle, so it's rather fast!
 
 ### Usage
 ```c++
