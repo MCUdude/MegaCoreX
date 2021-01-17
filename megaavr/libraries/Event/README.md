@@ -3,22 +3,14 @@ A library for interfacing with the built-in Event system on the megaAVR-0 series
 Developed by [MCUdude](https://github.com/MCUdude/).  
 
 **From the datasheet:**
-> The Event System (EVSYS) enables direct peripheral-to-peripheral signaling.
-It allows a change in one peripheral (the event generator) to trigger actions in other 
-peripherals (the event users) through event channels, without using the CPU. 
-It is designed to provide short and predictable response times between peripherals, 
-allowing for autonomous peripheral control and interaction, and also for synchronized 
-timing of actions in several peripheral modules. It is thus a powerful tool for reducing 
-the complexity, size, and execution time of the software.
+> The Event System (EVSYS) enables direct peripheral-to-peripheral signaling. It allows a change in one peripheral (the event generator) to trigger actions in other peripherals (the event users) through event channels, without using the CPU. It is designed to provide short and predictable response times between peripherals, allowing for autonomous peripheral control and interaction, and also for synchronized timing of actions in several peripheral modules. It is thus a powerful tool for reducing the complexity, size, and execution time of the software.
 
 More information about the Event system and how it works can be found in the [Microchip Application Note AN2451](http://ww1.microchip.com/downloads/en/AppNotes/DS00002451B.pdf) and in the [megaAVR-0 family data sheet](http://ww1.microchip.com/downloads/en/DeviceDoc/megaAVR0-series-Family-Data-Sheet-DS40002015B.pdf).
 
 
 ## Event
-Class for interfacing with the built-in Event system. Each event generator channel has its 
-own object. Use the predefined objects `Event0`, `Event1`, `Event2`, `Event3`, `Event4`, 
-`Event5`, `Event6` or `Event7`. Note that channels have different functionality, so make 
-sure you use the right channel for the task.
+Class for interfacing with the built-in Event system. Each event generator channel has its own object. 
+Use the predefined objects `Event0`, `Event1`, `Event2`, `Event3`, `Event4`, `Event5`, `Event6` or `Event7`. Note that channels have different functionality, so make sure you use the right channel for the task.
 
 In short terms:  
 * `genN::rtc_div8192`, `genN::rtc_div4096`, `genN::rtc_div2048` and `genN::rtc_div1024` are only available on odd numbered channels
@@ -38,7 +30,7 @@ uint8_t this_channel = Event0.get_channel_number();  // In this case, get_channe
 
 
 ## get_user_channel()
-Function to get what event channel a user is connected to. Returns -1 if not connected to any channel. Note that we use `user::` as prefix when we refer to event users. Also note that we don't have to specify an object to determine what channel the user is connected to. if you're not sure, use `Event::get_user_channel`.
+Function to get what event channel a user is connected to. Returns -1 if not connected to any channel. Note that we use `user::` as prefix when we refer to event users. Also, note that we don't have to specify an object to determine what channel the user is connected to. if you're not sure, use `Event::get_user_channel`.
 An event generator can have multiple event users, but an event user can only have one event generator.
 
 ### Usage
@@ -48,7 +40,7 @@ uint8_t connected_to = Event::get_user_channel(user::ccl0_event_a); // Returns t
 
 
 ## set_generator()
-Function to assign an event generator to a channel. Note that we use prefix genN (where N is the channel number) when referring to generators unique to this particular channel. we use gen:: when referring to generators available on all generators.
+Function to assign an event generator to a channel. Note that we use the prefix genN:: (where N is the channel number) when referring to generators unique to this particular channel. we use gen:: when referring to generators available on all generators.
 
 ### Usage
 ```c++
