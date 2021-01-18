@@ -165,7 +165,7 @@ Event0.start(); // Starts the Event0 generator channel
 ## stop()
 Stops an event generator channel.
 
-# Usage
+### Usage
 ```c++
 Event0.stop(); // Stops the Event0 generator channel
 ```

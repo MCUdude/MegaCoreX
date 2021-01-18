@@ -5,9 +5,9 @@
 
 // Helper macros to prevent us from having to check for every possible target
 #if defined(__AVR_ATmega4809__) || defined(__AVR_ATmega4808__)   \
-||  defined(__AVR_ATmega4809__) || defined(__AVR_ATmega4808__)   \
-||  defined(__AVR_ATmega4809__) || defined(__AVR_ATmega4808__)   \
-||  defined(__AVR_ATmega4809__) || defined(__AVR_ATmega4808__)
+||  defined(__AVR_ATmega3209__) || defined(__AVR_ATmega3208__)   \
+||  defined(__AVR_ATmega1609__) || defined(__AVR_ATmega1608__)   \
+||  defined(__AVR_ATmega809__)  || defined(__AVR_ATmega808__)
   #define MEGAAVR_0
 #elif defined(__AVR_AVR128DA64__) || defined(__AVR_AVR128DA48__) \
 || defined(__AVR_AVR128DA32__)    || defined(__AVR_AVR128DA28__) \
