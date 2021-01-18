@@ -28,6 +28,7 @@ If you're looking for a sleek, reliable UPDI programmer that also acts as a USB 
   - [Analog read resolution](#analog-read-resolution)
   - [Configurable Custom Logic (CCL)](#configurable-custom-logic-ccl)
   - [Analog Comparator (AC)](#analog-comparator-ac)
+  - [Event System (EVSYS)](#event-system-evsys)
   - [Alternative pins](#alternative-pins)
 * [How to install](#how-to-install)
   - [Boards Manager Installation](#boards-manager-installation)
@@ -194,7 +195,10 @@ The megaAVR-0 microcontrollers are equipped with four independent configurable l
 
 ### Analog Comparator (AC)
 The megaAVR-0 microcontrollers are equipped with an analog comparator. It compares the voltage levels on two inputs and gives a digital output based on this comparison. The megAVR chip has four positive AC pins and three negative. There's also a configurable internal voltage reference that can be used on the negative comparator pin instead of an external voltage.
-Try out the [Comparator library](https://github.com/MCUdude/MegaCoreX/tree/master/megaavr/libraries/Comparator) for more information, library reference and examples.
+Try out the [Comparator library](https://github.com/MCUdude/MegaCoreX/tree/master/megaavr/libraries/Comparator) for more information, library reference and examples. 
+
+### Event System (EVSYS)
+The Event System (EVSYS) enables direct peripheral-to-peripheral signaling. It allows a change in one peripheral (the event generator) to trigger actions in other peripherals (the event users) through event channels, without using the CPU. It is designed to provide short and predictable response times between peripherals, allowing for autonomous peripheral control and interaction, and also for synchronized timing of actions in several peripheral modules. It is thus a powerful tool for reducing the complexity, size, and execution time of the software. Give the [Event library](https://github.com/MCUdude/MegaCoreX/tree/master/megaavr/libraries/Event) a try! Here you'll find documentation and useful library examples.
 
 ### Alternative pins
 The megaAVR-0 microcontrollers support alternative pin assignments for some of their built-in peripherals.
