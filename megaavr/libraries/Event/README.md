@@ -62,18 +62,18 @@ Below is a table with all possible generators for each channel:
 | `gen::ccl2_out`      | `gen0::pin_pa1`     | `gen1::pin_pa1`    | `gen2::pin_pc1`     | `gen3::pin_pc1`    | `gen4::pin_pe1`     | `gen5::pin_pe1`    |                     |                    |
 | `gen::ccl3_out`      | `gen0::pin_pa2`     | `gen1::pin_pa2`    | `gen2::pin_pc2`     | `gen3::pin_pc2`    | `gen4::pin_pe2`     | `gen5::pin_pe2`    |                     |                    |
 | `gen::ac0_out`       | `gen0::pin_pa3`     | `gen1::pin_pa3`    | `gen2::pin_pc3`     | `gen3::pin_pc3`    | `gen4::pin_pe3`     | `gen5::pin_pe3`    |                     |                    |
-| `gen::adc0_ready`    | `gen0::pin_pa4`     | `gen1::pin_pa4`    | `gen2::pin_pc4`     | `gen3::pin_pc4`    | `gen4::pin_pe4`     | `gen5::pin_pe4`    |                     |                    |
-| `gen::usart0_xck`    | `gen0::pin_pa5`     | `gen1::pin_pa5`    | `gen2::pin_pc5`     | `gen3::pin_pc5`    | `gen4::pin_pe5`     | `gen5::pin_pe5`    |                     |                    |
-| `gen::usart1_xck`    | `gen0::pin_pa6`     | `gen1::pin_pa6`    | `gen2::pin_pc6`     | `gen3::pin_pc6`    | `gen4::pin_pe6`     | `gen5::pin_pe6`    |                     |                    |
-| `gen::usart2_xck`    | `gen0::pin_pa7`     | `gen1::pin_pa7`    | `gen2::pin_pc7`     | `gen3::pin_pc7`    | `gen4::pin_pe7`     | `gen5::pin_pe7`    |                     |                    |
+| `gen::adc0_ready`    | `gen0::pin_pa4`     | `gen1::pin_pa4`    | `gen2::pin_pc4`     | `gen3::pin_pc4`    |                     |                    |                     |                    |
+| `gen::usart0_xck`    | `gen0::pin_pa5`     | `gen1::pin_pa5`    | `gen2::pin_pc5`     | `gen3::pin_pc5`    |                     |                    |                     |                    |
+| `gen::usart1_xck`    | `gen0::pin_pa6`     | `gen1::pin_pa6`    | `gen2::pin_pc6`     | `gen3::pin_pc6`    |                     |                    |                     |                    |
+| `gen::usart2_xck`    | `gen0::pin_pa7`     | `gen1::pin_pa7`    | `gen2::pin_pc7`     | `gen3::pin_pc7`    |                     |                    |                     |                    |
 | `gen::usart3_xck`    | `gen0::pin_pb0`     | `gen1::pin_pb0`    | `gen2::pin_pd0`     | `gen3::pin_pd0`    | `gen4::pin_pf0`     | `gen5::pin_pf0`    |                     |                    |
 | `gen::spi0_sck`      | `gen0::pin_pb1`     | `gen1::pin_pb1`    | `gen2::pin_pd1`     | `gen3::pin_pd1`    | `gen4::pin_pf1`     | `gen5::pin_pf1`    |                     |                    |
 | `gen::tca0_ovf_lunf` | `gen0::pin_pb2`     | `gen1::pin_pb2`    | `gen2::pin_pd2`     | `gen3::pin_pd2`    | `gen4::pin_pf2`     | `gen5::pin_pf2`    |                     |                    |
 | `gen::tca0_hunf`     | `gen0::pin_pb3`     | `gen1::pin_pb3`    | `gen2::pin_pd3`     | `gen3::pin_pd3`    | `gen4::pin_pf3`     | `gen5::pin_pf3`    |                     |                    |
 | `gen::tca0_cmp0`     | `gen0::pin_pb4`     | `gen1::pin_pb4`    | `gen2::pin_pd4`     | `gen3::pin_pd4`    | `gen4::pin_pf4`     | `gen5::pin_pf4`    |                     |                    |
 | `gen::tca0_cmp1`     | `gen0::pin_pb5`     | `gen1::pin_pb5`    | `gen2::pin_pd5`     | `gen3::pin_pd5`    | `gen4::pin_pf5`     | `gen5::pin_pf5`    |                     |                    |
-| `gen::tca0_cmp2`     | `gen0::pin_pb6`     | `gen1::pin_pb6`    | `gen2::pin_pd6`     | `gen3::pin_pd6`    | `gen4::pin_pf6`     | `gen5::pin_pf6`    |                     |                    |
-| `gen::tcb0_capt`     | `gen0::pin_pb7`     | `gen1::pin_pb7`    | `gen2::pin_pd7`     | `gen3::pin_pd7`    | `gen4::pin_pf7`     | `gen5::pin_pf7`    |                     |                    |
+| `gen::tca0_cmp2`     |                     |                    | `gen2::pin_pd6`     | `gen3::pin_pd6`    | `gen4::pin_pf6`     | `gen5::pin_pf6`    |                     |                    |
+| `gen::tcb0_capt`     |                     |                    | `gen2::pin_pd7`     | `gen3::pin_pd7`    |                     |                    |                     |                    |
 | `gen::tcb1_capt`     |                     |                    |                     |                    |                     |                    |                     |                    |
 | `gen::tcb2_capt`     |                     |                    |                     |                    |                     |                    |                     |                    |
 | `gen::tcb3_capt`     |                     |                    |                     |                    |                     |                    |                     |                    |
