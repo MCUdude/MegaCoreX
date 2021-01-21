@@ -160,13 +160,22 @@ void Event::clear_user(user::user_t event_user)
 void Event::soft_event()
 {
   // Write to the bit that represent the channel in the strobe register
-  #if defined(MEGAAVR_0)
-    EVSYS_STROBE = (1 << channel_number);
-  #elif defined(AVR_DA) || defined(AVR_DB)
-    if(channel_number < 8)
-      EVSYS_SWEVENTA = (1 << channel_number);
-    else
-      EVSYS_SWEVENTB = (1 << (channel_number - 8));
+  #if defined(EVSYS_STROBE)
+    // megaAVR 0-series
+    EVSYS.STROBE = (1 << channel_number);
+  #elif defined(EVSYS_ASYNCCH0)
+    // TODO: tinyAVR 0/1-series
+  #else
+    // We expect there to be an EVSYS.SWEVENTA channel plus an
+    // EVSYS.SWEVENTB if it has more than 8 event channels.
+    #if defined(EVSYS_SWEVENTB)
+      if(channel_number < 8)
+        EVSYS.SWEVENTA = (1 << channel_number);
+      else
+        EVSYS.SWEVENTB = (1 << (channel_number - 8));
+    #else
+      EVSYS.SWEVENTA = (1 << channel_number);
+    #endif
   #endif
 }
 
