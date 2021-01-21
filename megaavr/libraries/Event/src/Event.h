@@ -3,28 +3,6 @@
 
 #include <Arduino.h>
 
-// Helper macros to prevent us from having to check for every possible target
-#if defined(__AVR_ATmega4809__) || defined(__AVR_ATmega4808__)   \
-||  defined(__AVR_ATmega3209__) || defined(__AVR_ATmega3208__)   \
-||  defined(__AVR_ATmega1609__) || defined(__AVR_ATmega1608__)   \
-||  defined(__AVR_ATmega809__)  || defined(__AVR_ATmega808__)
-  #define MEGAAVR_0
-#elif defined(__AVR_AVR128DA64__) || defined(__AVR_AVR128DA48__) \
-|| defined(__AVR_AVR128DA32__)    || defined(__AVR_AVR128DA28__) \
-|| defined(__AVR_AVR64DA64__)     || defined(__AVR_AVR64DA48__)  \
-|| defined(__AVR_AVR64DA32__)     || defined(__AVR_AVR64DA28__)  \
-|| defined(__AVR_AVR32DA48__)     || defined(__AVR_AVR32DA32__)  \
-|| defined(__AVR_AVR32DA28__)
-  #define AVR_DA
-#elif defined(__AVR_AVR128DB64__) || defined(__AVR_AVR128DB48__) \
-|| defined(__AVR_AVR128DB32__)    || defined(__AVR_AVR128DB28__) \
-|| defined(__AVR_AVR64DB64__)     || defined(__AVR_AVR64DB48__)  \
-|| defined(__AVR_AVR64DB32__)     || defined(__AVR_AVR64DB28__)  \
-|| defined(__AVR_AVR32DB48__)     || defined(__AVR_AVR32DB32__)  \
-|| defined(__AVR_AVR32DB28__)
-  #define AVR_DB
-#endif
-
 
 // Features present on all generator channels
 namespace gen
@@ -56,7 +34,7 @@ namespace gen
     tcb1_capt     = 0xA2,
     tcb2_capt     = 0xA4,
     tcb3_capt     = 0xA6,
-    #if defined(AVR_DA) || defined(AVR_DB)
+    #if defined(__AVR_DA__) || defined(__AVR_DB__)
       ccl4_out      = 0x14,
       ccl5_out      = 0x15,
       ac1_out       = 0x21,
@@ -83,7 +61,7 @@ namespace gen
       tcd0_cmpbset  = 0xB2,
       tcd0_progev   = 0xB3,
     #endif
-    #if defined(AVR_DB)
+    #if defined(__AVR_DB__)
       mvio_ok       = 0x05,
       opamp0_ready  = 0x34,
       opamp1_ready  = 0x35,
@@ -112,14 +90,18 @@ namespace gen
       pin_pa5     = 0x45,
       pin_pa6     = 0x46,
       pin_pa7     = 0x47,
-      pin_pb0     = 0x48,
-      pin_pb1     = 0x49,
-      pin_pb2     = 0x4A,
-      pin_pb3     = 0x4B,
-      pin_pb4     = 0x4C,
-      pin_pb5     = 0x4F,
-      pin_pb6     = 0x4E,
-      pin_pb7     = 0x4F,
+      #if defined(__AVR_ATmegax09__) || defined(Dx_48_PINS) || defined(Dx_64_PINS)
+        pin_pb0     = 0x48,
+        pin_pb1     = 0x49,
+        pin_pb2     = 0x4A,
+        pin_pb3     = 0x4B,
+        pin_pb4     = 0x4C,
+        pin_pb5     = 0x4F,
+      #endif
+      #if defined(Dx_64_PINS)
+        pin_pb6     = 0x4E,
+        pin_pb7     = 0x4F,
+      #endif
     };
   };
 #endif
@@ -144,14 +126,18 @@ namespace gen
       pin_pa5     = 0x45,
       pin_pa6     = 0x46,
       pin_pa7     = 0x47,
-      pin_pb0     = 0x48,
-      pin_pb1     = 0x49,
-      pin_pb2     = 0x4A,
-      pin_pb3     = 0x4B,
-      pin_pb4     = 0x4C,
-      pin_pb5     = 0x4F,
-      pin_pb6     = 0x4E,
-      pin_pb7     = 0x4F,
+      #if defined(__AVR_ATmegax09__) || defined(Dx_48_PINS) || defined(Dx_64_PINS)
+        pin_pb0     = 0x48,
+        pin_pb1     = 0x49,
+        pin_pb2     = 0x4A,
+        pin_pb3     = 0x4B,
+        pin_pb4     = 0x4C,
+        pin_pb5     = 0x4F,
+      #endif
+      #if defined(Dx_64_PINS)
+        pin_pb6     = 0x4E,
+        pin_pb7     = 0x4F,
+      #endif
     };
   };
 #endif
@@ -172,10 +158,12 @@ namespace gen
       pin_pc1     = 0x41,
       pin_pc2     = 0x42,
       pin_pc3     = 0x43,
-      pin_pc4     = 0x44,
-      pin_pc5     = 0x45,
-      pin_pc6     = 0x46,
-      pin_pc7     = 0x47,
+      #if defined(__AVR_ATmegax09__) || defined(Dx_48_PINS) || defined(Dx_64_PINS)
+        pin_pc4   = 0x44,
+        pin_pc5   = 0x45,
+        pin_pc6   = 0x46,
+        pin_pc7   = 0x47,
+      #endif
       pin_pd0     = 0x48,
       pin_pd1     = 0x49,
       pin_pd2     = 0x4A,
@@ -204,10 +192,12 @@ namespace gen
       pin_pc1     = 0x41,
       pin_pc2     = 0x42,
       pin_pc3     = 0x43,
-      pin_pc4     = 0x44,
-      pin_pc5     = 0x45,
-      pin_pc6     = 0x46,
-      pin_pc7     = 0x47,
+      #if defined(__AVR_ATmegax09__) || defined(Dx_48_PINS) || defined(Dx_64_PINS)
+        pin_pc4   = 0x44,
+        pin_pc5   = 0x45,
+        pin_pc6   = 0x46,
+        pin_pc7   = 0x47,
+      #endif
       pin_pd0     = 0x48,
       pin_pd1     = 0x49,
       pin_pd2     = 0x4A,
@@ -232,20 +222,26 @@ namespace gen
       rtc_div4096 = 0x09,
       rtc_div2048 = 0x0A,
       rtc_div1024 = 0x0B,
-      pin_pe0     = 0x40,
-      pin_pe1     = 0x41,
-      pin_pe2     = 0x42,
-      pin_pe3     = 0x43,
-      pin_pe4     = 0x44,
-      pin_pe5     = 0x45,
-      pin_pe6     = 0x46,
-      pin_pe7     = 0x47,
+      #if defined(__AVR_ATmegax09__) || defined(Dx_48_PINS) || defined(Dx_64_PINS)
+        pin_pe0   = 0x40,
+        pin_pe1   = 0x41,
+        pin_pe2   = 0x42,
+        pin_pe3   = 0x43,
+      #endif
+      #if defined(Dx_64_PINS)
+        pin_pe4   = 0x44,
+        pin_pe5   = 0x45,
+        pin_pe6   = 0x46,
+        pin_pe7   = 0x47,
+      #endif
       pin_pf0     = 0x48,
       pin_pf1     = 0x49,
-      pin_pf2     = 0x4A,
-      pin_pf3     = 0x4B,
-      pin_pf4     = 0x4C,
-      pin_pf5     = 0x4D,
+      #if !defined(Dx_28_PINS)
+        pin_pf2   = 0x4A,
+        pin_pf3   = 0x4B,
+        pin_pf4   = 0x4C,
+        pin_pf5   = 0x4D,
+      #endif
       pin_pf6     = 0x4E,
     };
   };
@@ -263,20 +259,26 @@ namespace gen
       rtc_div256  = 0x09,
       rtc_div128  = 0x0A,
       rtc_div64   = 0x0B,
-      pin_pe0     = 0x40,
-      pin_pe1     = 0x41,
-      pin_pe2     = 0x42,
-      pin_pe3     = 0x43,
-      pin_pe4     = 0x44,
-      pin_pe5     = 0x45,
-      pin_pe6     = 0x46,
-      pin_pe7     = 0x47,
+      #if defined(__AVR_ATmegax09__) || defined(Dx_48_PINS) || defined(Dx_64_PINS)
+        pin_pe0   = 0x40,
+        pin_pe1   = 0x41,
+        pin_pe2   = 0x42,
+        pin_pe3   = 0x43,
+      #endif
+      #if defined(Dx_64_PINS)
+        pin_pe4   = 0x44,
+        pin_pe5   = 0x45,
+        pin_pe6   = 0x46,
+        pin_pe7   = 0x47,
+      #endif
       pin_pf0     = 0x48,
       pin_pf1     = 0x49,
-      pin_pf2     = 0x4A,
-      pin_pf3     = 0x4B,
-      pin_pf4     = 0x4C,
-      pin_pf5     = 0x4D,
+      #if !defined(Dx_28_PINS)
+        pin_pf2   = 0x4A,
+        pin_pf3   = 0x4B,
+        pin_pf4   = 0x4C,
+        pin_pf5   = 0x4D,
+      #endif
       pin_pf6     = 0x4E,
     };
   };
@@ -294,7 +296,7 @@ namespace gen
       rtc_div4096 = 0x09,
       rtc_div2048 = 0x0A,
       rtc_div1024 = 0x0B,
-      #if defined(AVR_DA) || defined(AVR_DB)
+      #if defined(Dx_64_PINS)
         pin_pg0   = 0x40,
         pin_pg1   = 0x41,
         pin_pg2   = 0x42,
@@ -320,15 +322,15 @@ namespace gen
       rtc_div256 = 0x09,
       rtc_div128 = 0x0A,
       rtc_div64  = 0x0B,
-      #if defined(AVR_DA) || defined(AVR_DB)
-        pin_pg0   = 0x40,
-        pin_pg1   = 0x41,
-        pin_pg2   = 0x42,
-        pin_pg3   = 0x43,
-        pin_pg4   = 0x44,
-        pin_pg5   = 0x45,
-        pin_pg6   = 0x46,
-        pin_pg7   = 0x47,
+      #if defined(Dx_64_PINS)
+        pin_pg0  = 0x40,
+        pin_pg1  = 0x41,
+        pin_pg2  = 0x42,
+        pin_pg3  = 0x43,
+        pin_pg4  = 0x44,
+        pin_pg5  = 0x45,
+        pin_pg6  = 0x46,
+        pin_pg7  = 0x47,
       #endif
     };
   };
@@ -371,7 +373,7 @@ namespace user
 {
   enum user_t : uint8_t
   {
-    #if defined(MEGAAVR_0)
+    #if defined(__AVR_ATmegax08__) || defined(__AVR_ATmegax09__)
       ccl0_event_a   = 0x00,
       ccl0_event_b   = 0x01,
       ccl1_event_a   = 0x02,
@@ -382,10 +384,14 @@ namespace user
       ccl3_event_b   = 0x07,
       adc0_start     = 0x08,
       evouta_pin_pa2 = 0x09,
-      evoutb_pin_pb2 = 0x0A,
+      #if defined(__AVR_ATmegax09__)
+        evoutb_pin_pb2 = 0x0A,
+      #endif
       evoutc_pin_pc2 = 0x0B,
       evoutd_pin_pd2 = 0x0C,
-      evoute_pin_pe2 = 0x0D,
+      #if defined(__AVR_ATmegax09__)
+        evoute_pin_pe2 = 0x0D,
+      #endif
       evoutf_pin_pf2 = 0x0E,
       usart0_irda    = 0x0F,
       usart1_irda    = 0x10,
@@ -398,10 +404,12 @@ namespace user
       tcb3           = 0x17,
       // "Unofficial" user generators. Uses EVOUT, but swaps the output pin using PORTMUX
       evouta_pin_pa7 = 0x89,
-      evoutc_pin_pc7 = 0x8B,
+      #if defined(__AVR_ATmegax09__)
+        evoutc_pin_pc7 = 0x8B,
+      #endif
       evoutd_pin_pd7 = 0x8C,
     #endif
-    #if defined(AVR_DA)
+    #if defined(__AVR_DA__)
       ccl0_event_a   = 0x00,
       ccl0_event_b   = 0x01,
       ccl1_event_a   = 0x02,
@@ -453,7 +461,7 @@ namespace user
       evoute_pin_pe7 = 0x92,
       evoutg_pin_pg7 = 0x94,
     #endif
-    #if defined(AVR_DB)
+    #if defined(__AVR_DB__)
       ccl0_event_a   = 0x00,
       ccl0_event_b   = 0x01,
       ccl1_event_a   = 0x02,

@@ -114,11 +114,11 @@ void Event::set_user(user::user_t event_user)
   // Set PORTMUX pin swap for EVOUT if selected as channel generator
   if (event_user & 0x80)
   {
-    #if defined(MEGAAVR_0)
+    #if defined(__AVR_ATmegax08__) || defined(__AVR_ATmegax09__)
       PORTMUX_EVSYSROUTEA |= (1 << ((event_user & 0x7F) - 0x09));
-    #elif defined(AVR_DA)
+    #elif defined(__AVR_DA__)
       PORTMUX_EVSYSROUTEA |= (1 << ((event_user & 0x7F) - 0x0E));
-    #elif defined(AVR_DB)
+    #elif defined(__AVR_DB__)
       PORTMUX_EVSYSROUTEA |= (1 << ((event_user & 0x7F) - 0x0D));
     #endif
   }
@@ -142,11 +142,11 @@ void Event::clear_user(user::user_t event_user)
   // Clear PORTMUX pin swap for EVOUT if selected as channel generator
   if (event_user & 0x80)
   {
-    #if defined(MEGAAVR_0)
+    #if defined(__AVR_ATmegax08__) || defined(__AVR_ATmegax09__)
       PORTMUX_EVSYSROUTEA &= ~(1 << ((event_user & 0x7F) - 0x09));
-    #elif defined(AVR_DA)
+    #elif defined(__AVR_DA__)
       PORTMUX_EVSYSROUTEA &= ~(1 << ((event_user & 0x7F) - 0x0E));
-    #elif defined(AVR_DB)
+    #elif defined(__AVR_DB__)
       PORTMUX_EVSYSROUTEA &= ~(1 << ((event_user & 0x7F) - 0x0D));
     #endif
   }
