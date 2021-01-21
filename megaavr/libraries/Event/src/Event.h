@@ -529,7 +529,7 @@ class Event
     void set_generator(uint8_t generator);
     uint8_t get_generator();
     void set_user(user::user_t event_user);
-    void clear_user(user::user_t event_user);
+    static void clear_user(user::user_t event_user);
     void soft_event();
     void start(bool state = true);
     void stop();
