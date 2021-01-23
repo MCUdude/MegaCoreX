@@ -8,6 +8,21 @@ Developed by [MCUdude](https://github.com/MCUdude/).
 More information about the Event system and how it works can be found in the [Microchip Application Note AN2451](http://ww1.microchip.com/downloads/en/AppNotes/DS00002451B.pdf) and in the [megaAVR-0 family data sheet](http://ww1.microchip.com/downloads/en/DeviceDoc/megaAVR0-series-Family-Data-Sheet-DS40002015B.pdf).
 
 
+### Level vs. Pulse events
+There are two types of events - a "pulse" interrupt, which lasts for the duration of a single clock cycle (either `CLK_PER` or a relevant (slower) clock - for example, the USART XCK generator provides a pulse event which lasts one XCK period, whuich is far slower than CLK_PER), or a "level" interrupt which lasts for the duration of some condition. 
+Often for a given even generator or user only one or the other makes sense. Less often, for some reason or another, you may need a level event, but all you have is a pulse event - or the other way around. A [CCL module (Logic.h)](../Logic/README.md) event between the two at the cost of the logic module and one event channel. In the case of timer WO (PWM) channels, the CCL already has level inputs.
+
+
+### Synchronization
+The event system, under the hood, is asynchronous - it can react faster than the system clock (often a lot faster).
+The fact that it is asynchronous usually doesn't matter, but it is one of the things one should keep in mind when using these features, because every so often it does.
+
+
+### Some of these events are *weird*
+At first glance, nore than half of the users and generators seem, at best, odd - and a good few of them might appear entirely useless. Most of the event system can only truly be understood when considering the full range of generators and users - particularly the CCL. One of the tragedies of a datasheet is that it - generally - lacks a "why". Behind every mysterious event, there is a use case that seems obscure to most people - but within some sub-field, it's common and essential. There are also times when something may seem surprising until you're more familiar with the event and logic systems in general.
+
+
+
 ## Event
 Class for interfacing with the built-in Event system. Each event generator channel has its own object. 
 Use the predefined objects `Event0`, `Event1`, `Event2`, `Event3`, `Event4`, `Event5`, `Event6` or `Event7`. Note that channels have different functionality, so make sure you use the right channel for the task.
@@ -147,23 +162,27 @@ Event::clear_user(user::evouta); // Remove the user::evouta from whatever event 
 
 
 ## soft_event()
-Creates a single software event similar to what a hardware event does. Great if you have to force trigger something. Note that a software event only lasts a single system clock cycle, so it's rather fast!
+Creates a single software event - users connected to that channel will react to it in the same way as they would to one caused by the generator the channel is connected to. 
+Great if you have to force trigger something. Note that a software event only lasts a single system clock cycle, so it's rather fast! 
+The software events will invert the channel, and so will trigger something regardless of whether it needs a the event channel to go high or low.
 
 ### Usage
 ```c++
 Event0.soft_event(); // Create a single software event on Event0
 ```
 
+
 ## start()
-Starts an event generator channel.
+Starts an event generator channel by writing the generator selected by `set_generator()` function.
 
 ### Usage
 ```c++
 Event0.start(); // Starts the Event0 generator channel
 ```
 
+
 ## stop()
-Stops an event generator channel.
+Stops an event generator channel. The `Eventn` object retains memory of what generator it was previously set to.
 
 ### Usage
 ```c++
