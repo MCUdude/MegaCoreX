@@ -23,6 +23,7 @@ void print_event_info(Event& my_event)
   Serial2.printf("This channel uses generator no. 0x%02x, which you can find in Event.h\n", my_event.get_generator());
 }
 
+// Function to print information about the passed event user
 void print_user_info(user::user_t my_user)
 {
   // Event::get_user_channel() returns -1 if the user isn't connected to any event generator
@@ -33,27 +34,27 @@ void setup()
 {
   Serial2.begin(9600); // Initialize hardware serial port
 
-  Event4.set_generator(gen4::pin_pe0); // Set pin PE0 as event generator
-  Event5.set_generator(gen5::pin_pe1); // Set pin PE1 as event generator
+  Event1.set_generator(gen0::pin_pa3); // Set pin PA3 as event generator
+  Event2.set_generator(gen2::pin_pc3); // Set pin PC3 as event generator
 
   // For more information about EVOUT, see the PORTMUX section in the datasheet
-  Event4.set_user(user::evoute_pin_pe2); // Set EVOUTE as event user
-  Event5.set_user(user::evoutf_pin_pf2); // Set EVOUTF as event user
+  Event1.set_user(user::evoutc_pin_pc2); // Set EVOUTC as event user
+  Event2.set_user(user::evouta_pin_pa2); // Set EVOUTA as event user
 
   // Start event channels
-  Event4.start();
-  Event5.start();
+  Event1.start();
+  Event2.start();
 }
 
 void loop()
 {
   // Print info about Event4 and its event user
-  print_event_info(Event4);
-  print_user_info(user::evoute_pin_pe2);
+  print_event_info(Event1);
+  print_user_info(user::evoutc_pin_pc2);
 
   // Print info about Event5 and its event user
-  print_event_info(Event5);
-  print_user_info(user::evoutf_pin_pf2);
+  print_event_info(Event2);
+  print_user_info(user::evouta_pin_pa2);
 
   delay(5000);
 }
