@@ -79,8 +79,12 @@ bool TwoWire::pins(uint8_t sda_pin, uint8_t scl_pin)
     PORTMUX.TWISPIROUTEA = TWI_MUX | (PORTMUX.TWISPIROUTEA & ~(3 << 4));
     return false;
   }
-
+#else
+  (void)sda_pin; // Mute unused parameter warning
+  (void)scl_pin;
+  return false;
 #endif
+
 }
 
 bool TwoWire::swap(uint8_t state)
@@ -104,8 +108,10 @@ bool TwoWire::swap(uint8_t state)
     PORTMUX.TWISPIROUTEA = TWI_MUX | (PORTMUX.TWISPIROUTEA & ~(3 << 4));
     return true;
   }
-#endif
+#else
+  (void)state; // Mute unused parameter warning
   return false;
+#endif
 }
 
 void TwoWire::begin(void)
