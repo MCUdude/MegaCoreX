@@ -68,14 +68,22 @@ void TWI_MasterInit(uint32_t frequency)
 // Enable input pullup for the default or pin swapped pin position
   if ((PORTMUX.TWISPIROUTEA & 0x30) == TWI_MUX)
   {
-    pinMode(PIN_WIRE_SDA, INPUT_PULLUP);
-    pinMode(PIN_WIRE_SCL, INPUT_PULLUP);
+
+// Disable pins hardwired to the default i2c pins (PA2 and PA3)
+#if defined(NANO_EVERY_PINOUT)
+    PORTF_PIN2CTRL &= ~PORT_PULLUPEN_bm; // Disable PF2 pullup
+    PORTF_PIN3CTRL &= ~PORT_PULLUPEN_bm; // Disable PF3 pullup
+    PORTF_DIRCLR |= PIN2_bm | PIN3_bm;   // Set PF2 and PF3 as inputs
+#endif
+
+    pinMode(PIN_WIRE_SDA, INPUT_PULLUP); // Enable PA2 pullup
+    pinMode(PIN_WIRE_SCL, INPUT_PULLUP); // Enable PA3 pullup
   }
 #if defined(PIN_WIRE_SDA_PINSWAP_1) && defined(PIN_WIRE_SCL_PINSWAP_1)
   else if ((PORTMUX.TWISPIROUTEA & 0x30) == TWI_MUX_PINSWAP)
   {
-    pinMode(PIN_WIRE_SDA_PINSWAP_1, INPUT_PULLUP);
-    pinMode(PIN_WIRE_SCL_PINSWAP_1, INPUT_PULLUP);
+    pinMode(PIN_WIRE_SDA_PINSWAP_1, INPUT_PULLUP); // Enable PC2 pullup
+    pinMode(PIN_WIRE_SCL_PINSWAP_1, INPUT_PULLUP); // Enable PC3 pullup
   }
 #endif
 
@@ -105,6 +113,16 @@ void TWI_SlaveInit(uint8_t address, uint8_t receive_broadcast, uint8_t second_ad
   if (twi_mode != TWI_MODE_UNKNOWN)
     return;
 
+  // Disable pins hardwired to the default i2c pins (PA2 and PA3)
+#if defined(NANO_EVERY_PINOUT)
+  if ((PORTMUX.TWISPIROUTEA & 0x30) == TWI_MUX)
+  {
+    PORTF_PIN2CTRL &= ~PORT_PULLUPEN_bm; // Disable PF2 pullup
+    PORTF_PIN3CTRL &= ~PORT_PULLUPEN_bm; // Disable PF3 pullup
+    PORTF_DIRCLR |= PIN2_bm | PIN3_bm;   // Set PF2 and PF3 as inputs
+  }
+#endif
+
   twi_mode = TWI_MODE_SLAVE;
 
   slave_bytesRead = 0;
@@ -132,7 +150,6 @@ void TWI_Flush(void)
  *  TWI module disable function.
  *  Disables both master and slave modes
  *
- *  \param frequency            The required baud.
  */
 void TWI_Disable(void)
 {
