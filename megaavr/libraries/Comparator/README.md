@@ -6,7 +6,7 @@ More useful information about the analog comparator can be found in the [Microch
 
 
 ## Comparator
-Class for interfacing with the built-in comparator. use the predefined objects `Comparator` or `Comparator0`.
+Class for interfacing with the built-in comparator. Use the predefined objects `Comparator` or `Comparator0`.
 
 
 ### input_p
@@ -35,7 +35,7 @@ Accepted values:
 in_n::in0;    // Use positive input pin 0 (PD3) as input
 in_n::in1;    // Use positive input pin 1 (PD5) as input
 in_n::in2;    // Use positive input pin 2 (PD7) as input
-in_p::dacref; // Use DACREF as input
+in_n::dacref; // Use DACREF as input
 ```
 
 ##### Usage
@@ -48,7 +48,7 @@ Comparator.input_n = in_n::in0;  // Connect negative input pin 0 to the negative
 
 
 ### reference
-Variable for setting what reference voltage the DACREF should use. This voltage is internally generated. 
+Variable for setting what reference voltage the DACREF should be derived from. This voltage is internally generated. 
 Accepted values:
 ``` c++
 ref::disable;   // Do not use any reference
@@ -70,7 +70,7 @@ Comparator.reference = ref::vref_2v5;  // Use the internal 2.5V reference for th
 
 
 ### dacref
-Variable for setting the DACREF value. The DACREF voltage is the voltage that the comparator uses as it's reference.  
+Variable for setting the DACREF value. This voltage can be selected as the input for the negative side of the comparator.  
 This is the formula for the DACREF output voltage:  
   
 <img src="http://latex.codecogs.com/svg.latex?V_{DACREF} = \frac{Comparator.dacref}{256} * Comparator.reference" border="0"/>
