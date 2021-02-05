@@ -244,8 +244,19 @@ Holds the serial port used for uploading. Only needed if you're uploading using 
 
 
 ### `upload_protocol`
-Used when using a programmer rather than using a USB to serial adapter.  
-Supports all Avrdude compatible UPDI programmers such as `jtag2updi`, `xplainedmini_updi` and `curiosity_updi`.
+Programmer used for uploading.
+
+| Supported UPDI programmers in Avrdude | Notes                                                                                                            |
+|---------------------------------------|------------------------------------------------------------------------------------------------------------------|
+| `jtag2updi`                           | Requires upload port                                                                                             |
+| `arduino`                             | Used when uploading using the Optiboot bootloader. Requires upload port                                          |
+| `xplainedmini_updi`                   | Xplained Mini (mEDBG) and [microUPDI](https://www.tindie.com/products/MCUdude/microupdi-programmer/) programmers |
+| `pkobn_updi`                          | On-board Curiosity nano programmer (nEDBG)                                                                       |
+| `pickit4_updi`                        | PICkit4 programmer in UPDI mode                                                                                  |
+| `snap_updi`                           | MPLAB SNAP programmer in UPDI mode                                                                               |
+| `atmelice_updi`                       | Atmel ICE programmer in UPDI mode                                                                                |
+| `xplainedpro_updi`                    | Xplained Pro in UPDI mode                                                                                        |
+| `powerdebugger_updi`                  | Power Debugger in UPDI mode                                                                                      |
 
 
 ### `upload_flags`
