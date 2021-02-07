@@ -24,14 +24,16 @@
 
 #include <Arduino.h>
 
+#ifndef TWI_BUFFER_SIZE
 #if ((RAMEND - RAMSTART) < 1023)
-#define BUFFER_LENGTH 16
+#define TWI_BUFFER_SIZE 16
 #elif ((RAMEND - RAMSTART) < 4095)
-#define BUFFER_LENGTH 32
+#define TWI_BUFFER_SIZE 32
 #elif ((RAMEND - RAMSTART) < 8191)
-#define BUFFER_LENGTH 64
+#define TWI_BUFFER_SIZE 64
 #else
-#define BUFFER_LENGTH 128
+#define TWI_BUFFER_SIZE 128
+#endif
 #endif
 
 // WIRE_HAS_END means Wire has end()

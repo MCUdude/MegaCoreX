@@ -34,12 +34,12 @@ extern "C"
 
 // Initialize Class Variables //////////////////////////////////////////////////
 
-uint8_t TwoWire::rxBuffer[BUFFER_LENGTH];
+uint8_t TwoWire::rxBuffer[TWI_BUFFER_SIZE];
 uint8_t TwoWire::rxBufferIndex = 0;  //head
 uint8_t TwoWire::rxBufferLength = 0; //tail
 
 uint8_t TwoWire::txAddress = 0;
-uint8_t TwoWire::txBuffer[BUFFER_LENGTH];
+uint8_t TwoWire::txBuffer[TWI_BUFFER_SIZE];
 uint8_t TwoWire::txBufferIndex = 0;  //head
 uint8_t TwoWire::txBufferLength = 0; //tail
 
@@ -136,7 +136,7 @@ void TwoWire::begin(uint8_t address, bool receive_broadcast, uint8_t second_addr
   TWI_SlaveInit(address, receive_broadcast, second_address);
 
   TWI_attachSlaveTxEvent(onRequestService, txBuffer);                // default callback must exist
-  TWI_attachSlaveRxEvent(onReceiveService, rxBuffer, BUFFER_LENGTH); // default callback must exist
+  TWI_attachSlaveRxEvent(onReceiveService, rxBuffer, TWI_BUFFER_SIZE); // default callback must exist
 }
 
 void TwoWire::begin(int address, bool receive_broadcast, uint8_t second_address)
@@ -176,9 +176,9 @@ void TwoWire::setClock(uint32_t frequency)
 
 uint8_t TwoWire::requestFrom(uint8_t address, size_t quantity, bool sendStop)
 {
-  if (quantity > BUFFER_LENGTH)
+  if (quantity > TWI_BUFFER_SIZE)
   {
-    quantity = BUFFER_LENGTH;
+    quantity = TWI_BUFFER_SIZE;
   }
 
   uint8_t bytes_read = TWI_MasterRead(address, rxBuffer, quantity, sendStop);
@@ -268,7 +268,7 @@ uint8_t TwoWire::endTransmission(void)
 size_t TwoWire::write(uint8_t data)
 {
   /* Check if buffer is full */
-  if (txBufferLength >= BUFFER_LENGTH)
+  if (txBufferLength >= TWI_BUFFER_SIZE)
   {
     setWriteError();
     return 0;
@@ -342,7 +342,7 @@ int TwoWire::peek()
 void TwoWire::flush()
 {
   //   /* Clear buffers */
-  //   for(uint8_t i = 0; i < BUFFER_LENGTH; i++){
+  //   for(uint8_t i = 0; i < TWI_BUFFER_SIZE; i++){
   //     txBuffer[i] = 0;
   //     rxBuffer[i] = 0;
   //   }
