@@ -62,9 +62,6 @@ namespace gen
     tca1_cmp1     = 0x8D,
     tca1_cmp2     = 0x8E,
 #endif
-#if defined(TCB4)
-    tcb4_capt     = 0xA8,
-#endif
     tcb0_ovf      = 0xA1,
     tcb1_ovf      = 0xA3,
     tcb2_ovf      = 0xA5,
@@ -72,6 +69,7 @@ namespace gen
     tcb3_ovf      = 0xA7,
 #endif
 #if defined(TCB4)
+    tcb4_capt     = 0xA8,
     tcb4_ovf      = 0xA9,
 #endif
     tcd0_cmpbclr  = 0xB0,
