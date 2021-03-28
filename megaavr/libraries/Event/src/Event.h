@@ -475,10 +475,10 @@ namespace user
 #if defined(USART5)
     usart5_irda    = 0x1A,
 #endif
-    tca0_cnta      = 0x1B,
-    tca0_cntb      = 0x1C,
-    tca1_cnta      = 0x1D,
-    tca1_cntb      = 0x1E,
+    tca0_cnt_a     = 0x1B,
+    tca0_cnt_b     = 0x1C,
+    tca1_cnt_a     = 0x1D,
+    tca1_cnt_b     = 0x1E,
     tcb0_capt      = 0x1F,
     tcb0_cnt       = 0x20,
     tcb1_capt      = 0x21,
@@ -554,10 +554,10 @@ namespace user
 #if defined(USART5)
     usart5_irda    = 0x19,
 #endif
-    tca0_cnta      = 0x1A,
-    tca0_cntb      = 0x1B,
-    tca1_cnta      = 0x1C,
-    tca1_cntb      = 0x1D,
+    tca0_cnt_a     = 0x1A,
+    tca0_cnt_b     = 0x1B,
+    tca1_cnt_a     = 0x1C,
+    tca1_cnt_b     = 0x1D,
     tcb0_capt      = 0x1E,
     tcb0_cnt       = 0x1F,
     tcb1_capt      = 0x20,
