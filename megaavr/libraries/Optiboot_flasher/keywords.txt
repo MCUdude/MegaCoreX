@@ -33,6 +33,7 @@ optiboot_page_write	KEYWORD2
 optiboot_readPage	KEYWORD2
 optiboot_read	KEYWORD2
 optiboot_writePage	KEYWORD2
+optiboot_page_erase_write	KEYWORD2
 
 ############################################
 # Constants (LITERAL1)

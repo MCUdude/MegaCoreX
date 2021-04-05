@@ -44,8 +44,25 @@ bool optiboot_check_writable()
 void optiboot_page_erase(optiboot_addr_t address)
 {
   // Set page by writing to address
-  do_nvmctrl(address + MAPPED_PROGMEM_START, NVMCTRL_CMD_COPY_gc, 0xFF);
+  optiboot_page_fill(address, (uint8_t)0xFF);
   do_nvmctrl_cli(0, NVMCTRL_CMD_PAGEERASE_gc, 0); // do actual erase
+}
+
+
+/**
+ * @brief Writes an 8-bit value to a temporary, internal buffer. Note that
+ * this temporary buffer gets destroyed if you read or write to EEPROM. It's
+ * therefore important that the buffer gets written to flash before doing
+ * anything EEPROM related. Also note that you can write only once to one
+ * location in the temporary buffer without erasing it first, which happens
+ * after a flash page erase or write.
+ *
+ * @param address address where to write the 8-bit data
+ * @param data data to write
+ */
+void optiboot_page_fill(optiboot_addr_t address, uint8_t data)
+{
+  do_nvmctrl(address + MAPPED_PROGMEM_START, NVMCTRL_CMD_COPY_gc, data);
 }
 
 
@@ -62,8 +79,18 @@ void optiboot_page_erase(optiboot_addr_t address)
  */
 void optiboot_page_fill(optiboot_addr_t address, uint16_t data)
 {
-  do_nvmctrl(address + MAPPED_PROGMEM_START, NVMCTRL_CMD_COPY_gc, data & 0xFF);
-  do_nvmctrl(address + MAPPED_PROGMEM_START, NVMCTRL_CMD_COPY_gc, data >> 8);
+  optiboot_page_fill(address, (uint8_t)(data & 0xFF));
+  optiboot_page_fill(++address, (uint8_t)(data >> 8));
+}
+
+
+/**
+ * @brief Write the temporary, internal buffer to flash
+ *
+ */
+void optiboot_page_erase_write()
+{
+  do_nvmctrl_cli(0, NVMCTRL_CMD_PAGEERASEWRITE_gc, 0);
 }
 
 
@@ -129,13 +156,10 @@ void optiboot_readPage(const uint8_t allocated_flash_space[], uint8_t storage_ar
  */
 void optiboot_writePage(const uint8_t allocated_flash_space[], uint8_t data_to_store[], uint16_t page_number)
 {
-  const uint8_t *adjusted_address;
   // Copy ram buffer to temporary flash buffer
   for(uint16_t i = 0; i < SPM_PAGESIZE; i++)
-  {
-    adjusted_address = &allocated_flash_space[i + SPM_PAGESIZE * (page_number)];
-    adjusted_address += MAPPED_PROGMEM_START;
-    do_nvmctrl((optiboot_addr_t)adjusted_address, NVMCTRL_CMD_COPY_gc, data_to_store[i]);
-  }
-  do_nvmctrl_cli(0, NVMCTRL_CMD_PAGEERASEWRITE_gc, 0);
+    optiboot_page_fill((optiboot_addr_t)&allocated_flash_space[i + SPM_PAGESIZE * page_number], data_to_store[i]);
+
+  // Erase and then write page
+  optiboot_page_erase_write();
 }
