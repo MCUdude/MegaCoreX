@@ -46,7 +46,6 @@ const uint8_t flashSpace[SPM_PAGESIZE * NUMBER_OF_PAGES] __attribute__ (( aligne
   "This some default content stored on page one"
 };
 
-//#define Serial Serial3
 
 void setup()
 {
