@@ -48,21 +48,21 @@ void write_data()
   flash[5] = 'X';
   flash.write_page(1);
 
-  Serial.println(F("Page 0 written to!\nReset your board to view the contents!\n"));
+  Serial.println("Page 0 written to!\nReset your board to view the contents!\n");
 }
 
 void read_data()
 {
-  Serial.println(F("Read float from flash page 0: "));
+  Serial.println("Read float from flash page 0: ");
 
   // Fetch first flash page
   flash.fetch_page(0);
 
   for(uint16_t i = 0; i < flash.buffer_size(); i++)
   {
-    Serial.print(F("Addr: "));
+    Serial.print("Addr: ");
     Serial.print(i);
-    Serial.print(F(" \tData: "));
+    Serial.print(" \tData: ");
     Serial.println(flash[i]);
   }
 }
@@ -72,24 +72,30 @@ void setup()
   delay(2000);
   Serial.begin(9600);
 
+  if(!flash.check_writable())
+  {
+    Serial.println("Incompatible or no bootloader present! Please burn correct bootloader");
+    while(1);
+  }
+
   // Fetch flash page 1, where we may have a flag
   flash.fetch_page(1);
 
   // Check if our flag is present
   if(flash[5] == 'X')
   {
-    Serial.println(F("Content found!"));
+    Serial.println("Content found!");
     read_data();
   }
   else
   {
-    Serial.print(F("Flash page size for this chip: "));
+    Serial.print("Flash page size for this chip: ");
     Serial.print(SPM_PAGESIZE);
-    Serial.print(F(" bytes\nTotal assigned flash space: "));
+    Serial.print(" bytes\nTotal assigned flash space: ");
     Serial.print(NUMBER_OF_PAGES * SPM_PAGESIZE);
-    Serial.println(F(" bytes"));
+    Serial.println(" bytes");
 
-    Serial.println(F("No content found! Writing new content..."));
+    Serial.println("No content found! Writing new content...");
     write_data();
   }
 }

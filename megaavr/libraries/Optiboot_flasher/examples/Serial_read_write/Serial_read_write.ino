@@ -50,8 +50,15 @@ const uint8_t flashSpace[SPM_PAGESIZE * NUMBER_OF_PAGES] __attribute__ (( aligne
 
 void setup()
 {
+  delay(1000);
   // Initialize serial
   Serial.begin(9600);
+
+  if(!optiboot_check_writable())
+  {
+    Serial.println("Incompatible or no bootloader present! Please burn the correct bootloader");
+    while(1);
+  }
 }
 
 
@@ -59,24 +66,24 @@ void loop()
 {
   // Print main menu
   Serial.println();
-  Serial.println(F("|------------------------------------------------|"));
-  Serial.println(F("| Welcome to the Optiboot flash writer example!  |"));
-  Serial.print(F("| Each flash page is "));
+  Serial.println("|------------------------------------------------|");
+  Serial.println("| Welcome to the Optiboot flash writer example!  |");
+  Serial.print("| Each flash page is ");
   Serial.print(SPM_PAGESIZE);
-  Serial.println(F(" bytes long.             |"));
-  Serial.print(F("| There are "));
+  Serial.println(" bytes long.             |");
+  Serial.print("| There are ");
   Serial.print(NUMBER_OF_PAGES);
-  Serial.println(F(" pages that can be read/written to. |"));
-  Serial.print(F("| Total assigned flash space: "));
+  Serial.println(" pages that can be read/written to. |");
+  Serial.print("| Total assigned flash space: ");
   Serial.print(NUMBER_OF_PAGES * SPM_PAGESIZE);
-  Serial.println(F(" bytes.        |"));
-  Serial.println(F("| Change the NUMBER_OF_PAGES constant to         |"));
-  Serial.println(F("| increase or decrease this number.              |"));
-  Serial.println(F("|                                                |"));
-  Serial.println(F("| What do you want to do?                        |"));
-  Serial.println(F("| 1. Show current flash content                  |"));
-  Serial.println(F("| 2. Write to flash memory                       |"));
-  Serial.println(F("|------------------------------------------------|"));
+  Serial.println(" bytes.        |");
+  Serial.println("| Change the NUMBER_OF_PAGES constant to         |");
+  Serial.println("| increase or decrease this number.              |");
+  Serial.println("|                                                |");
+  Serial.println("| What do you want to do?                        |");
+  Serial.println("| 1. Show current flash content                  |");
+  Serial.println("| 2. Write to flash memory                       |");
+  Serial.println("|------------------------------------------------|");
 
   // Static variables
   static uint8_t charBuffer;
@@ -90,24 +97,24 @@ void loop()
     while(!Serial.available());
     menuOption = Serial.read();
     if(menuOption != '1' && menuOption != '2')
-      Serial.print(F("\nPlease enter a valid option! "));
+      Serial.print("\nPlease enter a valid option! ");
   }
   while(menuOption != '1' && menuOption != '2');
 
-  Serial.print(F("\nOption "));
+  Serial.print("\nOption ");
   Serial.print(menuOption);
-  Serial.println(F(" selected."));
+  Serial.println(" selected.");
 
 
 
   // Read flash option selected
   if(menuOption == '1')
   {
-    Serial.print(F("Which page number do you want to read? Page 0 to "));
+    Serial.print("Which page number do you want to read? Page 0 to ");
     Serial.print(NUMBER_OF_PAGES - 1);
-    Serial.print(F(", Page "));
+    Serial.print(", Page ");
     Serial.print(NUMBER_OF_PAGES);
-    Serial.print(F(" to show all pages: "));
+    Serial.print(" to show all pages: ");
 
     //Get page number from the serial monitor
     do
@@ -116,9 +123,9 @@ void loop()
       pageNumber = Serial.read() - 0x30;
       if(pageNumber > NUMBER_OF_PAGES)
       {
-        Serial.print(F("\nPlease enter a valid page between 0 and "));
+        Serial.print("\nPlease enter a valid page between 0 and ");
         Serial.print(NUMBER_OF_PAGES - 1);
-        Serial.println(F(". The number of pages can be extended by changing NUMBER_OF_PAGES constant"));
+        Serial.println(". The number of pages can be extended by changing NUMBER_OF_PAGES constant");
       }
     }
     while(pageNumber > NUMBER_OF_PAGES);
@@ -143,9 +150,9 @@ void loop()
     for(uint8_t page = pageFirst; page < pageLast; page++)
     {
       optiboot_readPage(flashSpace, ramBuffer, page);
-      Serial.print(F("Page "));
+      Serial.print("Page ");
       Serial.print(page);
-      Serial.print(F(": "));
+      Serial.print(": ");
       for(uint16_t i = 0; i < sizeof(ramBuffer); i++)
       {
         if(ramBuffer[i] == 0x00 || ramBuffer[i] == 0xff)
@@ -166,28 +173,28 @@ void loop()
     pageNumber = 0xff;
 
     //Get page number from the serial monitor
-    Serial.print(F("\nWhich page do you want to write to? Page: "));
+    Serial.print("\nWhich page do you want to write to? Page: ");
     do
     {
       while(!Serial.available());
       pageNumber = Serial.read() - 0x30;
       if(pageNumber > NUMBER_OF_PAGES - 1)
       {
-        Serial.print(F("\nPlease enter a valid page between 0 and "));
+        Serial.print("\nPlease enter a valid page between 0 and ");
         Serial.print(NUMBER_OF_PAGES - 1);
-        Serial.println(F(". The number of pages can be extended by changing NUMBER_OF_PAGES constant"));
+        Serial.println(". The number of pages can be extended by changing NUMBER_OF_PAGES constant");
       }
     }
     while(pageNumber >= NUMBER_OF_PAGES);
     Serial.println(pageNumber);
 
     // Print prompt to enter some new characters to write to flash
-    Serial.print(F("Please type the characters you want to store (max "));
+    Serial.print("Please type the characters you want to store (max ");
     Serial.print(SPM_PAGESIZE);
-    Serial.println(F(" characters)"));
-    Serial.print(F("End the line by sending the '"));
+    Serial.println(" characters)");
+    Serial.print("End the line by sending the '");
     Serial.write(terminationChar);
-    Serial.println(F("' character:"));
+    Serial.println("' character:");
 
     // Get all characters from the serial monitor and store it to the ramBuffer
     memset(ramBuffer, 0, sizeof(ramBuffer));
@@ -206,7 +213,7 @@ void loop()
       }
     }
     charBuffer = 0;
-    Serial.println(F("\n\nAll chars received \nWriting to flash..."));
+    Serial.println("\n\nAll chars received \nWriting to flash...");
 
     // WRITE RECEIVED DATA TO THE CURRENT FLASH PAGE
     // flash_buffer is where the data is stored (contains the memory addresses)
@@ -214,19 +221,19 @@ void loop()
     // pageNumber is the page the data is written to
     optiboot_writePage(flashSpace, ramBuffer, pageNumber);
 
-    Serial.println(F("Writing finished. You can now reset or power cycle the board and check for new contents!"));
+    Serial.println("Writing finished. You can now reset or power cycle the board and check for new contents!");
   } // End of flash write option
 
 
 
   //Return to the main menu if 'm' is sent
-  Serial.println(F("\ntype the character 'm' to return to to the main menu"));
+  Serial.println("\ntype the character 'm' to return to to the main menu");
   do
   {
     while(!Serial.available());
     returnToMenu = Serial.read();
     if(returnToMenu != 'm')
-      Serial.print(F("\nPlease type a valid character! "));
+      Serial.print("\nPlease type a valid character! ");
   }
   while(returnToMenu != 'm');
   returnToMenu = 0;
