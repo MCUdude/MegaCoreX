@@ -209,11 +209,11 @@ Specifies what functionality the reset pin should have. Note that the option `re
 Holds the current pinout in use.  
 See [pinout pics](https://github.com/MCUdude/MegaCoreX#pinout) for more info.
 
-| Pinouts 48 pin parts      | Pinouts 40 pin parts              | Pinouts 32 pin parts      | Pinouts 28 pin parts      |
-|---------------------------|-----------------------------------|---------------------------|---------------------------|
-| `48pin-default` (default) | `40pin-default` (must be defined) | `32pin-default` (default) | `28pin-default` (default) |
-| `nano-every`              |                                   |                           |                           |
-| `uno-wifi`                |                                   |                           |                           |
+| Pinouts 48 pin parts       | Pinouts 40 pin parts               | Pinouts 32 pin parts       | Pinouts 28 pin parts       |
+|----------------------------|------------------------------------|----------------------------|----------------------------|
+| `48pin-standard` (default) | `40pin-standard` (must be defined) | `32pin-standard` (default) | `28pin-standard` (default) |
+| `nano-every`               |                                    |                            |                            |
+| `uno-wifi`                 |                                    |                            |                            |
 
 
 ### `build_unflags`
