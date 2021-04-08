@@ -7,9 +7,11 @@ namespace out
 {
   enum output_t : uint8_t
   {
-    disable = 0x00,
-    enable  = 0x40,
-    invert  = 0x80,
+    disable         = 0x00,
+    disable_invert  = 0xC0,
+    enable          = 0x40,
+    invert          = 0x80,
+    enable_invert   = 0x80,
   };
 };
 

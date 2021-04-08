@@ -59,7 +59,7 @@ void AnalogComparator::init()
     AC.CTRLA |= out::enable;
     PORTA.DIRSET = PIN7_bm;
   }
-  else if(output == out::invert)
+  else if(output == out::invert /* || output == out::invert_enable */)
   {
     AC.MUXCTRLA |= out::invert;
     AC.CTRLA |= out::enable;
@@ -68,6 +68,12 @@ void AnalogComparator::init()
   else if(output == out::disable)
   {
     AC.MUXCTRLA &= ~out::invert;
+    AC.CTRLA &= ~out::enable;
+    PORTA.DIRCLR = PIN7_bm;
+  }
+  else if(output == out::disable_invert)
+  {
+    AC.MUXCTRLA |= out::invert;
     AC.CTRLA &= ~out::enable;
     PORTA.DIRCLR = PIN7_bm;
   }
