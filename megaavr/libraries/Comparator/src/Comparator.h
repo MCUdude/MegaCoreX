@@ -67,6 +67,7 @@ class AnalogComparator
     void init();
     void start(bool state = true);
     void stop();
+    bool read();
     void attachInterrupt(voidFuncPtr callback, uint8_t mode);
     void detachInterrupt();
 
@@ -80,7 +81,7 @@ class AnalogComparator
   private:
     const uint8_t comparator_number;
     AC_t& AC;
-    bool enable = false;   
+    bool enable = false;
 };
 
 #if defined(AC0_AC_vect)

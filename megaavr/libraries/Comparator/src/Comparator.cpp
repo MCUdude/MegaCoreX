@@ -14,7 +14,7 @@ static volatile voidFuncPtr intFuncAC[1];
 #endif
 
 
-AnalogComparator::AnalogComparator(const uint8_t comp_number, AC_t& ac) : comparator_number(comp_number), AC(ac)     
+AnalogComparator::AnalogComparator(const uint8_t comp_number, AC_t& ac) : comparator_number(comp_number), AC(ac)
 {
 }
 
@@ -34,7 +34,7 @@ void AnalogComparator::init()
 
   // Set hysteresis
   AC.CTRLA = (AC.CTRLA & ~AC_HYSMODE_gm) | hysteresis;
-  
+
   // Set inputs
   if(input_p == in_p::in0)
     PORTD.PIN2CTRL = PORT_ISC_INPUT_DISABLE_gc;
@@ -86,10 +86,15 @@ void AnalogComparator::stop()
   start(false);
 }
 
+bool AnalogComparator::read()
+{
+  return !!(AC0.STATUS & AC_STATE_bm);
+}
+
 void AnalogComparator::attachInterrupt(void (*userFunc)(void), uint8_t mode)
 {
   AC_INTMODE_t intmode;
-  switch (mode) 
+  switch (mode)
   {
     // Set RISING, FALLING or CHANGE interrupt trigger for the comparator output
     case RISING:
@@ -106,10 +111,10 @@ void AnalogComparator::attachInterrupt(void (*userFunc)(void), uint8_t mode)
       return;
   }
   AC.CTRLA = (AC.CTRLA & ~AC_INTMODE_POSEDGE_gc) | intmode;
-  
+
   // Store function pointer
   intFuncAC[comparator_number] = userFunc;
-  
+
   // Enable interrupt
   AC.INTCTRL |= AC_CMP_bm;
 }
@@ -125,7 +130,7 @@ ISR(AC0_AC_vect)
 {
   // Run user function
   intFuncAC[0]();
-  
+
   // Clear flag
   AC0.STATUS = AC_CMP_bm;
 }
@@ -136,7 +141,7 @@ ISR(AC1_AC_vect)
 {
   // Run user function
   intFuncAC[1]();
-  
+
   // Clear flag
   AC1.STATUS = AC_CMP_bm;
 }
@@ -147,7 +152,7 @@ ISR(AC2_AC_vect)
 {
   // Run user function
   intFuncAC[2]();
-  
+
   // Clear flag
   AC2.STATUS = AC_CMP_bm;
 }

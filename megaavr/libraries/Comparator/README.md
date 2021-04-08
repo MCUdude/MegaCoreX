@@ -129,6 +129,7 @@ Method for initializing the comparator.
 Comparator.init(); // Initialize comparator
 ```
 
+
 ## start()
 Method for starting the analog comparator.
 ##### Usage
@@ -143,6 +144,15 @@ Method for stopping the analog comparator.
 ##### Usage
 ```c++
 Comparator.stop(); // Stop comparator
+```
+
+
+## read()
+Reads the state of the analog comparator output.
+
+##### Usage
+```c++
+bool comp_state = Comparator.read(); // Read comparator
 ```
 
 
