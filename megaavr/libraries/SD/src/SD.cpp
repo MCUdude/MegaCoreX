@@ -280,7 +280,7 @@ namespace SDLib {
   /*
 
     bool callback_openPath(SdFile& parentDir, char *filePathComponent,
-  	  bool isLastComponent, void *object) {
+      bool isLastComponent, void *object) {
 
     Callback used to open a file specified by a filepath that may
     specify one or more directories above it.

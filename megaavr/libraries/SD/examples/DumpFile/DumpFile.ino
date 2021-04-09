@@ -11,8 +11,7 @@
  ** SDI - pin 12
  ** CLK - pin 13
  ** CS - depends on your SD card shield or module.
- 		Pin 10 used here for consistency with other Arduino examples
-   (for MKRZero SD: SDCARD_SS_PIN)
+    Pin 10 used here for consistency with other Arduino examples
 
   created  22 December 2010
   by Limor Fried

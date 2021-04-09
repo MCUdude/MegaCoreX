@@ -8,7 +8,7 @@
  ** SDO - pin 11
  ** SDI - pin 12
  ** CLK - pin 13
- ** CS - pin 4 (For For Uno, Nano: pin 10. For MKRZero SD: SDCARD_SS_PIN)
+ ** CS - pin 4 (For For Uno, Nano: pin 10)
 
   created   Nov 2010
   by David A. Mellis

@@ -521,7 +521,7 @@ void fastDigitalWrite(uint8_t pin, uint8_t value) {
   uint8_t const MISO_PIN = 12;
   uint8_t const SCK_PIN = 13;
 
-#endif	// Arduino ARC
+#endif  // Arduino ARC
 
 #else
 #error Architecture or board not supported.
