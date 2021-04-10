@@ -62,7 +62,7 @@ void optiboot_page_erase(optiboot_addr_t address)
  */
 void optiboot_page_fill(optiboot_addr_t address, uint8_t data)
 {
-  do_nvmctrl(address + MAPPED_PROGMEM_START, NVMCTRL_CMD_COPY_gc, data);
+  do_nvmctrl(address, NVMCTRL_CMD_COPY_gc, data);
 }
 
 
@@ -124,7 +124,7 @@ void optiboot_read(const uint8_t allocated_flash_space[], uint8_t storage_array[
 {
   for(uint16_t j = start_address; j < stop_address; j++)
   {
-    uint8_t read_character = pgm_read_byte(&allocated_flash_space[j + SPM_PAGESIZE * (page_number)]);
+    uint8_t read_character = allocated_flash_space[j + SPM_PAGESIZE * (page_number)];
     storage_array[j - start_address] = read_character;
   }
 }

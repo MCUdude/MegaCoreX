@@ -25,7 +25,7 @@ uint8_t ram_buffer[SPM_PAGESIZE];
 
 // Allocate two flash pages for storing data
 #define NUMBER_OF_PAGES 2
-const uint8_t flashSpace[SPM_PAGESIZE * NUMBER_OF_PAGES] __attribute__((aligned(SPM_PAGESIZE))) PROGMEM = {};
+const uint8_t flashSpace[SPM_PAGESIZE * NUMBER_OF_PAGES] __attribute__((aligned(SPM_PAGESIZE))) = {};
 
 // Flash constructor
 Flash flash(flashSpace, sizeof(flashSpace), ram_buffer, sizeof(ram_buffer));
@@ -53,8 +53,6 @@ void write_data()
 
 void read_data()
 {
-  Serial.println("Read float from flash page 0: ");
-
   // Fetch first flash page
   flash.fetch_page(0);
 

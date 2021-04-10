@@ -42,7 +42,7 @@ const char terminationChar = '@';
 uint8_t ramBuffer[SPM_PAGESIZE];
 
 // This array allocates the space you'll be able to write to
-const uint8_t flashSpace[SPM_PAGESIZE * NUMBER_OF_PAGES] __attribute__ (( aligned(SPM_PAGESIZE) )) PROGMEM = {
+const uint8_t flashSpace[SPM_PAGESIZE * NUMBER_OF_PAGES] __attribute__ (( aligned(SPM_PAGESIZE) )) = {
   "This some default content stored on page one"
 };
 

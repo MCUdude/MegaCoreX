@@ -25,7 +25,7 @@
 
 // Allocate one flash pages for storing data
 #define NUMBER_OF_PAGES 2
-const uint8_t flashSpace[SPM_PAGESIZE * NUMBER_OF_PAGES] __attribute__((aligned(SPM_PAGESIZE))) PROGMEM = {};
+const uint8_t flashSpace[SPM_PAGESIZE * NUMBER_OF_PAGES] __attribute__((aligned(SPM_PAGESIZE))) = {};
 
 
 // Function for writing 16-bit integers to a flash page
