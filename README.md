@@ -23,6 +23,7 @@ If you're looking for a sleek, reliable UPDI programmer that also acts as a USB 
 * [Fast IO](#fast-io)
 * [Pin macros](#pin-macros)
 * [Write to own flash](#write-to-own-flash)
+* [Memory-mapped flash](#memory-mapped-flash)
 * [Pinout](#pinout)
 * [Hardware features](#hardware-features)
   - [PWM output](#pwm-output)
@@ -144,6 +145,13 @@ As an alternative for UPDI, MegaCoreX uses Optiboot Flash, a bootloader that sup
 This means that content from e.g. a sensor can be stored in the flash memory directly without the need of external memory. Flash memory is much faster than EEPROM, and can handle at least 10 000 write cycles before wear becomes an issue.
 For more information on how it works and how you can use this in you own application, check out the [Serial_read_write](https://github.com/MCUdude/MegaCoreX/blob/master/avr/libraries/Optiboot_flasher/examples/Serial_read_write/Serial_read_write.ino) for a simple proof-of-concept demo, and
 [Flash_put_get](https://github.com/MCUdude/MegaCoreX/blob/master/avr/libraries/Optiboot_flasher/examples/Flash_put_get/Flash_put_get.ino) + [Flash_iterate](https://github.com/MCUdude/MegaCoreX/blob/master/avr/libraries/Optiboot_flasher/examples/Flash_iterate/Flash_iterate.ino) for useful examples on how you can store strings, structs and variables to flash and retrieve then afterwards.
+
+
+## Memory-mapped flash
+Unlike classic AVRs, the flash memory on these parts is within the same address space as the main memory. This means that functions like `pgm_read_byte()` and `pgm_read_word()` is not needed to read directly from flash. Because of this, the compiler automatically puts any variable declared const into PROGMEM, and accesses it appropriately - you no longer need to explicitly declare them as PROGMEM!
+This also includes quoted strings, which means that the string in `Serial.print("Hello World");` won't consume any RAM. This means that the `F()` macro is not needed when working with MegaCoreX.
+
+If you explicitly declare a variable PROGMEM, you must still use the `pgm_read_byte()/pgm_read_word()` functions, just like on "classic" AVRs. Do note that declaring things PROGMEM or using the `F()` macro works fine, but it is slower and consumes more flash than simply declaring something `const` or omitting the `F()` macro.
 
 
 ## Pinout
