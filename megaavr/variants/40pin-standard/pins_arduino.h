@@ -70,7 +70,7 @@
 #define ANALOG_INPUT_OFFSET            14
 #define LED_BUILTIN                    PIN_PA7
 #define EXTERNAL_NUM_INTERRUPTS        47
-#define digitalPinToAnalogInput(p)     ((p < NUM_ANALOG_INPUTS) ? (p) : ((p) >= PIN_PD0 && (p) <= PIN_PE3) ? ((p) - ANALOG_INPUT_OFFSET) : ((p) >= PIN_PF2 && (p) <= PIN_PF5) ? ((p) - 2 - ANALOG_INPUT_OFFSET) : NOT_A_PIN)
+#define digitalPinToAnalogInput(p)     ((p < 14) ? (p) : ((p) >= PIN_PD0 && (p) <= PIN_PE3) ? ((p) - ANALOG_INPUT_OFFSET) : ((p) >= PIN_PF2 && (p) <= PIN_PF5) ? ((p) - 2 - ANALOG_INPUT_OFFSET) : NOT_A_PIN)
 #define digitalOrAnalogPinToDigital(p) ((p <= 11) ? ((p) + ANALOG_INPUT_OFFSET) : ((p) <= 15) ? ((p) + ANALOG_INPUT_OFFSET + 2) : (((p) >= 26 && (p) <= 31)) ? (p) :  NOT_A_PIN)
 
 // Timer to use for millis/micros
