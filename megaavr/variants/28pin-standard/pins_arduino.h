@@ -18,6 +18,9 @@
 #include <avr/pgmspace.h>
 #include "timers.h"
 
+#define MEGACOREX
+#define MCUDUDE_MEGACOREX
+
 #define MEGACOREX_DEFAULT_28PIN_PINOUT
 #define __AVR_ATmegax08__
 

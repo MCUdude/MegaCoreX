@@ -26,6 +26,9 @@
 #include <avr/pgmspace.h>
 #include "timers.h"
 
+#define MEGACOREX
+#define MCUDUDE_MEGACOREX
+
 #define NANO_EVERY_PINOUT
 #define NONA4809_PINOUT
 #define __AVR_ATmegax09__

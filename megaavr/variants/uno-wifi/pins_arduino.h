@@ -27,6 +27,9 @@
 #include <avr/pgmspace.h>
 #include "timers.h"
 
+#define MEGACOREX
+#define MCUDUDE_MEGACOREX
+
 #define UNO_WIFI_REV2_PINOUT
 #define UNO2018_PINOUT
 #define __AVR_ATmegax09__
