@@ -126,6 +126,8 @@ void analogWrite(uint8_t pin, int val)
     uint8_t *timer_cmp_out;
     TCB_t *timer_B;
 
+    uint8_t savedSREG;
+
     /* Find out Port and Pin to correctly handle port mux, and timer. */
     switch (digital_pin_timer)
     {
@@ -143,7 +145,10 @@ void analogWrite(uint8_t pin, int val)
         }
 
         /* Configure duty cycle for correct compare channel */
-        (*timer_cmp_out) = val;
+        savedSREG = SREG;
+        cli();
+        (*timer_cmp_out) = (val); // non-atomic 16-bit write operation
+        SREG = savedSREG;
 
         /* Enable output on pin */
         TCA0.SPLIT.CTRLB |= (1 << (TCA_SPLIT_LCMP0EN_bp + bit_pos));
@@ -158,8 +163,12 @@ void analogWrite(uint8_t pin, int val)
         //assert (((TIMERB0 - TIMERB3) == 2));
         timer_B = ((TCB_t *)&TCB0 + (digital_pin_timer - TIMERB0));
 
-        /* set duty cycle */
-        timer_B->CCMPH = val;
+        // (16-bit read/write operation are non-atomic and use a temporary register)
+        savedSREG = SREG;
+        cli();
+        timer_B->CCMPL = timer_B->CCMPL;  // Copy CCMPL into temporary register
+        timer_B->CCMPH = val;             // Set CCMPH value + copy temporary register content into CCMPL
+        SREG = savedSREG;
 
         /* Enable Timer Output */
         timer_B->CTRLB |= (TCB_CCMPEN_bm);
