@@ -1,5 +1,5 @@
 # MegaCoreX
-[![Build Status](https://travis-ci.org/MCUdude/MegaCoreX.svg?branch=master)](https://travis-ci.org/MCUdude/MegaCoreX)
+[![Build Status](https://travis-ci.com/MCUdude/MegaCoreX.svg?branch=master)](https://travis-ci.com/MCUdude/MegaCoreX)
 
 An Arduino core for ATmega4809, ATmega4808, ATmega3209, ATmega3208, ATmega1609, ATmega1608, ATmega809 and ATmega808. This megaAVR-0 chip family offers lots of features and peripherals at an incredible price point. Its largest variant, the ATmega4809 can be found in products like the Arduino Uno WiFi Rev2 and the Arduino Nano Every. Some of their key features include multiple serial ports, SPI and i2c interfaces, built-in programmable logic, up to 16 analog input pins, and an analog comparator with a built-in programmable voltage reference and hysteresis.
 
@@ -211,7 +211,7 @@ The megaAVR-0 microcontrollers are equipped with four independent configurable l
 
 ### Analog Comparator (AC)
 The megaAVR-0 microcontrollers are equipped with an analog comparator. It compares the voltage levels on two inputs and gives a digital output based on this comparison. The megAVR chip has four positive AC pins and three negative. There's also a configurable internal voltage reference that can be used on the negative comparator pin instead of an external voltage.
-Try out the [Comparator library](https://github.com/MCUdude/MegaCoreX/tree/master/megaavr/libraries/Comparator) for more information, library reference and examples. 
+Try out the [Comparator library](https://github.com/MCUdude/MegaCoreX/tree/master/megaavr/libraries/Comparator) for more information, library reference and examples.
 
 ### Event System (EVSYS)
 The Event System (EVSYS) enables direct peripheral-to-peripheral signaling. It allows a change in one peripheral (the event generator) to trigger actions in other peripherals (the event users) through event channels, without using the CPU. It is designed to provide short and predictable response times between peripherals, allowing for autonomous peripheral control and interaction, and also for synchronized timing of actions in several peripheral modules. It is thus a powerful tool for reducing the complexity, size, and execution time of the software. Give the [Event library](https://github.com/MCUdude/MegaCoreX/tree/master/megaavr/libraries/Event) a try! Here you'll find documentation and useful library examples.
