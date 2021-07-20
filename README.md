@@ -40,6 +40,7 @@ If you're looking for a sleek, reliable UPDI programmer that also acts as a USB 
 * [Getting your hardware working](#getting-your-hardware-working)
   - [Arduino Uno WiFi Rev2](#arduino-uno-wifi-rev2)
   - [Arduino Nano Every](#arduino-nano-every)
+  - [Nano 4808](#nano-4808)
   - [Curiosity Nano](#curiosity-nano)
   - [AVR-IOT-WG](#avr-iot-wg)
   - [4809 Xplained Pro](#atmega4809-xplained-pro)
@@ -325,28 +326,40 @@ Here are some simple schematics that show a minimal setup. The straight 6-pin he
 [The Arduino Uno WiFi Rev2](https://store.arduino.cc/arduino-uno-wifi-rev2) is one of the few megaAVR-0 based boards that's officially supported by Arduino. It uses an ATmega4809 and the recommended pinout is *Uno WiFi*. Printing to the serial monitor on your PC is done by initializing `Serial.begin(baud)`. You'll also have to choose **Atmel mEDBG (ATmega32u4)** as your programmer to upload code. Uno WiFi Rev2 does not support a bootloader, so select *No bootloader* in the tools menu. For more information about this board please see the product page and its schematic.
 
 Click to enlarge:
+
 <img src="https://i.imgur.com/UzDYb9f.png" width="400">
 
 ### Arduino Nano Every
 [The Arduino Nano Every](https://store.arduino.cc/arduino-nano-every) is one of the few megaAVR-0 based boards that's officially supported by Arduino. It uses an ATmega4809 and the *only* supported pinout is *Nano Every*. Printing to the serial monitor on your PC is done by initializing `Serial.begin(baud)`. The Nano Every does not support a bootloader, so select *No bootloader* in the tools menu. Burning bootloader or upload using programmer will not work either. However, all fuses are set every time you upload our program. For more information about this board please see the product page and its schematic.
 
 Click to enlarge:
+
 <img src="https://i.imgur.com/KyRef6p.png" width="400">
+
+### Nano 4808
+The Nano 4808, also known as the Thinary Nano 4808 a third party Arduino compatible board with the Nano form factor. It uses an ATmega4808 and the *only* supported pinout is *Nano 4808*. Printing to the serial monitor on your PC is done by initializing `Serial.begin(baud)`. The Nano 4808 does not support a bootloader, so select *No bootloader* in the tools menu. Burning bootloader or upload using programmer will not work either. However, all fuses are set every time you upload our program.
+
+Click to enlarge:
+
+<img src="https://i.imgur.com/ykebGW7.png" width="400">
 
 ### Curiosity Nano
 [The Curiosity Nano](https://www.microchip.com/developmenttools/ProductDetails/DM320115) uses an ATmega4809 but has a different pinout than the Uno Wifi Rev2. The recommended pinout for this board is *48 pin standard*. The on-board LED is connected t pin PF5 (digital pin 39). Note that UART3 is connected to the nEDBG chip (often referred to as the debug serial port). This means you'll have to use `Serial3.begin(baud)` to print to the serial monitor. You'll also have to choose **Atmel nEDBG (ATSAMD21E18)** as your programmer to upload code. For more information about this board please refer to the user guide and its schematic.
 
 Click to enlarge:
+
 <img src="https://i.imgur.com/bmdfCFS.jpg" width="350">
 
 ### AVR-IOT WG
 [The AVR-IOT WG](https://www.microchip.com/developmenttools/ProductDetails/AC164160) uses the ATmega4808 in a 32 pin package. *32 pin standard* is the correct pinout for this board. Note that UART2 is connected to the nEDBG chip (often referred to as the debug serial port). This means you'll have to use `Serial2.begin(baud)` to print to the serial monitor. You'll also have to choose **Atmel nEDBG (ATSAMD21E18)** as your programmer to upload code. For more information about this board please refer to the user guide and its schematic.
 
 Click to enlarge:
+
 <img src="https://i.imgur.com/IwHHZHx.png" width="350">
 
 ### ATmega4809 Xplained Pro
 [The ATmega4809 Xplained Pro](https://www.microchip.com/developmenttools/ProductDetails/atmega4809-xpro) uses an ATmega4809. The recommended pinout for this board is *48 pin standard*. Note that the UART1 is connected to the EDBG chip (often referred to as the debug serial port). This means you'll have to use `Serial1.begin(baud)` to print to the serial monitor. You'll also have to choose **Atmel EDBG (AT32UC3A4256)** as your programmer to upload code. For more information about this board please refer to the user guide and its schematic.
 
 Click to enlarge:
+
 <img src="https://i.imgur.com/6G5FELO.jpg" width="400">

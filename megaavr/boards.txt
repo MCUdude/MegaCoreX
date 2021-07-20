@@ -282,8 +282,16 @@ menu.bootloader=Bootloader
 # Pinouts
 4808.menu.pinout.32pin_standard=32 pin standard
 4808.menu.pinout.32pin_standard.build.variant=32pin-standard
+
 4808.menu.pinout.28pin_standard=28 pin standard
 4808.menu.pinout.28pin_standard.build.variant=28pin-standard
+
+4808.menu.pinout.nano_4808=Nano 4808
+4808.menu.pinout.nano_4808.build.variant=nano-4808
+4808.menu.pinout.nano_4808.upload.tool=avrdude_nanoevery
+4808.menu.pinout.nano_4808.upload.use_1200bps_touch=true
+4808.menu.pinout.nano_4808.upload.protocol=jtag2updi
+4808.menu.pinout.nano_4808.program.extra_params=-P{serial.port} -e
 
 # Reset pin
 4808.menu.resetpin.reset=Reset
