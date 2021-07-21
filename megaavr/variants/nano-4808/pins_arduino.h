@@ -287,14 +287,14 @@ const uint8_t digital_pin_to_bit_mask[] = {
   PIN1_bm, // 15 PD1/AIN1
   PIN2_bm, // 16 PD2/AIN2
   PIN3_bm, // 17 PD3/AIN3
-  PIN3_bm, // 18 PF3/AIN13
-  PIN4_bm, // 19 PF4/AIN14/TCB0 PWM
-  PIN5_bm, // 20 PF5/AIN15/TCB1 PWM
-  PIN4_bm, // 21 PD4/AIN4
-  PIN5_bm, // 22 PD5/AIN5
-  PIN6_bm, // 23 PD6/AIN6
-  PIN7_bm, // 24 PD7/AIN7/AREF
-  PIN2_bm, // 25 PF2/AIN12
+  PIN2_bm, // 18 PF2/AIN12
+  PIN3_bm, // 19 PF3/AIN13
+  PIN4_bm, // 20 PF4/AIN14/TCB0 PWM
+  PIN5_bm, // 21 PF5/AIN15/TCB1 PWM
+  PIN4_bm, // 22 PD4/AIN4
+  PIN5_bm, // 23 PD5/AIN5
+  PIN6_bm, // 24 PD6/AIN6
+  PIN7_bm, // 25 PD7/AIN7/AREF
   PIN6_bm  // 26 PF6 RESET
 };
 
