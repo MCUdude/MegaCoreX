@@ -337,8 +337,7 @@ Click to enlarge:
 <img src="https://i.imgur.com/KyRef6p.png" width="400">
 
 ### Nano 4808
-The Nano 4808, also known as the Thinary Nano 4808 a third party Arduino compatible board with the Nano form factor. It uses an ATmega4808 and the *only* supported pinout is *Nano 4808*. Printing to the serial monitor on your PC is done by initializing `Serial.begin(baud)`. The Nano 4808 does not support a bootloader, so select *No bootloader* in the tools menu. Burning bootloader or upload using programmer will not work either. However, all fuses are set every time you upload our program.
-
+The Nano 4808, also known as the Thinary Nano 4808 a third-party Arduino compatible board with the Nano form factor. It uses an ATmega4808 and the *only* supported pinout is *Nano 4808*. Printing to the serial monitor on your PC is done by initializing `Serial.begin(baud)`. The Nano 4808 does not support a bootloader, so select *No bootloader* in the tools menu. The on-board JTAG2UPDI programmer is known to be difficult to enter programming mode when printing to the serial monitor. If you're having upload issues, connect a dedicated UPDI programmer to the UPDI pin, select it in the programmers menu and upload using the programmer.
 Click to enlarge:
 
 <img src="https://i.imgur.com/ykebGW7.png" width="400">
