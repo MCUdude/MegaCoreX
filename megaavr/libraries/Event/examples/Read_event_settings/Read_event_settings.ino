@@ -7,9 +7,9 @@
 | Developed in 2021 by MCUdude                                          |
 | https://github.com/MCUdude/                                           |
 |                                                                       |
-| In this example, we demonstrate the possibilities of reading out what |
-| event channel we're working with, what generator is used, and which   |
-| channel an event user has been connected to.                          |
+| In this example, we demonstrate the possibilities of reading out      |
+| which event channel we're working with, which generator is used, and  |
+| whichchannel an event user has been connected to.                     |
 |                                                                       |
 | See Microchip's application note AN2451 for more information.         |
 |***********************************************************************/

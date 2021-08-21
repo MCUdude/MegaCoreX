@@ -114,7 +114,7 @@ namespace gen
       pin_pb2     = 0x4A,
       pin_pb3     = 0x4B,
       pin_pb4     = 0x4C,
-      pin_pb5     = 0x4F,
+      pin_pb5     = 0x4D,
 #endif
 #if defined(Dx_64_PINS)
       pin_pb6     = 0x4E,
@@ -150,7 +150,7 @@ namespace gen
       pin_pb2     = 0x4A,
       pin_pb3     = 0x4B,
       pin_pb4     = 0x4C,
-      pin_pb5     = 0x4F,
+      pin_pb5     = 0x4D,
 #endif
 #if defined(Dx_64_PINS)
       pin_pb6     = 0x4E,
@@ -187,7 +187,7 @@ namespace gen
       pin_pd2     = 0x4A,
       pin_pd3     = 0x4B,
       pin_pd4     = 0x4C,
-      pin_pd5     = 0x4F,
+      pin_pd5     = 0x4D,
       pin_pd6     = 0x4E,
       pin_pd7     = 0x4F,
     };
@@ -221,7 +221,7 @@ namespace gen
       pin_pd2     = 0x4A,
       pin_pd3     = 0x4B,
       pin_pd4     = 0x4C,
-      pin_pd5     = 0x4F,
+      pin_pd5     = 0x4D,
       pin_pd6     = 0x4E,
       pin_pd7     = 0x4F,
     };
@@ -612,10 +612,48 @@ class Event
   public:
     Event(uint8_t channel_num, volatile uint8_t &channel_addr);
     uint8_t get_channel_number();
-    static int8_t get_user_channel(user::user_t event_user);
-    void set_generator(uint8_t generator);
+    static Event& get_channel(uint8_t channel_number);
+    static Event& get_generator_channel(uint8_t generator);
     uint8_t get_generator();
+    void set_generator(gen::generator_t generator);
+    void set_generator(uint8_t pin_number);
+    static Event& set_generator_pin(uint8_t pin_number);
+
+    #if defined(EVSYS_CHANNEL0)
+      void set_generator(gen0::generator_t generator) { set_generator((gen::generator_t)generator); }
+    #endif
+    #if defined(EVSYS_CHANNEL1)
+      void set_generator(gen1::generator_t generator) { set_generator((gen::generator_t)generator); }
+    #endif
+    #if defined(EVSYS_CHANNEL2)
+      void set_generator(gen2::generator_t generator) { set_generator((gen::generator_t)generator); }
+    #endif
+    #if defined(EVSYS_CHANNEL3)
+      void set_generator(gen3::generator_t generator) { set_generator((gen::generator_t)generator); }
+    #endif
+    #if defined(EVSYS_CHANNEL4)
+      void set_generator(gen4::generator_t generator) { set_generator((gen::generator_t)generator); }
+    #endif
+    #if defined(EVSYS_CHANNEL5)
+      void set_generator(gen5::generator_t generator) { set_generator((gen::generator_t)generator); }
+    #endif
+    #if defined(EVSYS_CHANNEL6)
+      void set_generator(gen6::generator_t generator) { set_generator((gen::generator_t)generator); }
+    #endif
+    #if defined(EVSYS_CHANNEL7)
+      void set_generator(gen7::generator_t generator) { set_generator((gen::generator_t)generator); }
+    #endif
+    #if defined(EVSYS_CHANNEL8)
+      void set_generator(gen8::generator_t generator) { set_generator((gen::generator_t)generator); }
+    #endif
+    #if defined(EVSYS_CHANNEL9)
+      void set_generator(gen9::generator_t generator) { set_generator((gen::generator_t)generator); }
+    #endif
+
+    static int8_t get_user_channel_number(user::user_t event_user);
+    static Event& get_user_channel(user::user_t event_user);
     void set_user(user::user_t event_user);
+    int8_t set_user_pin(uint8_t pin_number);
     static void clear_user(user::user_t event_user);
     void soft_event();
     void start(bool state = true);

@@ -1,6 +1,6 @@
 # Event
-A library for interfacing with the built-in Event system on the megaAVR-0 series MCUs.  
-Developed by [MCUdude](https://github.com/MCUdude/).  
+A library for interfacing with the built-in Event system on the megaAVR-0 series MCUs.
+Developed by [MCUdude](https://github.com/MCUdude/).
 
 **From the datasheet:**
 > The Event System (EVSYS) enables direct peripheral-to-peripheral signaling. It allows a change in one peripheral (the event generator) to trigger actions in other peripherals (the event users) through event channels, without using the CPU. It is designed to provide short and predictable response times between peripherals, allowing for autonomous peripheral control and interaction, and also for synchronized timing of actions in several peripheral modules. It is thus a powerful tool for reducing the complexity, size, and execution time of the software.
@@ -9,7 +9,7 @@ More information about the Event system and how it works can be found in the [Mi
 
 
 ### Level vs. Pulse events
-There are two types of events - a "pulse" interrupt, which lasts for the duration of a single clock cycle (either `CLK_PER` or a relevant (slower) clock - for example, the USART XCK generator provides a pulse event which lasts one XCK period, whuich is far slower than CLK_PER), or a "level" interrupt which lasts for the duration of some condition. 
+There are two types of events - a "pulse" interrupt, which lasts for the duration of a single clock cycle (either `CLK_PER` or a relevant (slower) clock - for example, the USART XCK generator provides a pulse event which lasts one XCK period, whuich is far slower than CLK_PER), or a "level" interrupt which lasts for the duration of some condition.
 Often for a given even generator or user only one or the other makes sense. Less often, for some reason or another, you may need a level event, but all you have is a pulse event - or the other way around. A [CCL module (Logic.h)](../Logic/README.md) event between the two at the cost of the logic module and one event channel. In the case of timer WO (PWM) channels, the CCL already has level inputs.
 
 
@@ -24,10 +24,10 @@ At first glance, nore than half of the users and generators seem, at best, odd -
 
 
 ## Event
-Class for interfacing with the built-in Event system. Each event generator channel has its own object. 
+Class for interfacing with the built-in Event system. Each event generator channel has its own object.
 Use the predefined objects `Event0`, `Event1`, `Event2`, `Event3`, `Event4`, `Event5`, `Event6` or `Event7`. Note that channels have different functionality, so make sure you use the right channel for the task.
 
-In short terms:  
+In short terms:
 * `genN::rtc_div8192`, `genN::rtc_div4096`, `genN::rtc_div2048` and `genN::rtc_div1024` are only available on odd numbered channels
 * `genN::rtc_div512`, `genN::rtc_div256`, `genN::rtc_div128` and `genN::rtc_div64` are only available on even numbered channels
 * PIN PA0..7 and PB0..5 can only be used as event generators on channel 0 and 1
@@ -44,17 +44,53 @@ uint8_t this_channel = Event0.get_channel_number();  // In this case, get_channe
 ```
 
 
-## get_user_channel()
-Function to get what event channel a user is connected to. Returns -1 if not connected to any channel. Note that we use `user::` as prefix when we refer to event users. Also, note that we don't have to specify an object to determine what channel the user is connected to. if you're not sure, use `Event::get_user_channel`.
-An event generator can have multiple event users, but an event user can only have one event generator.
+## get_channel()
+Static function that returns the object associated with the passed channel number. Useful if you need to get the correct Event object based on an integer number.
 
 ### Usage
 ```c++
-uint8_t connected_to = Event::get_user_channel(user::ccl0_event_a); // Returns the channel number ccl0_event_a is connected to
+// Create a reference to the object get_channel() returns, which in this case will be the Event2 object
+// myEvent can be futher used as a regular object
+Event& myEvent = Event::get_channel(2);
+
+// Simple check to compare two objects
+if(&myEvent == &Event2)
+{
+  // myEvent and Event2 is the same thing!
+}
 ```
 
 
-## set_generator()
+## get_generator_channel()
+Static function that returns the object used for a particular event generator. Useful to figure out which channel or object a generator is connected to.
+Returns a reference to the `Event_empty` object if the generator is not connected to any channel.
+
+### Usage
+```c++
+// Set ccl0_out as event generator for channel 2
+Event2.set_generator(gen::ccl0_out);
+
+// Now we want to get the channel/object connected to the ccl0_out generator
+// Create a reference to the object get_generator_channel() returns.
+Event& myEvent = Event::get_generator_channel(gen::ccl0_out);
+
+// myEvent is now a reference to Event2!
+```
+
+
+## get_generator()
+Function to get the generator used for a particular channel.
+
+### Usage
+```c++
+uint8_t generator_used = Event0.get_generator();
+if(generator_used == gen::ccl0_out) {
+  Serial.println("We're using gen::ccl0_out as generator");
+}
+```
+
+
+## set_generator(gen::generator_t)
 Function to assign an event generator to a channel. Note that we use the prefix genN:: (where N is the channel number) when referring to generators unique to this particular channel. we use gen:: when referring to generators available on all generators.
 
 ### Usage
@@ -95,15 +131,45 @@ Below is a table with all possible generators for each channel.
 | `gen::tcb3_capt`     |                                                     |                                                     |                                                     |                                                     |                                                      |                                                      |                     |                    |
 
 
-## get_generator()
-Function to get the generator used for a particular channel.
+## set_generator(uint8_t pin_number)
+Function that sets an Arduino pin as the event generator. Note that you will have to make sure a particular pin can be used as an event generator for the selected channel/object. **If this sounds like a hassle, use [set_generator_pin()](#set_generator_pin) instead.**
 
 ### Usage
 ```c++
-uint8_t generator_used = Event0.get_generator();
-if(generator_used == gen::ccl0_out) {
-  Serial.println("We're using gen::ccl0_out as generator");
-}
+Event0.set_generator(PIN_PA0); // Will work. PA0 can be used as an event generator for channel 0
+Event1.set_generator(PIN_PC3); // WILL NOT WORK! PORTC cannot be used as an event generator for channel 1
+```
+
+
+## set_generator_pin(uint8_t pin_number)
+Static function that sets an Arduino pin as the event generator. Unlike set_generator(uint8_t pin_number), this function will return the object the generator has been assigned to. It will always try to use the lowest possible channel number as possible, and will return a reference to the object `Event_empty` if the pin can't be assigned to a channel.
+
+### Usage
+```c++
+// We're using PIN_PE2 as event generator, and the library finds a suited object
+Event& myEvent = Event::set_generator_pin(PIN_PE2);
+
+// The myEvent object can be used directly
+myEvent.start();
+```
+
+
+## get_user_channel_number()
+Static function to get what event channel a user is connected to. Returns -1 if not connected to any channel. Note that we use `user::` as prefix when we refer to event users. Also, note that we don't have to specify an object to determine what channel the user is connected to. if you're not sure, use `Event::get_user_channel`.
+An event generator can have multiple event users, but an event user can only have one event generator.
+
+### Usage
+```c++
+uint8_t connected_to = Event::get_user_channel_number(user::ccl0_event_a); // Returns the channel number ccl0_event_a is connected to
+```
+
+
+## get_user_channel()
+Static function that returns the Event channel object a particular user is connected to. Returns a referece to the `Event_empty` object if not connected to any event channel.
+
+### Usage
+```c++
+Event& myEvent = Event::get_user_channel(user::ccl0_event_a);
 ```
 
 
@@ -118,7 +184,7 @@ Event0.set_user(user::evoutd);       // Set evoutD (pin PD2) as event user
 ```
 
 ### User table
-Below is a table with all possible event users.   
+Below is a table with all possible event users.
 Note that `evoutN_pin_pN7` is the same as `evoutN_pin_pN2` but where the pin is swapped from 2 to 7. This means that for instance, `evouta_pin_pa2` can't be used in combination with `evouta_pin_pa7.`
 
 | Event users            | Notes                                                                 |
@@ -152,6 +218,28 @@ Note that `evoutN_pin_pN7` is the same as `evoutN_pin_pN2` but where the pin is 
 | `user::tcb3`           |                                                                       |
 
 
+## set_user_pin(uint8_t pin_number)
+Function to set an Arduino pin as an event user. Note that only some pins can be used for this. See table below for more details
+
+### Usage
+```c++
+Event0.set_user_pin(PIN_PA2);
+```
+
+### Arduino pin table
+| Event pin users | Notes                                                                                                    |
+|-----------------|----------------------------------------------------------------------------------------------------------|
+| PIN_PA2         |                                                                                                          |
+| PIN_PA7         | Pin swapped variant of PIN_PA2. Cannot be used in combination with PIN_PA2                               |
+| PIN_PB2         | Only available on ATmegaX809                                                                             |
+| PIN_PC2         |                                                                                                          |
+| PIN_PC7         | Pin swapped variant of PIN_PC2. Cannot be used in combination with PIN_PC2. Only available on ATmegaX809 |
+| PIN_PD2         |                                                                                                          |
+| PIN_PD7         | Pin swapped variant of PIN_PD2. Cannot be used in combination with PIN_PD2                               |
+| PIN_PE2         | Only available on ATmegaX809                                                                             |
+| PIN_PF2         | Not available on 28-pin parts                                                                            |
+
+
 ## clear_user()
 Function to detach a user from a channel. Note that you don't need to know what channel to detach from, simply use `Event::clear_user()`.
 
@@ -162,8 +250,8 @@ Event::clear_user(user::evouta); // Remove the user::evouta from whatever event 
 
 
 ## soft_event()
-Creates a single software event - users connected to that channel will react to it in the same way as they would to one caused by the generator the channel is connected to. 
-Great if you have to force trigger something. Note that a software event only lasts a single system clock cycle, so it's rather fast! 
+Creates a single software event - users connected to that channel will react to it in the same way as they would to one caused by the generator the channel is connected to.
+Great if you have to force trigger something. Note that a software event only lasts a single system clock cycle, so it's rather fast!
 The software events will invert the channel, and so will trigger something regardless of whether it needs a the event channel to go high or low.
 
 ### Usage
