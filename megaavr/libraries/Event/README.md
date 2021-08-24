@@ -25,7 +25,7 @@ At first glance, nore than half of the users and generators seem, at best, odd -
 
 ## Event
 Class for interfacing with the built-in Event system. Each event generator channel has its own object.
-Use the predefined objects `Event0`, `Event1`, `Event2`, `Event3`, `Event4`, `Event5`, `Event6` or `Event7`. Note that channels have different functionality, so make sure you use the right channel for the task.
+Use the predefined objects `Event0`, `Event1`, `Event2`, `Event3`, `Event4`, `Event5`, `Event6` or `Event7`. Refer to static functions by using `Event::`. Note that different channels have different functionality, so make sure you use the right channel for the task.
 
 In short terms:
 * `genN::rtc_div8192`, `genN::rtc_div4096`, `genN::rtc_div2048` and `genN::rtc_div1024` are only available on odd numbered channels
@@ -38,6 +38,11 @@ In short terms:
 ## get_channel_number()
 Function to get the current channel number. Useful if the channel object has been passed to a function as reference.
 
+### Declaration
+``` c++
+uint8_t get_channel_number();
+```
+
 ### Usage
 ``` c++
 uint8_t this_channel = Event0.get_channel_number();  // In this case, get_channel_number will return 0
@@ -46,6 +51,11 @@ uint8_t this_channel = Event0.get_channel_number();  // In this case, get_channe
 
 ## get_channel()
 Static function that returns the object associated with the passed channel number. Useful if you need to get the correct Event object based on an integer number.
+
+### Declaration
+``` c++
+static Event& get_channel(uint8_t channel_number);
+```
 
 ### Usage
 ```c++
@@ -65,6 +75,11 @@ if(&myEvent == &Event2)
 Static function that returns the object used for a particular event generator. Useful to figure out which channel or object a generator is connected to.
 Returns a reference to the `Event_empty` object if the generator is not connected to any channel.
 
+### Declaration
+``` c++
+static Event& get_generator_channel(uint8_t generator);
+```
+
 ### Usage
 ```c++
 // Set ccl0_out as event generator for channel 2
@@ -81,6 +96,11 @@ Event& myEvent = Event::get_generator_channel(gen::ccl0_out);
 ## get_generator()
 Function to get the generator used for a particular channel.
 
+### Declaration
+``` c++
+uint8_t get_generator();
+```
+
 ### Usage
 ```c++
 uint8_t generator_used = Event0.get_generator();
@@ -92,6 +112,14 @@ if(generator_used == gen::ccl0_out) {
 
 ## set_generator(gen::generator_t)
 Function to assign an event generator to a channel. Note that we use the prefix genN:: (where N is the channel number) when referring to generators unique to this particular channel. we use gen:: when referring to generators available on all generators.
+
+### Declaration
+``` c++
+void set_generator(gen::generator_t generator);
+void set_generator(gen0::generator_t generator);
+//...
+void set_generator(gen7::generator_t generator);
+```
 
 ### Usage
 ```c++
@@ -134,6 +162,11 @@ Below is a table with all possible generators for each channel.
 ## set_generator(uint8_t pin_number)
 Function that sets an Arduino pin as the event generator. Note that you will have to make sure a particular pin can be used as an event generator for the selected channel/object. **If this sounds like a hassle, use [set_generator_pin()](#set_generator_pin) instead.**
 
+### Declaration
+``` c++
+void set_generator(uint8_t pin_number);
+```
+
 ### Usage
 ```c++
 Event0.set_generator(PIN_PA0); // Will work. PA0 can be used as an event generator for channel 0
@@ -141,8 +174,13 @@ Event1.set_generator(PIN_PC3); // WILL NOT WORK! PORTC cannot be used as an even
 ```
 
 
-## set_generator_pin(uint8_t pin_number)
+## set_generator_pin()
 Static function that sets an Arduino pin as the event generator. Unlike set_generator(uint8_t pin_number), this function will return the object the generator has been assigned to. It will always try to use the lowest possible channel number as possible, and will return a reference to the object `Event_empty` if the pin can't be assigned to a channel.
+
+### Declaration
+``` c++
+static Event& set_generator_pin(uint8_t pin_number);
+```
 
 ### Usage
 ```c++
@@ -158,14 +196,24 @@ myEvent.start();
 Static function to get what event channel a user is connected to. Returns -1 if not connected to any channel. Note that we use `user::` as prefix when we refer to event users. Also, note that we don't have to specify an object to determine what channel the user is connected to. if you're not sure, use `Event::get_user_channel`.
 An event generator can have multiple event users, but an event user can only have one event generator.
 
+### Declaration
+``` c++
+static int8_t get_user_channel_number(user::user_t event_user);
+```
+
 ### Usage
 ```c++
-uint8_t connected_to = Event::get_user_channel_number(user::ccl0_event_a); // Returns the channel number ccl0_event_a is connected to
+int8_t connected_to = Event::get_user_channel_number(user::ccl0_event_a); // Returns the channel number ccl0_event_a is connected to
 ```
 
 
 ## get_user_channel()
 Static function that returns the Event channel object a particular user is connected to. Returns a referece to the `Event_empty` object if not connected to any event channel.
+
+### Declaration
+``` c++
+static Event& get_user_channel(user::user_t event_user);
+```
 
 ### Usage
 ```c++
@@ -175,6 +223,11 @@ Event& myEvent = Event::get_user_channel(user::ccl0_event_a);
 
 ## set_user()
 Function to connect an event user to an event generator. Note that a generator can have multiple users.
+
+### Declaration
+``` c++
+void set_user(user::user_t event_user);
+```
 
 ### Usage
 ```c++
@@ -221,6 +274,11 @@ Note that `evoutN_pin_pN7` is the same as `evoutN_pin_pN2` but where the pin is 
 ## set_user_pin(uint8_t pin_number)
 Function to set an Arduino pin as an event user. Note that only some pins can be used for this. See table below for more details
 
+### Declaration
+``` c++
+int8_t set_user_pin(uint8_t pin_number);
+```
+
 ### Usage
 ```c++
 Event0.set_user_pin(PIN_PA2);
@@ -243,6 +301,11 @@ Event0.set_user_pin(PIN_PA2);
 ## clear_user()
 Function to detach a user from a channel. Note that you don't need to know what channel to detach from, simply use `Event::clear_user()`.
 
+### Declaration
+``` c++
+static void clear_user(user::user_t event_user);
+```
+
 ### Usage
 ```c++
 Event::clear_user(user::evouta); // Remove the user::evouta from whatever event channel it is connected to
@@ -254,6 +317,11 @@ Creates a single software event - users connected to that channel will react to 
 Great if you have to force trigger something. Note that a software event only lasts a single system clock cycle, so it's rather fast!
 The software events will invert the channel, and so will trigger something regardless of whether it needs a the event channel to go high or low.
 
+### Declaration
+``` c++
+void soft_event();
+```
+
 ### Usage
 ```c++
 Event0.soft_event(); // Create a single software event on Event0
@@ -263,6 +331,11 @@ Event0.soft_event(); // Create a single software event on Event0
 ## start()
 Starts an event generator channel by writing the generator selected by `set_generator()` function.
 
+### Declaration
+``` c++
+void start(bool state = true);
+```
+
 ### Usage
 ```c++
 Event0.start(); // Starts the Event0 generator channel
@@ -271,6 +344,11 @@ Event0.start(); // Starts the Event0 generator channel
 
 ## stop()
 Stops an event generator channel. The `Eventn` object retains memory of what generator it was previously set to.
+
+### Declaration
+``` c++
+void stop();
+```
 
 ### Usage
 ```c++
