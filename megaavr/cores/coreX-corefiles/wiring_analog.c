@@ -54,7 +54,7 @@ void analogReference(uint8_t mode)
 int analogRead(uint8_t pin)
 {
   pin = digitalPinToAnalogInput(pin);
-  if (pin > NUM_ANALOG_INPUTS)
+  if (pin > 15)
     return NOT_A_PIN;
 
 #if defined(ADC0)
