@@ -26,6 +26,8 @@ At first glance, nore than half of the users and generators seem, at best, odd -
 ## Event
 Class for interfacing with the built-in Event system. Each event generator channel has its own object.
 Use the predefined objects `Event0`, `Event1`, `Event2`, `Event3`, `Event4`, `Event5`, `Event6` or `Event7`. Refer to static functions by using `Event::`. Note that different channels have different functionality, so make sure you use the right channel for the task.
+`Event_empty` is an object that's used to indicate if an event user isn't connected to an event channel and the user program requests an object.
+
 
 In short terms:
 * `genN::rtc_div8192`, `genN::rtc_div4096`, `genN::rtc_div2048` and `genN::rtc_div1024` are only available on odd numbered channels
@@ -36,7 +38,7 @@ In short terms:
 
 
 ## get_channel_number()
-Function to get the current channel number. Useful if the channel object has been passed to a function as reference.
+Function to get the current channel number. Useful if the channel object has been passed to a function as reference. The `Event_empty` object has channel number 255.
 
 ### Declaration
 ``` c++
@@ -175,7 +177,7 @@ Event1.set_generator(PIN_PC3); // WILL NOT WORK! PORTC cannot be used as an even
 
 
 ## set_generator_pin()
-Static function that sets an Arduino pin as the event generator. Unlike set_generator(uint8_t pin_number), this function will return the object the generator has been assigned to. It will always try to use the lowest possible channel number as possible, and will return a reference to the object `Event_empty` if the pin can't be assigned to a channel.
+Static function that sets an Arduino pin as the event generator. Unlike set_generator(uint8_t pin_number), this function will return the object the generator has been assigned to. It will always try to use the lowest possible channel number as possible, and will return a reference to the object `Event_empty` (generator number 255) if the pin can't be assigned to a channel.
 
 ### Declaration
 ``` c++
