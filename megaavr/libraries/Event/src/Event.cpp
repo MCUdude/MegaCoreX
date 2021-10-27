@@ -113,6 +113,7 @@ Event& Event::get_channel(uint8_t ch_number)
   #endif
 }
 
+
 /**
  * @brief Returns the event channel object used for a particular event generator
  *
@@ -187,7 +188,7 @@ uint8_t Event::get_generator()
  *                        Use gen:: for functionality present on all event channels.
  *                        Use genN:: for functionality present on channel N.
  */
-void Event::set_generator(gen::generator_t event_generator)
+void Event::assign_generator(gen::generator_t event_generator)
 {
   // Store event generator setting for use in start() and stop()
   generator_type = (uint8_t)event_generator;
@@ -198,12 +199,12 @@ void Event::set_generator(gen::generator_t event_generator)
  * @brief Function that lets you use an Arduino pin as event generator.
  *        Note that you'll have to manually keep track of which event channel
  *        objects to use to make sure the passed Arduino pin is supported.
- *        A different approach is to use Event::set_generator_pin(), which
+ *        A different approach is to use Event::assign_generator_pin(), which
  *        automatically picks the correct event channel for you.
  *
  * @param pin_number Arduino pin number to use as event generator
  */
-void Event::set_generator(uint8_t pin_number)
+void Event::assign_generator(uint8_t pin_number)
 {
   uint8_t port = digitalPinToPort(pin_number);
   uint8_t port_pin = digitalPinToBitPosition(pin_number);
@@ -215,32 +216,31 @@ void Event::set_generator(uint8_t pin_number)
     generator_type = gen::disable;
 }
 
+
 /**
- * @brief Static member function that sets an Arduino pin number as event
+ * @brief Static member function that sets a port pin as event
  *        generator and returns the object it has select as event channel.
  *        It will always try to select the lowest channel number as possible.
  *
- * @param pin_number Arduino pin number to use as event generator
+ * @param port Port to use as event generator
+ * @param port_pin Pin number on port to use as event generator
  * @return Event& Event channel object used as the event channel. Returns the
  *         Event_empty object if passed Arduino pin is invalid or no event
  *         channel is available
  */
-Event& Event::set_generator_pin(uint8_t pin_number)
+Event& Event::assign_generator_pin(uint8_t port, uint8_t port_pin)
 {
-  uint8_t port = digitalPinToPort(pin_number);
-  uint8_t port_pin = digitalPinToBitPosition(pin_number);
-
   if(port != NOT_A_PIN && port_pin != NOT_A_PIN)
   {
     uint8_t gen = 0x40 | (port & 0x01) << 3 | port_pin;
     if(port == PA || port == PB)
     {
-      if(Event0.generator_type == gen::disable)
+      if(Event0.generator_type == gen::disable || Event0.generator_type == gen)
       {
         Event0.generator_type = gen;
         return Event0;
       }
-      else if(Event1.generator_type == gen::disable)
+      else if(Event1.generator_type == gen::disable || Event1.generator_type == gen)
       {
         Event1.generator_type = gen;
         return Event1;
@@ -248,12 +248,12 @@ Event& Event::set_generator_pin(uint8_t pin_number)
     }
     else if(port == PC || port == PD)
     {
-      if(Event2.generator_type == gen::disable)
+      if(Event2.generator_type == gen::disable || Event2.generator_type == gen)
       {
         Event2.generator_type = gen;
         return Event2;
       }
-      else if(Event3.generator_type == gen::disable)
+      else if(Event3.generator_type == gen::disable || Event3.generator_type == gen)
       {
         Event3.generator_type = gen;
         return Event3;
@@ -261,12 +261,12 @@ Event& Event::set_generator_pin(uint8_t pin_number)
     }
     else if(port == PE || port == PF)
     {
-      if(Event4.generator_type == gen::disable)
+      if(Event4.generator_type == gen::disable || Event4.generator_type == gen)
       {
         Event4.generator_type = gen;
         return Event4;
       }
-      else if(Event5.generator_type == gen::disable)
+      else if(Event5.generator_type == gen::disable || Event5.generator_type == gen)
       {
         Event5.generator_type = gen;
         return Event5;
@@ -275,12 +275,12 @@ Event& Event::set_generator_pin(uint8_t pin_number)
     #if defined(Dx_64_PINS)
     else if(port == PG)
     {
-      if(Event6.generator_type == gen::disable)
+      if(Event6.generator_type == gen::disable || Event6.generator_type == gen)
       {
         Event6.generator_type = gen;
         return Event6;
       }
-      else if(Event7.generator_type == gen::disable)
+      else if(Event7.generator_type == gen::disable || Event7.generator_type == gen)
       {
         Event7.generator_type = gen;
         return Event7;
@@ -289,6 +289,24 @@ Event& Event::set_generator_pin(uint8_t pin_number)
     #endif
   }
   return Event_empty;
+}
+
+
+/**
+ * @brief Static member function that sets an Arduino pin as event
+ *        generator and returns the object it has select as event channel.
+ *        It will always try to select the lowest channel number as possible.
+ *
+ * @param pin_number Arduino pin number to use as event generator
+ * @return Event& Event channel object used as the event channel. Returns the
+ *         Event_empty object if passed Arduino pin is invalid or no event
+ *         channel is available
+ */
+Event& Event::assign_generator_pin(uint8_t pin_number)
+{
+  uint8_t port = digitalPinToPort(pin_number);
+  uint8_t port_pin = digitalPinToBitPosition(pin_number);
+  return Event::assign_generator_pin(port, port_pin);
 }
 
 
@@ -383,7 +401,7 @@ void Event::set_user(user::user_t event_user)
   *user_register = channel_number + 1;
 
   // Set PORTMUX pin swap for EVOUT if selected as channel generator
-  if (event_user & 0x80)
+  if(event_user & 0x80)
   {
     #if defined(__AVR_ATmegax08__) || defined(__AVR_ATmegax09__)
       PORTMUX_EVSYSROUTEA |= (1 << ((event_user & 0x7F) - 0x09));
@@ -474,7 +492,7 @@ void Event::clear_user(user::user_t event_user)
   *user_register = 0x00;
 
   // Clear PORTMUX pin swap for EVOUT if selected as channel generator
-  if (event_user & 0x80)
+  if(event_user & 0x80)
   {
     #if defined(__AVR_ATmegax08__) || defined(__AVR_ATmegax09__)
       PORTMUX_EVSYSROUTEA &= ~(1 << ((event_user & 0x7F) - 0x09));
@@ -521,7 +539,7 @@ void Event::soft_event()
  */
 void Event::start(bool state)
 {
-  if (state)
+  if(state)
   {
     // Write event generator setting to EVSYS_CHANNELn register
     channel_address = generator_type;

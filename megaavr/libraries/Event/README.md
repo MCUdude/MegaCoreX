@@ -85,7 +85,7 @@ static Event& get_generator_channel(uint8_t generator);
 ### Usage
 ```c++
 // Set ccl0_out as event generator for channel 2
-Event2.set_generator(gen::ccl0_out);
+Event2.assign_generator(gen::ccl0_out);
 
 // Now we want to get the channel/object connected to the ccl0_out generator
 // Create a reference to the object get_generator_channel() returns.
@@ -112,21 +112,21 @@ if(generator_used == gen::ccl0_out) {
 ```
 
 
-## set_generator(gen::generator_t)
+## assign_generator(gen::generator_t)
 Function to assign an event generator to a channel. Note that we use the prefix genN:: (where N is the channel number) when referring to generators unique to this particular channel. we use gen:: when referring to generators available on all generators.
 
 ### Declaration
 ``` c++
-void set_generator(gen::generator_t generator);
-void set_generator(gen0::generator_t generator);
+void assign_generator(gen::generator_t generator);
+void assign_generator(gen0::generator_t generator);
 //...
-void set_generator(gen7::generator_t generator);
+void assign_generator(gen7::generator_t generator);
 ```
 
 ### Usage
 ```c++
-Event0.set_generator(gen::ccl0_out); // Use the output of logic block 0 (CCL0) as an event generator for Event0
-Event2.set_generator(gen2::pin_pc0); // Use pin PC0 as an event generator for Event2
+Event0.assign_generator(gen::ccl0_out); // Use the output of logic block 0 (CCL0) as an event generator for Event0
+Event2.assign_generator(gen2::pin_pc0); // Use pin PC0 as an event generator for Event2
 ```
 
 ### Generator table
@@ -161,33 +161,33 @@ Below is a table with all possible generators for each channel.
 | `gen::tcb3_capt`     |                                                     |                                                     |                                                     |                                                     |                                                      |                                                      |                     |                    |
 
 
-## set_generator(uint8_t pin_number)
-Function that sets an Arduino pin as the event generator. Note that you will have to make sure a particular pin can be used as an event generator for the selected channel/object. **If this sounds like a hassle, use [set_generator_pin()](#set_generator_pin) instead.**
+## assign_generator(uint8_t pin_number)
+Function that sets an Arduino pin as the event generator. Note that you will have to make sure a particular pin can be used as an event generator for the selected channel/object. **If this sounds like a hassle, use [assign_generator_pin()](#assign_generator_pin) instead.**
 
 ### Declaration
 ``` c++
-void set_generator(uint8_t pin_number);
+void assign_generator(uint8_t pin_number);
 ```
 
 ### Usage
 ```c++
-Event0.set_generator(PIN_PA0); // Will work. PA0 can be used as an event generator for channel 0
-Event1.set_generator(PIN_PC3); // WILL NOT WORK! PORTC cannot be used as an event generator for channel 1
+Event0.assign_generator(PIN_PA0); // Will work. PA0 can be used as an event generator for channel 0
+Event1.assign_generator(PIN_PC3); // WILL NOT WORK! PORTC cannot be used as an event generator for channel 1
 ```
 
 
-## set_generator_pin()
-Static function that sets an Arduino pin as the event generator. Unlike set_generator(uint8_t pin_number), this function will return the object the generator has been assigned to. It will always try to use the lowest possible channel number as possible, and will return a reference to the object `Event_empty` (generator number 255) if the pin can't be assigned to a channel.
+## assign_generator_pin()
+Static function that sets an Arduino pin as the event generator. Unlike assign_generator(uint8_t pin_number), this function will return the object the generator has been assigned to. It will always try to use the lowest possible channel number as possible, and will return a reference to the object `Event_empty` (generator number 255) if the pin can't be assigned to a channel.
 
 ### Declaration
 ``` c++
-static Event& set_generator_pin(uint8_t pin_number);
+static Event& assign_generator_pin(uint8_t pin_number);
 ```
 
 ### Usage
 ```c++
 // We're using PIN_PE2 as event generator, and the library finds a suited object
-Event& myEvent = Event::set_generator_pin(PIN_PE2);
+Event& myEvent = Event::assign_generator_pin(PIN_PE2);
 
 // The myEvent object can be used directly
 myEvent.start();
@@ -233,7 +233,7 @@ void set_user(user::user_t event_user);
 
 ### Usage
 ```c++
-Event0.set_generator(gen0::pin_pa0); // Set pin PA0` as event generator for Event0
+Event0.assign_generator(gen0::pin_pa0); // Set pin PA0` as event generator for Event0
 Event0.set_user(user::evoutc);       // Set EVOUTC (pin PC2) as event user
 Event0.set_user(user::evoutd);       // Set evoutD (pin PD2) as event user
 ```
@@ -331,7 +331,7 @@ Event0.soft_event(); // Create a single software event on Event0
 
 
 ## start()
-Starts an event generator channel by writing the generator selected by `set_generator()` function.
+Starts an event generator channel by writing the generator selected by the `assign_generator()` function.
 
 ### Declaration
 ``` c++
