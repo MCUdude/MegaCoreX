@@ -14,6 +14,7 @@ get_channel_number	KEYWORD2
 get_channel	KEYWORD2
 get_generator_channel	KEYWORD2
 get_generator	KEYWORD2
+set_generator	KEYWORD2
 assign_generator	KEYWORD2
 assign_generator_pin	KEYWORD2
 get_user_channel_number	KEYWORD2

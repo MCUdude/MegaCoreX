@@ -35,8 +35,8 @@
 void setup()
 {
   // Initialize Event channel 2 and 3
-  Event2.assign_generator(gen2::pin_pc0); // Set pin PC0 as event generator
-  Event3.assign_generator(gen3::pin_pc1); // Set pin PC1 as event generator
+  Event2.set_generator(gen2::pin_pc0); // Set pin PC0 as event generator
+  Event3.set_generator(gen3::pin_pc1); // Set pin PC1 as event generator
   Event2.set_user(user::ccl0_event_a);    // Set CCL0 (Logic0) event A as user
   Event3.set_user(user::ccl0_event_b);    // Set CCL0 (Logic0) event B as user
 

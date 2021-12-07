@@ -188,7 +188,7 @@ uint8_t Event::get_generator()
  *                        Use gen:: for functionality present on all event channels.
  *                        Use genN:: for functionality present on channel N.
  */
-void Event::assign_generator(gen::generator_t event_generator)
+void Event::set_generator(gen::generator_t event_generator)
 {
   // Store event generator setting for use in start() and stop()
   generator_type = (uint8_t)event_generator;
@@ -204,7 +204,7 @@ void Event::assign_generator(gen::generator_t event_generator)
  *
  * @param pin_number Arduino pin number to use as event generator
  */
-void Event::assign_generator(uint8_t pin_number)
+void Event::set_generator(uint8_t pin_number)
 {
   uint8_t port = digitalPinToPort(pin_number);
   uint8_t port_pin = digitalPinToBitPosition(pin_number);

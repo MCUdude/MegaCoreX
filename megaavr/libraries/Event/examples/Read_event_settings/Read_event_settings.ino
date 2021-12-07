@@ -34,8 +34,8 @@ void setup()
 {
   Serial2.begin(9600); // Initialize hardware serial port
 
-  Event1.assign_generator(gen0::pin_pa3); // Set pin PA3 as event generator
-  Event2.assign_generator(gen2::pin_pc3); // Set pin PC3 as event generator
+  Event1.set_generator(gen0::pin_pa3); // Set pin PA3 as event generator
+  Event2.set_generator(gen2::pin_pc3); // Set pin PC3 as event generator
 
   // For more information about EVOUT, see the PORTMUX section in the datasheet
   Event1.set_user(user::evoutc_pin_pc2); // Set EVOUTC as event user

@@ -615,40 +615,40 @@ class Event
     static Event& get_channel(uint8_t channel_number);
     static Event& get_generator_channel(uint8_t generator);
     uint8_t get_generator();
-    void assign_generator(gen::generator_t generator);
-    void assign_generator(uint8_t pin_number);
+    void set_generator(gen::generator_t generator);
+    void set_generator(uint8_t pin_number);
     static Event& assign_generator_pin(uint8_t port, uint8_t port_pin);
     static Event& assign_generator_pin(uint8_t pin_number);
 
     #if defined(EVSYS_CHANNEL0)
-      void assign_generator(gen0::generator_t generator) { assign_generator((gen::generator_t)generator); }
+      void set_generator(gen0::generator_t generator) { set_generator((gen::generator_t)generator); }
     #endif
     #if defined(EVSYS_CHANNEL1)
-      void assign_generator(gen1::generator_t generator) { assign_generator((gen::generator_t)generator); }
+      void set_generator(gen1::generator_t generator) { set_generator((gen::generator_t)generator); }
     #endif
     #if defined(EVSYS_CHANNEL2)
-      void assign_generator(gen2::generator_t generator) { assign_generator((gen::generator_t)generator); }
+      void set_generator(gen2::generator_t generator) { set_generator((gen::generator_t)generator); }
     #endif
     #if defined(EVSYS_CHANNEL3)
-      void assign_generator(gen3::generator_t generator) { assign_generator((gen::generator_t)generator); }
+      void set_generator(gen3::generator_t generator) { set_generator((gen::generator_t)generator); }
     #endif
     #if defined(EVSYS_CHANNEL4)
-      void assign_generator(gen4::generator_t generator) { assign_generator((gen::generator_t)generator); }
+      void set_generator(gen4::generator_t generator) { set_generator((gen::generator_t)generator); }
     #endif
     #if defined(EVSYS_CHANNEL5)
-      void assign_generator(gen5::generator_t generator) { assign_generator((gen::generator_t)generator); }
+      void set_generator(gen5::generator_t generator) { set_generator((gen::generator_t)generator); }
     #endif
     #if defined(EVSYS_CHANNEL6)
-      void assign_generator(gen6::generator_t generator) { assign_generator((gen::generator_t)generator); }
+      void set_generator(gen6::generator_t generator) { set_generator((gen::generator_t)generator); }
     #endif
     #if defined(EVSYS_CHANNEL7)
-      void assign_generator(gen7::generator_t generator) { assign_generator((gen::generator_t)generator); }
+      void set_generator(gen7::generator_t generator) { set_generator((gen::generator_t)generator); }
     #endif
     #if defined(EVSYS_CHANNEL8)
-      void assign_generator(gen8::generator_t generator) { assign_generator((gen::generator_t)generator); }
+      void set_generator(gen8::generator_t generator) { set_generator((gen::generator_t)generator); }
     #endif
     #if defined(EVSYS_CHANNEL9)
-      void assign_generator(gen9::generator_t generator) { assign_generator((gen::generator_t)generator); }
+      void set_generator(gen9::generator_t generator) { set_generator((gen::generator_t)generator); }
     #endif
 
     static int8_t get_user_channel_number(user::user_t event_user);

@@ -20,7 +20,7 @@ void setup()
 {
   // Since pin PE0 is only available on event generator channel 4 and 5, we use Event4 as our object
   // Note that we use gen4:: to refer to functionality unique to event channel 4
-  Event4.assign_generator(gen4::pin_pe0); // Set pin PE0 as event generator
+  Event4.set_generator(gen4::pin_pe0); // Set pin PE0 as event generator
 
   // For more information about EVOUT, see the PORTMUX section in the datasheet
   Event4.set_user(user::evoutc_pin_pc2); // Set EVOUTC as event user
