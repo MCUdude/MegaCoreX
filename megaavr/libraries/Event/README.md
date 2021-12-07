@@ -5,6 +5,11 @@ Developed by [MCUdude](https://github.com/MCUdude/).
 **From the datasheet:**
 > The Event System (EVSYS) enables direct peripheral-to-peripheral signaling. It allows a change in one peripheral (the event generator) to trigger actions in other peripherals (the event users) through event channels, without using the CPU. It is designed to provide short and predictable response times between peripherals, allowing for autonomous peripheral control and interaction, and also for synchronized timing of actions in several peripheral modules. It is thus a powerful tool for reducing the complexity, size, and execution time of the software.
 
+
+## Overview
+The event system allows routing of signals from event "generators" (outputs on various peripherals) through an event "channel", which one or more "event users" can be connected. When an event signal coming from the generator is is "active" or "high", the users connected to the same channel as the generator will perform certain specified actions depending on the peripheral. Generators are often the sorts of things that generate an interrupt if that is enabled - but some things can generate constant level events (such as following the state of a pin).
+The event users can do a wide variety of things. The ADC can kick off a staged measurement. Type A and B timers can count them, and type B timers can measure their duration or time between them with input capture. USARTs can even use them as their RX input! This is nice and all - but what really makes the Event system reach it's potential is CCL (configurable custom logic) which can use events as inputs, in addiion to having access to several more internal sourcesof "event-like" signals - and being event generators in their own right.
+
 More information about the Event system and how it works can be found in the [Microchip Application Note AN2451](http://ww1.microchip.com/downloads/en/AppNotes/DS00002451B.pdf) and in the [megaAVR-0 family data sheet](http://ww1.microchip.com/downloads/en/DeviceDoc/megaAVR0-series-Family-Data-Sheet-DS40002015B.pdf).
 
 
@@ -14,19 +19,19 @@ Often for a given even generator or user only one or the other makes sense. Less
 
 
 ### Synchronization
+>Events can be either synchronous or asynchronous to the peripheral clock. Each Event System channel has two subchannels: one asynchronous and one synchronous.
+>The asynchronous subchannel is identical to the event output from the generator. If the event generator generates a signal asynchronous to the peripheral clock, the signal on the asynchronous subchannel will be asynchronous. If the event generator generates a signal synchronous to the peripheral clock, the signal on the asynchronous subchannel
+>will also be synchronous.
+>The synchronous subchannel is identical to the event output from the generator, if the event generator generates a signal synchronous to the peripheral clock. If the event generator generates a signal asynchronous to the peripheral clock, this signal is first synchronized before being routed onto the synchronous subchannel. Depending on when the event occurs, synchronization will delay the it by two to three clock cycles. The Event System automatically perform this synchronization if an asynchronous generator is selected for an event channel.
+
 The event system, under the hood, is asynchronous - it can react faster than the system clock (often a lot faster).
 The fact that it is asynchronous usually doesn't matter, but it is one of the things one should keep in mind when using these features, because every so often it does.
 
 
-### Some of these events are *weird*
-At first glance, nore than half of the users and generators seem, at best, odd - and a good few of them might appear entirely useless. Most of the event system can only truly be understood when considering the full range of generators and users - particularly the CCL. One of the tragedies of a datasheet is that it - generally - lacks a "why". Behind every mysterious event, there is a use case that seems obscure to most people - but within some sub-field, it's common and essential. There are also times when something may seem surprising until you're more familiar with the event and logic systems in general.
-
-
-
 ## Event
-Class for interfacing with the built-in Event system. Each event generator channel has its own object.
-Use the predefined objects `Event0`, `Event1`, `Event2`, `Event3`, `Event4`, `Event5`, `Event6` or `Event7`. Refer to static functions by using `Event::`. Note that different channels have different functionality, so make sure you use the right channel for the task.
-`Event_empty` is an object that's used to indicate if an event user isn't connected to an event channel and the user program requests an object.
+Class for interfacing with the Event system (EVSYS). Each event channel has its own object.
+Use the predefined objects `Event0`, `Event1`, `Event2`, `Event3`, `Event4`, `Event5`, `Event6` or `Event7`. Refer to static functions by using `Event::`. Additionally, there is an `Event_empty` that is returned whenever you call a method that returns an Event reference, but it can't fulfil your request.
+Note that different channels have different functionality, so make sure you use the right channel for the task.
 
 
 In short terms:
@@ -52,7 +57,7 @@ uint8_t this_channel = Event0.get_channel_number();  // In this case, get_channe
 
 
 ## get_channel()
-Static function that returns the object associated with the passed channel number. Useful if you need to get the correct Event object based on an integer number.
+Static function that returns the event object of that number. Useful if you need to get the correct Event object based on an integer number.
 
 ### Declaration
 ``` c++
@@ -85,7 +90,7 @@ static Event& get_generator_channel(uint8_t generator);
 ### Usage
 ```c++
 // Set ccl0_out as event generator for channel 2
-Event2.assign_generator(gen::ccl0_out);
+Event2.set_generator(gen::ccl0_out);
 
 // Now we want to get the channel/object connected to the ccl0_out generator
 // Create a reference to the object get_generator_channel() returns.
@@ -112,21 +117,21 @@ if(generator_used == gen::ccl0_out) {
 ```
 
 
-## assign_generator(gen::generator_t)
-Function to assign an event generator to a channel. Note that we use the prefix genN:: (where N is the channel number) when referring to generators unique to this particular channel. we use gen:: when referring to generators available on all generators.
+## set_generator(gen::generator_t)
+Function to connect an event generator to a channel. Note that we use the prefix genN:: (where N is the channel number) when referring to generators unique to this particular channel. we use gen:: when referring to generators available on all generators.
 
 ### Declaration
 ``` c++
-void assign_generator(gen::generator_t generator);
-void assign_generator(gen0::generator_t generator);
+void set_generator(gen::generator_t generator);
+void set_generator(gen0::generator_t generator);
 //...
-void assign_generator(gen7::generator_t generator);
+void set_generator(gen7::generator_t generator);
 ```
 
 ### Usage
 ```c++
-Event0.assign_generator(gen::ccl0_out); // Use the output of logic block 0 (CCL0) as an event generator for Event0
-Event2.assign_generator(gen2::pin_pc0); // Use pin PC0 as an event generator for Event2
+Event0.set_generator(gen::ccl0_out); // Use the output of logic block 0 (CCL0) as an event generator for Event0
+Event2.set_generator(gen2::pin_pc0); // Use pin PC0 as an event generator for Event2
 ```
 
 ### Generator table
@@ -161,23 +166,23 @@ Below is a table with all possible generators for each channel.
 | `gen::tcb3_capt`     |                                                     |                                                     |                                                     |                                                     |                                                      |                                                      |                     |                    |
 
 
-## assign_generator(uint8_t pin_number)
+## set_generator(uint8_t pin_number)
 Function that sets an Arduino pin as the event generator. Note that you will have to make sure a particular pin can be used as an event generator for the selected channel/object. **If this sounds like a hassle, use [assign_generator_pin()](#assign_generator_pin) instead.**
 
 ### Declaration
 ``` c++
-void assign_generator(uint8_t pin_number);
+void set_generator(uint8_t pin_number);
 ```
 
 ### Usage
 ```c++
-Event0.assign_generator(PIN_PA0); // Will work. PA0 can be used as an event generator for channel 0
-Event1.assign_generator(PIN_PC3); // WILL NOT WORK! PORTC cannot be used as an event generator for channel 1
+Event0.set_generator(PIN_PA0); // Will work. PA0 can be used as an event generator for channel 0
+Event1.set_generator(PIN_PC3); // WILL NOT WORK! PORTC cannot be used as an event generator for channel 1
 ```
 
 
 ## assign_generator_pin()
-Static function that sets an Arduino pin as the event generator. Unlike assign_generator(uint8_t pin_number), this function will return the object the generator has been assigned to. It will always try to use the lowest possible channel number as possible, and will return a reference to the object `Event_empty` (generator number 255) if the pin can't be assigned to a channel.
+Static function that sets an Arduino pin as the event generator. Unlike set_generator(uint8_t pin_number), this function will return the object the generator has been assigned to. It will always try to use the lowest possible channel number as possible, and will return a reference to the object `Event_empty` (generator number 255) if the pin can't be assigned to a channel.
 
 ### Declaration
 ``` c++
@@ -195,8 +200,9 @@ myEvent.start();
 
 
 ## get_user_channel_number()
-Static function to get what event channel a user is connected to. Returns -1 if not connected to any channel. Note that we use `user::` as prefix when we refer to event users. Also, note that we don't have to specify an object to determine what channel the user is connected to. if you're not sure, use `Event::get_user_channel`.
-An event generator can have multiple event users, but an event user can only have one event generator.
+Static function to get what event channel a user is connected to. Returns -1 if not connected to any channel.
+Note that we use `user::` as prefix when we refer to event users. Since this is a static function you don't have to specify an object to determine what channel the user is connected to. An event channel, and hence an event generator, can have as many event users are you want - but an event user can only have one event generator.
+You cannot get a list or count of all users connected to a generator except by iterating over the list.
 
 ### Declaration
 ``` c++
@@ -210,7 +216,7 @@ int8_t connected_to = Event::get_user_channel_number(user::ccl0_event_a); // Ret
 
 
 ## get_user_channel()
-Static function that returns the Event channel object a particular user is connected to. Returns a referece to the `Event_empty` object if not connected to any event channel.
+Static function that returns the Event channel object a particular user is connected to. unlike get_user_channel_number()`, this returns a reference to an Event object, and returns a referece to the `Event_empty` object if not connected to any event channel.
 
 ### Declaration
 ``` c++
@@ -233,7 +239,7 @@ void set_user(user::user_t event_user);
 
 ### Usage
 ```c++
-Event0.assign_generator(gen0::pin_pa0); // Set pin PA0` as event generator for Event0
+Event0.set_generator(gen0::pin_pa0); // Set pin PA0` as event generator for Event0
 Event0.set_user(user::evoutc);       // Set EVOUTC (pin PC2) as event user
 Event0.set_user(user::evoutd);       // Set evoutD (pin PD2) as event user
 ```
@@ -330,8 +336,22 @@ Event0.soft_event(); // Create a single software event on Event0
 ```
 
 
+### long_soft_event()
+`soft_event()` is only one system clock long, and might be difficult to catch in a real-life application. This function does the same thing as `soft_event()` but has a programmable interval for how long the soft event will last.
+
+The event lengths that are available are 2, 4, 6, 10 and 16 system clocks. (Any number less than 4 will give 2 clock-long pulse, only 4 will give a 4 clock long one. Anything between 4 and 10 will give 6, exactly 10 will give 10, and anything larger will give 16).
+
+#### Usage
+```c++
+Event0.long_soft_event(4);  // Will invert the state of the event channel for 4 system clock cycles (200ns at 20 MHz)
+Event0.long_soft_event(10); // Will invert the state of the event channel for 10 system clock cycles (500ns at 20 MHz)
+
+```
+Don't forget that this is an invert, not a "high" or "low". It should be entirely possible for the event that normally drives it to occur resulting in the state changing during that pulse, depending on it's configuration. Note also that the overhead of long_soft_event is typically several times the length of the pulse due to calculating the bitmask to write; it's longer with higher numbered channels.
+
+
 ## start()
-Starts an event generator channel by writing the generator selected by the `assign_generator()` function.
+Starts an event generator channel by writing the generator selected by the `set_generator()` function.
 
 ### Declaration
 ``` c++

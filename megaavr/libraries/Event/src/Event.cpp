@@ -413,6 +413,7 @@ void Event::set_user(user::user_t event_user)
   }
 }
 
+
 /**
  * @brief Sets an Arduino pin as a user for a particular event channel
  *
@@ -437,7 +438,7 @@ int8_t Event::set_user_pin(uint8_t pin_number)
       else if(port_pin == 7)
         event_user = user::evouta_pin_pa7;
     }
-    #if defined(__AVR_ATmegax09__)
+    #if defined(PIN_PB2)
       else if(port == PB)
       {
         if(port_pin == 2)
@@ -448,7 +449,7 @@ int8_t Event::set_user_pin(uint8_t pin_number)
     {
       if(port_pin == 2)
         event_user = user::evoutc_pin_pc2;
-      #if defined(__AVR_ATmegax09__)
+      #if defined(PIN_PC7)
         else if(port_pin == 7)
           event_user = user::evoutc_pin_pc7;
       #endif
@@ -460,7 +461,7 @@ int8_t Event::set_user_pin(uint8_t pin_number)
       else if(port_pin == 7)
         event_user = user::evoutd_pin_pd7;
     }
-    #if defined(__AVR_ATmegax09__)
+    #if defined(PIN_PE2)
       else if(port == PE)
       {
         if(port_pin == 2)
@@ -476,6 +477,7 @@ int8_t Event::set_user_pin(uint8_t pin_number)
   }
   return event_user;
 }
+
 
 /**
  * @brief Clears/removed a user from a particular event channel if set
@@ -516,20 +518,77 @@ void Event::soft_event()
     // megaAVR 0-series
     EVSYS.STROBE = (1 << channel_number);
   #elif defined(EVSYS_ASYNCCH0)
-    // TODO: tinyAVR 0/1-series
+    // tinyAVR 0/1-series
   #else
+    // tinyAVR 2-series and AVR-Dx
     // We expect there to be an EVSYS.SWEVENTA channel plus an
-    // EVSYS.SWEVENTB if it has more than 8 event channels.
+    // EVSYS.SWEVENTB it it has more than 8 event channels.
     #if defined(EVSYS_SWEVENTB)
       if(channel_number < 8)
         EVSYS.SWEVENTA = (1 << channel_number);
       else
-        EVSYS.SWEVENTB = (1 << (channel_number - 8));
+        EVSYS.SWEVENTB = channel_number - 7;
+      }
     #else
       EVSYS.SWEVENTA = (1 << channel_number);
     #endif
   #endif
 }
+
+
+void Event::long_soft_event(uint8_t length)
+{
+  uint8_t channel = channel_number;
+  uint16_t strobeaddr;
+  #if defined(EVSYS_STROBE)
+    strobeaddr = (uint16_t) &EVSYS_STROBE;
+  #elif defined(EVSYS_SWEVENTB)
+    if(channel > 7)
+    {
+      channel -= 8;
+      strobeaddr = (uint16_t) &EVSYS_SWEVENTB;
+    }
+    else
+      strobeaddr = (uint16_t) &EVSYS_SWEVENTA;
+  #elif defined(EVSYS_SWEVENTA)
+    strobeaddr = (uint16_t) &EVSYS_SWEVENTA;
+  #else
+    #error "Don't know the strobe register!"
+  #endif
+  channel = (1 << channel);
+  __asm__ __volatile__ (
+    "in r0, 0x3F"     "\n\t" // Save SREG
+    "cli"             "\n\t" // Interrupts off
+    "cpi %1, 4"       "\n\t"
+    "brcs long_soft2" "\n\t" // Less than 4 -> 2
+    "breq long_soft4" "\n\t" // Equal to 4 -> 4
+    "cpi %1, 10"      "\n\t" // Compare with 8
+    "brcs long_soft6" "\n\t" // Less than 10 (but more than 4) -> 6
+    "breq long_soft10""\n\t" // Equal to 10 -> 10
+    "st Z, %0"        "\n\t" // Otherwise they get 16.
+    "st Z, %0"        "\n\t"
+    "st Z, %0"        "\n\t"
+    "st Z, %0"        "\n\t"
+    "st Z, %0"        "\n\t"
+    "st Z, %0"        "\n\t"
+  "long_soft10:"      "\n\t"
+    "st Z, %0"        "\n\t"
+    "st Z, %0"        "\n\t"
+    "st Z, %0"        "\n\t"
+    "st Z, %0"        "\n\t"
+  "long_soft6:"       "\n\t"
+    "st Z, %0"        "\n\t"
+    "st Z, %0"        "\n\t"
+  "long_soft4:"       "\n\t"
+    "st Z, %0"        "\n\t"
+    "st Z, %0"        "\n\t"
+  "long_soft2:"       "\n\t"
+    "st Z, %0"        "\n\t"
+    "st Z, %0"        "\n\t"
+    "out 0x3f, r0"    "\n"   // Restore SREG, reenable interrupts
+    ::"r"((uint8_t) channel),"d"((uint8_t) length),"z" ((uint16_t) strobeaddr));
+}
+
 
 
 /**

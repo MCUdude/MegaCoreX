@@ -657,6 +657,7 @@ class Event
     int8_t set_user_pin(uint8_t pin_number);
     static void clear_user(user::user_t event_user);
     void soft_event();
+    void long_soft_event(uint8_t length);
     void start(bool state = true);
     void stop();
 
