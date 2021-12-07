@@ -613,7 +613,8 @@ class Event
     Event(uint8_t channel_num, volatile uint8_t &channel_addr);
     uint8_t get_channel_number();
     static Event& get_channel(uint8_t channel_number);
-    static Event& get_generator_channel(uint8_t generator);
+    static Event& get_generator_channel(gen::generator_t generator);
+    static Event& get_generator_channel(uint8_t generator_pin);
     uint8_t get_generator();
     void set_generator(gen::generator_t generator);
     void set_generator(uint8_t pin_number);
@@ -621,33 +622,43 @@ class Event
     static Event& assign_generator_pin(uint8_t pin_number);
 
     #if defined(EVSYS_CHANNEL0)
+      void get_generator_channel(gen0::generator_t generator) { get_generator_channel((gen::generator_t)generator); }
       void set_generator(gen0::generator_t generator) { set_generator((gen::generator_t)generator); }
     #endif
     #if defined(EVSYS_CHANNEL1)
+      void get_generator_channel(gen1::generator_t generator) { get_generator_channel((gen::generator_t)generator); }
       void set_generator(gen1::generator_t generator) { set_generator((gen::generator_t)generator); }
     #endif
     #if defined(EVSYS_CHANNEL2)
+      void get_generator_channel(gen2::generator_t generator) { get_generator_channel((gen::generator_t)generator); }
       void set_generator(gen2::generator_t generator) { set_generator((gen::generator_t)generator); }
     #endif
     #if defined(EVSYS_CHANNEL3)
+      void get_generator_channel(gen3::generator_t generator) { get_generator_channel((gen::generator_t)generator); }
       void set_generator(gen3::generator_t generator) { set_generator((gen::generator_t)generator); }
     #endif
     #if defined(EVSYS_CHANNEL4)
+      void get_generator_channel(gen4::generator_t generator) { get_generator_channel((gen::generator_t)generator); }
       void set_generator(gen4::generator_t generator) { set_generator((gen::generator_t)generator); }
     #endif
     #if defined(EVSYS_CHANNEL5)
+      void get_generator_channel(gen5::generator_t generator) { get_generator_channel((gen::generator_t)generator); }
       void set_generator(gen5::generator_t generator) { set_generator((gen::generator_t)generator); }
     #endif
     #if defined(EVSYS_CHANNEL6)
+      void get_generator_channel(gen6::generator_t generator) { get_generator_channel((gen::generator_t)generator); }
       void set_generator(gen6::generator_t generator) { set_generator((gen::generator_t)generator); }
     #endif
     #if defined(EVSYS_CHANNEL7)
+      void get_generator_channel(gen7::generator_t generator) { get_generator_channel((gen::generator_t)generator); }
       void set_generator(gen7::generator_t generator) { set_generator((gen::generator_t)generator); }
     #endif
     #if defined(EVSYS_CHANNEL8)
+      void get_generator_channel(gen8::generator_t generator) { get_generator_channel((gen::generator_t)generator); }
       void set_generator(gen8::generator_t generator) { set_generator((gen::generator_t)generator); }
     #endif
     #if defined(EVSYS_CHANNEL9)
+      void get_generator_channel(gen9::generator_t generator) { get_generator_channel((gen::generator_t)generator); }
       void set_generator(gen9::generator_t generator) { set_generator((gen::generator_t)generator); }
     #endif
 

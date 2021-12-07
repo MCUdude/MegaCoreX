@@ -120,7 +120,7 @@ Event& Event::get_channel(uint8_t ch_number)
  * @param generator Event generator
  * @return Event& Event channel object used with this event generator
  */
-Event& Event::get_generator_channel(uint8_t generator)
+Event& Event::get_generator_channel(gen::generator_t generator)
 {
   #if defined(EVSYS_CHANNEL0)
     if(Event0.generator_type == generator)
@@ -166,6 +166,70 @@ Event& Event::get_generator_channel(uint8_t generator)
   #if defined(EVSYS_CHANNEL0)
     else
       return Event_empty;
+  #endif
+}
+
+
+/**
+ * @brief Returns the event channel object used for a particular event generator Arduino pin
+ *
+ * @param generator_pin Event generator Arduino pin number
+ * @return Event& Event channel object used with this event generator
+ */
+Event& Event::get_generator_channel(uint8_t generator_pin)
+{
+  uint8_t port = digitalPinToPort(generator_pin);
+  uint8_t port_pin = digitalPinToBitPosition(generator_pin);
+
+  if(port != NOT_A_PIN && port_pin != NOT_A_PIN)
+  {
+    uint8_t gen = 0x40 | (port & 0x01) << 3 | port_pin;
+    if(port == PA || port == PB)
+    {
+      #if defined(EVSYS_CHANNEL0)
+        if(Event0.generator_type == gen)
+          return Event0;
+      #endif
+      #if defined(EVSYS_CHANNEL1)
+       else if(Event1.generator_type == gen)
+        return Event1;
+      #endif
+    }
+    else if(port == PC || port == PD)
+    {
+      #if defined(EVSYS_CHANNEL2)
+        if(Event2.generator_type == gen)
+          return Event2;
+      #endif
+      #if defined(EVSYS_CHANNEL3)
+        else if(Event3.generator_type == gen)
+          return Event3;
+      #endif
+    }
+    else if(port == PE || port == PF)
+    {
+      #if defined(EVSYS_CHANNEL4)
+        if(Event4.generator_type == gen)
+          return Event4;
+      #endif
+      #if defined(EVSYS_CHANNEL5)
+        else if(Event5.generator_type == gen)
+          return Event5;
+      #endif
+    }
+    #if defined(Dx_64_PINS)
+    else if(port == PG)
+    {
+      if(Event6.generator_type == gen)
+        return Event6;
+      else if(Event7.generator_type == gen)
+        return Event7;
+    }
+    #endif
+  }
+
+  #if defined(EVSYS_CHANNEL0)
+    return Event_empty;
   #endif
 }
 

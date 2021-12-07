@@ -84,7 +84,8 @@ Returns a reference to the `Event_empty` object if the generator is not connecte
 
 ### Declaration
 ``` c++
-static Event& get_generator_channel(uint8_t generator);
+static Event& get_generator_channel(gen::generator_t generator); // For all other generators (gen, gen0...gen7)
+static Event& get_generator_channel(uint8_t generator);          // For Arduino pins
 ```
 
 ### Usage
