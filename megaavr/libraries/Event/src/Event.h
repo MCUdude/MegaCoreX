@@ -617,6 +617,7 @@ class Event
     static Event& get_generator_channel(uint8_t generator_pin);
     uint8_t get_generator();
     void set_generator(gen::generator_t generator);
+    static Event& assign_generator(gen::generator_t event_generator);
     void set_generator(uint8_t pin_number);
     static Event& assign_generator_pin(uint8_t port, uint8_t port_pin);
     static Event& assign_generator_pin(uint8_t pin_number);

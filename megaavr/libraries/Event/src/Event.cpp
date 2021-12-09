@@ -375,6 +375,109 @@ Event& Event::assign_generator_pin(uint8_t pin_number)
 
 
 /**
+ * @brief Static member function that takes a gen:: generator as a parameter and
+ * finds an available channel for it. Starts with the highest possible channel
+ * number, 7, and iterate down to 0
+ *
+ * @param event_generator generator to assign to an event channel
+ * @return Event& Reference to the event object the generator has been assigned to.
+ * Returns the Event_empty object if no generator has been assigned to a channel
+ */
+Event& Event::assign_generator(gen::generator_t event_generator)
+{
+  // Check if generator is already in use
+  Event& channel = Event::get_generator_channel(event_generator);
+  if(channel.get_channel_number() != 255)
+    return channel;
+
+  else
+  {
+    #if defined(EVSYS_CHANNEL9)
+      if(Event9.get_generator() == gen::disable)
+      {
+        Event9.set_generator(event_generator);
+        return Event9;
+      }
+      else
+    #endif
+    #if defined(EVSYS_CHANNEL8)
+      if(Event8.get_generator() == gen::disable)
+      {
+        Event8.set_generator(event_generator);
+        return Event8;
+      }
+      else
+    #endif
+    #if defined(EVSYS_CHANNEL7)
+      if(Event7.get_generator() == gen::disable)
+      {
+        Event7.set_generator(event_generator);
+        return Event7;
+      }
+      else
+    #endif
+    #if defined(EVSYS_CHANNEL6)
+      if(Event6.get_generator() == gen::disable)
+      {
+        Event6.set_generator(event_generator);
+        return Event6;
+      }
+      else
+    #endif
+    #if defined(EVSYS_CHANNEL5)
+      if(Event5.get_generator() == gen::disable)
+      {
+        Event5.set_generator(event_generator);
+        return Event5;
+      }
+      else
+    #endif
+    #if defined(EVSYS_CHANNEL4)
+      if(Event4.get_generator() == gen::disable)
+      {
+        Event4.set_generator(event_generator);
+        return Event4;
+      }
+      else
+    #endif
+    #if defined(EVSYS_CHANNEL3)
+      if(Event3.get_generator() == gen::disable)
+      {
+        Event3.set_generator(event_generator);
+        return Event3;
+      }
+      else
+    #endif
+    #if defined(EVSYS_CHANNEL2)
+      if(Event2.get_generator() == gen::disable)
+      {
+        Event2.set_generator(event_generator);
+        return Event2;
+      }
+      else
+    #endif
+    #if defined(EVSYS_CHANNEL1)
+      if(Event1.get_generator() == gen::disable)
+      {
+        Event1.set_generator(event_generator);
+        return Event1;
+      }
+      else
+    #endif
+    #if defined(EVSYS_CHANNEL0)
+      if(Event0.get_generator() == gen::disable)
+      {
+        Event0.set_generator(event_generator);
+        return Event0;
+      }
+      else
+    #endif
+    return channel; // if we're on this branch, we know chan is Event_empty
+  }
+}
+
+
+/**
  * @brief Returns the Event channel number a particular user is connected to
  *
  * @param event_user The event user to check

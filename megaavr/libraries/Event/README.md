@@ -167,6 +167,22 @@ Below is a table with all possible generators for each channel.
 | `gen::tcb3_capt`     |                                                     |                                                     |                                                     |                                                     |                                                      |                                                      |                     |                    |
 
 
+### assign_generator(gen::generator_t)
+Static function that connects an event generator to a channel. What's different compared to `set_generator()` is that this function returns a reference to the channel object the generator has been assigned to. In other words, you don't need to keep track of the exact channel number, it just assigns an available channel.
+Note that this function only accepts generators that are present on all channels (gen::). It will return a reference to the `Event_empty` object if no channel is available.
+
+### Declaration
+``` c++
+static Event& assign_generator(gen::generator_t event_generator);
+```
+
+### Usage
+```c++
+Event& myEvent = Event::assign_generator(gen::ac0_out); // Assign the AC0 out generator to a channel
+myEvent.start();
+```
+
+
 ## set_generator(uint8_t pin_number)
 Function that sets an Arduino pin as the event generator. Note that you will have to make sure a particular pin can be used as an event generator for the selected channel/object. **If this sounds like a hassle, use [assign_generator_pin()](#assign_generator_pin) instead.**
 
