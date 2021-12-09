@@ -265,35 +265,35 @@ Event0.set_user(user::evoutd);       // Set evoutD (pin PD2) as event user
 Below is a table with all possible event users.
 Note that `evoutN_pin_pN7` is the same as `evoutN_pin_pN2` but where the pin is swapped from 2 to 7. This means that for instance, `evouta_pin_pa2` can't be used in combination with `evouta_pin_pa7.`
 
-| Event users            | Notes                                                                 |
-|------------------------|-----------------------------------------------------------------------|
-| `user::ccl0_event_a`   |                                                                       |
-| `user::ccl0_event_b`   |                                                                       |
-| `user::ccl1_event_a`   |                                                                       |
-| `user::ccl1_event_b`   |                                                                       |
-| `user::ccl2_event_a`   |                                                                       |
-| `user::ccl2_event_b`   |                                                                       |
-| `user::ccl3_event_a`   |                                                                       |
-| `user::ccl3_event_b`   |                                                                       |
-| `user::adc0_start`     |                                                                       |
-| `user::evouta_pin_pa2` |                                                                       |
-| `user::evouta_pin_pa7` | Pin swapped variant of `evouta_pin_pa2`                               |
-| `user::evoutb_pin_pb2` | Only available on ATmegaX809                                          |
-| `user::evoutc_pin_pc2` |                                                                       |
-| `user::evoutc_pin_pc7` | Pin swapped variant of `evoutc_pin_pc2`. Only available on ATmegaX809 |
-| `user::evoutd_pin_pd2` |                                                                       |
-| `user::evoutd_pin_pd7` | Pin swapped variant of `evoutd_pin_pd2`                               |
-| `user::evoute_pin_pe2` | Only available on ATmegaX809                                          |
-| `user::evoutf_pin_pf2` | Not available on 28-pin parts                                         |
-| `user::usart0_irda`    |                                                                       |
-| `user::usart1_irda`    |                                                                       |
-| `user::usart2_irda`    |                                                                       |
-| `user::usart3_irda`    |                                                                       |
-| `user::tca0`           |                                                                       |
-| `user::tcb0`           |                                                                       |
-| `user::tcb1`           |                                                                       |
-| `user::tcb2`           |                                                                       |
-| `user::tcb3`           |                                                                       |
+| Event users                       | Notes                                                                 |
+|-----------------------------------|-----------------------------------------------------------------------|
+| `user::ccl0_event_a`              |                                                                       |
+| `user::ccl0_event_b`              |                                                                       |
+| `user::ccl1_event_a`              |                                                                       |
+| `user::ccl1_event_b`              |                                                                       |
+| `user::ccl2_event_a`              |                                                                       |
+| `user::ccl2_event_b`              |                                                                       |
+| `user::ccl3_event_a`              |                                                                       |
+| `user::ccl3_event_b`              |                                                                       |
+| `user::adc0_start`                |                                                                       |
+| `user::evouta_pin_pa2`            |                                                                       |
+| `user::evouta_pin_pa7`            | Pin swapped variant of `evouta_pin_pa2`                               |
+| `user::evoutb_pin_pb2`            | Only available on ATmegaX809                                          |
+| `user::evoutc_pin_pc2`            |                                                                       |
+| `user::evoutc_pin_pc7`            | Pin swapped variant of `evoutc_pin_pc2`. Only available on ATmegaX809 |
+| `user::evoutd_pin_pd2`            |                                                                       |
+| `user::evoutd_pin_pd7`            | Pin swapped variant of `evoutd_pin_pd2`                               |
+| `user::evoute_pin_pe2`            | Only available on ATmegaX809                                          |
+| `user::evoutf_pin_pf2`            | Not available on 28-pin parts                                         |
+| `user::usart0_irda`               |                                                                       |
+| `user::usart1_irda`               |                                                                       |
+| `user::usart2_irda`               |                                                                       |
+| `user::usart3_irda`               |                                                                       |
+| `user::tca0` or `user::tca0_capt` |                                                                       |
+| `user::tcb0` or `user::tcb0_capt` |                                                                       |
+| `user::tcb1` or `user::tcb1_capt` |                                                                       |
+| `user::tcb2` or `user::tcb2_capt` |                                                                       |
+| `user::tcb3` or `user::tcb3_capt` |                                                                       |
 
 
 ## set_user_pin(uint8_t pin_number)

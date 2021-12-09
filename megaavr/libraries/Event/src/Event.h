@@ -418,11 +418,16 @@ namespace user
     usart3_irda    = 0x12,
 #endif
     tca0           = 0x13,
+    tca0_capt      = 0x13,
     tcb0           = 0x14,
+    tcb0_capt      = 0x14,
     tcb1           = 0x15,
+    tcb1_capt      = 0x15,
     tcb2           = 0x16,
+    tcb2_capt      = 0x16,
 #if defined(TCB3)
     tcb3           = 0x17,
+    tcb3_capt      = 0x17,
 #endif
     // "Unofficial" user generators. Uses EVOUT, but swaps the output pin using PORTMUX
     evouta_pin_pa7 = 0x89,
