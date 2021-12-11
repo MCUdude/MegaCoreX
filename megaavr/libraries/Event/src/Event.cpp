@@ -292,65 +292,137 @@ void Event::set_generator(uint8_t pin_number)
  *         Event_empty object if passed Arduino pin is invalid or no event
  *         channel is available
  */
-Event& Event::assign_generator_pin(uint8_t port, uint8_t port_pin)
-{
-  if(port != NOT_A_PIN && port_pin != NOT_A_PIN)
-  {
-    uint8_t gen = 0x40 | (port & 0x01) << 3 | port_pin;
-    if(port == PA || port == PB)
-    {
-      if(Event0.generator_type == gen::disable || Event0.generator_type == gen)
-      {
+Event& Event::assign_generator_pin(uint8_t port, uint8_t port_pin) {
+  if(port != NOT_A_PIN && port_pin != NOT_A_PIN) {
+    #if defined(MEGACOREX) || defined(DXCORE)
+      uint8_t gen = 0x40 | (port & 0x01) << 3 | port_pin;
+      if(port == PA || port == PB) {
+        if(Event0.generator_type == gen::disable || Event0.generator_type == gen) {
+          Event0.generator_type = gen;
+          return Event0;
+        }
+        else if(Event1.generator_type == gen::disable || Event1.generator_type == gen) {
+          Event1.generator_type = gen;
+          return Event1;
+        }
+      }
+      else if(port == PC || port == PD) {
+        if(Event2.generator_type == gen::disable || Event2.generator_type == gen) {
+          Event2.generator_type = gen;
+          return Event2;
+        }
+        else if(Event3.generator_type == gen::disable || Event3.generator_type == gen) {
+          Event3.generator_type = gen;
+          return Event3;
+        }
+      }
+      else if(port == PE || port == PF) {
+        if(Event4.generator_type == gen::disable || Event4.generator_type == gen) {
+          Event4.generator_type = gen;
+          return Event4;
+        }
+        else if(Event5.generator_type == gen::disable || Event5.generator_type == gen) {
+          Event5.generator_type = gen;
+          return Event5;
+        }
+      }
+      #if defined(Dx_64_PINS)
+      else if(port == PG) {
+        if(Event6.generator_type == gen::disable || Event6.generator_type == gen) {
+          Event6.generator_type = gen;
+          return Event6;
+        }
+        else if(Event7.generator_type == gen::disable || Event7.generator_type == gen) {
+          Event7.generator_type = gen;
+          return Event7;
+        }
+      }
+      #endif
+
+    return Event_empty;
+  #elif MEGATINYCORE_SERIES == 2
+    if(port != PC) {
+      uint8_t gen = port_pin | (port == PB ? 0x40 : 0x48);
+      if (Event0.generator_type == gen::disable || Event0.generator_type == gen) {
         Event0.generator_type = gen;
         return Event0;
       }
-      else if(Event1.generator_type == gen::disable || Event1.generator_type == gen)
-      {
+      else if (Event1.generator_type == gen::disable || Event1.generator_type == gen) {
         Event1.generator_type = gen;
         return Event1;
       }
     }
-    else if(port == PC || port == PD)
-    {
-      if(Event2.generator_type == gen::disable || Event2.generator_type == gen)
-      {
+    if (port != PB) {
+      uint8_t gen = port_pin | (port == PA ? 0x40 : 0x48);
+      if (Event2.generator_type == gen::disable || Event2.generator_type == gen) {
         Event2.generator_type = gen;
         return Event2;
       }
-      else if(Event3.generator_type == gen::disable || Event3.generator_type == gen)
-      {
+      else if (Event3.generator_type == gen::disable || Event3.generator_type == gen) {
         Event3.generator_type = gen;
         return Event3;
       }
     }
-    else if(port == PE || port == PF)
+    if (port != PA)
     {
-      if(Event4.generator_type == gen::disable || Event4.generator_type == gen)
-      {
+      uint8_t gen = port_pin | (port == PC ? 0x40 : 0x48);
+      if (Event4.generator_type == gen::disable || Event4.generator_type == gen) {
         Event4.generator_type = gen;
         return Event4;
       }
-      else if(Event5.generator_type == gen::disable || Event5.generator_type == gen)
-      {
+      else if (Event5.generator_type == gen::disable || Event5.generator_type == gen) {
         Event5.generator_type = gen;
         return Event5;
       }
     }
-    #if defined(Dx_64_PINS)
-    else if(port == PG)
-    {
-      if(Event6.generator_type == gen::disable || Event6.generator_type == gen)
-      {
-        Event6.generator_type = gen;
-        return Event6;
+    return Event_empty;
+  #else // tinyAVR-0/1 series
+    uint8_t gen = port_pin + 0x0A;
+      #if !defined(__AVR_ATtinyxy2__)
+        if (port == PA) {
+      #endif
+        if (Event2.generator_type == gen::disable || Event2.generator_type == gen) {
+          Event2.generator_type = gen;
+          return Event2;
+        }
+        gen += 3;
+        if (Event0.generator_type == gen::disable || Event0.generator_type == gen) {
+          Event0.generator_type = gen;
+          return Event0;
+        }
+      #if !defined(__AVR_ATtinyxy2__)
+        }
+      #endif
+      if (port == PB) {
+        if (Event3.generator_type == gen::disable || Event3.generator_type == gen) {
+          Event3.generator_type = gen;
+          return Event3;
+        }
+        #if MEGATINYCORE_SERIES == 1 // No Event1 on 0-series
+          gen -= 2;
+          if (Event1.generator_type == gen::disable || Event1.generator_type == gen) {
+            Event1.generator_type = gen;
+            return Event1;
+          }
+        #endif
       }
-      else if(Event7.generator_type == gen::disable || Event7.generator_type == gen)
-      {
-        Event7.generator_type = gen;
-        return Event7;
-      }
-    }
-    #endif
+      #if defined (PIN_PC0) // can't test if PORTx is defined - all are defined everywhere)
+        if (port == PC) {
+          #if MEGATINYCORE_SERIES == 1 // no event 4 on 0-series
+            if (Event4.generator_type == gen::disable || Event4.generator_type == gen) {
+              Event4.generator_type = gen;
+              return Event4;
+            }
+          #endif
+          gen -= 3;
+          if (Event0.generator_type == gen::disable || Event0.generator_type == gen) {
+            Event0.generator_type = gen;
+            return Event0;
+          }
+        }
+      #endif // PC-bearing parts end here
+
+    #endif // end of tiny 0/1 assign_generator_pin()
   }
   return Event_empty;
 }
