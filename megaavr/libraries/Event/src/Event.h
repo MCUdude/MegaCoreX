@@ -3,6 +3,16 @@
 
 #include <Arduino.h>
 
+#if defined(MEGATINYCORE)
+  #if (MEGATINYCORE_SERIES == 0)
+    #define TINY_0_SERIES
+  #elif (MEGATINYCORE_SERIES == 1)
+    #define TINY_1_SERIES
+  #elif (MEGATINYCORE_SERIES == 2)
+    #define TINY_2_SERIES
+  #endif
+#endif
+
 #if defined(MEGACOREX) || defined(DXCORE)
 // Features present on all generator channels
 namespace gen {
@@ -694,7 +704,7 @@ namespace user {
 
 
 // tinyAVR-2 definitions
-#elif MEGATINYCORE_SERIES == 2
+#elif defined(TINY_2_SERIES)
 namespace gen {
   enum generator_t : uint8_t {
     disable         = 0x00,
@@ -941,10 +951,8 @@ namespace user {
   };
 };
 
-
 // tinyAVR-0/1 definitions
-#else
-
+#elif defined(TINY_0_SERIES) || defined(TINY_1_SERIES)
 namespace gen0 {
   enum generator_t : uint8_t {
 #if defined(PIN_PC0)
@@ -965,7 +973,7 @@ namespace gen0 {
     pin_pa5      = 0x12,
     pin_pa6      = 0x13,
     pin_pa7      = 0x14,
-#if (PROGMEM_SIZE > 8192 && MEGATINYCORE_SERIES == 1)
+#if (PROGMEM_SIZE > 8192 && defined(TINY_1_SERIES))
     tcb1         = 0x15,
     tcb1_capt    = 0x15,
 #endif
@@ -982,7 +990,7 @@ namespace gen2 {
     pin_pa6      = 0x10,
     pin_pa7      = 0x11,
     updi         = 0x12,
-#if (PROGMEM_SIZE > 8192 && MEGATINYCORE_SERIES == 1)
+#if (PROGMEM_SIZE > 8192 && defined(TINY_1_SERIES))
     ac1_out      = 0x13,
     ac2_out      = 0x14,
 #endif
@@ -1013,7 +1021,33 @@ namespace gen3 {
 };
 #endif
 
-#if MEGATINYCORE_SERIES == 1
+#if defined(TINY_1_SERIES)
+
+#if defined(__AVR_ATtinyxy4__) || defined(__AVR_ATtinyxy6__) || defined(__AVR_ATtinyxy7__)
+// Only 1-series parts have second sync channel.
+// Only on parts with > 8 pins does it have any unique options
+namespace gen1 {
+  enum generator_t : uint8_t {
+    pin_pb0      = 0x08,
+    pin_pb1      = 0x09,
+    pin_pb2      = 0x0A,
+    pin_pb3      = 0x0B,
+#if defined(PIN_PB0)
+    pin_pb4      = 0x0C,
+    pin_pb5      = 0x0D,
+#endif
+#if defined(PIN_PB6)
+    pin_pb6      = 0x0E,
+    pin_pb7      = 0x0F,
+#endif
+#if (PROGMEM_SIZE > 8192) // Only 16/32k 1-series, but only 1-series is here
+    tcb1         = 0x10,
+    tcb1_capt    = 0x10,
+#endif
+  };
+};
+#endif
+
 // Only 1-series parts have third and fourth async sync channel.
 // and only parts with 20/24 pins, or the 1614 have any items on this list available
 #if !(defined(__AVR_ATtinyxy2__) || (defined(__AVR_ATtinyxy4__) && PROGMEM_SIZE <= 8192))
@@ -1053,31 +1087,6 @@ namespace gen5 {
 #endif
   };
 };
-
-#if defined(__AVR_ATtinyxy4__) || defined(__AVR_ATtinyxy6__) || defined(__AVR_ATtinyxy7__)
-// Only 1-series parts have second sync channel.
-// Only on parts with > 8 pins does it have any unique options
-namespace gen1 {
-  enum generator_t : uint8_t {
-    pin_pb0      = 0x08,
-    pin_pb1      = 0x09,
-    pin_pb2      = 0x0A,
-    pin_pb3      = 0x0B,
-#if defined(PIN_PB0)
-    pin_pb4      = 0x0C,
-    pin_pb5      = 0x0D,
-#endif
-#if defined(PIN_PB6)
-    pin_pb6      = 0x0E,
-    pin_pb7      = 0x0F,
-#endif
-#if (PROGMEM_SIZE > 8192) // Only 16/32k 1-series, but only 1-series is here
-    tcb1         = 0x10,
-    tcb1_capt    = 0x10,
-#endif
-  };
-};
-#endif
 #endif // end of  1-series only part.
 
 namespace gens {
@@ -1101,7 +1110,7 @@ namespace gen {
     ccl_lut0          = 0x01,
     ccl_lut1          = 0x02,
     ac0_out           = 0x03,
-#if MEGATINYCORE_SERIES == 1
+#if defined(TINY_1_SERIES)
     tcd0_cmpbclr      = 0x04,
     tcd0_cmpaset      = 0x05,
     tcd0_cmpbset      = 0x06,
@@ -1134,7 +1143,7 @@ namespace user {
     usart0_irda             = 0x11,
   };
 };
-#endif // tinyAVR-0/1
+#endif // TINY_0_SERIES || TINY_1_SERIES
 
 class Event {
   public:
@@ -1190,6 +1199,10 @@ class Event {
       void get_generator_channel(gen9::generator_t generator) { get_generator_channel((gen::generator_t)generator); }
       void set_generator(gen9::generator_t generator) { set_generator((gen::generator_t)generator); }
     #endif
+    #if defined(TINY_0_SERIES) || defined(TINY_1_SERIES)
+      void get_generator_channel(gens::generator_t generator) { get_generator_channel((gen::generator_t)generator); }
+      void set_generator(gen::generator_t generator) { set_generator((gen::generator_t)generator); }
+    #endif
 
     static int8_t get_user_channel_number(user::user_t event_user);
     static Event& get_user_channel(user::user_t event_user);
@@ -1208,7 +1221,7 @@ class Event {
     uint8_t generator_type;            // Generator type the event channel is using
 };
 
-#if defined(MEGACOREX) || defined(DXCORE) || MEGATINYCORE_SERIES == 2
+#if defined(MEGACOREX) || defined(DXCORE) || defined(TINY_2_SERIES)
   #if defined(EVSYS_CHANNEL0)
     extern Event Event0;
   #endif
