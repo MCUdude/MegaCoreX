@@ -1,5 +1,6 @@
 menu.clock=Clock
 menu.BOD=BOD
+menu.eeprom=EEPROM
 menu.pinout=Pinout
 menu.resetpin=Reset pin
 menu.bootloader=Bootloader
@@ -48,11 +49,17 @@ menu.bootloader=Bootloader
 4809.menu.pinout.nano_every.program.extra_params=-P{serial.port} -e
 4809.menu.pinout.nano_every.build.compat=
 
+# EEPROM
+4809.menu.eeprom.keep=EEPROM retained
+4809.menu.eeprom.keep.bootloader.eesave_bit=1
+4809.menu.eeprom.erase=EEPROM not retained
+4809.menu.eeprom.erase.bootloader.eesave_bit=0
+
 # Reset pin
 4809.menu.resetpin.reset=Reset
-4809.menu.resetpin.reset.bootloader.SYSCFG0=0xC9
+4809.menu.resetpin.reset.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 4809.menu.resetpin.gpio=GPIO
-4809.menu.resetpin.gpio.bootloader.SYSCFG0=0xC1
+4809.menu.resetpin.gpio.bootloader.SYSCFG0=0b1100000{bootloader.eesave_bit}
 
 # Brown out detection
 4809.menu.BOD.2v6=BOD 2.6V
@@ -177,7 +184,7 @@ menu.bootloader=Bootloader
 4809.menu.bootloader.uart0_default.build.export_merged_output=true
 4809.menu.bootloader.uart0_default.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 4809.menu.bootloader.uart0_default.bootloader.BOOTEND=0x02
-4809.menu.bootloader.uart0_default.bootloader.SYSCFG0=0xC9
+4809.menu.bootloader.uart0_default.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 4809.menu.bootloader.uart0_alternative=Optiboot (UART0 alternative pins)
 4809.menu.bootloader.uart0_alternative.upload.maximum_size=48640
@@ -188,7 +195,7 @@ menu.bootloader=Bootloader
 4809.menu.bootloader.uart0_alternative.build.export_merged_output=true
 4809.menu.bootloader.uart0_alternative.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 4809.menu.bootloader.uart0_alternative.bootloader.BOOTEND=0x02
-4809.menu.bootloader.uart0_alternative.bootloader.SYSCFG0=0xC9
+4809.menu.bootloader.uart0_alternative.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 4809.menu.bootloader.uart1_default=Optiboot (UART1 default pins)
 4809.menu.bootloader.uart1_default.upload.maximum_size=48640
@@ -199,7 +206,7 @@ menu.bootloader=Bootloader
 4809.menu.bootloader.uart1_default.build.export_merged_output=true
 4809.menu.bootloader.uart1_default.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 4809.menu.bootloader.uart1_default.bootloader.BOOTEND=0x02
-4809.menu.bootloader.uart1_default.bootloader.SYSCFG0=0xC9
+4809.menu.bootloader.uart1_default.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 4809.menu.bootloader.uart1_alternative=Optiboot (UART1 alternative pins)
 4809.menu.bootloader.uart1_alternative.upload.maximum_size=48640
@@ -210,7 +217,7 @@ menu.bootloader=Bootloader
 4809.menu.bootloader.uart1_alternative.build.export_merged_output=true
 4809.menu.bootloader.uart1_alternative.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 4809.menu.bootloader.uart1_alternative.bootloader.BOOTEND=0x02
-4809.menu.bootloader.uart1_alternative.bootloader.SYSCFG0=0xC9
+4809.menu.bootloader.uart1_alternative.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 4809.menu.bootloader.uart2_default=Optiboot (UART2 default pins)
 4809.menu.bootloader.uart2_default.upload.maximum_size=48640
@@ -221,7 +228,7 @@ menu.bootloader=Bootloader
 4809.menu.bootloader.uart2_default.build.export_merged_output=true
 4809.menu.bootloader.uart2_default.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 4809.menu.bootloader.uart2_default.bootloader.BOOTEND=0x02
-4809.menu.bootloader.uart2_default.bootloader.SYSCFG0=0xC9
+4809.menu.bootloader.uart2_default.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 4809.menu.bootloader.uart2_alternative=Optiboot (UART2 alternative pins)
 4809.menu.bootloader.uart2_alternative.upload.maximum_size=48640
@@ -232,7 +239,7 @@ menu.bootloader=Bootloader
 4809.menu.bootloader.uart2_alternative.build.export_merged_output=true
 4809.menu.bootloader.uart2_alternative.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 4809.menu.bootloader.uart2_alternative.bootloader.BOOTEND=0x02
-4809.menu.bootloader.uart2_alternative.bootloader.SYSCFG0=0xC9
+4809.menu.bootloader.uart2_alternative.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 4809.menu.bootloader.uart3_default=Optiboot (UART3 default pins)
 4809.menu.bootloader.uart3_default.upload.maximum_size=48640
@@ -243,7 +250,7 @@ menu.bootloader=Bootloader
 4809.menu.bootloader.uart3_default.build.export_merged_output=true
 4809.menu.bootloader.uart3_default.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 4809.menu.bootloader.uart3_default.bootloader.BOOTEND=0x02
-4809.menu.bootloader.uart3_default.bootloader.SYSCFG0=0xC9
+4809.menu.bootloader.uart3_default.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 4809.menu.bootloader.uart3_alternative=Optiboot (UART3 alternative pins)
 4809.menu.bootloader.uart3_alternative.upload.maximum_size=48640
@@ -254,7 +261,7 @@ menu.bootloader=Bootloader
 4809.menu.bootloader.uart3_alternative.build.export_merged_output=true
 4809.menu.bootloader.uart3_alternative.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 4809.menu.bootloader.uart3_alternative.bootloader.BOOTEND=0x02
-4809.menu.bootloader.uart3_alternative.bootloader.SYSCFG0=0xC9
+4809.menu.bootloader.uart3_alternative.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 
 ####################
@@ -293,11 +300,17 @@ menu.bootloader=Bootloader
 4808.menu.pinout.nano_4808.upload.protocol=jtag2updi
 4808.menu.pinout.nano_4808.program.extra_params=-P{serial.port} -e
 
+# EEPROM
+4808.menu.eeprom.keep=EEPROM retained
+4808.menu.eeprom.keep.bootloader.eesave_bit=1
+4808.menu.eeprom.erase=EEPROM not retained
+4808.menu.eeprom.erase.bootloader.eesave_bit=0
+
 # Reset pin
 4808.menu.resetpin.reset=Reset
-4808.menu.resetpin.reset.bootloader.SYSCFG0=0xCD
+4808.menu.resetpin.reset.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 4808.menu.resetpin.gpio=GPIO
-4808.menu.resetpin.gpio.bootloader.SYSCFG0=0xC1
+4808.menu.resetpin.gpio.bootloader.SYSCFG0=0b1100000{bootloader.eesave_bit}
 
 # Brown out detection
 4808.menu.BOD.2v6=BOD 2.6V
@@ -416,7 +429,7 @@ menu.bootloader=Bootloader
 4808.menu.bootloader.uart0_default.build.export_merged_output=true
 4808.menu.bootloader.uart0_default.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 4808.menu.bootloader.uart0_default.bootloader.BOOTEND=0x02
-4808.menu.bootloader.uart0_default.bootloader.SYSCFG0=0xC9
+4808.menu.bootloader.uart0_default.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 4808.menu.bootloader.uart0_alternative=Optiboot (UART0 alternative pins)
 4808.menu.bootloader.uart0_alternative.upload.maximum_size=48640
@@ -427,7 +440,7 @@ menu.bootloader=Bootloader
 4808.menu.bootloader.uart0_alternative.build.export_merged_output=true
 4808.menu.bootloader.uart0_alternative.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 4808.menu.bootloader.uart0_alternative.bootloader.BOOTEND=0x02
-4808.menu.bootloader.uart0_alternative.bootloader.SYSCFG0=0xC9
+4808.menu.bootloader.uart0_alternative.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 4808.menu.bootloader.uart1_default=Optiboot (UART1 default pins)
 4808.menu.bootloader.uart1_default.upload.maximum_size=48640
@@ -438,7 +451,7 @@ menu.bootloader=Bootloader
 4808.menu.bootloader.uart1_default.build.export_merged_output=true
 4808.menu.bootloader.uart1_default.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 4808.menu.bootloader.uart1_default.bootloader.BOOTEND=0x02
-4808.menu.bootloader.uart1_default.bootloader.SYSCFG0=0xC9
+4808.menu.bootloader.uart1_default.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 4808.menu.bootloader.uart1_alternative=Optiboot (UART1 alternative pins)
 4808.menu.bootloader.uart1_alternative.upload.maximum_size=48640
@@ -449,7 +462,7 @@ menu.bootloader=Bootloader
 4808.menu.bootloader.uart1_alternative.build.export_merged_output=true
 4808.menu.bootloader.uart1_alternative.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 4808.menu.bootloader.uart1_alternative.bootloader.BOOTEND=0x02
-4808.menu.bootloader.uart1_alternative.bootloader.SYSCFG0=0xC9
+4808.menu.bootloader.uart1_alternative.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 4808.menu.bootloader.uart2_default=Optiboot (UART2 default pins)
 4808.menu.bootloader.uart2_default.upload.maximum_size=48640
@@ -460,7 +473,7 @@ menu.bootloader=Bootloader
 4808.menu.bootloader.uart2_default.build.export_merged_output=true
 4808.menu.bootloader.uart2_default.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 4808.menu.bootloader.uart2_default.bootloader.BOOTEND=0x02
-4808.menu.bootloader.uart2_default.bootloader.SYSCFG0=0xC9
+4808.menu.bootloader.uart2_default.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 4808.menu.bootloader.uart2_alternative=Optiboot (UART2 alternative pins)
 4808.menu.bootloader.uart2_alternative.upload.maximum_size=48640
@@ -471,7 +484,7 @@ menu.bootloader=Bootloader
 4808.menu.bootloader.uart2_alternative.build.export_merged_output=true
 4808.menu.bootloader.uart2_alternative.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 4808.menu.bootloader.uart2_alternative.bootloader.BOOTEND=0x02
-4808.menu.bootloader.uart2_alternative.bootloader.SYSCFG0=0xC9
+4808.menu.bootloader.uart2_alternative.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 
 
@@ -505,11 +518,17 @@ menu.bootloader=Bootloader
 3209.menu.pinout.uno_wifi.build.variant=uno-wifi
 3209.menu.pinout.uno_wifi.build.compat=
 
+# EEPROM
+3209.menu.eeprom.keep=EEPROM retained
+3209.menu.eeprom.keep.bootloader.eesave_bit=1
+3209.menu.eeprom.erase=EEPROM not retained
+3209.menu.eeprom.erase.bootloader.eesave_bit=0
+
 # Reset pin
 3209.menu.resetpin.reset=Reset
-3209.menu.resetpin.reset.bootloader.SYSCFG0=0xCD
+3209.menu.resetpin.reset.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 3209.menu.resetpin.gpio=GPIO
-3209.menu.resetpin.gpio.bootloader.SYSCFG0=0xC1
+3209.menu.resetpin.gpio.bootloader.SYSCFG0=0b1100000{bootloader.eesave_bit}
 
 # Brown out detection
 3209.menu.BOD.2v6=BOD 2.6V
@@ -628,7 +647,7 @@ menu.bootloader=Bootloader
 3209.menu.bootloader.uart0_default.build.export_merged_output=true
 3209.menu.bootloader.uart0_default.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 3209.menu.bootloader.uart0_default.bootloader.BOOTEND=0x02
-3209.menu.bootloader.uart0_default.bootloader.SYSCFG0=0xC9
+3209.menu.bootloader.uart0_default.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 3209.menu.bootloader.uart0_alternative=Optiboot (UART0 alternative pins)
 3209.menu.bootloader.uart0_alternative.upload.maximum_size=32256
@@ -639,7 +658,7 @@ menu.bootloader=Bootloader
 3209.menu.bootloader.uart0_alternative.build.export_merged_output=true
 3209.menu.bootloader.uart0_alternative.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 3209.menu.bootloader.uart0_alternative.bootloader.BOOTEND=0x02
-3209.menu.bootloader.uart0_alternative.bootloader.SYSCFG0=0xC9
+3209.menu.bootloader.uart0_alternative.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 3209.menu.bootloader.uart1_default=Optiboot (UART1 default pins)
 3209.menu.bootloader.uart1_default.upload.maximum_size=32256
@@ -650,7 +669,7 @@ menu.bootloader=Bootloader
 3209.menu.bootloader.uart1_default.build.export_merged_output=true
 3209.menu.bootloader.uart1_default.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 3209.menu.bootloader.uart1_default.bootloader.BOOTEND=0x02
-3209.menu.bootloader.uart1_default.bootloader.SYSCFG0=0xC9
+3209.menu.bootloader.uart1_default.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 3209.menu.bootloader.uart1_alternative=Optiboot (UART1 alternative pins)
 3209.menu.bootloader.uart1_alternative.upload.maximum_size=32256
@@ -661,7 +680,7 @@ menu.bootloader=Bootloader
 3209.menu.bootloader.uart1_alternative.build.export_merged_output=true
 3209.menu.bootloader.uart1_alternative.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 3209.menu.bootloader.uart1_alternative.bootloader.BOOTEND=0x02
-3209.menu.bootloader.uart1_alternative.bootloader.SYSCFG0=0xC9
+3209.menu.bootloader.uart1_alternative.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 3209.menu.bootloader.uart2_default=Optiboot (UART2 default pins)
 3209.menu.bootloader.uart2_default.upload.maximum_size=32256
@@ -672,7 +691,7 @@ menu.bootloader=Bootloader
 3209.menu.bootloader.uart2_default.build.export_merged_output=true
 3209.menu.bootloader.uart2_default.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 3209.menu.bootloader.uart2_default.bootloader.BOOTEND=0x02
-3209.menu.bootloader.uart2_default.bootloader.SYSCFG0=0xC9
+3209.menu.bootloader.uart2_default.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 3209.menu.bootloader.uart2_alternative=Optiboot (UART2 alternative pins)
 3209.menu.bootloader.uart2_alternative.upload.maximum_size=32256
@@ -683,7 +702,7 @@ menu.bootloader=Bootloader
 3209.menu.bootloader.uart2_alternative.build.export_merged_output=true
 3209.menu.bootloader.uart2_alternative.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 3209.menu.bootloader.uart2_alternative.bootloader.BOOTEND=0x02
-3209.menu.bootloader.uart2_alternative.bootloader.SYSCFG0=0xC9
+3209.menu.bootloader.uart2_alternative.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 3209.menu.bootloader.uart3_default=Optiboot (UART3 default pins)
 3209.menu.bootloader.uart3_default.upload.maximum_size=32256
@@ -694,7 +713,7 @@ menu.bootloader=Bootloader
 3209.menu.bootloader.uart3_default.build.export_merged_output=true
 3209.menu.bootloader.uart3_default.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 3209.menu.bootloader.uart3_default.bootloader.BOOTEND=0x02
-3209.menu.bootloader.uart3_default.bootloader.SYSCFG0=0xC9
+3209.menu.bootloader.uart3_default.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 3209.menu.bootloader.uart3_alternative=Optiboot (UART3 alternative pins)
 3209.menu.bootloader.uart3_alternative.upload.maximum_size=32256
@@ -705,7 +724,7 @@ menu.bootloader=Bootloader
 3209.menu.bootloader.uart3_alternative.build.export_merged_output=true
 3209.menu.bootloader.uart3_alternative.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 3209.menu.bootloader.uart3_alternative.bootloader.BOOTEND=0x02
-3209.menu.bootloader.uart3_alternative.bootloader.SYSCFG0=0xC9
+3209.menu.bootloader.uart3_alternative.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 
 ####################
@@ -736,11 +755,17 @@ menu.bootloader=Bootloader
 3208.menu.pinout.28pin_standard=28 pin standard
 3208.menu.pinout.28pin_standard.build.variant=28pin-standard
 
+# EEPROM
+3208.menu.eeprom.keep=EEPROM retained
+3208.menu.eeprom.keep.bootloader.eesave_bit=1
+3208.menu.eeprom.erase=EEPROM not retained
+3208.menu.eeprom.erase.bootloader.eesave_bit=0
+
 # Reset pin
 3208.menu.resetpin.reset=Reset
-3208.menu.resetpin.reset.bootloader.SYSCFG0=0xCD
+3208.menu.resetpin.reset.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 3208.menu.resetpin.gpio=GPIO
-3208.menu.resetpin.gpio.bootloader.SYSCFG0=0xC1
+3208.menu.resetpin.gpio.bootloader.SYSCFG0=0b1100000{bootloader.eesave_bit}
 
 # Brown out detection
 3208.menu.BOD.2v6=BOD 2.6V
@@ -859,7 +884,7 @@ menu.bootloader=Bootloader
 3208.menu.bootloader.uart0_default.build.export_merged_output=true
 3208.menu.bootloader.uart0_default.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 3208.menu.bootloader.uart0_default.bootloader.BOOTEND=0x02
-3208.menu.bootloader.uart0_default.bootloader.SYSCFG0=0xC9
+3208.menu.bootloader.uart0_default.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 3208.menu.bootloader.uart0_alternative=Optiboot (UART0 alternative pins)
 3208.menu.bootloader.uart0_alternative.upload.maximum_size=32256
@@ -870,7 +895,7 @@ menu.bootloader=Bootloader
 3208.menu.bootloader.uart0_alternative.build.export_merged_output=true
 3208.menu.bootloader.uart0_alternative.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 3208.menu.bootloader.uart0_alternative.bootloader.BOOTEND=0x02
-3208.menu.bootloader.uart0_alternative.bootloader.SYSCFG0=0xC9
+3208.menu.bootloader.uart0_alternative.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 3208.menu.bootloader.uart1_default=Optiboot (UART1 default pins)
 3208.menu.bootloader.uart1_default.upload.maximum_size=32256
@@ -881,7 +906,7 @@ menu.bootloader=Bootloader
 3208.menu.bootloader.uart1_default.build.export_merged_output=true
 3208.menu.bootloader.uart1_default.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 3208.menu.bootloader.uart1_default.bootloader.BOOTEND=0x02
-3208.menu.bootloader.uart1_default.bootloader.SYSCFG0=0xC9
+3208.menu.bootloader.uart1_default.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 3208.menu.bootloader.uart1_alternative=Optiboot (UART1 alternative pins)
 3208.menu.bootloader.uart1_alternative.upload.maximum_size=32256
@@ -892,7 +917,7 @@ menu.bootloader=Bootloader
 3208.menu.bootloader.uart1_alternative.build.export_merged_output=true
 3208.menu.bootloader.uart1_alternative.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 3208.menu.bootloader.uart1_alternative.bootloader.BOOTEND=0x02
-3208.menu.bootloader.uart1_alternative.bootloader.SYSCFG0=0xC9
+3208.menu.bootloader.uart1_alternative.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 3208.menu.bootloader.uart2_default=Optiboot (UART2 default pins)
 3208.menu.bootloader.uart2_default.upload.maximum_size=32256
@@ -903,7 +928,7 @@ menu.bootloader=Bootloader
 3208.menu.bootloader.uart2_default.build.export_merged_output=true
 3208.menu.bootloader.uart2_default.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 3208.menu.bootloader.uart2_default.bootloader.BOOTEND=0x02
-3208.menu.bootloader.uart2_default.bootloader.SYSCFG0=0xC9
+3208.menu.bootloader.uart2_default.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 3208.menu.bootloader.uart2_alternative=Optiboot (UART2 alternative pins)
 3208.menu.bootloader.uart2_alternative.upload.maximum_size=32256
@@ -914,7 +939,7 @@ menu.bootloader=Bootloader
 3208.menu.bootloader.uart2_alternative.build.export_merged_output=true
 3208.menu.bootloader.uart2_alternative.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 3208.menu.bootloader.uart2_alternative.bootloader.BOOTEND=0x02
-3208.menu.bootloader.uart2_alternative.bootloader.SYSCFG0=0xC9
+3208.menu.bootloader.uart2_alternative.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 
 #####################
@@ -947,11 +972,17 @@ menu.bootloader=Bootloader
 1609.menu.pinout.uno_wifi.build.variant=uno-wifi
 1609.menu.pinout.uno_wifi.build.compat=
 
+# EEPROM
+1609.menu.eeprom.keep=EEPROM retained
+1609.menu.eeprom.keep.bootloader.eesave_bit=1
+1609.menu.eeprom.erase=EEPROM not retained
+1609.menu.eeprom.erase.bootloader.eesave_bit=0
+
 # Reset pin
 1609.menu.resetpin.reset=Reset
-1609.menu.resetpin.reset.bootloader.SYSCFG0=0xCD
+1609.menu.resetpin.reset.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 1609.menu.resetpin.gpio=GPIO
-1609.menu.resetpin.gpio.bootloader.SYSCFG0=0xC1
+1609.menu.resetpin.gpio.bootloader.SYSCFG0=0b1100000{bootloader.eesave_bit}
 
 # Brown out detection
 1609.menu.BOD.2v6=BOD 2.6V
@@ -1070,7 +1101,7 @@ menu.bootloader=Bootloader
 1609.menu.bootloader.uart0_default.build.export_merged_output=true
 1609.menu.bootloader.uart0_default.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 1609.menu.bootloader.uart0_default.bootloader.BOOTEND=0x02
-1609.menu.bootloader.uart0_default.bootloader.SYSCFG0=0xC9
+1609.menu.bootloader.uart0_default.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 1609.menu.bootloader.uart0_alternative=Optiboot (UART0 alternative pins)
 1609.menu.bootloader.uart0_alternative.upload.maximum_size=15872
@@ -1081,7 +1112,7 @@ menu.bootloader=Bootloader
 1609.menu.bootloader.uart0_alternative.build.export_merged_output=true
 1609.menu.bootloader.uart0_alternative.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 1609.menu.bootloader.uart0_alternative.bootloader.BOOTEND=0x02
-1609.menu.bootloader.uart0_alternative.bootloader.SYSCFG0=0xC9
+1609.menu.bootloader.uart0_alternative.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 1609.menu.bootloader.uart1_default=Optiboot (UART1 default pins)
 1609.menu.bootloader.uart1_default.upload.maximum_size=15872
@@ -1092,7 +1123,7 @@ menu.bootloader=Bootloader
 1609.menu.bootloader.uart1_default.build.export_merged_output=true
 1609.menu.bootloader.uart1_default.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 1609.menu.bootloader.uart1_default.bootloader.BOOTEND=0x02
-1609.menu.bootloader.uart1_default.bootloader.SYSCFG0=0xC9
+1609.menu.bootloader.uart1_default.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 1609.menu.bootloader.uart1_alternative=Optiboot (UART1 alternative pins)
 1609.menu.bootloader.uart1_alternative.upload.maximum_size=15872
@@ -1103,7 +1134,7 @@ menu.bootloader=Bootloader
 1609.menu.bootloader.uart1_alternative.build.export_merged_output=true
 1609.menu.bootloader.uart1_alternative.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 1609.menu.bootloader.uart1_alternative.bootloader.BOOTEND=0x02
-1609.menu.bootloader.uart1_alternative.bootloader.SYSCFG0=0xC9
+1609.menu.bootloader.uart1_alternative.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 1609.menu.bootloader.uart2_default=Optiboot (UART2 default pins)
 1609.menu.bootloader.uart2_default.upload.maximum_size=15872
@@ -1114,7 +1145,7 @@ menu.bootloader=Bootloader
 1609.menu.bootloader.uart2_default.build.export_merged_output=true
 1609.menu.bootloader.uart2_default.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 1609.menu.bootloader.uart2_default.bootloader.BOOTEND=0x02
-1609.menu.bootloader.uart2_default.bootloader.SYSCFG0=0xC9
+1609.menu.bootloader.uart2_default.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 1609.menu.bootloader.uart2_alternative=Optiboot (UART2 alternative pins)
 1609.menu.bootloader.uart2_alternative.upload.maximum_size=15872
@@ -1125,7 +1156,7 @@ menu.bootloader=Bootloader
 1609.menu.bootloader.uart2_alternative.build.export_merged_output=true
 1609.menu.bootloader.uart2_alternative.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 1609.menu.bootloader.uart2_alternative.bootloader.BOOTEND=0x02
-1609.menu.bootloader.uart2_alternative.bootloader.SYSCFG0=0xC9
+1609.menu.bootloader.uart2_alternative.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 1609.menu.bootloader.uart3_default=Optiboot (UART3 default pins)
 1609.menu.bootloader.uart3_default.upload.maximum_size=15872
@@ -1136,7 +1167,7 @@ menu.bootloader=Bootloader
 1609.menu.bootloader.uart3_default.build.export_merged_output=true
 1609.menu.bootloader.uart3_default.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 1609.menu.bootloader.uart3_default.bootloader.BOOTEND=0x02
-1609.menu.bootloader.uart3_default.bootloader.SYSCFG0=0xC9
+1609.menu.bootloader.uart3_default.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 1609.menu.bootloader.uart3_alternative=Optiboot (UART3 alternative pins)
 1609.menu.bootloader.uart3_alternative.upload.maximum_size=15872
@@ -1147,7 +1178,7 @@ menu.bootloader=Bootloader
 1609.menu.bootloader.uart3_alternative.build.export_merged_output=true
 1609.menu.bootloader.uart3_alternative.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 1609.menu.bootloader.uart3_alternative.bootloader.BOOTEND=0x02
-1609.menu.bootloader.uart3_alternative.bootloader.SYSCFG0=0xC9
+1609.menu.bootloader.uart3_alternative.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 
 ####################
@@ -1178,11 +1209,17 @@ menu.bootloader=Bootloader
 1608.menu.pinout.28pin_standard=28 pin standard
 1608.menu.pinout.28pin_standard.build.variant=28pin-standard
 
+# EEPROM
+1608.menu.eeprom.keep=EEPROM retained
+1608.menu.eeprom.keep.bootloader.eesave_bit=1
+1608.menu.eeprom.erase=EEPROM not retained
+1608.menu.eeprom.erase.bootloader.eesave_bit=0
+
 # Reset pin
 1608.menu.resetpin.reset=Reset
-1608.menu.resetpin.reset.bootloader.SYSCFG0=0xCD
+1608.menu.resetpin.reset.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 1608.menu.resetpin.gpio=GPIO
-1608.menu.resetpin.gpio.bootloader.SYSCFG0=0xC1
+1608.menu.resetpin.gpio.bootloader.SYSCFG0=0b1100000{bootloader.eesave_bit}
 
 # Brown out detection
 1608.menu.BOD.2v6=BOD 2.6V
@@ -1301,7 +1338,7 @@ menu.bootloader=Bootloader
 1608.menu.bootloader.uart0_default.build.export_merged_output=true
 1608.menu.bootloader.uart0_default.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 1608.menu.bootloader.uart0_default.bootloader.BOOTEND=0x02
-1608.menu.bootloader.uart0_default.bootloader.SYSCFG0=0xC9
+1608.menu.bootloader.uart0_default.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 1608.menu.bootloader.uart0_alternative=Optiboot (UART0 alternative pins)
 1608.menu.bootloader.uart0_alternative.upload.maximum_size=15872
@@ -1312,7 +1349,7 @@ menu.bootloader=Bootloader
 1608.menu.bootloader.uart0_alternative.build.export_merged_output=true
 1608.menu.bootloader.uart0_alternative.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 1608.menu.bootloader.uart0_alternative.bootloader.BOOTEND=0x02
-1608.menu.bootloader.uart0_alternative.bootloader.SYSCFG0=0xC9
+1608.menu.bootloader.uart0_alternative.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 1608.menu.bootloader.uart1_default=Optiboot (UART1 default pins)
 1608.menu.bootloader.uart1_default.upload.maximum_size=15872
@@ -1323,7 +1360,7 @@ menu.bootloader=Bootloader
 1608.menu.bootloader.uart1_default.build.export_merged_output=true
 1608.menu.bootloader.uart1_default.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 1608.menu.bootloader.uart1_default.bootloader.BOOTEND=0x02
-1608.menu.bootloader.uart1_default.bootloader.SYSCFG0=0xC9
+1608.menu.bootloader.uart1_default.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 1608.menu.bootloader.uart1_alternative=Optiboot (UART1 alternative pins)
 1608.menu.bootloader.uart1_alternative.upload.maximum_size=15872
@@ -1334,7 +1371,7 @@ menu.bootloader=Bootloader
 1608.menu.bootloader.uart1_alternative.build.export_merged_output=true
 1608.menu.bootloader.uart1_alternative.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 1608.menu.bootloader.uart1_alternative.bootloader.BOOTEND=0x02
-1608.menu.bootloader.uart1_alternative.bootloader.SYSCFG0=0xC9
+1608.menu.bootloader.uart1_alternative.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 1608.menu.bootloader.uart2_default=Optiboot (UART2 default pins)
 1608.menu.bootloader.uart2_default.upload.maximum_size=15872
@@ -1345,7 +1382,7 @@ menu.bootloader=Bootloader
 1608.menu.bootloader.uart2_default.build.export_merged_output=true
 1608.menu.bootloader.uart2_default.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 1608.menu.bootloader.uart2_default.bootloader.BOOTEND=0x02
-1608.menu.bootloader.uart2_default.bootloader.SYSCFG0=0xC9
+1608.menu.bootloader.uart2_default.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 1608.menu.bootloader.uart2_alternative=Optiboot (UART2 alternative pins)
 1608.menu.bootloader.uart2_alternative.upload.maximum_size=15872
@@ -1356,7 +1393,7 @@ menu.bootloader=Bootloader
 1608.menu.bootloader.uart2_alternative.build.export_merged_output=true
 1608.menu.bootloader.uart2_alternative.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 1608.menu.bootloader.uart2_alternative.bootloader.BOOTEND=0x02
-1608.menu.bootloader.uart2_alternative.bootloader.SYSCFG0=0xC9
+1608.menu.bootloader.uart2_alternative.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 
 ###################
@@ -1389,11 +1426,17 @@ menu.bootloader=Bootloader
 809.menu.pinout.uno_wifi.build.variant=uno-wifi
 809.menu.pinout.uno_wifi.build.compat=
 
+# EEPROM
+809.menu.eeprom.keep=EEPROM retained
+809.menu.eeprom.keep.bootloader.eesave_bit=1
+809.menu.eeprom.erase=EEPROM not retained
+809.menu.eeprom.erase.bootloader.eesave_bit=0
+
 # Reset pin
 809.menu.resetpin.reset=Reset
-809.menu.resetpin.reset.bootloader.SYSCFG0=0xCD
+809.menu.resetpin.reset.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 809.menu.resetpin.gpio=GPIO
-809.menu.resetpin.gpio.bootloader.SYSCFG0=0xC1
+809.menu.resetpin.gpio.bootloader.SYSCFG0=0b1100000{bootloader.eesave_bit}
 
 # Brown out detection
 809.menu.BOD.2v6=BOD 2.6V
@@ -1512,7 +1555,7 @@ menu.bootloader=Bootloader
 809.menu.bootloader.uart0_default.build.export_merged_output=true
 809.menu.bootloader.uart0_default.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 809.menu.bootloader.uart0_default.bootloader.BOOTEND=0x02
-809.menu.bootloader.uart0_default.bootloader.SYSCFG0=0xC9
+809.menu.bootloader.uart0_default.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 809.menu.bootloader.uart0_alternative=Optiboot (UART0 alternative pins)
 809.menu.bootloader.uart0_alternative.upload.maximum_size=7680
@@ -1523,7 +1566,7 @@ menu.bootloader=Bootloader
 809.menu.bootloader.uart0_alternative.build.export_merged_output=true
 809.menu.bootloader.uart0_alternative.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 809.menu.bootloader.uart0_alternative.bootloader.BOOTEND=0x02
-809.menu.bootloader.uart0_alternative.bootloader.SYSCFG0=0xC9
+809.menu.bootloader.uart0_alternative.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 809.menu.bootloader.uart1_default=Optiboot (UART1 default pins)
 809.menu.bootloader.uart1_default.upload.maximum_size=7680
@@ -1534,7 +1577,7 @@ menu.bootloader=Bootloader
 809.menu.bootloader.uart1_default.build.export_merged_output=true
 809.menu.bootloader.uart1_default.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 809.menu.bootloader.uart1_default.bootloader.BOOTEND=0x02
-809.menu.bootloader.uart1_default.bootloader.SYSCFG0=0xC9
+809.menu.bootloader.uart1_default.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 809.menu.bootloader.uart1_alternative=Optiboot (UART1 alternative pins)
 809.menu.bootloader.uart1_alternative.upload.maximum_size=7680
@@ -1545,7 +1588,7 @@ menu.bootloader=Bootloader
 809.menu.bootloader.uart1_alternative.build.export_merged_output=true
 809.menu.bootloader.uart1_alternative.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 809.menu.bootloader.uart1_alternative.bootloader.BOOTEND=0x02
-809.menu.bootloader.uart1_alternative.bootloader.SYSCFG0=0xC9
+809.menu.bootloader.uart1_alternative.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 809.menu.bootloader.uart2_default=Optiboot (UART2 default pins)
 809.menu.bootloader.uart2_default.upload.maximum_size=7680
@@ -1556,7 +1599,7 @@ menu.bootloader=Bootloader
 809.menu.bootloader.uart2_default.build.export_merged_output=true
 809.menu.bootloader.uart2_default.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 809.menu.bootloader.uart2_default.bootloader.BOOTEND=0x02
-809.menu.bootloader.uart2_default.bootloader.SYSCFG0=0xC9
+809.menu.bootloader.uart2_default.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 809.menu.bootloader.uart2_alternative=Optiboot (UART2 alternative pins)
 809.menu.bootloader.uart2_alternative.upload.maximum_size=7680
@@ -1567,7 +1610,7 @@ menu.bootloader=Bootloader
 809.menu.bootloader.uart2_alternative.build.export_merged_output=true
 809.menu.bootloader.uart2_alternative.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 809.menu.bootloader.uart2_alternative.bootloader.BOOTEND=0x02
-809.menu.bootloader.uart2_alternative.bootloader.SYSCFG0=0xC9
+809.menu.bootloader.uart2_alternative.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 809.menu.bootloader.uart3_default=Optiboot (UART3 default pins)
 809.menu.bootloader.uart3_default.upload.maximum_size=7680
@@ -1578,7 +1621,7 @@ menu.bootloader=Bootloader
 809.menu.bootloader.uart3_default.build.export_merged_output=true
 809.menu.bootloader.uart3_default.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 809.menu.bootloader.uart3_default.bootloader.BOOTEND=0x02
-809.menu.bootloader.uart3_default.bootloader.SYSCFG0=0xC9
+809.menu.bootloader.uart3_default.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 809.menu.bootloader.uart3_alternative=Optiboot (UART3 alternative pins)
 809.menu.bootloader.uart3_alternative.upload.maximum_size=7680
@@ -1589,7 +1632,7 @@ menu.bootloader=Bootloader
 809.menu.bootloader.uart3_alternative.build.export_merged_output=true
 809.menu.bootloader.uart3_alternative.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 809.menu.bootloader.uart3_alternative.bootloader.BOOTEND=0x02
-809.menu.bootloader.uart3_alternative.bootloader.SYSCFG0=0xC9
+809.menu.bootloader.uart3_alternative.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 
 ###################
@@ -1620,11 +1663,17 @@ menu.bootloader=Bootloader
 808.menu.pinout.28pin_standard=28 pin standard
 808.menu.pinout.28pin_standard.build.variant=28pin-standard
 
+# EEPROM
+808.menu.eeprom.keep=EEPROM retained
+808.menu.eeprom.keep.bootloader.eesave_bit=1
+808.menu.eeprom.erase=EEPROM not retained
+808.menu.eeprom.erase.bootloader.eesave_bit=0
+
 # Reset pin
 808.menu.resetpin.reset=Reset
-808.menu.resetpin.reset.bootloader.SYSCFG0=0xCD
+808.menu.resetpin.reset.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 808.menu.resetpin.gpio=GPIO
-808.menu.resetpin.gpio.bootloader.SYSCFG0=0xC1
+808.menu.resetpin.gpio.bootloader.SYSCFG0=0b1100000{bootloader.eesave_bit}
 
 # Brown out detection
 808.menu.BOD.2v6=BOD 2.6V
@@ -1743,7 +1792,7 @@ menu.bootloader=Bootloader
 808.menu.bootloader.uart0_default.build.export_merged_output=true
 808.menu.bootloader.uart0_default.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 808.menu.bootloader.uart0_default.bootloader.BOOTEND=0x02
-808.menu.bootloader.uart0_default.bootloader.SYSCFG0=0xC9
+808.menu.bootloader.uart0_default.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 808.menu.bootloader.uart0_alternative=Optiboot (UART0 alternative pins)
 808.menu.bootloader.uart0_alternative.upload.maximum_size=7680
@@ -1754,7 +1803,7 @@ menu.bootloader=Bootloader
 808.menu.bootloader.uart0_alternative.build.export_merged_output=true
 808.menu.bootloader.uart0_alternative.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 808.menu.bootloader.uart0_alternative.bootloader.BOOTEND=0x02
-808.menu.bootloader.uart0_alternative.bootloader.SYSCFG0=0xC9
+808.menu.bootloader.uart0_alternative.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 808.menu.bootloader.uart1_default=Optiboot (UART1 default pins)
 808.menu.bootloader.uart1_default.upload.maximum_size=7680
@@ -1765,7 +1814,7 @@ menu.bootloader=Bootloader
 808.menu.bootloader.uart1_default.build.export_merged_output=true
 808.menu.bootloader.uart1_default.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 808.menu.bootloader.uart1_default.bootloader.BOOTEND=0x02
-808.menu.bootloader.uart1_default.bootloader.SYSCFG0=0xC9
+808.menu.bootloader.uart1_default.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 808.menu.bootloader.uart1_alternative=Optiboot (UART1 alternative pins)
 808.menu.bootloader.uart1_alternative.upload.maximum_size=7680
@@ -1776,7 +1825,7 @@ menu.bootloader=Bootloader
 808.menu.bootloader.uart1_alternative.build.export_merged_output=true
 808.menu.bootloader.uart1_alternative.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 808.menu.bootloader.uart1_alternative.bootloader.BOOTEND=0x02
-808.menu.bootloader.uart1_alternative.bootloader.SYSCFG0=0xC9
+808.menu.bootloader.uart1_alternative.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 808.menu.bootloader.uart2_default=Optiboot (UART2 default pins)
 808.menu.bootloader.uart2_default.upload.maximum_size=7680
@@ -1787,7 +1836,7 @@ menu.bootloader=Bootloader
 808.menu.bootloader.uart2_default.build.export_merged_output=true
 808.menu.bootloader.uart2_default.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 808.menu.bootloader.uart2_default.bootloader.BOOTEND=0x02
-808.menu.bootloader.uart2_default.bootloader.SYSCFG0=0xC9
+808.menu.bootloader.uart2_default.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
 
 808.menu.bootloader.uart2_alternative=Optiboot (UART2 alternative pins)
 808.menu.bootloader.uart2_alternative.upload.maximum_size=7680
@@ -1798,4 +1847,4 @@ menu.bootloader=Bootloader
 808.menu.bootloader.uart2_alternative.build.export_merged_output=true
 808.menu.bootloader.uart2_alternative.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
 808.menu.bootloader.uart2_alternative.bootloader.BOOTEND=0x02
-808.menu.bootloader.uart2_alternative.bootloader.SYSCFG0=0xC9
+808.menu.bootloader.uart2_alternative.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
