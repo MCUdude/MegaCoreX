@@ -1158,6 +1158,16 @@ class Event {
     void set_generator(uint8_t pin_number);
     static Event& assign_generator_pin(uint8_t port, uint8_t port_pin);
     static Event& assign_generator_pin(uint8_t pin_number);
+    static int8_t get_user_channel_number(user::user_t event_user);
+    static Event& get_user_channel(user::user_t event_user);
+    void set_user(user::user_t event_user);
+    int8_t set_user_pin(uint8_t pin_number);
+    static void clear_user(user::user_t event_user);
+    void soft_event();
+    void long_soft_event(uint8_t length);
+    void start(bool state = true);
+    void stop();
+    gen::generator_t gen_from_peripheral(AC_t& comp);
 
     #if defined(EVSYS_CHANNEL0)
       void get_generator_channel(gen0::generator_t generator) { get_generator_channel((gen::generator_t)generator); }
@@ -1203,17 +1213,6 @@ class Event {
       void get_generator_channel(gens::generator_t generator) { get_generator_channel((gen::generator_t)generator); }
       void set_generator(gen::generator_t generator) { set_generator((gen::generator_t)generator); }
     #endif
-
-    static int8_t get_user_channel_number(user::user_t event_user);
-    static Event& get_user_channel(user::user_t event_user);
-    void set_user(user::user_t event_user);
-    int8_t set_user_pin(uint8_t pin_number);
-    static void clear_user(user::user_t event_user);
-    void soft_event();
-    void long_soft_event(uint8_t length);
-    void start(bool state = true);
-    void stop();
-    gen::generator_t gen_from_peripheral(AC_t& comp);
 
   private:
     const uint8_t channel_number;      // Holds the event generator channel number

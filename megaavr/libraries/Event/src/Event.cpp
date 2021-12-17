@@ -425,7 +425,7 @@ Event& Event::assign_generator_pin(uint8_t port, uint8_t port_pin) {
           }
         #endif
       }
-      #if defined (PIN_PC0) // can't test if PORTx is defined - all are defined everywhere)
+      #if defined(PIN_PC0) // can't test if PORTx is defined - all are defined everywhere)
         if(port == PC) {
           #if defined(TINY_1_SERIES) // no event 4 on 0-series
             if(Event4.generator_type == gen::disable || Event4.generator_type == gen) {
@@ -651,24 +651,30 @@ void Event::set_user(user::user_t event_user) {
   uint8_t event_user_mask = event_user & 0x7F;
 
   #if defined(TINY_0_SERIES) || defined(TINY_1_SERIES)
-    volatile uint8_t *user_register = &EVSYS_ASYNCUSER0 + (volatile uint8_t &)event_user_mask;
+    volatile uint8_t *user_register = &EVSYS_ASYNCUSER0 + (volatile uint8_t&)event_user_mask;
   #else
-    volatile uint8_t *user_register = &EVSYS_USERCCLLUT0A + (volatile uint8_t &)event_user_mask;
+    volatile uint8_t *user_register = &EVSYS_USERCCLLUT0A + (volatile uint8_t&)event_user_mask;
   #endif
 
   // Connect user to the channel we're working with
   *user_register = channel_number + 1;
 
   // Set PORTMUX pin swap for EVOUT if selected as channel generator
-  if(event_user & 0x80) {
-    #if defined(MEGACOREX)
-      PORTMUX_EVSYSROUTEA |= (1 << ((event_user & 0x7F) - 0x09));
-    #elif defined(__AVR_DA__)
-      PORTMUX_EVSYSROUTEA |= (1 << ((event_user & 0x7F) - 0x0E));
-    #elif defined(__AVR_DB__) || defined(__AVR_DD__) || defined(TINY_2_SERIES)
-      PORTMUX_EVSYSROUTEA |= (1 << ((event_user & 0x7F) - 0x0D));
-    #endif
-  }
+  #if defined(TINY_0_SERIES) || defined(TINY_1_SERIES)
+    if(event_user >= 0x08 && event_user <= 0x0A) {
+      PORTMUX.CTRLA |= (1 << (event_user - 0x08));
+    }
+  #else
+    if(event_user & 0x80) {
+      #if defined(MEGACOREX)
+        PORTMUX_EVSYSROUTEA |= (1 << ((event_user & 0x7F) - 0x09));
+      #elif defined(__AVR_DA__)
+        PORTMUX_EVSYSROUTEA |= (1 << ((event_user & 0x7F) - 0x0E));
+      #elif defined(__AVR_DB__) || defined(__AVR_DD__) || defined(TINY_2_SERIES)
+        PORTMUX_EVSYSROUTEA |= (1 << ((event_user & 0x7F) - 0x0D));
+      #endif
+    }
+  #endif
 }
 
 
@@ -719,15 +725,21 @@ void Event::clear_user(user::user_t event_user) {
   *user_register = 0x00;
 
   // Clear PORTMUX pin swap for EVOUT if selected as channel generator
-  if(event_user & 0x80) {
-    #if defined(MEGACOREX)
-      PORTMUX_EVSYSROUTEA &= ~(1 << ((event_user & 0x7F) - 0x09));
-    #elif defined(__AVR_DA__)
-      PORTMUX_EVSYSROUTEA &= ~(1 << ((event_user & 0x7F) - 0x0E));
-    #elif defined(__AVR_DB__)
-      PORTMUX_EVSYSROUTEA &= ~(1 << ((event_user & 0x7F) - 0x0D));
-    #endif
-  }
+  #if defined(TINY_0_SERIES) || defined(TINY_1_SERIES)
+    if(event_user >= 0x08 && event_user <= 0x0A) {
+      PORTMUX.CTRLA &= ~(1 << (event_user - 0x08));
+    }
+  #else
+    if(event_user & 0x80) {
+      #if defined(MEGACOREX)
+        PORTMUX_EVSYSROUTEA &= ~(1 << ((event_user & 0x7F) - 0x09));
+      #elif defined(__AVR_DA__)
+        PORTMUX_EVSYSROUTEA &= ~(1 << ((event_user & 0x7F) - 0x0E));
+      #elif defined(__AVR_DB__) || defined(__AVR_DD__) || defined(TINY_2_SERIES)
+        PORTMUX_EVSYSROUTEA &= ~(1 << ((event_user & 0x7F) - 0x0D));
+      #endif
+    }
+  #endif
 }
 
 
@@ -782,7 +794,12 @@ void Event::long_soft_event(uint8_t length) {
   uint8_t channel = channel_number;
   uint16_t strobeaddr;
   #if defined(EVSYS_STROBE)
-    strobeaddr = (uint16_t) &EVSYS_STROBE;
+    strobeaddr = (uint16_t)&EVSYS_STROBE;
+  #elif defined(EVSYS_SYNCSTROBE)
+    if(channel > 1)
+      strobeaddr = (uint16_t)&EVSYS_ASYNCSTROBE;
+    else
+      strobeaddr = (uint16_t)&EVSYS_SYNCSTROBE;
   #elif defined(EVSYS_SWEVENTB)
     if(channel > 7) {
       channel -= 8;
