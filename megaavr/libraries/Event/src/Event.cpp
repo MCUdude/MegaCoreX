@@ -849,6 +849,312 @@ void Event::long_soft_event(uint8_t length) {
 
 
 /**
+ * @brief Static function used to get the generator number the analog
+ * comparator peripheral
+ *
+ * @param comp Analog comparator struct
+ * @return gen::generator_t generator type
+ */
+gen::generator_t Event::gen_from_peripheral(AC_t& comp)
+{
+  #if defined(TINY_1_SERIES) && PROGMEM_SIZE > 8192
+    badCall("gen_from_peripheral() does not support channel-specific generators. The AC's larger 1-series are.");
+  #else
+    #if defined(AC0)
+      if(&comp == &AC0) {
+        return gen::ac0_out;
+      }
+      #if defined(AC1)
+        else if(&comp == &AC1) {
+          return gen::ac1_out;
+        }
+        #if defined(AC2)
+          else if(&comp == &AC2) {
+            return gen::ac2_out;
+          }
+        #endif
+      #endif
+    #endif
+  #endif
+  return (gen::generator_t) -1;
+}
+
+
+/**
+ * @brief Static function used to get the generator type from the CCL peripheral
+ *
+ * @param logic CCL struct
+ * @param logic_block Logic block number (0, 1, 2 or 3 for megaAVR-0's)
+ * @return gen::generator_t generator type
+ */
+gen::generator_t Event::gen_from_peripheral(CCL_t& logic, uint8_t logic_block) {
+  uint8_t retval = -1;
+  if(&logic == &CCL) {
+    #if defined(TINY_0_SERIES) || defined(TINY_1_SERIES)
+      if(logic_block < 2)
+    #elif defined(CCL_LUT4CTRLA)
+      if(logic_block < 6)
+    #else
+      if(logic_block < 4)
+    #endif
+    {
+      retval = (int8_t)(gen::ccl0_out) + logic_block;
+    }
+  }
+  return (gen::generator_t)retval;
+}
+
+
+/**
+ * @brief Static function used to get the possible users the CCL peripheral has
+ * to offer
+ *
+ * @param logic CCL struct
+ * @param user_type
+ * @return user::user_t CCL user number.
+ */
+user::user_t Event::user_from_peripheral(CCL_t& logic, uint8_t user_type) {
+  uint8_t retval = -1;
+  if(&logic == &CCL) {
+    #if !defined(TINY_0_SERIES) && !defined(TINY_1_SERIES)
+      #if defined(CCL_TRUTH4)
+        if(user_type < 13)
+      #else
+        if(user_type < 9)
+      #endif
+      {
+        retval = user_type;
+      }
+    #else
+      if(user_type < 5) {
+        retval = user_type + 2;
+      }
+    #endif
+  }
+  return (user::user_t)retval;
+}
+
+
+/**
+ * @brief Static function used to get the generator type from timer A
+ *
+ * @param logic TCA struct
+ * @param event_type TCA has multiple generators. This parameter provides the number,
+ * and ranges from 0 to 4 for megaAVR-0's
+ * @return gen::generator_t generator type
+ */
+gen::generator_t Event::gen_from_peripheral(TCA_t& timer, uint8_t event_type) {
+  uint8_t retval = -1;
+  if(event_type < 5) {
+    #if defined(TINY_0_SERIES) || defined(TINY_1_SERIES)
+      retval = event_type + 2;
+    #else
+      if(&TCA0 == &timer) {
+        retval = event_type + 0x80;
+      }
+      #if defined(TCA1)
+        else if(&TCA1 == &timer) {
+          retval = event_type += 0x88;
+        }
+      #endif
+    #endif
+  }
+  return (gen::generator_t)retval;
+}
+
+
+/**
+ * @brief Static function used to get the possible users the TCA timer has to offer
+ *
+ * @param timer TCA struct
+ * @param user_type TCA has only has one user on megaAVR-0's.
+ * Leave this parameter unused
+ * @return user::user_t TCA user number
+ */
+user::user_t Event::user_from_peripheral(TCA_t& timer, uint8_t user_type) {
+  uint8_t user = -1;
+
+  #if defined(TINY_0_SERIES) || defined(TINY_1_SERIES) || defined(MEGACOREX)
+    if(user_type != 0) {
+      return (user::user_t) -1;
+    }
+  #else
+    if(user_type > 1) {
+      return (user::user_t) -1;
+    }
+  #endif
+  user = user_type; // 0 or 1 for event user a or b (on parts with both, or 0 for parts that only have one
+  #if defined(TCA1)
+  if(&timer == &TCA1) {
+    user += 2;
+  } else
+  #endif
+  if(&timer != &TCA0) {
+    return (user::user_t) -1;
+  }
+  #if defined(__AVR_DA__)
+    user += 0x1B;
+  #elif defined(__AVR_DB__) || defined(__AVR_DD__)
+    user += 0x1A;
+  #elif defined(MEGACOREX)
+    user += 0x13;
+  #elif defined(TINY_2_SERIES)
+    user += 0x0E;
+  #else
+    user += 0x10;
+  #endif
+  return (user::user_t)user;
+}
+
+
+/**
+ * @brief Static function used to get the generator type from timer B
+ *
+ * @param timer TCB struct
+ * @param event_type TCB only has one generators on megaAVR-0's.
+ * Leave this parameter unused
+ * @return gen::generator_t generator type
+ */
+gen::generator_t Event::gen_from_peripheral(TCB_t& timer, uint8_t event_type) {
+  int8_t gentype = -1;
+  #if defined(TINY_0_OR_1_SERIES)
+    badCall("gen_from_peripheral() does not support channel-specific generators. The TCBs on 0/1-series are.");
+  #else
+    #if defined(MEGACOREX)  // Dx-series and 2-series have ovf event, others don't.
+      if(event_type != 1) {
+        return (gen::generator_t) -1;
+      }
+      else {
+        gentype = 0;
+      }
+    #else
+      if(event_type < 2) {
+        gentype = event_type;
+      }
+    #endif
+    if(&timer == &TCB0) {
+      gentype += (uint8_t)gen::tcb0_capt;
+    } else
+    #if defined(TCB1)
+    if (&timer == &TCB1) {
+      gentype += (uint8_t)gen::tcb1_capt;
+    } else
+    #endif
+    #if defined(TCB2)
+    if (&timer == &TCB2) {
+      gentype += (uint8_t)gen::tcb2_capt;
+    } else
+    #endif
+    #if defined(TCB3)
+    if (&timer == &TCB3) {
+      gentype += (uint8_t)gen::tcb3_capt;
+    } else
+    #endif
+    #if defined(TCB4)
+    if (&timer == &TCB4) {
+      gentype += (uint8_t)gen::tcb4_capt;
+    } else
+    #endif
+    {
+      gentype = -1;
+    }
+  #endif
+  return (gen::generator_t) gentype;
+}
+
+
+/**
+ * @brief Static function used to get the possible users the TCB timer has to offer
+ *
+ * @param timer TCB struct
+ * @param user_type
+ * @return user::user_t TCA user number
+ */
+user::user_t Event::user_from_peripheral(TCB_t& timer, uint8_t user_type) {
+  uint8_t user = -1;
+  #if defined(TINY_0_SERIES) || defined(TINY_1_SERIES) || defined(MEGACOREX) // Dx-series and 2-series have event count input, others don't.
+    if (user_type != 1) {
+      return (user::user_t) -1;
+    }
+    else {
+      user = 0;
+    }
+  #else
+    if (user_type < 2) {
+      user = user_type;
+    }
+  #endif
+  if (&timer == &TCB0) {
+    user += (uint8_t)user::tcb0_capt;
+  } else
+  #if defined(TCB1)
+  if (&timer == &TCB1) {
+    user += (uint8_t)user::tcb1_capt;
+  } else
+  #endif
+  #if defined(TCB2)
+  if (&timer == &TCB2) {
+    user += (uint8_t)user::tcb2_capt;
+  } else
+  #endif
+  #if defined(TCB3)
+  if (&timer == &TCB3) {
+    user += (uint8_t)user::tcb3_capt;
+  } else
+  #endif
+  #if defined(TCB4)
+  if (&timer == &TCB4) {
+    user += (uint8_t)user::tcb4_capt;
+  } else
+  #endif
+  {
+    user = -1;
+  }
+  return (user::user_t)user;
+}
+
+
+/**
+ * @brief Static function used to get the possible users the USART peripheral has
+ * to offer
+ *
+ * @param usart USART struct
+ * @return user::user_t USART related event channel user
+ */
+user::user_t Event::user_from_peripheral(USART_t& usart) {
+  if(&usart == &USART0) {
+    return user::usart0_irda;
+  }
+  #if defined(USART1)
+    else if(&usart == &USART1) {
+      return user::usart1_irda;
+    }
+  #endif
+  #if defined(USART2)
+    else if(&usart == &USART2) {
+      return user::usart2_irda;
+    }
+  #endif
+  #if defined(USART3)
+    else if(&usart == &USART3) {
+      return user::usart3_irda;
+    }
+  #endif
+  #if defined(USART4)
+    else if(&usart == &USART4) {
+      return user::usart4_irda;
+    }
+  #endif
+  #if defined(USART5)
+    else if(&usart == &USART5) {
+      return user::usart5_irda;
+    }
+  #endif
+  return (user::user_t) -1;
+}
+
+
+/**
  * @brief Starts the event generator for a particular event channel
  *
  * @param state Optional parameter. Defaults to true

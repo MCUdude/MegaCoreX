@@ -1165,9 +1165,17 @@ class Event {
     static void clear_user(user::user_t event_user);
     void soft_event();
     void long_soft_event(uint8_t length);
+    // event_types: They start from 0x00 for inputs, outputs start at 0x40
+    static gen::generator_t gen_from_peripheral(AC_t&  comp);
+    static gen::generator_t gen_from_peripheral(CCL_t& logic, uint8_t event_type = 0);
+    static user::user_t    user_from_peripheral(CCL_t& logic, uint8_t user_type  = 0);
+    static gen::generator_t gen_from_peripheral(TCA_t& timer, uint8_t event_type = 0);
+    static user::user_t    user_from_peripheral(TCA_t& timer, uint8_t user_type  = 0);
+    static gen::generator_t gen_from_peripheral(TCB_t& timer, uint8_t event_type = 0);
+    static user::user_t    user_from_peripheral(TCB_t& timer, uint8_t user_type  = 0);
+    static user::user_t    user_from_peripheral(USART_t& usart);
     void start(bool state = true);
     void stop();
-    gen::generator_t gen_from_peripheral(AC_t& comp);
 
     #if defined(EVSYS_CHANNEL0)
       void get_generator_channel(gen0::generator_t generator) { get_generator_channel((gen::generator_t)generator); }
