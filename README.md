@@ -18,6 +18,7 @@ If you're looking for a sleek, reliable UPDI programmer that also acts as a USB 
   - [Using a bootloader](#using-a-bootloader)
 * [Supported clock frequencies](#supported-clock-frequencies)
 * [BOD option](#bod-option)
+* [EEPROM retain option](#eeprom-option)
 * [Reset pin](#reset-pin)
 * [Printf support](#printf-support)
 * [Fast IO](#fast-io)
@@ -111,6 +112,10 @@ Brownout detection or BOD for short lets the microcontroller sense the input vol
 | 2.1 V                          |
 | 1.8 V                          |
 | Disabled                       |
+
+
+## EEPROM option
+If you want the EEPROM to be erased every time you burn the bootloader or upload using a programmer, you can turn off this option. You'll have to connect a UPDI programmer and hit "Burn bootloader" to enable or disable EEPROM retain. Note that when uploading using a bootloader, the EEPROM will always be retained.
 
 
 ## Reset pin
