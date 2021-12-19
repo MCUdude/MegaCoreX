@@ -393,3 +393,57 @@ void stop();
 ```c++
 Event0.stop(); // Stops the Event0 generator channel
 ```
+
+
+## gen_from_peripheral() and user_from_peripheral()
+These two static functions allow you to pass a reference to a peripheral module, and get back the generator or user associated with it. In this context the "Peripheral Modules" are the structs containing the registers, defined in the io headers; for example `TCB0` or `USART1` or `CCL`.
+
+This is most useful if you are writing portable (library) code that uses the Event library to interact with the event system. Say you made a library that lets users make one-shot pulses with timerB. You use the Event library to handle that part. You would of course need to know which timer to use - the natural way would be to ask the user to pass a reference or pointer.
+But then what? The fact that you've got the pointer to something which, as it happens, is TCB0 (which itself is annoying to determine from an unknown pointer)... though even KNOWING THAT, you're not able to use it with the event library, since it needs user::tcb0 (or user::tcb0_capt). As the function names imply, one gives generators, the other gives users. They take 2 arguments, the first being a pointer to a peripheral struct.
+The second, defaulting to 0, is the "type" of generator or user. Some peripherals have more than one event input or output. These are ordered in the same order as they are in the tables here and in the datasheet listings.
+
+### Usage
+```c
+// Here we see a typical use case - you get the generator, and immediately ask Event to assign a channel to it and give that to you. After getting it, you test to make sure it's not Event_empty, which indicates that either gen_from_peripheral failed, or assign_generator was out of event channels. Either way that's probably the user's fault, so you decide to return an error code.
+uint8_t init(TCB_t* some_timer, /*and more arguments, most likely */)
+{
+  &Event_TCBnCapt = Event::assign_generator(Event::gen_from_peripheral(some_timer, 0));
+  if (_TCBnCapt.get_channel_number() == 255)
+    return MY_ERROR_INVALID_TIMER_OR_NO_FREE_EVENT;
+  doMoreCoolStuff();
+}
+```
+
+Shown below, generators/user per instance  (second argument should be less than this; zero-indexed), and the number of instances (for reference)
+
+| Peripheral |   mega0  |
+|------------|----------|
+| TCAn       | 5 / 1 x1 |
+| TCBn       | 1/1 x3-4 |
+| CCL *      | 4 / 8    |
+| ACn        | 1 / 0 x1 |
+| USARTn     | !/1 x3-4 |
+
+`*` - There is only one CCL peripheral, with multiple logic blocks. Each logic block has 1 event generator and 2 event users. If using the logic library, get the Logic instance number. The output generator is that number. The input is twice that number, and twice that number + 1.
+`!` - These parts do have an option, but we didn't bother to implement it because it isn't particularly useful. But the Event RX mode combined with the TX input to the CCL permit arbitrary remapping of RX and very flexible remapping of TX.
+
+And what they are:
+
+| Peripheral |   TCAn   | TCBn |  CCL*  | ACn | USARTn  |
+|------------|----------|------|---------|-----|---------|
+| gen 0      | OVF/LUNF | CAPT | LUT0OUT | OUT |    !    |
+| gen 1      |     HUNF |      | LUT1OUT |     |         |
+| gen 2      |     CMP0 |      | LUT2OUT |     |         |
+| gen 3      |     CMP1 |      | LUT3OUT |     |         |
+| gen 4      |     CMP2 |      |   ETC.  |     |         |
+| user 0     |   EVACTA | CAPT | LUT0EVA |  -  | EVENTRX |
+| user 1     |          |      | LUT0EVB |     |         |
+| user 2     |          |      | LUT1EVA |     |         |
+| user 3     |          |      | LUT1EVB |     |         |
+| user 4     |          |      |   ETC.  |     |         |
+
+`*` - Since there's only one CCL, the pointer (or rather, its type) is just used to select which implementation is used. But this does mean that the CCL can have an insane number of options. But that's fine, because there are plenty of numbers between 0 and 255.
+`!` - These parts do have an option, but we didn't bother to implement it because it isn't particularly useful. But the Event RX mode combined with the TX input to the CCL permit arbitrary remapping of RX and very flexible remapping of TX!
+
+
+Asking for a generator that doesn't exist will return 0 (disabled); be sure to check for this in some way. Asking for a user that doesn't exist will return 255, which the library is smart enough not to accept.
