@@ -939,8 +939,8 @@ namespace user {
 #endif
     usart0_irda             = 0x0C,
     usart1_irda             = 0x0D,
-    tca0                   = 0x0E,
-    tca0_cnt_a             = 0x0E,
+    tca0                    = 0x0E,
+    tca0_cnt_a              = 0x0E,
     tca0_cnt_b              = 0x0F,
     tcb0                    = 0x11,
     tcb0_capt               = 0x11,
