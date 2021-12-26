@@ -30,32 +30,18 @@
 extern "C"{
 #endif
 
-/* Analog reference options */
-
-/* Change in mega4809: two places to define analog reference
- - VREF peripheral defines internal reference
- - analog peripherals define internal/Vdd/external
-*/
-
- // internal from VREF
-
- /* Values shifted to avoid clashing with ADC REFSEL defines
-  Will shift back in analog_reference function
-  */
+// Analog reference options
 #define INTERNAL0V55    (VREF_ADC0REFSEL_0V55_gc >> VREF_ADC0REFSEL_gp)
 #define INTERNAL1V1     (VREF_ADC0REFSEL_1V1_gc >> VREF_ADC0REFSEL_gp)
 #define INTERNAL1V5     (VREF_ADC0REFSEL_1V5_gc >> VREF_ADC0REFSEL_gp)
 #define INTERNAL2V5     (VREF_ADC0REFSEL_2V5_gc >> VREF_ADC0REFSEL_gp)
 #define INTERNAL4V3     (VREF_ADC0REFSEL_4V34_gc >> VREF_ADC0REFSEL_gp)
 #define INTERNAL4V34    INTERNAL4V3
-
 #define DEFAULT         ADC_REFSEL_VDDREF_gc
 #define INTERNAL        ADC_REFSEL_INTREF_gc
 #define VDD             ADC_REFSEL_VDDREF_gc
 #define EXTERNAL        ADC_REFSEL_VREFA_gc
-
 #define ADC_TEMPERATURE ADC_MUXPOS_TEMPSENSE_gc
-
 #define VCC_5V0         2
 #define VCC_3V3         1
 #define VCC_1V8         0
@@ -148,6 +134,176 @@ void setup_timers();
 #if defined(HAVE_HWSERIAL0) && defined(HAVE_CDCSERIAL)
 #error "Targets with both UART0 and CDC serial not supported"
 #endif
+
+// These are used as the second to N argument to pinConfigure(pin, ...)
+// Directives are handled in the order they show up on this list, by pin function:
+// PIN_DIR      Direction
+// PIN_OUT      Output value
+// PIN_ISC      Enable and interrupt mode. If interrupts are turned on w/out the ISR, it will trigger dirty reset.
+// PIN_PULLUP   Pullups
+// PIN_INLVL    Input levels (MVIO parts only - everything else is schmitt trigger only, except on I2C pins acting as I2C with SMBus levels enabled. )
+// PIN_INVERT   Invert pin
+//
+// Systematically named constants can be made by combining those names with the postfixes here
+// except for PIN_ISC which is not a non-binary option. Valid values are listed below.
+// _SET, _CLR, and _TGL can be used as a postfix on all binary options.
+// _TOGGLE and _TGL are interchangeable as well.
+// Additional names are defined where they might be easier to remember.
+typedef enum : uint16_t
+{
+ // OUTPUT
+  PIN_DIR_SET        = 0x0001,
+  PIN_DIRSET         = 0x0001,
+  PIN_DIR_OUTPUT     = 0x0001,
+  PIN_DIR_OUT        = 0x0001,
+ // INPUT
+  PIN_DIR_CLR        = 0x0002,
+  PIN_DIRCLR         = 0x0002,
+  PIN_DIR_INPUT      = 0x0002,
+  PIN_DIR_IN         = 0x0002,
+ // TOGGLE INPUT/OUTPUT
+  PIN_DIR_TGL        = 0x0003,
+  PIN_DIRTGL         = 0x0003,
+  PIN_DIR_TOGGLE     = 0x0003,
+ // HIGH
+  PIN_OUT_SET        = 0x0004,
+  PIN_OUTSET         = 0x0004,
+  PIN_OUT_HIGH       = 0x0004,
+ // LOW
+  PIN_OUT_CLR        = 0x0008,
+  PIN_OUTCLR         = 0x0008,
+  PIN_OUT_LOW        = 0x0008,
+// CHANGE/TOGGLE
+  PIN_OUT_TGL        = 0x000C,
+  PIN_OUTTGL         = 0x000C,
+  PIN_OUT_TOGGLE     = 0x000C,
+//Interrupt disabled but input buffer enabled
+  PIN_ISC_ENABLE     = 0x0080,
+  PIN_INPUT_ENABLE   = 0x0080,
+ // Interrupt on change
+  PIN_ISC_CHANGE     = 0x0090,
+  PIN_INT_CHANGE     = 0x0090,
+// Interrupt on rising edge
+  PIN_ISC_RISE       = 0x00A0,
+  PIN_INT_RISE       = 0x00A0,
+// Interrupt on falling edge
+  PIN_ISC_FALL       = 0x00B0,
+  PIN_INT_FALL       = 0x00B0,
+// Interrupt and input buffer disabled
+  PIN_ISC_DISABLE    = 0x00C0,
+  PIN_INPUT_DISABLE  = 0x00C0,
+// Interrupt enabled with sense on low level
+  PIN_ISC_LEVEL      = 0x00D0,
+  PIN_INT_LEVEL      = 0x00D0,
+// PULLUP ON
+  PIN_PULLUP_ON      = 0x0100,
+  PIN_PULLUP         = 0x0100,
+  PIN_PULLUP_SET     = 0x0100,
+// PULLUP OFF
+  PIN_PULLUP_OFF     = 0x0200,
+  PIN_PULLUP_CLR     = 0x0200,
+  PIN_NOPULLUP       = 0x0200,
+// PULLUP TOGGLE
+  PIN_PULLUP_TGL     = 0x0300,
+  PIN_PULLUP_TOGGLE  = 0x0300,
+// PIN INVERT ON
+  PIN_INVERT_ON      = 0x4000,
+  PIN_INVERT_SET     = 0x4000,
+// PIN INVERT OFF
+  PIN_INVERT_OFF     = 0x8000,
+  PIN_INVERT_CLR     = 0x8000,
+// PIN_INVERT_TOGGLE
+  PIN_INVERT_TGL     = 0xC000,
+  PIN_INVERT_TOGGLE  = 0xC000,
+} pin_configure_t;
+
+/**
+ * @brief Helper function to catch the last argument in the pinConfigure recursion loop
+ *
+ * @param digital_pin Arduino pin
+ * @param mode Mode parameter
+ * @return pin_configure_t
+ */
+inline pin_configure_t pinConfigure(const uint8_t digital_pin, const pin_configure_t mode)
+{
+  (void)digital_pin;
+  return mode;
+}
+
+
+/**
+ * @brief Variadic template function for configuring a pin
+ *
+ * @param digital_pin Arduino pin number
+ * @param mode First "mode" parameter
+ * @param modes Nth "mode" parameter
+ */
+template <typename MODE, typename... MODES>
+void pinConfigure(const uint8_t digital_pin, const MODE& mode, const MODES&... modes)
+{
+  // Or-ing together the arguments using recursion
+  uint8_t pin_config = pinConfigure(digital_pin, mode) | pinConfigure(digital_pin, modes...);
+
+  uint8_t bit_mask = digitalPinToBitMask(digital_pin);
+  if(bit_mask == NOT_A_PIN || !pin_config) // Return if digital pin is invalid or the other parameters or out to zero
+    return;
+
+  uint8_t bit_pos  = digitalPinToBitPosition(digital_pin);
+  volatile uint8_t *portbase = (volatile uint8_t*) digitalPinToPortStruct(digital_pin);
+
+  // Write to selected pin direction register
+  uint8_t setting = pin_config & 0x03; // Mask out direction bits (DIR, DIRSET, DIRCLR, DIRTGL)
+  if(setting)
+    *(portbase + setting) = bit_mask;
+
+  // Write to selected output register
+  pin_config >>= 2;
+  setting = pin_config & 0x03;
+  if(setting)
+    *(portbase + 4 + setting) = bit_mask;
+
+  // Return if there is nothing more to configure
+  if(!(pin_config & 0x3FFC))
+    return;
+
+  uint8_t oldSREG = SREG; // Store SREG
+  cli(); // Disable interrupts
+
+  // PINnCTRL register
+  pin_config >>= 2;
+  uint8_t pinncfg = *(portbase + 0x10 + bit_pos);
+  // Input sense configuration (ISC)
+  if(pin_config & 0x08)
+    pinncfg = (pinncfg & 0xF8) | (pin_config & PORT_ISC_gm);
+  // Pullup resistor
+  uint8_t temp = pin_config & 0x30;
+  if(temp)
+  {
+    if(temp == 0x30)
+      pinncfg ^= PORT_PULLUPEN_bm;    // Toggle pullup
+    else if(temp == 0x20)
+      pinncfg &= ~(PORT_PULLUPEN_bm); // Clear pullup
+    else
+      pinncfg |= PORT_PULLUPEN_bm;    // Set pullup
+  }
+  // Invert pin
+  pin_config >>= 8;
+  temp = pin_config & 0x0C;
+  if(temp)
+  {
+    if(temp == 0x0C)
+      pinncfg ^= PORT_INVEN_bm;    // Toggle invert
+    else if(temp == 0x08)
+      pinncfg &= ~(PORT_INVEN_bm); // Clear
+    else
+      pinncfg |= PORT_INVEN_bm;    // Set
+  }
+  // Write to PINnCTRL register
+  *(portbase + 0x10 + bit_pos) = pinncfg;
+
+  // Restore SREG
+  SREG = oldSREG;
+}
 
 #endif
 
