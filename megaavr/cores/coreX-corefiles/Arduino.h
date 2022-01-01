@@ -230,7 +230,6 @@ inline pin_configure_t pinConfigure(const uint8_t digital_pin, const pin_configu
   return mode;
 }
 
-
 /**
  * @brief Variadic template function for configuring a pin
  *
@@ -239,14 +238,14 @@ inline pin_configure_t pinConfigure(const uint8_t digital_pin, const pin_configu
  * @param modes Nth "mode" parameter
  */
 template <typename MODE, typename... MODES>
-void pinConfigure(const uint8_t digital_pin, const MODE& mode, const MODES&... modes)
+uint16_t pinConfigure(const uint8_t digital_pin, const MODE& mode, const MODES&... modes)
 {
   // Or-ing together the arguments using recursion
-  uint8_t pin_config = pinConfigure(digital_pin, mode) | pinConfigure(digital_pin, modes...);
+  uint16_t pin_config = mode | (pin_configure_t)pinConfigure(digital_pin, modes...);
 
   uint8_t bit_mask = digitalPinToBitMask(digital_pin);
   if(bit_mask == NOT_A_PIN || !pin_config) // Return if digital pin is invalid or the other parameters or out to zero
-    return;
+    return 0;
 
   uint8_t bit_pos  = digitalPinToBitPosition(digital_pin);
   volatile uint8_t *portbase = (volatile uint8_t*) digitalPinToPortStruct(digital_pin);
@@ -264,7 +263,7 @@ void pinConfigure(const uint8_t digital_pin, const MODE& mode, const MODES&... m
 
   // Return if there is nothing more to configure
   if(!(pin_config & 0x3FFC))
-    return;
+    return 0;
 
   uint8_t oldSREG = SREG; // Store SREG
   cli(); // Disable interrupts
@@ -303,6 +302,8 @@ void pinConfigure(const uint8_t digital_pin, const MODE& mode, const MODES&... m
 
   // Restore SREG
   SREG = oldSREG;
+
+  return pin_config;
 }
 
 #endif
