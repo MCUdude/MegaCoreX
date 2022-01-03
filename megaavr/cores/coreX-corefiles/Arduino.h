@@ -218,17 +218,31 @@ typedef enum : uint16_t
 } pin_configure_t;
 
 /**
- * @brief Helper function to catch the last argument in the pinConfigure recursion loop
+ * @brief Helper functions to catch the last argument in the pincfg recursion loop
  *
- * @param digital_pin Arduino pin
  * @param mode Mode parameter
  * @return pin_configure_t
  */
-inline pin_configure_t pinConfigure(const uint8_t digital_pin, const pin_configure_t mode)
+template <typename MODE>
+pin_configure_t pincfg(const MODE& mode)
 {
-  (void)digital_pin;
   return mode;
 }
+
+/**
+ * @brief Helper functions to catch the nth in the pincfg recursion loop
+ *
+ * @param digital_pin Arduino pin
+ * @param mode First "mode" parameter
+ * @param modes Nth "mode" parameter
+ * @return uint16_t pin configuration or'ed together
+ */
+template <typename MODE, typename... MODES>
+uint16_t pincfg(const MODE& mode, const MODES&... modes)
+{
+  return mode | pincfg(modes...);
+}
+
 
 /**
  * @brief Variadic template function for configuring a pin
@@ -238,14 +252,14 @@ inline pin_configure_t pinConfigure(const uint8_t digital_pin, const pin_configu
  * @param modes Nth "mode" parameter
  */
 template <typename MODE, typename... MODES>
-uint16_t pinConfigure(const uint8_t digital_pin, const MODE& mode, const MODES&... modes)
+void pinConfigure(const uint8_t digital_pin, const MODE& mode, const MODES&... modes)
 {
   // Or-ing together the arguments using recursion
-  uint16_t pin_config = mode | (pin_configure_t)pinConfigure(digital_pin, modes...);
+  uint16_t pin_config = pincfg(mode, modes...);
 
   uint8_t bit_mask = digitalPinToBitMask(digital_pin);
   if(bit_mask == NOT_A_PIN || !pin_config) // Return if digital pin is invalid or the other parameters or out to zero
-    return 0;
+    return;
 
   uint8_t bit_pos  = digitalPinToBitPosition(digital_pin);
   volatile uint8_t *portbase = (volatile uint8_t*) digitalPinToPortStruct(digital_pin);
@@ -263,7 +277,7 @@ uint16_t pinConfigure(const uint8_t digital_pin, const MODE& mode, const MODES&.
 
   // Return if there is nothing more to configure
   if(!(pin_config & 0x3FFC))
-    return 0;
+    return;
 
   uint8_t oldSREG = SREG; // Store SREG
   cli(); // Disable interrupts
@@ -302,8 +316,6 @@ uint16_t pinConfigure(const uint8_t digital_pin, const MODE& mode, const MODES&.
 
   // Restore SREG
   SREG = oldSREG;
-
-  return pin_config;
 }
 
 #endif
