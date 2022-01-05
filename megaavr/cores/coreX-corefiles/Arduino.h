@@ -223,8 +223,8 @@ typedef enum : uint16_t
  * @param mode Mode parameter
  * @return pin_configure_t
  */
-template <typename MODE>
-pin_configure_t pincfg(const MODE& mode)
+
+inline pin_configure_t pincfg(const pin_configure_t mode)
 {
   return mode;
 }
@@ -237,8 +237,8 @@ pin_configure_t pincfg(const MODE& mode)
  * @param modes Nth "mode" parameter
  * @return uint16_t pin configuration or'ed together
  */
-template <typename MODE, typename... MODES>
-uint16_t pincfg(const MODE& mode, const MODES&... modes)
+template <typename... MODES>
+uint16_t pincfg(const pin_configure_t mode, const MODES&... modes)
 {
   return mode | pincfg(modes...);
 }
@@ -251,8 +251,8 @@ uint16_t pincfg(const MODE& mode, const MODES&... modes)
  * @param mode First "mode" parameter
  * @param modes Nth "mode" parameter
  */
-template <typename MODE, typename... MODES>
-void pinConfigure(const uint8_t digital_pin, const MODE& mode, const MODES&... modes)
+template <typename... MODES>
+void pinConfigure(const uint8_t digital_pin, const pin_configure_t mode, const MODES&... modes)
 {
   // Or-ing together the arguments using recursion
   uint16_t pin_config = pincfg(mode, modes...);
