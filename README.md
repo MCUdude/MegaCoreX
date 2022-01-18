@@ -1,9 +1,9 @@
 # MegaCoreX
 [![Build Status](https://travis-ci.com/MCUdude/MegaCoreX.svg?branch=master)](https://travis-ci.com/MCUdude/MegaCoreX)
 
-An Arduino core for ATmega4809, ATmega4808, ATmega3209, ATmega3208, ATmega1609, ATmega1608, ATmega809 and ATmega808. This megaAVR-0 chip family offers lots of features and peripherals at an incredible price point. Its largest variant, the ATmega4809 can be found in products like the Arduino Uno WiFi Rev2 and the Arduino Nano Every. Some of their key features include multiple serial ports, SPI and i2c interfaces, built-in programmable logic, up to 16 analog input pins, and an analog comparator with a built-in programmable voltage reference and hysteresis.
+An Arduino core for ATmega4809, ATmega4808, ATmega3209, ATmega3208, ATmega1609, ATmega1608, ATmega809 and ATmega808. This megaAVR-0 chip family offers lots of features and peripherals at an incredible price point. The largest one, the ATmega4809 can be found in products like the Arduino Uno WiFi Rev2 and the Arduino Nano Every. Some of their key features include multiple serial ports, SPI and i2c interfaces, built-in programmable logic, up to 16 analog input pins, and an analog comparator with a built-in programmable voltage reference and hysteresis and much more!
 
-Compared to older AVR families they also have more advanced and accurate internal oscillators which can provide base frequencies of 16 and 20 MHz. These can again be divided down internally to reduce the processor speed and power consumption. This means in most applications an external clock isn't necessary anymore. You can read more about clocks and clock frequencies in the [Supported clock frequencies](#supported-clock-frequencies) section.
+Compared to older AVR families they also have more advanced and accurate internal oscillators which can provide base frequencies of 16 and 20 MHz. These can then be divided down internally to reduce the processor speed and power consumption. This means in most applications an external clock isn't necessary anymore. You can read more about clocks and clock frequencies in the [Supported clock frequencies](#supported-clock-frequencies) section.
 
 For programming, these chips use a UPDI programming interface. This is a bi-directional single wire interface and requires a programmer that supports UPDI. If you rather prefer uploading using a USB to serial adapter there is an option to use the Optiboot bootloader. Read more about UPDI and bootloaders in the [Programming](#programming) section below.
 
@@ -28,11 +28,10 @@ If you're looking for a sleek, reliable UPDI programmer that also acts as a USB 
 * [Pinout](#pinout)
 * [Hardware features](#hardware-features)
   - [PWM output](#pwm-output)
-  - [Analog read resolution](#analog-read-resolution)
   - [Configurable Custom Logic (CCL)](#configurable-custom-logic-ccl)
   - [Analog Comparator (AC)](#analog-comparator-ac)
   - [Event System (EVSYS)](#event-system-evsys)
-  - [Alternative pins](#alternative-pins)
+  - [Peripheral pin swapping](#peripheral-pin-swapping)
 * [How to install](#how-to-install)
   - [Boards Manager Installation](#boards-manager-installation)
   - [Manual Installation](#manual-installation)
@@ -58,9 +57,9 @@ If you're looking for a sleek, reliable UPDI programmer that also acts as a USB 
 | **IO pins**      | 41<br/>33&ast;&ast;&ast;   | 27&ast;<br/>24&ast;&ast;          | 41                | 27&ast;<br/>24&ast;&ast;          | 41                | 27&ast;<br/>24&ast;&ast;          | 41                | 27&ast;<br/>24&ast;&ast;          |
 | **Packages**     | TQFP48<br/>QFN48<br/>DIP40 | TQFP32<br/>QFN32<br/>SSOP28       | TQFP48<br/>QFN48  | TQFP32<br/>QFN32<br/>SSOP28       | TQFP48<br/>QFN48  | TQFP32<br/>QFN32<br/>SSOP28       | TQFP48<br/>QFN48  | TQFP32<br/>QFN32<br/>SSOP28       |
 
-<b>†</b> 64 bytes of USERROW, accessible from address 256 to 319 using the EEPROM.h library
-<b>&ast;</b> TQFP32/QFN32 package
-<b>&ast;&ast;</b> SSOP28 package
+<b>†</b> 64 bytes of USERROW, accessible from address 256 to 319 using the EEPROM.h library <br/>
+<b>&ast;</b> TQFP32/QFN32 package <br/>
+<b>&ast;&ast;</b> SSOP28 package <br/>
 <b>&ast;&ast;&ast;</b> DIP40 package
 
 
@@ -123,14 +122,15 @@ None of the megaAVR-0 microcontrollers needs the reset line to be reprogrammed o
 
 
 ## Printf support
-Unlike the official Arduino core, MegaCoreX has printf support out of the box. If you're not familiar with printf you should probably [read this first](https://www.tutorialspoint.com/c_standard_library/c_function_printf.htm). It's added to the Print class and will work with all libraries that inherit Print. Printf is a standard C function that lets you format text much easier than using Arduino's built-in print and println. Note that this implementation of printf will NOT print floats or doubles. This is a limitation of the avr-libc printf implementation on AVR microcontrollers, and nothing I can easily fix.
+Unlike the official Arduino core, MegaCoreX has printf support out of the box. If you're not familiar with printf you should probably [read this first](https://www.tutorialspoint.com/c_standard_library/c_function_printf.htm). It's added to the Print class and will work with all libraries that inherit Print. Printf is a standard C function that lets you format text much easier than using Arduino's built-in print and println. 
 
-If you're using a serial port, simply use `Serial.printf("Milliseconds since start: %ld\n", millis());`. Other libraries that inherit the Print class (and thus supports printf) are SoftwareSerial and the LiquidCrystal LCD library.
+[**See the extended API documentation for more information!**](https://github.com/MCUdude/MegaCoreX/tree/master/Extended-API.md#printf-support)
 
 
 ## Fast IO
-For timing critical applications the standard `digitalRead()` and `digitalWrite()` functions may be too slow. To solve this, MegaCoreX also includes some improved variants that compiles down to a single instruction.
-Call `digitalReadFast(myPin)` or `digitalWriteFast(mypin, state)` to use these. Note that the pin number has to be known at compile time.
+For timing critical applications the standard `digitalRead()` and `digitalWrite()` functions may be too slow. To solve this, MegaCoreX also incorporates `digitalReadFast(myPin)` and `digitalWriteFast(mypin, state)` which compiles down to a single instruction.
+
+[**See the extended API documentation for more information!**](https://github.com/MCUdude/MegaCoreX/tree/master/Extended-API.md#fast-io)
 
 
 ## Pin macros
@@ -205,13 +205,6 @@ The repeat frequency for the pulses on all PWM outputs can be changed with the n
 
 Note also that tone() will use TCB1, so the corresponding PWM output is not available if it is used.
 
-### Analog read resolution
-The default analog read resolution for these chips is 10 bit, which gives you values between 0 - 1023. If you need less resolution you can turn it down to 8 bits instead, which gives you values between 0 - 255.
-Simply call `analogReadResolution` like this:
-```c
-analogReadResolution(8); // Set resolution to 8 bits
-```
-
 ### Configurable Custom Logic (CCL)
 The megaAVR-0 microcontrollers are equipped with four independent configurable logic blocks that can be used to improve speed and performance. The CCL pins are marked on all pinout diagrams in a dark blue/grey color. The logic blocks can be used independently from each other, connected together or generate an interrupt to the CPU. I've made a [light weight, high-level library](https://github.com/MCUdude/MegaCoreX/tree/master/megaavr/libraries/Logic) for easy integration with the CCL hardware.
 
@@ -222,75 +215,11 @@ Try out the [Comparator library](https://github.com/MCUdude/MegaCoreX/tree/maste
 ### Event System (EVSYS)
 The Event System (EVSYS) enables direct peripheral-to-peripheral signaling. It allows a change in one peripheral (the event generator) to trigger actions in other peripherals (the event users) through event channels, without using the CPU. It is designed to provide short and predictable response times between peripherals, allowing for autonomous peripheral control and interaction, and also for synchronized timing of actions in several peripheral modules. It is thus a powerful tool for reducing the complexity, size, and execution time of the software. Give the [Event library](https://github.com/MCUdude/MegaCoreX/tree/master/megaavr/libraries/Event) a try! Here you'll find documentation and useful library examples.
 
-### Alternative pins
-The megaAVR-0 microcontrollers support alternative pin assignments for some of their built-in peripherals.
-This is specified by invoking the `swap()` or `pins()` method before `begin()` for the associated peripheral.
-They will return `true` if that swap or pin combination is supported.
-For `Serial` peripherals the method is `pins(tx,rx)`, for `Wire` it's `pins(sda,scl)` and for `SPI` it's `pins(mosi,miso,sck,ss)`.
-(Note that this is the same pin sequence as used for the ESP8266 `pins` method, but the opposite of the one SoftwareSerial uses.)
+### Peripheral pin swapping
+The megaAVR-0 microcontrollers support alternative pin assignments for some of their built-in peripherals.<br/>
+MegaCoreX currently supports pinswapping the SPI, i2c and UART peripheral pins.
 
-Note that `swap()` and `pins()` do the exact same thing, but `swap()` is MUX swap oriented, while `pins()` is pin oriented.
-
-If you want to use this feature to implement communication with two different external devices connected to different pins using one internal peripheral,
-note that the proper way to switch is first to invoke `end()` to cleanly shut down, then `swap()` or `pins()` to switch assigned pins, and finally `begin()` to cleanly start again.
-
-`swap()` or `pins()` are called like this. **Use either `swap()` or `pins()`, not both!**
-
-``` c++
-// UART pin swapping
-Serial3.swap(1);
-Serial3.begin(9600);
-
-// Wire pin swapping
-Wire.swap(1);
-Wire.begin();
-
-// SPI pin swapping
-SPI.swap(1);
-SPI.begin();
-```
-
-Available pin combinations for the *48 pin standard* pinout are:
-
-| Peripheral | Default                        | Alternative 1                      | Alternative 2                      |
-|------------|------------------------------- |------------------------------------|------------------------------------|
-| Serial     | swap(0)  **or**  pins(0,1)     | swap(1)  **or**  pins(4,5)         |                                    |
-| Serial1    | swap(0)  **or**  pins(14,15)   | swap(1)  **or**  pins(18,19)       |                                    |
-| Serial2    | swap(0)  **or**  pins(34,35)   | swap(1)  **or**  pins(38,39)       |                                    |
-| Serial3    | swap(0)  **or**  pins(8,9)     | swap(1)  **or**  pins(12,13)       |                                    |
-| Wire       | swap(0)  **or**  pins(2,3)     | swap(1)  **or**  pins(16,17)       |                                    |
-| SPI        | swap(0)  **or**  pins(4,5,6,7) | swap(1)  **or**  pins(14,15,16,17) | swap(2)  **or**  pins(30,31,32,33) |
-
-
-Available pin combinations for the *28 pin* and *32 pin standard* pinouts are:
-
-| Peripheral | Default                        | Alternative                      |
-|------------|--------------------------------|----------------------------------|
-| Serial     | swap(0)  **or**  pins(0,1)     | swap(1)  **or**  pins(4,5)       |
-| Serial1    | swap(0)  **or**  pins(8,9)     |                                  |
-| Serial2    | swap(0)  **or**  pins(20,21)   | swap(1)  **or**  pins(24,25)     |
-| Wire       | swap(0)  **or**  pins(2,3)     | swap(1)  **or**  pins(10,11)     |
-| SPI        | swap(0)  **or**  pins(4,5,6,7) | swap(1)  **or**  pins(8,9,10,11) |
-
-
-Available pin combinations for the *Uno WiFi* pinout are:
-
-| Peripheral | Default                                                      | Alternative                                            |
-|------------|--------------------------------------------------------------|--------------------------------------------------------|
-| Serial     | swap(0)  **or**  pins(27,26) <br/>(connected to mEDBG)       | swap(1)  **or**  pins(9,10)                            |
-| Serial1    | swap(0)  **or**  pins(1,0)                                   | swap(1)  **or**  pins(32,33) (available on SPI header) |
-| Serial2    | swap(0)  **or**  pins(24,23) <br/>(connected to Wifi module) | swap(1)  **or**  pins(2,7)                             |
-| Serial3    | swap(0)  **or**  pins(6,3)                                   | swap(1)  **or**  pins(37,38) (not broken out)          |
-
-
-Available pin combinations for the *Nano Every* pinout are:
-
-| Peripheral | Default                                                          | Alternative                                   |
-|------------|------------------------------------------------------------------|-----------------------------------------------|
-| Serial     | swap(0)  **or**  pins(25,24) <br/>(connected to USB-serial chip) | swap(1)  **or**  pins(9,10)                   |
-| Serial1    | swap(0)  **or**  pins(1,0)                                       | swap(1)  **or**  pins(34,35) (not broken out) |
-| Serial2    | swap(0)  **or**  pins(2,7)                                       | swap(1)  **or**  pins(28,27) (not broken out) |
-| Serial3    | swap(0)  **or**  pins(6,3)                                       | swap(1)  **or**  pins(37,38) (not broken out) |
+[**See the extended API documentation for more information!**](https://github.com/MCUdude/MegaCoreX/tree/master/Extended-API.md#peripheral-pin-swapping)
 
 
 ## How to install
