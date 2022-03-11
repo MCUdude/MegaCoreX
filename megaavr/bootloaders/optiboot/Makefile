@@ -62,6 +62,12 @@ else
 LISTING= @true
 endif
 
+ifeq ($(SKIP_BOOTLOADER_ON_POR), 0)
+START_APP_ON_POR=0
+else
+START_APP_ON_POR=1
+endif
+
 ifeq ($(UARTTX), A0)
 UART=0
 UARTMUX=DEF
@@ -122,7 +128,7 @@ optiboot_%.hex: optiboot_%.elf
 	$(OBJCOPY) -j .text -j .data -j .version --set-section-flags .version=alloc,load -O ihex $< $@
 
 %.elf:	optiboot_x.c FORCE
-	$(CC) $(CFLAGS) $(CPU_OPTIONS) $(LED_OPTIONS) $(UART_OPTIONS) $(COMMON_OPTIONS) $(LDFLAGS) $(PACK_OPT) -mmcu=$(TARGET) -o $@ $<
+	$(CC) $(CFLAGS) $(CPU_OPTIONS) $(LED_OPTIONS) $(UART_OPTIONS) $(COMMON_OPTIONS) $(POR) $(LDFLAGS) $(PACK_OPT) -mmcu=$(TARGET) -o $@ $<
 	$(SIZE) $@
 
 

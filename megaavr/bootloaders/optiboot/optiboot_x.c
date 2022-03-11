@@ -322,59 +322,83 @@ int main (void) {
     __asm__ __volatile__ ("clr __zero_reg__"); // known-zero required by avr-libc
 #define RESET_EXTERNAL (RSTCTRL_EXTRF_bm|RSTCTRL_UPDIRF_bm|RSTCTRL_SWRF_bm)
 #ifndef FANCY_RESET_LOGIC
-    ch = RSTCTRL.RSTFR;   // get reset cause
-    RSTCTRL.RSTFR = ch;   //  and reset them all!
-    if (ch & RSTCTRL_WDRF_bm) {
-	// Start the app.
-	__asm__ __volatile__ ("mov r2, %0\n" :: "r" (ch));
-	watchdogConfig(WDT_PERIOD_OFF_gc);
-	__asm__ __volatile__ (
-	    "jmp app\n"
-	    );
-    }
-#else
-    /*
-     * Protect as much Reset Cause as possible for application
-     * and still skip bootloader if not necessary
-     */
-    ch = RSTCTRL.RSTFR;
-    if (ch != 0) {
-	/*
-	 * We want to run the bootloader when an external reset has occurred.
-	 * On these mega0/XTiny chips, there are three types of ext reset:
-	 *  reset pin (may not exist), UPDI reset, and SW-request reset.
-	 * One of these reset causes, together with watchdog reset, should
-	 *  mean that Optiboot timed out, and it's time to run the app.
-	 * Other reset causes (notably poweron) should run the app directly.
-	 * If a user app wants to utilize and detect watchdog resets, it
-	 *  must make sure that the other reset causes are cleared.
-	 */
-	if (ch & RSTCTRL_WDRF_bm) {
-	    if (ch & RESET_EXTERNAL) {
-		/*
-		 * Clear WDRF because it was most probably set by wdr in
-		 * bootloader.  It's also needed to avoid loop by broken
-		 * application which could prevent entering bootloader.
-		 */
-		RSTCTRL.RSTFR = RSTCTRL_WDRF_bm;
-	    }
-	}
-	if (!(ch & RESET_EXTERNAL)) {
-	    /* 
-	     * save the reset flags in the designated register.
-	     * This can be saved in a main program by putting code in
-	     * .init0 (which executes before normal c init code) to save R2
-	     * to a global variable.
-	     */
-	    __asm__ __volatile__ ("mov r2, %0\n" :: "r" (ch));
+  ch = RSTCTRL.RSTFR;   // get reset cause
+#ifdef START_APP_ON_POR
+  /*
+   * If WDRF is set OR nothing except BORF and PORF are set, that's
+   * not bootloader entry condition so jump to app - this is for when
+   * UPDI pin is used as reset, so we go straight to app on start.
+   * 11/14: NASTY bug - we also need to check for no reset flags being
+   * set (ie, direct entry) and run bootloader in that case, otherwise
+   * bootloader won't run, among other things, after fresh bootloading!
+   */
 
-	    // switch off watchdog
-	    watchdogConfig(WDT_PERIOD_OFF_gc);
-	    __asm__ __volatile__ (
-		"jmp 512\n"
-		);
-	}
+  if (ch && (ch & RSTCTRL_WDRF_bm ||
+             (!(ch & (~(RSTCTRL_BORF_bm | RSTCTRL_PORF_bm)))))) {
+#else
+  /*
+   * If WDRF is set OR nothing except BORF is set, that's not
+   * bootloader entry condition so jump to app - let's see if this
+   * works okay or not...
+   */
+  if (ch && (ch & RSTCTRL_WDRF_bm || (!(ch & (~RSTCTRL_BORF_bm))))) {
+#endif
+    /* Start the app.
+     * Dont bother trying to stuff it in r2, which requires heroic
+     * effort to fish out we'll put it in GPIOR0 where it won't get
+     * stomped on.
+     */
+    // __asm__ __volatile__ ("  mov r2, %0\n" :: "r" (ch));
+    RSTCTRL.RSTFR = ch; //clear the reset causes before jumping to app...
+    GPIOR0 = ch; // but, stash the reset cause in GPIOR0 for use by app...
+    watchdogConfig(WDT_PERIOD_OFF_gc);
+    __asm__ __volatile__(
+      "  jmp app\n"
+      );
+  }
+#else
+  /*
+   * Protect as much Reset Cause as possible for application
+   * and still skip bootloader if not necessary
+   */
+  ch = RSTCTRL.RSTFR;
+  if (ch != 0) {
+    /*
+     * We want to run the bootloader when an external reset has occurred.
+     * On these mega0/XTiny chips, there are three types of ext reset:
+     * reset pin (may not exist), UPDI reset, and SW-request reset.
+     * One of these reset causes, together with watchdog reset, should
+     * mean that Optiboot timed out, and it's time to run the app.
+     * Other reset causes (notably poweron) should run the app directly.
+     * If a user app wants to utilize and detect watchdog resets, it
+     * must make sure that the other reset causes are cleared.
+     */
+    if (ch & RSTCTRL_WDRF_bm) {
+      if (ch & RESET_EXTERNAL) {
+        /*
+         * Clear WDRF because it was most probably set by wdr in
+         * bootloader.  It's also needed to avoid loop by broken
+         * application which could prevent entering bootloader.
+         */
+        RSTCTRL.RSTFR = RSTCTRL_WDRF_bm;
+      }
     }
+    if (!(ch & RESET_EXTERNAL)) {
+      /*
+       * save the reset flags in the designated register.
+       * This can be saved in a main program by putting code in
+       * .init0 (which executes before normal c init code) to save R2
+       * to a global variable.
+       */
+      __asm__ __volatile__("  mov r2, %0\n" :: "r"(ch));
+
+      // switch off watchdog
+      watchdogConfig(WDT_PERIOD_OFF_gc);
+      __asm__ __volatile__(
+        "  jmp app\n"
+        );
+    }
+  }
 #endif // Fancy reset cause stuff
 
     watchdogReset();
