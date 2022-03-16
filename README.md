@@ -281,7 +281,7 @@ Click to enlarge:
 
 Click to enlarge:
 
-<img src="https://i.imgur.com/bmdfCFS.jpg" width="350">
+<img src="https://i.imgur.com/wg1HFam.jpg" width="350">
 
 ### AVR-IOT WG
 [The AVR-IOT WG](https://www.microchip.com/developmenttools/ProductDetails/AC164160) uses the ATmega4808 in a 32 pin package. *32 pin standard* is the correct pinout for this board. Note that UART2 is connected to the nEDBG chip (often referred to as the debug serial port). This means you'll have to use `Serial2.begin(baud)` to print to the serial monitor. You'll also have to choose **Atmel nEDBG (ATSAMD21E18)** as your programmer to upload code. For more information about this board please refer to the user guide and its schematic.
@@ -295,4 +295,4 @@ Click to enlarge:
 
 Click to enlarge:
 
-<img src="https://i.imgur.com/6G5FELO.jpg" width="400">
+<img src="https://i.imgur.com/gQv8sv6.jpg" width="400">
