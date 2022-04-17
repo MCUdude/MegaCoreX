@@ -430,7 +430,6 @@ void Logic::initInput(in::input_t &input, PORT_t &port, const uint8_t pin_bm) {
     } else {
       PINCTRL(port, pin_bm) |= PORT_PULLUPEN_bm;
     }
-    input = in::input;
   }
 }
 
