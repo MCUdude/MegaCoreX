@@ -25,6 +25,7 @@ If you're looking for a sleek, reliable UPDI programmer that also acts as a USB 
 * [Pin macros](#pin-macros)
 * [Write to own flash](#write-to-own-flash)
 * [Memory-mapped flash](#memory-mapped-flash)
+* [Identifying MegaCoreX](#identifying-megacorex)
 * [Pinout](#pinout)
 * [Hardware features](#hardware-features)
   - [PWM output](#pwm-output)
@@ -159,6 +160,28 @@ This also includes quoted strings, which means that the string in `Serial.print(
 
 If you explicitly declare a variable PROGMEM, you must still use the `pgm_read_byte()/pgm_read_word()` functions, just like on "classic" AVRs. Do note that declaring things PROGMEM or using the `F()` macro works fine, but it is slower and consumes more flash than simply declaring something `const` or omitting the `F()` macro.
 
+
+# Identifying MegaCoreX
+If you're writing code that has MegaCoreX specific code in it, you can identify this core and various pinouts with the list of macros below.
+
+
+| Core specific       | Pinout specific                  | Chip family specific | Chip specific        |
+|---------------------|----------------------------------|----------------------|----------------------|
+| `MEGACOREX`         | `MEGACOREX_DEFAULT_48PIN_PINOUT` | `__AVR_ATmegax09__`  | `__AVR_ATmega4809__` |
+| `MCUDUDE_MEGACOREX` | `MEGACOREX_DEFAULT_40PIN_PINOUT` | `__AVR_ATmegax08__`  | `__AVR_ATmega4808__` |
+|                     | `MEGACOREX_DEFAULT_32PIN_PINOUT` |                      | `__AVR_ATmega3209__` |
+|                     | `MEGACOREX_DEFAULT_28PIN_PINOUT` |                      | `__AVR_ATmega3208__` |
+|                     |                                  |                      | `__AVR_ATmega1609__` |
+|                     |                                  |                      | `__AVR_ATmega1608__` |
+|                     |                                  |                      | `__AVR_ATmega809__`  |
+|                     |                                  |                      | `__AVR_ATmega808__`  |
+
+Usage:
+```c++
+#if defined(MEGACOREX)
+// Code
+#endif
+```
 
 ## Pinout
 This core provides several different Arduino pin mappings based on your current hardware
