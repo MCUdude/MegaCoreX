@@ -634,9 +634,9 @@
               "version": "7.3.0-atmel3.6.1-arduino7"
             },
             {
-              "packager": "arduino",
+              "packager": "MegaCoreX",
               "name": "avrdude",
-              "version": "7.0-arduino.1"
+              "version": "7.0.0-arduino1"
             },
             {
               "packager": "arduino",
@@ -646,7 +646,56 @@
           ]
         }
       ],
-      "tools": []
+      "tools": [
+        {
+          "name": "avrdude",
+          "version": "7.0.0-arduino1",
+          "systems": [
+            {
+              "size": "965015",
+              "checksum": "SHA-256:e8695f27389abe6f04b7591912336741c1bad7aedad3705f14701ae41a6e3a26",
+              "host": "arm-linux-gnueabihf",
+              "archiveFileName": "avrdude_7.0-arduino.1_Linux_ARMv6.tar.gz",
+              "url": "http://downloads.arduino.cc/tools/avrdude_7.0-arduino.1_Linux_ARMv6.tar.gz"
+            },
+            {
+              "size": "1040613",
+              "checksum": "SHA-256:06db360038adc37f3a325ea6e8303223ba12cae1cfa8df4d2aef71096e98f89b",
+              "host": "aarch64-linux-gnu",
+              "archiveFileName": "avrdude_7.0-arduino.1_Linux_ARM64.tar.gz",
+              "url": "http://downloads.arduino.cc/tools/avrdude_7.0-arduino.1_Linux_ARM64.tar.gz"
+            },
+            {
+              "size": "603907",
+              "checksum": "SHA-256:96300534fdcbaafc858b84dfac770b0d1961d68e3d497d31c203125ecc4500d7",
+              "host": "x86_64-apple-darwin12",
+              "archiveFileName": "avrdude_7.0-arduino.1_macOS_64bit.tar.gz",
+              "url": "http://downloads.arduino.cc/tools/avrdude_7.0-arduino.1_macOS_64bit.tar.gz"
+            },
+            {
+              "size": "952978",
+              "checksum": "SHA-256:aac5254a83d5b5350694f4d28e47902dab96bb4d839ec4f1cb3b44e2767d443e",
+              "host": "x86_64-linux-gnu",
+              "archiveFileName": "avrdude_7.0-arduino.1_Linux_64bit.tar.gz",
+              "url": "http://downloads.arduino.cc/tools/avrdude_7.0-arduino.1_Linux_64bit.tar.gz"
+            },
+            {
+              "size": "956240",
+              "checksum": "SHA-256:eac8bae7d8a65612c21a7126dec2f7e07420a95657b666906767f6220a6d1646",
+              "host": "i686-linux-gnu",
+              "archiveFileName": "avrdude_7.0-arduino.1_Linux_32bit.tar.gz",
+              "url": "http://downloads.arduino.cc/tools/avrdude_7.0-arduino.1_Linux_32bit.tar.gz"
+            },
+            {
+              "size": "838493",
+              "checksum": "SHA-256:8cee080e34a026af09b6d3782b8be19266ae1a91a3a9ba38476ac885e34d6f74",
+              "host": "i686-mingw32",
+              "archiveFileName": "avrdude_7.0-arduino.1_Windows_32bit.tar.gz",
+              "url": "http://downloads.arduino.cc/tools/avrdude_7.0-arduino.1_Windows_32bit.tar.gz"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
