@@ -86,9 +86,9 @@ jq -r                                   \
       "version": "7.3.0-atmel3.6.1-arduino7"
     },
     {
-      "packager": "arduino",
+      "packager": "MegaCoreX",
       "name": "avrdude",
-      "version": "6.3.0-arduino18"
+      "version": "7.0.0-arduino1"
     },
     {
       "packager": "arduino",
