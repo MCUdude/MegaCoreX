@@ -5,10 +5,40 @@ medbg.program.protocol=xplainedmini_updi
 medbg.program.tool=avrdude
 medbg.program.extra_params=-Pusb
 
+serialupdi_57600.name=SerialUPDI (57600 baud)
+serialupdi_57600.communication=serial
+serialupdi_57600.protocol=serialupdi
+serialupdi_57600.program.tool=avrdude
+serialupdi_57600.program.extra_params=-P{serial.port} -b57600 -xrtsdtr=high
+
+serialupdi_115200.name=SerialUPDI (115200 baud)
+serialupdi_115200.communication=serial
+serialupdi_115200.protocol=serialupdi
+serialupdi_115200.program.tool=avrdude
+serialupdi_115200.program.extra_params=-P{serial.port} -b115200 -xrtsdtr=high 
+
+serialupdi_230400.name=SerialUPDI (230400 baud)
+serialupdi_230400.communication=serial
+serialupdi_230400.protocol=serialupdi
+serialupdi_230400.program.tool=avrdude
+serialupdi_230400.program.extra_params=-P{serial.port} -b230400 -xrtsdtr=high 
+
+serialupdi_460800.name=SerialUPDI (460800 baud)
+serialupdi_460800.communication=serial
+serialupdi_460800.protocol=serialupdi
+serialupdi_460800.program.tool=avrdude
+serialupdi_460800.program.extra_params=-P{serial.port} -b460800 -xrtsdtr=high 
+
+jtag2updi.name=JTAG2UPDI
+jtag2updi.communication=serial
+jtag2updi.protocol=jtag2updi
+jtag2updi.program.tool=avrdude
+jtag2updi.program.extra_params=-P{serial.port}
+
 nedbg.name=Atmel nEDBG/Curiosity Nano
 nedbg.communication=usb
-nedbg.protocol=curiosity_updi
-nedbg.program.protocol=curiosity_updi
+nedbg.protocol=pkobn_updi
+nedbg.program.protocol=pkobn_updi
 nedbg.program.tool=avrdude
 nedbg.program.extra_params=-Pusb
 
@@ -18,12 +48,6 @@ edbg.protocol=xplainedpro_updi
 edbg.program.protocol=xplainedpro_updi
 edbg.program.tool=avrdude
 edbg.program.extra_params=-Pusb
-
-jtag2updi.name=JTAG2UPDI
-jtag2updi.communication=serial
-jtag2updi.protocol=jtag2updi
-jtag2updi.program.tool=avrdude
-jtag2updi.program.extra_params=-P{serial.port}
 
 atmelice_updi.name=Atmel-ICE (UPDI)
 atmelice_updi.communication=usb
