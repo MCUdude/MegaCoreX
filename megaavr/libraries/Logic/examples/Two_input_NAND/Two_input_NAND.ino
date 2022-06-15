@@ -36,13 +36,13 @@ void setup()
   // Initialize logic block 0
   // Logic block 0 has three inputs, PA0, PA1 and PA2.
   // It has one output, PA3, but can be swapped to PA6 if needed
-  Logic0.enable = true;               // Enable logic block 0
-  Logic0.input0 = in::input_pullup;   // Set PA0 as input with pullup
-  Logic0.input1 = in::input_pullup;   // Set PA1 as input with pullup
-//Logic0.output_swap = out::pin_swap; // Uncomment this line to route the output to PA6 instead of PA3
-  Logic0.output = out::enable;        // Enable logic block 0 output pin (PA3)
-  Logic0.filter = filter::disable;    // No output filter enabled
-  Logic0.truth = 0xF7;                // Set truth table
+  Logic0.enable = true;                      // Enable logic block 0
+  Logic0.input0 = logic::in::input_pullup;   // Set PA0 as input with pullup
+  Logic0.input1 = logic::in::input_pullup;   // Set PA1 as input with pullup
+//Logic0.output_swap = logic::out::pin_swap; // Uncomment this line to route the output to PA6 instead of PA3
+  Logic0.output = logic::out::enable;        // Enable logic block 0 output pin (PA3)
+  Logic0.filter = logic::filter::disable;    // No output filter enabled
+  Logic0.truth  = 0xF7;                      // Set truth table
 
   // Initialize logic block 0
   Logic0.init();

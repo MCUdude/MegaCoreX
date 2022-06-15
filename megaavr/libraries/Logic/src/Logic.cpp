@@ -372,16 +372,16 @@ static const struct Logic::CCLBlock blocks[] = {
 
 Logic::Logic(const uint8_t block_number)
   : enable(false),
-    input0(in::masked),
-    input1(in::masked),
-    input2(in::masked),
-    output(out::disable),
-    output_swap(out::no_swap),
-    filter(filter::disable),
-    edgedetect(edgedetect::disable),
+    input0(logic::in::masked),
+    input1(logic::in::masked),
+    input2(logic::in::masked),
+    output(logic::out::disable),
+    output_swap(logic::out::no_swap),
+    filter(logic::filter::disable),
+    edgedetect(logic::edgedetect::disable),
     truth(0x00),
-    sequencer(sequencer::disable),
-    clocksource(clocksource::clk_per),
+    sequencer(logic::sequencer::disable),
+    clocksource(logic::clocksource::clk_per),
     block(blocks[block_number]) {
 }
 
@@ -421,11 +421,11 @@ static volatile register8_t &PINCTRL(PORT_t &port, const uint8_t pin_bm) {
   return port.PIN7CTRL;
 }
 
-void Logic::initInput(in::input_t &input, PORT_t &port, const uint8_t pin_bm) {
+void Logic::initInput(logic::in::input_t &input, PORT_t &port, const uint8_t pin_bm) {
   if ((input & 0x30) && pin_bm) { // Input pin is either set to input or input with pullup
     port.DIRCLR = pin_bm;
 
-    if (input == in::input) {
+    if (input == logic::in::input) {
       PINCTRL(port, pin_bm) &= ~PORT_PULLUPEN_bm;
     } else {
       PINCTRL(port, pin_bm) |= PORT_PULLUPEN_bm;
@@ -437,27 +437,27 @@ void Logic::init()
 {
   // Clear LUTCTRLA in case the CCL block gets reinitialized
   block.LUTCTRLA = 0x00;
-  
+
   // Configure input pins
   initInput(input0, block.PORT_IN, block.input0_bm);
   initInput(input1, block.PORT_IN, block.input1_bm);
   initInput(input2, block.PORT_IN, block.input2_bm);
-  
+
   // Set output pin state and output pin swap
-  if (output == out::enable) {
-    if (output_swap == out::pin_swap && block.output_alt_bm) {
+  if (output == logic::out::enable) {
+    if (output_swap == logic::out::pin_swap && block.output_alt_bm) {
       #if defined(PORTMUX_CCL)
       PORTMUX_CCL |= PORTMUX_ALTOUT_bm;
       #endif
       block.PORT_OUT.DIRSET = block.output_alt_bm;
-    } else if (output_swap == out::no_swap && block.output_bm) {
+    } else if (output_swap == logic::out::no_swap && block.output_bm) {
       #if defined(PORTMUX_CCL)
       PORTMUX_CCL &= ~PORTMUX_ALTOUT_bm;
       #endif
       block.PORT_ALT_OUT.DIRSET = block.output_bm;
     }
   }
-  
+
   // Set inputs modes
   block.LUTCTRLB = ((input1 & 0xf0) << CCL_INSEL1_gp) | ((input0 & 0x0f) << CCL_INSEL0_gp);
   block.LUTCTRLC = ((input2 & 0x0f) << CCL_INSEL2_gp);

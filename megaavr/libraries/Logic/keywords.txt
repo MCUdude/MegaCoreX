@@ -31,6 +31,7 @@ Logic3	KEYWORD2
 # Constants (LITERAL1)
 #######################################
 
+logic	LITERAL1
 in	LITERAL1
 out	LITERAL1
 filter	LITERAL1
