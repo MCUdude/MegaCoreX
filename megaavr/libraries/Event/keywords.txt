@@ -47,6 +47,7 @@ Event7	KEYWORD2
 # Constants (LITERAL1)
 #######################################
 
+event	LITERAL1
 gen	LITERAL1
 gen0	LITERAL1
 gen1	LITERAL1

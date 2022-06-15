@@ -35,8 +35,8 @@ Note that different channels have different functionality, so make sure you use 
 
 
 In short terms:
-* `genN::rtc_div8192`, `genN::rtc_div4096`, `genN::rtc_div2048` and `genN::rtc_div1024` are only available on odd numbered channels
-* `genN::rtc_div512`, `genN::rtc_div256`, `genN::rtc_div128` and `genN::rtc_div64` are only available on even numbered channels
+* `event::genN::rtc_div8192`, `event::genN::rtc_div4096`, `event::genN::rtc_div2048` and `event::genN::rtc_div1024` are only available on odd numbered channels
+* `event::genN::rtc_div512`, `event::genN::rtc_div256`, `event::genN::rtc_div128` and `event::genN::rtc_div64` are only available on even numbered channels
 * PIN PA0..7 and PB0..5 can only be used as event generators on channel 0 and 1
 * PIN PC0..7 and PD0..7 can only be used as event generators on channel 2 and 3
 * PIN PE0..3 and PF0..6 can only be used as event generators on channel 4 and 5
@@ -84,18 +84,18 @@ Returns a reference to the `Event_empty` object if the generator is not connecte
 
 ### Declaration
 ``` c++
-static Event& get_generator_channel(gen::generator_t generator); // For all other generators (gen, gen0...gen7)
-static Event& get_generator_channel(uint8_t generator);          // For Arduino pins
+static Event& get_generator_channel(event::gen::generator_t generator); // For all other generators (event::gen, event::gen0...gen7)
+static Event& get_generator_channel(uint8_t generator);                 // For Arduino pins
 ```
 
 ### Usage
 ```c++
 // Set ccl0_out as event generator for channel 2
-Event2.set_generator(gen::ccl0_out);
+Event2.set_generator(event::gen::ccl0_out);
 
 // Now we want to get the channel/object connected to the ccl0_out generator
 // Create a reference to the object get_generator_channel() returns.
-Event& myEvent = Event::get_generator_channel(gen::ccl0_out);
+Event& myEvent = Event::get_generator_channel(event::gen::ccl0_out);
 
 // myEvent is now a reference to Event2!
 ```
@@ -112,73 +112,73 @@ uint8_t get_generator();
 ### Usage
 ```c++
 uint8_t generator_used = Event0.get_generator();
-if(generator_used == gen::ccl0_out) {
-  Serial.println("We're using gen::ccl0_out as generator");
+if(generator_used == event::gen::ccl0_out) {
+  Serial.println("We're using event::gen::ccl0_out as generator");
 }
 ```
 
 
-## set_generator(gen::generator_t)
-Function to connect an event generator to a channel. Note that we use the prefix genN:: (where N is the channel number) when referring to generators unique to this particular channel. we use gen:: when referring to generators available on all generators.
+## set_generator(event::gen::generator_t)
+Function to connect an event generator to a channel. Note that we use the prefix event::genN:: (where N is the channel number) when referring to generators unique to this particular channel. we use event::gen:: when referring to generators available on all generators.
 
 ### Declaration
 ``` c++
-void set_generator(gen::generator_t generator);
-void set_generator(gen0::generator_t generator);
+void set_generator(event::gen::generator_t generator);
+void set_generator(event::gen0::generator_t generator);
 //...
-void set_generator(gen7::generator_t generator);
+void set_generator(event::gen7::generator_t generator);
 ```
 
 ### Usage
 ```c++
-Event0.set_generator(gen::ccl0_out); // Use the output of logic block 0 (CCL0) as an event generator for Event0
-Event2.set_generator(gen2::pin_pc0); // Use pin PC0 as an event generator for Event2
+Event0.set_generator(event::gen::ccl0_out); // Use the output of logic block 0 (CCL0) as an event generator for Event0
+Event2.set_generator(event::gen2::pin_pc0); // Use pin PC0 as an event generator for Event2
 ```
 
 ### Generator table
 Below is a table with all possible generators for each channel.
 
-| All event channels   | Event0                                              | Event1                                              | Event2                                              | Event3                                              | Event4                                               | Event5                                               | Event6              | Event7             |
-|----------------------|-----------------------------------------------------|-----------------------------------------------------|-----------------------------------------------------|-----------------------------------------------------|------------------------------------------------------|------------------------------------------------------|---------------------|--------------------|
-| `gen::disable`       | `gen0::disable`                                     | `gen1::disable`                                     | `gen2::disable`                                     | `gen3::disable`                                     | `gen4::disable`                                      | `gen5::disable`                                      | `gen6::disable`     | `gen7::disable`    |
-| `gen::updi_synch`    | `gen0::rtc_div8192`                                 | `gen1::rtc_div512`                                  | `gen2::rtc_div8192`                                 | `gen3::rtc_div512`                                  | `gen4::rtc_div8192`                                  | `gen5::rtc_div512`                                   | `gen6::rtc_div8192` | `gen7::rtc_div512` |
-| `gen::rtc_ovf`       | `gen0::rtc_div4096`                                 | `gen1::rtc_div256`                                  | `gen2::rtc_div4096`                                 | `gen3::rtc_div256`                                  | `gen4::rtc_div4096`                                  | `gen5::rtc_div256`                                   | `gen6::rtc_div4096` | `gen7::rtc_div256` |
-| `gen::rtc_cmp`       | `gen0::rtc_div2048`                                 | `gen1::rtc_div128`                                  | `gen2::rtc_div2048`                                 | `gen3::rtc_div128`                                  | `gen4::rtc_div2048`                                  | `gen5::rtc_div128`                                   | `gen6::rtc_div2048` | `gen7::rtc_div128` |
-| `gen::ccl0_out`      | `gen0::rtc_div1024`                                 | `gen1::rtc_div64`                                   | `gen2::rtc_div1024`                                 | `gen3::rtc_div64`                                   | `gen4::rtc_div1024`                                  | `gen5::rtc_div64`                                    | `gen6::rtc_div1024` | `gen7::rtc_div64`  |
-| `gen::ccl1_out`      | `gen0::pin_pa0`                                     | `gen1::pin_pa0`                                     | `gen2::pin_pc0`                                     | `gen3::pin_pc0`                                     | `gen4::pin_pe0`<br/> (Only available on ATmegaX809)  | `gen5::pin_pe0`<br/> (Only available on ATmegaX809)  |                     |                    |
-| `gen::ccl2_out`      | `gen0::pin_pa1`                                     | `gen1::pin_pa1`                                     | `gen2::pin_pc1`                                     | `gen3::pin_pc1`                                     | `gen4::pin_pe1`<br/> (Only available on ATmegaX809)  | `gen5::pin_pe1`<br/> (Only available on ATmegaX809)  |                     |                    |
-| `gen::ccl3_out`      | `gen0::pin_pa2`                                     | `gen1::pin_pa2`                                     | `gen2::pin_pc2`                                     | `gen3::pin_pc2`                                     | `gen4::pin_pe2`<br/> (Only available on ATmegaX809)  | `gen5::pin_pe2`<br/> (Only available on ATmegaX809)  |                     |                    |
-| `gen::ac0_out`       | `gen0::pin_pa3`                                     | `gen1::pin_pa3`                                     | `gen2::pin_pc3`                                     | `gen3::pin_pc3`                                     | `gen4::pin_pe3`<br/> (Only available on ATmegaX809)  | `gen5::pin_pe3`<br/> (Only available on ATmegaX809)  |                     |                    |
-| `gen::adc0_ready`    | `gen0::pin_pa4`                                     | `gen1::pin_pa4`                                     | `gen2::pin_pc4`<br/> (Only available on ATmegaX809) | `gen3::pin_pc4`<br/> (Only available on ATmegaX809) |                                                      |                                                      |                     |                    |
-| `gen::usart0_xck`    | `gen0::pin_pa5`                                     | `gen1::pin_pa5`                                     | `gen2::pin_pc5`<br/> (Only available on ATmegaX809) | `gen3::pin_pc5`<br/> (Only available on ATmegaX809) |                                                      |                                                      |                     |                    |
-| `gen::usart1_xck`    | `gen0::pin_pa6`                                     | `gen1::pin_pa6`                                     | `gen2::pin_pc6`<br/> (Only available on ATmegaX809) | `gen3::pin_pc6`<br/> (Only available on ATmegaX809) |                                                      |                                                      |                     |                    |
-| `gen::usart2_xck`    | `gen0::pin_pa7`                                     | `gen1::pin_pa7`                                     | `gen2::pin_pc7`<br/> (Only available on ATmegaX809) | `gen3::pin_pc7`<br/> (Only available on ATmegaX809) |                                                      |                                                      |                     |                    |
-| `gen::usart3_xck`    | `gen0::pin_pb0`<br/> (Only available on ATmegaX809) | `gen1::pin_pb0`<br/> (Only available on ATmegaX809) | `gen2::pin_pd0`                                     | `gen3::pin_pd0`                                     | `gen4::pin_pf0`                                      | `gen5::pin_pf0`                                      |                     |                    |
-| `gen::spi0_sck`      | `gen0::pin_pb1`<br/> (Only available on ATmegaX809) | `gen1::pin_pb1`<br/> (Only available on ATmegaX809) | `gen2::pin_pd1`                                     | `gen3::pin_pd1`                                     | `gen4::pin_pf1`                                      | `gen5::pin_pf1`                                      |                     |                    |
-| `gen::tca0_ovf_lunf` | `gen0::pin_pb2`<br/> (Only available on ATmegaX809) | `gen1::pin_pb2`<br/> (Only available on ATmegaX809) | `gen2::pin_pd2`                                     | `gen3::pin_pd2`                                     | `gen4::pin_pf2`<br/> (Not available on 28-pin parts) | `gen5::pin_pf2`<br/> (Not available on 28-pin parts) |                     |                    |
-| `gen::tca0_hunf`     | `gen0::pin_pb3`<br/> (Only available on ATmegaX809) | `gen1::pin_pb3`<br/> (Only available on ATmegaX809) | `gen2::pin_pd3`                                     | `gen3::pin_pd3`                                     | `gen4::pin_pf3`<br/> (Not available on 28-pin parts) | `gen5::pin_pf3`<br/> (Not available on 28-pin parts) |                     |                    |
-| `gen::tca0_cmp0`     | `gen0::pin_pb4`<br/> (Only available on ATmegaX809) | `gen1::pin_pb4`<br/> (Only available on ATmegaX809) | `gen2::pin_pd4`                                     | `gen3::pin_pd4`                                     | `gen4::pin_pf4`<br/> (Not available on 28-pin parts) | `gen5::pin_pf4`<br/> (Not available on 28-pin parts) |                     |                    |
-| `gen::tca0_cmp1`     | `gen0::pin_pb5`<br/> (Only available on ATmegaX809) | `gen1::pin_pb5`<br/> (Only available on ATmegaX809) | `gen2::pin_pd5`                                     | `gen3::pin_pd5`                                     | `gen4::pin_pf5`<br/> (Not available on 28-pin parts) | `gen5::pin_pf5`<br/> (Not available on 28-pin parts) |                     |                    |
-| `gen::tca0_cmp2`     |                                                     |                                                     | `gen2::pin_pd6`                                     | `gen3::pin_pd6`                                     | `gen4::pin_pf6`                                      | `gen5::pin_pf6`                                      |                     |                    |
-| `gen::tcb0_capt`     |                                                     |                                                     | `gen2::pin_pd7`                                     | `gen3::pin_pd7`                                     |                                                      |                                                      |                     |                    |
-| `gen::tcb1_capt`     |                                                     |                                                     |                                                     |                                                     |                                                      |                                                      |                     |                    |
-| `gen::tcb2_capt`     |                                                     |                                                     |                                                     |                                                     |                                                      |                                                      |                     |                    |
-| `gen::tcb3_capt`     |                                                     |                                                     |                                                     |                                                     |                                                      |                                                      |                     |                    |
-| `gen::tcb3_capt`     |                                                     |                                                     |                                                     |                                                     |                                                      |                                                      |                     |                    |
+| All event channels          | Event0                                                     | Event1                                                     | Event2                                                     | Event3                                                     | Event4                                                      | Event5                                                      | Event6                     | Event7                    |
+|-----------------------------|------------------------------------------------------------|------------------------------------------------------------|------------------------------------------------------------|------------------------------------------------------------|-------------------------------------------------------------|-------------------------------------------------------------|----------------------------|---------------------------|
+| `event::gen::disable`       | `event::gen0::disable`                                     | `event::gen1::disable`                                     | `event::gen2::disable`                                     | `event::gen3::disable`                                     | `event::gen4::disable`                                      | `event::gen5::disable`                                      | `event::gen6::disable`     | `event::gen7::disable`    |
+| `event::gen::updi_synch`    | `event::gen0::rtc_div8192`                                 | `event::gen1::rtc_div512`                                  | `event::gen2::rtc_div8192`                                 | `event::gen3::rtc_div512`                                  | `event::gen4::rtc_div8192`                                  | `event::gen5::rtc_div512`                                   | `event::gen6::rtc_div8192` | `event::gen7::rtc_div512` |
+| `event::gen::rtc_ovf`       | `event::gen0::rtc_div4096`                                 | `event::gen1::rtc_div256`                                  | `event::gen2::rtc_div4096`                                 | `event::gen3::rtc_div256`                                  | `event::gen4::rtc_div4096`                                  | `event::gen5::rtc_div256`                                   | `event::gen6::rtc_div4096` | `event::gen7::rtc_div256` |
+| `event::gen::rtc_cmp`       | `event::gen0::rtc_div2048`                                 | `event::gen1::rtc_div128`                                  | `event::gen2::rtc_div2048`                                 | `event::gen3::rtc_div128`                                  | `event::gen4::rtc_div2048`                                  | `event::gen5::rtc_div128`                                   | `event::gen6::rtc_div2048` | `event::gen7::rtc_div128` |
+| `event::gen::ccl0_out`      | `event::gen0::rtc_div1024`                                 | `event::gen1::rtc_div64`                                   | `event::gen2::rtc_div1024`                                 | `event::gen3::rtc_div64`                                   | `event::gen4::rtc_div1024`                                  | `event::gen5::rtc_div64`                                    | `event::gen6::rtc_div1024` | `event::gen7::rtc_div64`  |
+| `event::gen::ccl1_out`      | `event::gen0::pin_pa0`                                     | `event::gen1::pin_pa0`                                     | `event::gen2::pin_pc0`                                     | `event::gen3::pin_pc0`                                     | `event::gen4::pin_pe0`<br/> (Only available on ATmegaX809)  | `event::gen5::pin_pe0`<br/> (Only available on ATmegaX809)  |                            |                           |
+| `event::gen::ccl2_out`      | `event::gen0::pin_pa1`                                     | `event::gen1::pin_pa1`                                     | `event::gen2::pin_pc1`                                     | `event::gen3::pin_pc1`                                     | `event::gen4::pin_pe1`<br/> (Only available on ATmegaX809)  | `event::gen5::pin_pe1`<br/> (Only available on ATmegaX809)  |                            |                           |
+| `event::gen::ccl3_out`      | `event::gen0::pin_pa2`                                     | `event::gen1::pin_pa2`                                     | `event::gen2::pin_pc2`                                     | `event::gen3::pin_pc2`                                     | `event::gen4::pin_pe2`<br/> (Only available on ATmegaX809)  | `event::gen5::pin_pe2`<br/> (Only available on ATmegaX809)  |                            |                           |
+| `event::gen::ac0_out`       | `event::gen0::pin_pa3`                                     | `event::gen1::pin_pa3`                                     | `event::gen2::pin_pc3`                                     | `event::gen3::pin_pc3`                                     | `event::gen4::pin_pe3`<br/> (Only available on ATmegaX809)  | `event::gen5::pin_pe3`<br/> (Only available on ATmegaX809)  |                            |                           |
+| `event::gen::adc0_ready`    | `event::gen0::pin_pa4`                                     | `event::gen1::pin_pa4`                                     | `event::gen2::pin_pc4`<br/> (Only available on ATmegaX809) | `event::gen3::pin_pc4`<br/> (Only available on ATmegaX809) |                                                             |                                                             |                            |                           |
+| `event::gen::usart0_xck`    | `event::gen0::pin_pa5`                                     | `event::gen1::pin_pa5`                                     | `event::gen2::pin_pc5`<br/> (Only available on ATmegaX809) | `event::gen3::pin_pc5`<br/> (Only available on ATmegaX809) |                                                             |                                                             |                            |                           |
+| `event::gen::usart1_xck`    | `event::gen0::pin_pa6`                                     | `event::gen1::pin_pa6`                                     | `event::gen2::pin_pc6`<br/> (Only available on ATmegaX809) | `event::gen3::pin_pc6`<br/> (Only available on ATmegaX809) |                                                             |                                                             |                            |                           |
+| `event::gen::usart2_xck`    | `event::gen0::pin_pa7`                                     | `event::gen1::pin_pa7`                                     | `event::gen2::pin_pc7`<br/> (Only available on ATmegaX809) | `event::gen3::pin_pc7`<br/> (Only available on ATmegaX809) |                                                             |                                                             |                            |                           |
+| `event::gen::usart3_xck`    | `event::gen0::pin_pb0`<br/> (Only available on ATmegaX809) | `event::gen1::pin_pb0`<br/> (Only available on ATmegaX809) | `event::gen2::pin_pd0`                                     | `event::gen3::pin_pd0`                                     | `event::gen4::pin_pf0`                                      | `event::gen5::pin_pf0`                                      |                            |                           |
+| `event::gen::spi0_sck`      | `event::gen0::pin_pb1`<br/> (Only available on ATmegaX809) | `event::gen1::pin_pb1`<br/> (Only available on ATmegaX809) | `event::gen2::pin_pd1`                                     | `event::gen3::pin_pd1`                                     | `event::gen4::pin_pf1`                                      | `event::gen5::pin_pf1`                                      |                            |                           |
+| `event::gen::tca0_ovf_lunf` | `event::gen0::pin_pb2`<br/> (Only available on ATmegaX809) | `event::gen1::pin_pb2`<br/> (Only available on ATmegaX809) | `event::gen2::pin_pd2`                                     | `event::gen3::pin_pd2`                                     | `event::gen4::pin_pf2`<br/> (Not available on 28-pin parts) | `event::gen5::pin_pf2`<br/> (Not available on 28-pin parts) |                            |                           |
+| `event::gen::tca0_hunf`     | `event::gen0::pin_pb3`<br/> (Only available on ATmegaX809) | `event::gen1::pin_pb3`<br/> (Only available on ATmegaX809) | `event::gen2::pin_pd3`                                     | `event::gen3::pin_pd3`                                     | `event::gen4::pin_pf3`<br/> (Not available on 28-pin parts) | `event::gen5::pin_pf3`<br/> (Not available on 28-pin parts) |                            |                           |
+| `event::gen::tca0_cmp0`     | `event::gen0::pin_pb4`<br/> (Only available on ATmegaX809) | `event::gen1::pin_pb4`<br/> (Only available on ATmegaX809) | `event::gen2::pin_pd4`                                     | `event::gen3::pin_pd4`                                     | `event::gen4::pin_pf4`<br/> (Not available on 28-pin parts) | `event::gen5::pin_pf4`<br/> (Not available on 28-pin parts) |                            |                           |
+| `event::gen::tca0_cmp1`     | `event::gen0::pin_pb5`<br/> (Only available on ATmegaX809) | `event::gen1::pin_pb5`<br/> (Only available on ATmegaX809) | `event::gen2::pin_pd5`                                     | `event::gen3::pin_pd5`                                     | `event::gen4::pin_pf5`<br/> (Not available on 28-pin parts) | `event::gen5::pin_pf5`<br/> (Not available on 28-pin parts) |                            |                           |
+| `event::gen::tca0_cmp2`     |                                                            |                                                            | `event::gen2::pin_pd6`                                     | `event::gen3::pin_pd6`                                     | `event::gen4::pin_pf6`                                      | `event::gen5::pin_pf6`                                      |                            |                           |
+| `event::gen::tcb0_capt`     |                                                            |                                                            | `event::gen2::pin_pd7`                                     | `event::gen3::pin_pd7`                                     |                                                             |                                                             |                            |                           |
+| `event::gen::tcb1_capt`     |                                                            |                                                            |                                                            |                                                            |                                                             |                                                             |                            |                           |
+| `event::gen::tcb2_capt`     |                                                            |                                                            |                                                            |                                                            |                                                             |                                                             |                            |                           |
+| `event::gen::tcb3_capt`     |                                                            |                                                            |                                                            |                                                            |                                                             |                                                             |                            |                           |
+| `event::gen::tcb3_capt`     |                                                            |                                                            |                                                            |                                                            |                                                             |                                                             |                            |                           |
 
 
-### assign_generator(gen::generator_t)
+### assign_generator(event::gen::generator_t)
 Static function that connects an event generator to a channel. What's different compared to `set_generator()` is that this function returns a reference to the channel object the generator has been assigned to. In other words, you don't need to keep track of the exact channel number, it just assigns an available channel.
-Note that this function only accepts generators that are present on all channels (gen::). It will return a reference to the `Event_empty` object if no channel is available.
+Note that this function only accepts generators that are present on all channels (event::gen::). It will return a reference to the `Event_empty` object if no channel is available.
 
 ### Declaration
 ``` c++
-static Event& assign_generator(gen::generator_t event_generator);
+static Event& assign_generator(event::gen::generator_t event_generator);
 ```
 
 ### Usage
 ```c++
-Event& myEvent = Event::assign_generator(gen::ac0_out); // Assign the AC0 out generator to a channel
+Event& myEvent = Event::assign_generator(event::gen::ac0_out); // Assign the AC0 out generator to a channel
 myEvent.start();
 ```
 
@@ -218,17 +218,17 @@ myEvent.start();
 
 ## get_user_channel_number()
 Static function to get what event channel a user is connected to. Returns -1 if not connected to any channel.
-Note that we use `user::` as prefix when we refer to event users. Since this is a static function you don't have to specify an object to determine what channel the user is connected to. An event channel, and hence an event generator, can have as many event users are you want - but an event user can only have one event generator.
+Note that we use `event::user::` as prefix when we refer to event users. Since this is a static function you don't have to specify an object to determine what channel the user is connected to. An event channel, and hence an event generator, can have as many event users are you want - but an event user can only have one event generator.
 You cannot get a list or count of all users connected to a generator except by iterating over the list.
 
 ### Declaration
 ``` c++
-static int8_t get_user_channel_number(user::user_t event_user);
+static int8_t get_user_channel_number(event::user::user_t event_user);
 ```
 
 ### Usage
 ```c++
-int8_t connected_to = Event::get_user_channel_number(user::ccl0_event_a); // Returns the channel number ccl0_event_a is connected to
+int8_t connected_to = Event::get_user_channel_number(event::user::ccl0_event_a); // Returns the channel number ccl0_event_a is connected to
 ```
 
 
@@ -237,12 +237,12 @@ Static function that returns the Event channel object a particular user is conne
 
 ### Declaration
 ``` c++
-static Event& get_user_channel(user::user_t event_user);
+static Event& get_user_channel(event::user::user_t event_user);
 ```
 
 ### Usage
 ```c++
-Event& myEvent = Event::get_user_channel(user::ccl0_event_a);
+Event& myEvent = Event::get_user_channel(event::user::ccl0_event_a);
 ```
 
 
@@ -251,49 +251,49 @@ Function to connect an event user to an event generator. Note that a generator c
 
 ### Declaration
 ``` c++
-void set_user(user::user_t event_user);
+void set_user(event::user::user_t event_user);
 ```
 
 ### Usage
 ```c++
-Event0.set_generator(gen0::pin_pa0); // Set pin PA0` as event generator for Event0
-Event0.set_user(user::evoutc);       // Set EVOUTC (pin PC2) as event user
-Event0.set_user(user::evoutd);       // Set evoutD (pin PD2) as event user
+Event0.set_generator(event::gen0::pin_pa0); // Set pin PA0` as event generator for Event0
+Event0.set_user(event::user::evoutc);       // Set EVOUTC (pin PC2) as event user
+Event0.set_user(event::user::evoutd);       // Set evoutD (pin PD2) as event user
 ```
 
 ### User table
 Below is a table with all possible event users.
 Note that `evoutN_pin_pN7` is the same as `evoutN_pin_pN2` but where the pin is swapped from 2 to 7. This means that for instance, `evouta_pin_pa2` can't be used in combination with `evouta_pin_pa7.`
 
-| Event users                       | Notes                                                                 |
-|-----------------------------------|-----------------------------------------------------------------------|
-| `user::ccl0_event_a`              |                                                                       |
-| `user::ccl0_event_b`              |                                                                       |
-| `user::ccl1_event_a`              |                                                                       |
-| `user::ccl1_event_b`              |                                                                       |
-| `user::ccl2_event_a`              |                                                                       |
-| `user::ccl2_event_b`              |                                                                       |
-| `user::ccl3_event_a`              |                                                                       |
-| `user::ccl3_event_b`              |                                                                       |
-| `user::adc0_start`                |                                                                       |
-| `user::evouta_pin_pa2`            |                                                                       |
-| `user::evouta_pin_pa7`            | Pin swapped variant of `evouta_pin_pa2`                               |
-| `user::evoutb_pin_pb2`            | Only available on ATmegaX809                                          |
-| `user::evoutc_pin_pc2`            |                                                                       |
-| `user::evoutc_pin_pc7`            | Pin swapped variant of `evoutc_pin_pc2`. Only available on ATmegaX809 |
-| `user::evoutd_pin_pd2`            |                                                                       |
-| `user::evoutd_pin_pd7`            | Pin swapped variant of `evoutd_pin_pd2`                               |
-| `user::evoute_pin_pe2`            | Only available on ATmegaX809                                          |
-| `user::evoutf_pin_pf2`            | Not available on 28-pin parts                                         |
-| `user::usart0_irda`               |                                                                       |
-| `user::usart1_irda`               |                                                                       |
-| `user::usart2_irda`               |                                                                       |
-| `user::usart3_irda`               |                                                                       |
-| `user::tca0` or `user::tca0_capt` |                                                                       |
-| `user::tcb0` or `user::tcb0_capt` |                                                                       |
-| `user::tcb1` or `user::tcb1_capt` |                                                                       |
-| `user::tcb2` or `user::tcb2_capt` |                                                                       |
-| `user::tcb3` or `user::tcb3_capt` |                                                                       |
+| Event users                                     | Notes                                                                 |
+|-------------------------------------------------|-----------------------------------------------------------------------|
+| `event::user::ccl0_event_a`                     |                                                                       |
+| `event::user::ccl0_event_b`                     |                                                                       |
+| `event::user::ccl1_event_a`                     |                                                                       |
+| `event::user::ccl1_event_b`                     |                                                                       |
+| `event::user::ccl2_event_a`                     |                                                                       |
+| `event::user::ccl2_event_b`                     |                                                                       |
+| `event::user::ccl3_event_a`                     |                                                                       |
+| `event::user::ccl3_event_b`                     |                                                                       |
+| `event::user::adc0_start`                       |                                                                       |
+| `event::user::evouta_pin_pa2`                   |                                                                       |
+| `event::user::evouta_pin_pa7`                   | Pin swapped variant of `evouta_pin_pa2`                               |
+| `event::user::evoutb_pin_pb2`                   | Only available on ATmegaX809                                          |
+| `event::user::evoutc_pin_pc2`                   |                                                                       |
+| `event::user::evoutc_pin_pc7`                   | Pin swapped variant of `evoutc_pin_pc2`. Only available on ATmegaX809 |
+| `event::user::evoutd_pin_pd2`                   |                                                                       |
+| `event::user::evoutd_pin_pd7`                   | Pin swapped variant of `evoutd_pin_pd2`                               |
+| `event::user::evoute_pin_pe2`                   | Only available on ATmegaX809                                          |
+| `event::user::evoutf_pin_pf2`                   | Not available on 28-pin parts                                         |
+| `event::user::usart0_irda`                      |                                                                       |
+| `event::user::usart1_irda`                      |                                                                       |
+| `event::user::usart2_irda`                      |                                                                       |
+| `event::user::usart3_irda`                      |                                                                       |
+| `event::user::tca0` or `event::user::tca0_capt` |                                                                       |
+| `event::user::tcb0` or `event::user::tcb0_capt` |                                                                       |
+| `event::user::tcb1` or `event::user::tcb1_capt` |                                                                       |
+| `event::user::tcb2` or `event::user::tcb2_capt` |                                                                       |
+| `event::user::tcb3` or `event::user::tcb3_capt` |                                                                       |
 
 
 ## set_user_pin(uint8_t pin_number)
@@ -328,12 +328,12 @@ Function to detach a user from a channel. Note that you don't need to know what 
 
 ### Declaration
 ``` c++
-static void clear_user(user::user_t event_user);
+static void clear_user(event::user::user_t event_user);
 ```
 
 ### Usage
 ```c++
-Event::clear_user(user::evouta); // Remove the user::evouta from whatever event channel it is connected to
+Event::clear_user(event::user::evouta); // Remove the event::user::evouta from whatever event channel it is connected to
 ```
 
 
@@ -399,7 +399,7 @@ Event0.stop(); // Stops the Event0 generator channel
 These two static functions allow you to pass a reference to a peripheral module, and get back the generator or user associated with it. In this context the "Peripheral Modules" are the structs containing the registers, defined in the io headers; for example `TCB0` or `USART1` or `CCL`.
 
 This is most useful if you are writing portable (library) code that uses the Event library to interact with the event system. Say you made a library that lets users make one-shot pulses with timerB. You use the Event library to handle that part. You would of course need to know which timer to use - the natural way would be to ask the user to pass a reference or pointer.
-But then what? The fact that you've got the pointer to something which, as it happens, is TCB0 (which itself is annoying to determine from an unknown pointer)... though even KNOWING THAT, you're not able to use it with the event library, since it needs user::tcb0 (or user::tcb0_capt). As the function names imply, one gives generators, the other gives users. They take 2 arguments, the first being a pointer to a peripheral struct.
+But then what? The fact that you've got the pointer to something which, as it happens, is TCB0 (which itself is annoying to determine from an unknown pointer)... though even KNOWING THAT, you're not able to use it with the event library, since it needs event::user::tcb0 (or event::user::tcb0_capt). As the function names imply, one gives generators, the other gives users. They take 2 arguments, the first being a pointer to a peripheral struct.
 The second, defaulting to 0, is the "type" of generator or user. Some peripherals have more than one event input or output. These are ordered in the same order as they are in the tables here and in the datasheet listings.
 
 ### Usage

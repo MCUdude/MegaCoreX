@@ -35,18 +35,18 @@
 void setup()
 {
   // Initialize Event channel 2 and 3
-  Event2.set_generator(gen2::pin_pc0); // Set pin PC0 as event generator
-  Event3.set_generator(gen3::pin_pc1); // Set pin PC1 as event generator
-  Event2.set_user(user::ccl0_event_a);    // Set CCL0 (Logic0) event A as user
-  Event3.set_user(user::ccl0_event_b);    // Set CCL0 (Logic0) event B as user
+  Event2.set_generator(event::gen2::pin_pc0); // Set pin PC0 as event generator
+  Event3.set_generator(event::gen3::pin_pc1); // Set pin PC1 as event generator
+  Event2.set_user(event::user::ccl0_event_a);    // Set CCL0 (Logic0) event A as user
+  Event3.set_user(event::user::ccl0_event_b);    // Set CCL0 (Logic0) event B as user
 
   // Initialize logic block 0
   Logic0.enable = true;        // Enable logic block 0
-  Logic0.input0 = in::event_a; // Connect input 0 to ccl0_event_a (PC0 through Event2)
-  Logic0.input1 = in::event_b; // Connect input 0 to ccl0_event_b (PC1 through Event3)
-  Logic0.input2 = in::input;   // Set PA2 as input
-  Logic0.output = out::enable; // Enable logic block 0 output pin (PA3)
-  Logic0.truth = 0x80;         // Set truth table
+  Logic0.input0 = logic::in::event_a; // Connect input 0 to ccl0_event_a (PC0 through Event2)
+  Logic0.input1 = logic::in::event_b; // Connect input 0 to ccl0_event_b (PC1 through Event3)
+  Logic0.input2 = logic::in::input;   // Set PA2 as input
+  Logic0.output = logic::out::enable; // Enable logic block 0 output pin (PA3)
+  Logic0.truth = 0x80;                // Set truth table
   Logic0.init();
 
   // Start event channels and the logic hardware
