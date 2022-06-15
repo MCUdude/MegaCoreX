@@ -21,7 +21,7 @@ AnalogComparator::AnalogComparator(const uint8_t comp_number, AC_t& ac) : compar
 void AnalogComparator::init()
 {
   // Set voltage reference
-  if(reference != ref::disable)
+  if(reference != comparator::ref::disable)
   {
     VREF.CTRLA = (VREF.CTRLA & ~VREF_AC0REFSEL_AVDD_gc) | reference;
     VREF.CTRLB = VREF_AC0REFEN_bm;
@@ -36,19 +36,19 @@ void AnalogComparator::init()
   AC.CTRLA = (AC.CTRLA & ~AC_HYSMODE_gm) | hysteresis | (output & AC_OUTEN_bm);
 
   // Clear input pins
-  if(input_p == in_p::in0)
+  if(input_p == comparator::in_p::in0)
     PORTD.PIN2CTRL = PORT_ISC_INPUT_DISABLE_gc;
-  else if(input_p == in_p::in1)
+  else if(input_p == comparator::in_p::in1)
     PORTD.PIN4CTRL = PORT_ISC_INPUT_DISABLE_gc;
-  else if(input_p == in_p::in2)
+  else if(input_p == comparator::in_p::in2)
     PORTD.PIN6CTRL = PORT_ISC_INPUT_DISABLE_gc;
-  else if(input_p == in_p::in3)
+  else if(input_p == comparator::in_p::in3)
     PORTD.PIN1CTRL = PORT_ISC_INPUT_DISABLE_gc;
-  if(input_n == in_n::in0)
+  if(input_n == comparator::in_n::in0)
     PORTD.PIN3CTRL = PORT_ISC_INPUT_DISABLE_gc;
-  else if(input_n == in_n::in1)
+  else if(input_n == comparator::in_n::in1)
     PORTD.PIN5CTRL = PORT_ISC_INPUT_DISABLE_gc;
-  else if(input_n == in_n::in2)
+  else if(input_n == comparator::in_n::in2)
     PORTD.PIN7CTRL = PORT_ISC_INPUT_DISABLE_gc;
 
   // Set positive and negative pins, invert output if defined by the user

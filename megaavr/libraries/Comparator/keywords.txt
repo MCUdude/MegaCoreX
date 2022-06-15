@@ -30,6 +30,7 @@ Comparator2	KEYWORD2
 # Constants (LITERAL1)
 #######################################
 
+comparator	LITERAL1
 out	LITERAL1
 hyst	LITERAL1
 in_p	LITERAL1

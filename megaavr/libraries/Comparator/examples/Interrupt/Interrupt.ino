@@ -28,12 +28,12 @@ void setup()
   Serial2.begin(9600);
 
   // Configure relevant comparator parameters
-  Comparator.input_p = in_p::in0;       // Use positive input 0 (PD2)
-  Comparator.input_n = in_n::dacref;    // Connect the negative pin to the DACREF voltage
-  Comparator.reference = ref::vref_2v5; // Set the DACREF voltage to 2.5V
-  Comparator.dacref = 255;              // Gives us 2.5V -> (255 / 256) * 2.5V = 2.5V
-  Comparator.hysteresis = hyst::large;  // Use a 50mV hysteresis
-  Comparator.output = out::disable;     // Use interrupt trigger instead of output pin
+  Comparator.input_p = comparator::in_p::in0;       // Use positive input 0 (PD2)
+  Comparator.input_n = comparator::in_n::dacref;    // Connect the negative pin to the DACREF voltage
+  Comparator.reference = comparator::ref::vref_2v5; // Set the DACREF voltage to 2.5V
+  Comparator.dacref = 255;                          // Gives us 2.5V -> (255 / 256) * 2.5V = 2.5V
+  Comparator.hysteresis = comparator::hyst::large;  // Use a 50mV hysteresis
+  Comparator.output = comparator::out::disable;     // Use interrupt trigger instead of output pin
 
   // Initialize comparator
   Comparator.init();
