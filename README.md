@@ -15,6 +15,7 @@ If you're looking for a sleek, reliable UPDI programmer that also acts as a USB 
 * [Supported microcontrollers](#supported-microcontrollers)
 * [Programming](#programming)
   - [Using a UPDI programmer](#using-a-updi-programmer)
+    - [SerialUPDI](#serialupdi)
   - [Using a bootloader](#using-a-bootloader)
 * [Supported clock frequencies](#supported-clock-frequencies)
 * [BOD option](#bod-option)
@@ -66,9 +67,12 @@ If you're looking for a sleek, reliable UPDI programmer that also acts as a USB 
 
 ## Programming
 ### Using a UPDI programmer
-Programming must be done with a UPDI compatible programmer, such as the [microUPDI](https://github.com/MCUdude/microUPDI), [JTAG2UPDI](https://github.com/ElTangas/jtag2updi) or an official Atmel/Microchip UPDI compatible programmer.
+Programming must be done with a UPDI compatible programmer, such as the [microUPDI](https://github.com/MCUdude/microUPDI), [JTAG2UPDI](https://github.com/ElTangas/jtag2updi) SerialUPDI or an official Atmel/Microchip UPDI compatible programmer.
 
-Unlike the Arduino UNO WiFi Rev2 boards package MegaCoreX does not auto-detect the programmer you're using. You'll have to select the correct programmer in the *Programmers*. If you're using an Arduino Uno Wifi Rev2 board, a Curiosity Nano or an Xplained Pro board you'll have to choose mEDBG, nEDBG or EDBG.
+Unlike the *Arduino megaAVR boards* package, MegaCoreX does not auto-detect the programmer you're using. You'll have to select the correct programmer in the *Programmers*. If you're using an Arduino Uno Wifi Rev2 board, a Curiosity Nano or an Xplained Pro board you'll have to choose mEDBG, nEDBG or EDBG.
+
+#### SerialUPDI
+SerialUPDI is a programmer that utilize a simple serial connection. It uses a USB serial adapter which can be turned into a UPDI programmer by adding a few passive components. You can read more about the details on how the SerualUPDI works [here](https://github.com/SpenceKonde/AVR-Guidance/blob/master/UPDI/jtag2updi.md).
 
 ### Using a bootloader
 Programming can also be done using the [Optiboot bootloader](https://github.com/optiboot/Optiboot). It is available for all megaAVR-0 chips and can be used with all hardware serial ports including alternative pin positions. Simply select what UART number to use, default/alternative pin position and click "Burn bootloader". The bootloader will flash an LED connected to PA7 (digital pin 7 on most pinouts) twice when a hardware reset occurs. The upload speed is 115200 baud. Note that that the reset pin cannot be used as a GPIO when using a bootloader. It doesn't matter if you have set the reset pin as GPIO in the tools menu or not; the bootloader option will override this setting.
