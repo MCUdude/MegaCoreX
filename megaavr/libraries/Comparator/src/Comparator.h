@@ -96,6 +96,17 @@ class AnalogComparator
     bool enable = false;
 };
 
+// Array for storing ISR function pointers
+#if defined(AC2_AC_vect)
+static volatile voidFuncPtr intFuncAC[3];
+#elif defined(AC1_AC_vect)
+static volatile voidFuncPtr intFuncAC[2];
+#elif defined(AC0_AC_vect)
+static volatile voidFuncPtr intFuncAC[1];
+#else
+#error target does not have an analog comparator!
+#endif
+
 #if defined(AC0_AC_vect)
 extern AnalogComparator Comparator0;
 #define Comparator Comparator0
