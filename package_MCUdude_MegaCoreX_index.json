@@ -674,7 +674,7 @@
             },
             {
               "size": "989218",
-              "checksum": "03f29bae3b53ac1a0e469c1e79f1696a572d7be632838484526674501de0248e",
+              "checksum": "SHA-256:03f29bae3b53ac1a0e469c1e79f1696a572d7be632838484526674501de0248e",
               "host": "x86_64-linux-gnu",
               "archiveFileName": "avrdude_7.0-arduino.2_Linux_64bit.tar.gz",
               "url": "http://downloads.arduino.cc/tools/avrdude_7.0-arduino.2_Linux_64bit.tar.gz"
