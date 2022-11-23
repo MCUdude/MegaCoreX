@@ -331,7 +331,7 @@ Click to enlarge:
 
 
 ### ATMEGA4808 megaAVR Mini Dev. Board
-[The ATMEGA4808 megaAVR Mini Dev. Board](https://www.electrodragon.com/product/atmega4808-megaavr-mini-dev-board-arduino-compatible/) uses an ATmega4808. uses the ATmega4808 in a 32 pin package. *32 pin standard* is the correct pinout for this board. Note that the UART2 is connected to a CH340K chip in an alternative pinout. This means you'll have to use `Serial2.begin(baud)` to print to the serial monitor and use `Serial2.swap(1)` to change to the alternative pins. The board was designd to run with MegaCoreX. For more information about this board please refer to Electrodragons product-page. As customer you'll get access to the internal wiki where are more information e.g. the schematic.
+[The ATMEGA4808 megaAVR Mini Dev. Board](https://www.electrodragon.com/product/atmega4808-megaavr-mini-dev-board-arduino-compatible/) uses the ATmega4808 in a 32 pin package. *32 pin standard* is the correct pinout for this board. Note that the UART2 is connected to a CH340K chip in an alternative pinout. This means you'll have to use `Serial2.begin(baud)` to print to the serial monitor and use `Serial2.swap(1)` to change to the alternative pins. The board was designd to run with MegaCoreX. For more information about this board please refer to Electrodragons product-page. As customer you'll get access to the internal wiki where are more information e.g. the schematic.
 
 Click to enlarge:
 
