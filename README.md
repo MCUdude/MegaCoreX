@@ -75,7 +75,7 @@ They're small programmers with excellent software support, and can be used with 
 ### Using a UPDI programmer
 Programming must be done with a UPDI compatible programmer, such as the [microUPDI](https://github.com/MCUdude/microUPDI), [JTAG2UPDI](https://github.com/ElTangas/jtag2updi) SerialUPDI or an official Atmel/Microchip UPDI compatible programmer.
 
-Unlike the *Arduino megaAVR boards* package, MegaCoreX does not auto-detect the programmer you're using. You'll have to select the correct programmer in the *Programmers*. If you're using an Arduino Uno Wifi Rev2 board, a Curiosity Nano or an Xplained Pro board you'll have to choose mEDBG, nEDBG or EDBG.
+Unlike the *Arduino megaAVR boards* package, MegaCoreX does not auto-detect the programmer you're using. You'll have to select the correct programmer in the *Programmers* menu.
 
 #### SerialUPDI
 SerialUPDI is a programmer that utilize a simple serial connection. It uses a USB serial adapter which can be turned into a UPDI programmer by adding a few passive components. You can read more about the details on how the SerualUPDI works [here](https://github.com/SpenceKonde/AVR-Guidance/blob/master/UPDI/jtag2updi.md).
