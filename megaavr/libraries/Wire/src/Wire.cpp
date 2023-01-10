@@ -195,6 +195,11 @@ uint8_t TwoWire::requestFrom(int address, int quantity, int sendStop)
   return requestFrom((uint8_t)address, (size_t)quantity, (bool)sendStop);
 }
 
+uint8_t TwoWire::requestFrom(uint8_t address, uint8_t quantity, uint8_t sendStop)
+{
+  return requestFrom((uint8_t)address, (size_t)quantity, (bool)sendStop);
+}
+
 uint8_t TwoWire::requestFrom(uint8_t address, size_t quantity)
 {
   return requestFrom(address, quantity, true);
