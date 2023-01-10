@@ -124,7 +124,7 @@ Brownout detection or BOD for short lets the microcontroller sense the input vol
 
 
 ## EEPROM option
-If you want the EEPROM to be erased every time you burn the bootloader or upload using a programmer, you can turn off this option. You'll have to connect a UPDI programmer and hit "Burn bootloader" to enable or disable EEPROM retain. Note that when uploading using a bootloader, the EEPROM will always be retained.
+If you want the EEPROM to be erased every time you burn the bootloader or upload using a programmer, you can turn off this option. A UPDI programmer is needed to enable or disable EEPROM retain. Note that when uploading using a bootloader, the EEPROM will always be retained.
 
 
 ## Reset pin
