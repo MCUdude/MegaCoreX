@@ -652,8 +652,8 @@
           "category": "Contributed",
           "url": "https://MCUdude.github.io/MegaCoreX/MegaCoreX-1.1.1.tar.bz2",
           "archiveFileName": "MegaCoreX-1.1.1.tar.bz2",
-          "checksum": "SHA-256:7d42282c83f68b5379ec651a7fc2de84af6e4332e06052662f14b77eefa0a967",
-          "size": "301662",
+          "checksum": "SHA-256:86645b0c4fce594343e723380c3bf8e5659fb3949f0844c2b120ac7927b8c540",
+          "size": "301335",
           "boards": [
             {
               "name": "ATmega4809"
