@@ -652,7 +652,7 @@
           "category": "Contributed",
           "url": "https://MCUdude.github.io/MegaCoreX/MegaCoreX-1.1.1.tar.bz2",
           "archiveFileName": "MegaCoreX-1.1.1.tar.bz2",
-          "checksum": "SHA-256:7d42282c83f68b5379ec651a7fc2de84af6e4332e06052662f14b77eefa0a967",
+          "checksum": "SHA-256:52b964e73e57aa33d9eba8925491816533587f0c0ee23e0d5ef31b8b0a17683d",
           "size": "301662",
           "boards": [
             {
