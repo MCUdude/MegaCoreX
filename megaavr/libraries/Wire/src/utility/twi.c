@@ -73,7 +73,7 @@ void TWI_MasterInit(uint32_t frequency)
 #if defined(NANO_EVERY_PINOUT)
     PORTF_PIN2CTRL &= ~PORT_PULLUPEN_bm; // Disable PF2 pullup
     PORTF_PIN3CTRL &= ~PORT_PULLUPEN_bm; // Disable PF3 pullup
-    PORTF_DIRCLR |= PIN2_bm | PIN3_bm;   // Set PF2 and PF3 as inputs
+    PORTF_DIRCLR = PIN2_bm | PIN3_bm;   // Set PF2 and PF3 as inputs
 #endif
 
     pinMode(PIN_WIRE_SDA, INPUT_PULLUP); // Enable PA2 pullup
