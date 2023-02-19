@@ -119,7 +119,7 @@ void TWI_SlaveInit(uint8_t address, uint8_t receive_broadcast, uint8_t second_ad
   {
     PORTF_PIN2CTRL &= ~PORT_PULLUPEN_bm; // Disable PF2 pullup
     PORTF_PIN3CTRL &= ~PORT_PULLUPEN_bm; // Disable PF3 pullup
-    PORTF_DIRCLR |= PIN2_bm | PIN3_bm;   // Set PF2 and PF3 as inputs
+    PORTF_DIRCLR = PIN2_bm | PIN3_bm;   // Set PF2 and PF3 as inputs
   }
 #endif
 
