@@ -31,36 +31,6 @@ void yield(void);
 #define SERIAL         0
 #define DISPLAY        1
 
-#ifndef min
-#define min(a,b) \
-   ({ __typeof__ (a) _a = (a); \
-       __typeof__ (b) _b = (b); \
-     _a < _b ? _a : _b; })
-#endif
-
-#ifndef max
-#define max(a,b) \
-   ({ __typeof__ (a) _a = (a); \
-       __typeof__ (b) _b = (b); \
-     _a > _b ? _a : _b; })
-#endif
-
-#ifndef constrain
-#define constrain(amt,low,high) ((amt)<(low)?(low):((amt)>(high)?(high):(amt)))
-#endif
-
-#ifndef radians
-#define radians(deg) ((deg)*DEG_TO_RAD)
-#endif
-
-#ifndef degrees
-#define degrees(rad) ((rad)*RAD_TO_DEG)
-#endif
-
-#ifndef sq
-#define sq(x) ((x)*(x))
-#endif
-
 typedef void (*voidFuncPtr)(void);
 
 // interrupts() / noInterrupts() must be defined by the core
@@ -133,6 +103,80 @@ inline __attribute__((always_inline)) void check_constant_pin(pin_size_t pin)
 #ifdef __cplusplus
 } // extern "C"
 #endif
+
+#ifdef __cplusplus
+#ifndef min
+	template<class T, class L>
+	auto min(const T& a, const L& b) -> decltype((b < a) ? b : a) {
+		return (b < a) ? b : a;
+	}
+#endif
+
+#ifndef max
+	template<class T, class L>
+	auto max(const T& a, const L& b) -> decltype((a < b) ? b : a) {
+		return (a < b) ? b : a;
+	}
+#endif
+
+#ifndef round
+	template<class T>
+	long round(const T& x) {
+		return (long)(x >= 0 ? (x + 0.5) : (x - 0.5));
+	}
+#endif
+
+#ifndef max
+	template<class T>
+	auto sq(const T& x) -> decltype(x * x) {
+		return x * x;
+	}
+#endif
+
+#ifndef radians
+  template<class T>
+  auto radians(const T& deg) -> decltype(deg * DEG_TO_RAD) {
+    return deg * DEG_TO_RAD;
+  }
+#endif
+
+#ifndef degrees
+  template<class T>
+  auto degrees(const T& rad) -> decltype(rad * RAD_TO_DEG) {
+    return rad * RAD_TO_DEG;
+  }
+#endif
+#ifndef constrain
+  template<class T, class L, class H>
+	auto constrain(const T& x, const L& l, const H& h) -> decltype((x < l) ? l : (x > h) ? h : x) {
+		return (x < l) ? l : (x > h) ? h : x;
+	}
+#endif
+
+#else
+  #ifndef min
+    #define min(a,b)     ({ typeof (a) _a = (a); typeof (b) _b = (b); _a < _b ? _a : _b; })
+  #endif
+  #ifndef max
+    #define max(a,b)     ({ typeof (a) _a = (a); typeof (b) _b = (b); _a > _b ? _a : _b; })
+  #endif
+  #ifndef sq
+    #define sq(x)        ({ typeof (x) _x = (x); _x * _x; })
+  #endif
+  #ifndef radians
+    #define radians(deg) ((deg) * DEG_TO_RAD)
+  #endif
+  #ifndef degrees
+    #define degrees(rad) ((rad) * RAD_TO_DEG)
+  #endif
+  #ifndef constrain
+    #define constrain(x,low,high)     ({ \
+    typeof (x) _x = (x);               \
+    typeof (low) _l = (low);           \
+    typeof (high) _h = (high);         \
+    _x < _l ? _l : _x > _h ? _h : _x; })
+  #endif
+#endif // __cplusplus
 
 #ifdef __cplusplus
 

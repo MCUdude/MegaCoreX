@@ -1,9 +1,9 @@
-medbg.name=Atmel mEDBG/microUPDI
-medbg.communication=usb
-medbg.protocol=xplainedmini_updi
-medbg.program.protocol=xplainedmini_updi
-medbg.program.tool=avrdude
-medbg.program.extra_params=-Pusb
+xplainedmini.name=microUPDI/Uno Wifi
+xplainedmini.communication=usb
+xplainedmini.protocol=xplainedmini_updi
+xplainedmini.program.protocol=xplainedmini_updi
+xplainedmini.program.tool=avrdude
+xplainedmini.program.extra_params=
 
 serialupdi_57600.name=SerialUPDI (57600 baud)
 serialupdi_57600.communication=serial
@@ -35,37 +35,44 @@ jtag2updi.protocol=jtag2updi
 jtag2updi.program.tool=avrdude
 jtag2updi.program.extra_params=-P{serial.port}
 
-nedbg.name=Atmel nEDBG/Curiosity Nano
-nedbg.communication=usb
-nedbg.protocol=pkobn_updi
-nedbg.program.protocol=pkobn_updi
-nedbg.program.tool=avrdude
-nedbg.program.extra_params=-Pusb
+cusiositynano.name=Curiosity Nano
+cusiositynano.communication=usb
+cusiositynano.protocol=pkobn_updi
+cusiositynano.program.protocol=pkobn_updi
+cusiositynano.program.tool=avrdude
+cusiositynano.program.extra_params=
 
-edbg.name=Atmel EDBG
-edbg.communication=usb
-edbg.protocol=xplainedpro_updi
-edbg.program.protocol=xplainedpro_updi
-edbg.program.tool=avrdude
-edbg.program.extra_params=-Pusb
+xplainedpro.name=Xplained Pro
+xplainedpro.communication=usb
+xplainedpro.protocol=xplainedpro_updi
+xplainedpro.program.protocol=xplainedpro_updi
+xplainedpro.program.tool=avrdude
+xplainedpro.program.extra_params=
 
-atmelice_updi.name=Atmel-ICE (UPDI)
-atmelice_updi.communication=usb
-atmelice_updi.protocol=atmelice_updi
-atmelice_updi.program.protocol=jtagice3_updi
-atmelice_updi.program.tool=avrdude
-atmelice_updi.program.extra_params=-Pusb
-
-pickit4_updi.name=PICkit4 (UPDI)
+pickit4_updi.name=PICkit4 UPDI
 pickit4_updi.communication=usb
 pickit4_updi.protocol=pickit4_updi
 pickit4_updi.program.protocol=jtagice3_updi
 pickit4_updi.program.tool=avrdude
-pickit4_updi.program.extra_params=-Pusb
+pickit4_updi.program.extra_params=
 
-snap_updi.name=MPLAB SNAP (UPDI)
+snap_updi.name=MPLAB SNAP UPDI
 snap_updi.communication=usb
 snap_updi.protocol=snap_updi
 snap_updi.program.protocol=jtagice3_updi
 snap_updi.program.tool=avrdude
-snap_updi.program.extra_params=-Pusb
+snap_updi.program.extra_params=
+
+atmelice_updi.name=Atmel-ICE UPDI
+atmelice_updi.communication=usb
+atmelice_updi.protocol=atmelice_updi
+atmelice_updi.program.protocol=jtagice3_updi
+atmelice_updi.program.tool=avrdude
+atmelice_updi.program.extra_params=
+
+jtagice3_updi.name=JTAGICE3 UPDI
+jtagice3_updi.communication=usb
+jtagice3_updi.protocol=jtag3updi
+jtagice3_updi.program.protocol=jtagice3_updi
+jtagice3_updi.program.tool=avrdude
+atmelice_updi.program.extra_params=

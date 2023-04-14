@@ -109,7 +109,7 @@ void Logic::init()
   }
 
   // Set inputs modes
-  block.LUTCTRLB = ((input1 & 0xf0) << CCL_INSEL1_gp) | ((input0 & 0x0f) << CCL_INSEL0_gp);
+  block.LUTCTRLB = ((input1 & 0x0f) << CCL_INSEL1_gp) | ((input0 & 0x0f) << CCL_INSEL0_gp);
   block.LUTCTRLC = ((input2 & 0x0f) << CCL_INSEL2_gp);
 
   // Set truth table

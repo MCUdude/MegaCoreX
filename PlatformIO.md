@@ -35,7 +35,11 @@ The most common functionality is available in this template. As you can see, the
 More information on what each line means can be found futher down on this page.
 
 
-## platformio.ini template
+## platformio.ini templates
+All these templates are very similar, but I've created a few ones for different programmers to make it easier to get started
+
+<details>
+<summary><b>ATmega4809, microUPDI / Xplained Mini programmer, optional bootloader</b></summary>
 
 ```ini
 ; PlatformIO template configuration file for MegaCoreX
@@ -77,12 +81,11 @@ build_flags =
 
 ; Monitor port is auto detected. Override here
 ;monitor_port =
-; Serial monitor baud rate
 monitor_speed = 9600
 
 
 ; Run the following command to upload with this environment
-; pio run -e Upload_UPDI -t upload
+; pio run -t upload
 [env:Upload_UPDI]
 ; Upload protocol for UPDI upload
 upload_protocol = xplainedmini_updi
@@ -94,8 +97,8 @@ upload_flags =
 [env:Upload_UART]
 ; Upload protocol for serial uploads (using Optiboot)
 upload_protocol = arduino
-upload_flags =
 upload_port = /dev/cu.usbserial*
+upload_flags =
 
 
 ; run the following command to set fuses
@@ -103,9 +106,9 @@ upload_port = /dev/cu.usbserial*
 ; run the following command to set fuses + burn bootloader
 ; pio run -e fuses_bootloader -t bootloader
 [env:fuses_bootloader]
-; Upload protocol for used to set fuses/bootloader
-upload_protocol = ${env:Upload_UPDI.upload_protocol}
-upload_flags =
+; Inherit upload settings from the Upload_UPDI environment
+extends = env:Upload_UPDI
+
 ; Hardware settings
 board_hardware.bod = 2.7v
 board_hardware.eesave = yes
@@ -114,6 +117,176 @@ board_hardware.rstpin = reset
 
 ```
 
+</details>
+
+<details>
+<summary><b>ATmega4809, SerialUPDI programmer, optional bootloader</b></summary>
+
+```ini
+; PlatformIO template configuration file for MegaCoreX
+; https://github.com/MCUdude/MegaCoreX/
+;
+;   Build options: build flags, source filter
+;   Hardware options: oscillator type, BOD, UART number, EEPROM retain
+;   Upload options: custom upload port, speed, and extra flags
+;   Library options: dependencies, extra library storages
+;   Advanced options: extra scripting
+;
+; Please visit documentation for the other options
+; https://github.com/MCUdude/MegaCoreX/blob/master/PlatformIO.md
+; https://docs.platformio.org/page/projectconf.html
+; https://docs.platformio.org/en/latest/platforms/atmelmegaavr.html
+
+[platformio]
+; Default build target
+default_envs = Upload_UPDI
+
+; Parameters used for all environments
+[env]
+platform = atmelmegaavr
+framework = arduino
+
+; Chip in use
+board = ATmega4809
+; Clock frequency in [Hz]
+board_build.f_cpu = 16000000L
+; Oscillator type (internal or external)
+board_hardware.oscillator = internal
+; Arduino pinout variant
+board_build.variant = 48pin-standard
+
+; Unflag build flags
+build_unflags =
+; Extra build flags
+build_flags =
+
+; Monitor port is auto detected. Override here
+;monitor_port = ${env:Upload_UPDI.upload_port}
+monitor_speed = 9600
+monitor_dtr = 0
+
+
+; Run the following command to upload with this environment
+; pio run -t upload
+[env:Upload_UPDI]
+; Upload protocol for UPDI upload
+upload_protocol = serialupdi
+upload_port = /dev/cu.usbserial*
+upload_speed = 115200
+upload_flags =
+  -xrtsdtr=high
+
+
+; Run the following command to upload with this environment
+; pio run -e Upload_UART -t upload
+[env:Upload_UART]
+; Upload protocol for serial uploads (using Optiboot)
+upload_protocol = arduino
+upload_port = /dev/cu.usbserial*
+upload_flags =
+
+
+; run the following command to set fuses
+; pio run -e fuses_bootloader -t fuses
+; run the following command to set fuses + burn bootloader
+; pio run -e fuses_bootloader -t bootloader
+[env:fuses_bootloader]
+; Inherit upload settings from the Upload_UPDI environment
+extends = env:Upload_UPDI
+
+; Hardware settings
+board_hardware.bod = 2.7v
+board_hardware.eesave = yes
+board_hardware.uart = no_bootloader
+board_hardware.rstpin = reset
+
+```
+
+</details>
+
+<details>
+<summary><b>ATmega4809, JTAG2UPDI programmer, optional bootloader</b></summary>
+
+```ini
+; PlatformIO template configuration file for MegaCoreX
+; https://github.com/MCUdude/MegaCoreX/
+;
+;   Build options: build flags, source filter
+;   Hardware options: oscillator type, BOD, UART number, EEPROM retain
+;   Upload options: custom upload port, speed, and extra flags
+;   Library options: dependencies, extra library storages
+;   Advanced options: extra scripting
+;
+; Please visit documentation for the other options
+; https://github.com/MCUdude/MegaCoreX/blob/master/PlatformIO.md
+; https://docs.platformio.org/page/projectconf.html
+; https://docs.platformio.org/en/latest/platforms/atmelmegaavr.html
+
+[platformio]
+; Default build target
+default_envs = Upload_UPDI
+
+; Parameters used for all environments
+[env]
+platform = atmelmegaavr
+framework = arduino
+
+; Chip in use
+board = ATmega4809
+; Clock frequency in [Hz]
+board_build.f_cpu = 16000000L
+; Oscillator type (internal or external)
+board_hardware.oscillator = internal
+; Arduino pinout variant
+board_build.variant = 48pin-standard
+
+; Unflag build flags
+build_unflags =
+; Extra build flags
+build_flags =
+
+; Monitor port is auto detected. Override here
+;monitor_port = ${env:Upload_UPDI.upload_port}
+monitor_speed = 9600
+monitor_dtr = 0
+
+
+; Run the following command to upload with this environment
+; pio run -t upload
+[env:Upload_UPDI]
+; Upload protocol for UPDI upload
+upload_protocol = jtag2updi
+upload_port = /dev/cu.usbserial*
+upload_speed = 115200
+upload_flags =
+
+
+; Run the following command to upload with this environment
+; pio run -e Upload_UART -t upload
+[env:Upload_UART]
+; Upload protocol for serial uploads (using Optiboot)
+upload_protocol = arduino
+upload_port = /dev/cu.usbserial*
+upload_flags =
+
+
+; run the following command to set fuses
+; pio run -e fuses_bootloader -t fuses
+; run the following command to set fuses + burn bootloader
+; pio run -e fuses_bootloader -t bootloader
+[env:fuses_bootloader]
+; Inherit upload settings from the Upload_UPDI environment
+extends = env:Upload_UPDI
+
+; Hardware settings
+board_hardware.bod = 2.7v
+board_hardware.eesave = yes
+board_hardware.uart = no_bootloader
+board_hardware.rstpin = reset
+
+```
+  
+</details>
 
 ### `board`
 PlatformIO requires the `board` parameter to be present.
@@ -206,7 +379,7 @@ Specifies what functionality the reset pin should have. Note that the option `re
 
 
 ### `board_build.variant`
-Holds the current pinout in use.
+Holds the current pinout in use. PlatformIO automatocally selects the *default* one if not specified.
 See [pinout pics](https://github.com/MCUdude/MegaCoreX#pinout) for more info.
 
 | Pinouts 48 pin parts       | Pinouts 40 pin parts               | Pinouts 32 pin parts       | Pinouts 28 pin parts       |
@@ -220,7 +393,11 @@ See [pinout pics](https://github.com/MCUdude/MegaCoreX#pinout) for more info.
 This parameter is used to unflag flags automatically set by the PlatformIO build environment.
 
 **Example:**
-`build_unflags =-flto -fpermissive`
+```
+build_unflags =
+  -flto
+  -fpermissive
+```
 
 
 ### `build_flags`
@@ -235,11 +412,15 @@ This parameter is used to set compiler flags. This is useful if you want to for 
 | -DTWI_BUFFER_SIZE=64        | 32 bytes     | Sets the TWI (i2c) buffer to 64 bytes                     |
 
 **Example:**
-`build_flags = -DSERIAL_RX_BUFFER_SIZE=128 -DSERIAL_TX_BUFFER_SIZE=128`
+```
+build_flags =
+  -DSERIAL_RX_BUFFER_SIZE=128
+  -DSERIAL_TX_BUFFER_SIZE=128
+```
 
 
 ### `upload_port`
-Holds the serial port used for uploading. Only needed if you're uploading using a JTAG2UPDI programmer or with a USB to serial adapter using the Optiboot bootloader. PlatformIO automatically detects the serial port. However, if you want to override this you can uncomment `upload_port`. Use `/dev/[port]` on Unix compatible systems, and use `COMx` on Windows.
+Holds the serial port used for uploading. Only needed if you're uploading using a SerialUPDI or JTAG2UPDI programmer, or with a USB to serial adapter using the Optiboot bootloader. PlatformIO automatically detects the serial port. However, if you want to override this you can uncomment `upload_port`. Use `/dev/[port]` on Unix compatible systems, and use `COMx` on Windows.
 
 
 ### `upload_protocol`
@@ -247,10 +428,11 @@ Programmer used for uploading.
 
 | Supported UPDI programmers in Avrdude | Notes                                                                                                            |
 |---------------------------------------|------------------------------------------------------------------------------------------------------------------|
-| `jtag2updi`                           | Requires upload port                                                                                             |
+| [`serialupdi`](https://www.tindie.com/products/mcudude/serialupdi-programmer/)   | Requires upload serial port. Change the baud rate in `upload_speed` to increase or decrease upload speed |
+| `xplainedmini_updi`                   | Xplained Mini and [microUPDI](https://www.tindie.com/products/MCUdude/microupdi-programmer/) programmers         |
+| `jtag2updi`                           | Requires serial upload port. Newer JTAG2UPDI firmware versions supports baud rates higher than 115200 baud       |                                                                                             |
 | `arduino`                             | Used when uploading using the Optiboot bootloader. Requires upload port                                          |
-| `xplainedmini_updi`                   | Xplained Mini (mEDBG) and [microUPDI](https://www.tindie.com/products/MCUdude/microupdi-programmer/) programmers |
-| `pkobn_updi`                          | On-board Curiosity nano programmer (nEDBG)                                                                       |
+| `pkobn_updi`                          | On-board Curiosity nano programmer                                                                               |
 | `pickit4_updi`                        | PICkit4 programmer in UPDI mode                                                                                  |
 | `snap_updi`                           | MPLAB SNAP programmer in UPDI mode                                                                               |
 | `atmelice_updi`                       | Atmel ICE programmer in UPDI mode                                                                                |
@@ -260,11 +442,10 @@ Programmer used for uploading.
 
 ### `upload_flags`
 Used to pass extra flags to Avrdude when uploading using a programmer.
-Typical parameters are `-PUSB` and `-v`.
+Typical parameters are `-qq` or `-v`. See the [Avrdude documentation](https://avrdudes.github.io/avrdude/) for more information.
 **Note that every flag has to be on its own line, and they have to be indented with two spaces:**
 ```ini
 upload_flags =
-  -PUSB
   -v
 ```
 
@@ -275,28 +456,3 @@ PlatformIO detects serial ports automatically. However, if you want to override 
 
 ### `monitor_speed`
 Sets the serial monitor baud rate. Defaults to 9600 if not defined.
-
-
-## pyupdi
-[pyupdi](https://github.com/mraardvark/pyupdi) is a Python-based tool for programming tinyAVR and megaAVR devices with UPDI interface via a standard serial port. It can be installed directly in the PlatformIO virtual environment using the following command:
-
-```
-pip install https://github.com/mraardvark/pyupdi/archive/master.zip
-```
-
-Once pyupdi is installed it can be used as the uploader via a custom upload_command option:
-
-```ini
-[env:pyupdi_upload]
-upload_protocol = custom
-upload_speed = 115200
-upload_port = /some/serial/port
-upload_flags =
-  -d
-  $BOARD_MCU
-  -c
-  $UPLOAD_PORT
-  -b
-  $UPLOAD_SPEED
-upload_command = pyupdi $UPLOAD_FLAGS -f $SOURCE
-```

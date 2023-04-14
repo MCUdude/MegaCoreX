@@ -5,7 +5,7 @@
 
 #if (F_CPU > 10000000L)
   #define usToTicks(_us)    ((( (_us) / 2) * clockCyclesPerMicrosecond()))          // converts microseconds to tick
-  #define ticksToUs(_ticks) (((unsigned) _ticks * 2) / clockCyclesPerMicrosecond()) // converts from ticks back to microseconds
+  #define ticksToUs(_ticks) (((unsigned) (_ticks) * 2) / clockCyclesPerMicrosecond()) // converts from ticks back to microseconds
   #define TRIM_DURATION  37                                                         // compensation ticks to trim adjust for digitalWrite delays
 #else
   #define usToTicks(_us)    ((( _us ) * clockCyclesPerMicrosecond()))               // converts microseconds to tick

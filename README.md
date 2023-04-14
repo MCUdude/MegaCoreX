@@ -32,6 +32,7 @@ They're small programmers with excellent software support, and can be used with 
 * [Write to own flash](#write-to-own-flash)
 * [Memory-mapped flash](#memory-mapped-flash)
 * [Identifying MegaCoreX](#identifying-megacorex)
+* [Timer used for millis and micros](#timer-used-for-millis-and-micros)
 * [Pinout](#pinout)
 * [Hardware features](#hardware-features)
   - [PWM output](#pwm-output)
@@ -74,7 +75,7 @@ They're small programmers with excellent software support, and can be used with 
 ### Using a UPDI programmer
 Programming must be done with a UPDI compatible programmer, such as the [microUPDI](https://github.com/MCUdude/microUPDI), [JTAG2UPDI](https://github.com/ElTangas/jtag2updi) SerialUPDI or an official Atmel/Microchip UPDI compatible programmer.
 
-Unlike the *Arduino megaAVR boards* package, MegaCoreX does not auto-detect the programmer you're using. You'll have to select the correct programmer in the *Programmers*. If you're using an Arduino Uno Wifi Rev2 board, a Curiosity Nano or an Xplained Pro board you'll have to choose mEDBG, nEDBG or EDBG.
+Unlike the *Arduino megaAVR boards* package, MegaCoreX does not auto-detect the programmer you're using. You'll have to select the correct programmer in the *Programmers* menu.
 
 #### SerialUPDI
 SerialUPDI is a programmer that utilize a simple serial connection. It uses a USB serial adapter which can be turned into a UPDI programmer by adding a few passive components. You can read more about the details on how the SerualUPDI works [here](https://github.com/SpenceKonde/AVR-Guidance/blob/master/UPDI/jtag2updi.md).
@@ -124,7 +125,7 @@ Brownout detection or BOD for short lets the microcontroller sense the input vol
 
 
 ## EEPROM option
-If you want the EEPROM to be erased every time you burn the bootloader or upload using a programmer, you can turn off this option. You'll have to connect a UPDI programmer and hit "Burn bootloader" to enable or disable EEPROM retain. Note that when uploading using a bootloader, the EEPROM will always be retained.
+If you want the EEPROM to be erased every time you burn the bootloader or upload using a programmer, you can turn off this option. A UPDI programmer is needed to enable or disable EEPROM retain. Note that when uploading using a bootloader, the EEPROM will always be retained.
 
 
 ## Reset pin
@@ -159,8 +160,8 @@ digitalWrite(0, HIGH);
 ## Write to own flash
 As an alternative for UPDI, MegaCoreX uses Optiboot Flash, a bootloader that supports flash writing within the running application, thanks to the work of [@majekw](https://github.com/majekw).
 This means that content from e.g. a sensor can be stored in the flash memory directly without the need of external memory. Flash memory is much faster than EEPROM, and can handle at least 10 000 write cycles before wear becomes an issue.
-For more information on how it works and how you can use this in you own application, check out the [Serial_read_write](https://github.com/MCUdude/MegaCoreX/blob/master/avr/libraries/Optiboot_flasher/examples/Serial_read_write/Serial_read_write.ino) for a simple proof-of-concept demo, and
-[Flash_put_get](https://github.com/MCUdude/MegaCoreX/blob/master/avr/libraries/Optiboot_flasher/examples/Flash_put_get/Flash_put_get.ino) + [Flash_iterate](https://github.com/MCUdude/MegaCoreX/blob/master/avr/libraries/Optiboot_flasher/examples/Flash_iterate/Flash_iterate.ino) for useful examples on how you can store strings, structs and variables to flash and retrieve then afterwards.
+For more information on how it works and how you can use this in you own application, check out the [Serial_read_write](https://github.com/MCUdude/MegaCoreX/blob/master/megaavr/libraries/Optiboot_flasher/examples/Serial_read_write/Serial_read_write.ino) for a simple proof-of-concept demo, and
+[Flash_put_get](https://github.com/MCUdude/MegaCoreX/blob/master/megaavr/libraries/Optiboot_flasher/examples/Flash_put_get/Flash_put_get.ino) + [Flash_iterate](https://github.com/MCUdude/MegaCoreX/blob/master/megaavr/libraries/Optiboot_flasher/examples/Flash_iterate/Flash_iterate.ino) for useful examples on how you can store strings, structs and variables to flash and retrieve then afterwards.
 
 
 ## Memory-mapped flash
@@ -192,6 +193,22 @@ Usage:
 #endif
 ```
 
+
+# Timer used for millis and micros
+The 28 and 32 pin part have a total of three TCB timers, while the 40 and 48 pin parts have four. In order to create default pinouts with as may PWM output pins as possible, different pinout uses different timers for millis and micros.  
+The default timer can be changed by adding `-DMILLIS_USE_TIMERBx` to the platformio.ini build flags, where *x* represents the TCB timer number from 0 to 3. Alternativey, the respective *pins_arduino.h* file can be modified if using Arduino IDE.
+
+| Pinout          | Timer used for millis and micros |
+|-----------------|----------------------------------|
+| 48 pin standard | TCB3                             |
+| 40 pin standard | TCB2                             |
+| 32 pin standard | TCB2                             |
+| 28 pin standard | TCB2                             |
+| Uno WiFi        | TCB3                             |
+| Nano Every      | TCB3                             |
+| Nano Every 4808 | TCB2                             |
+
+
 ## Pinout
 This core provides several different Arduino pin mappings based on your current hardware
 - **48 pin standard**: This pinout is much closer to the actual hardware than the Uno WiFi pinout. It will not be compatible with shields or anything like that, but it's much cleaner and elegant from a hardware point of view. The only pin swap done by default is the PWM output pins. This is done to prevent them from "colliding" with other peripherals. Note that this pinout is only available on ATmega3209/ATmega4809.
@@ -200,6 +217,7 @@ This core provides several different Arduino pin mappings based on your current 
 - **28 pin standard**: This is the pinout for the 28 pin version of the ATmega3208/4808. It will not be compatible with shields or anything like that, but it's still clean and elegant from a hardware point of view. Only pin swap done by default is the PWM output pins. This is done to prevent them from "colliding" with other peripherals.
 - **Uno WiFi**: This pinout is 100% compatible with the Arduino Uno WiFi Rev2 hardware. If you have code that's written for the Uno WiFi Rev2 it will work without any modifications if you choose this pinout. Note that this pinout does pin swapping on serial interfaces and PWM pins by default, and some peripherals are renamed to match the original 328P Uno hardware better. Note that this pinout is only available on ATmega3209/ATmega4809.
 - **Nano Every**: This pinout is 100% compatible with the Arduino Nano Every. If you have code that's written for the Nano Every it will work without any modifications if you choose this pinout. Note that this pinout does pin swapping on serial interfaces and PWM pins by default, and some peripherals are renamed to match the original 328P Uno hardware better. This pinout is only available when ATmega4809 is selected.
+- **Nano Every 4808**: This matches the "official" Thinary Nano Every pinout, and is compatible with the Thinary Nano Every Arduino core. Note that this pinout does pin swapping on serial interfaces and PWM pins by default. This pinout is only available when ATmega4808 is selected.
 
 Please have a look at the pins_arduino.h files for detailed info.<br/> <br/>
 <b>Click to enlarge:</b>
@@ -231,6 +249,7 @@ PWM output, `analogWrite()`, is available for the following pins:
 | *48 pin standard* | 9                  | 13, 14, 15, 16, 17, 18, 19, 38, 39 |
 | *Uno WiFi*        | 6                  | 3, 5, 6, 9, 10, 27                 |
 | *Nano Every*      | 5                  | 3, 5, 6, 9, 10                     |
+| *Nano Every 4808* | 8                  | 4, 5, 14, 15, 16, 17, 22, 23       |
 
 The repeat frequency for the pulses on all PWM outputs can be changed with the new function `analogWriteFrequency(kHz)`, where
 `kHz` values of 1 (default), 4, 8, 16, 32 and 64 are supported. Note that these values are very approximate. The best effort within the constraints of the hardware will be made to match the request.
@@ -289,7 +308,7 @@ Here are some simple schematics that show a minimal setup. The straight 6-pin he
 
 ## Getting your hardware working
 ### Arduino Uno WiFi Rev2
-[The Arduino Uno WiFi Rev2](https://store.arduino.cc/arduino-uno-wifi-rev2) is one of the few megaAVR-0 based boards that's officially supported by Arduino. It uses an ATmega4809 and the recommended pinout is *Uno WiFi*. Printing to the serial monitor on your PC is done by initializing `Serial.begin(baud)`. You'll also have to choose **Atmel mEDBG (ATmega32u4)** as your programmer to upload code. Uno WiFi Rev2 does not support a bootloader, so select *No bootloader* in the tools menu. For more information about this board please see the product page and its schematic.
+[The Arduino Uno WiFi Rev2](https://store.arduino.cc/arduino-uno-wifi-rev2) is one of the few megaAVR-0 based boards that's officially supported by Arduino. It uses an ATmega4809 and the recommended pinout is *Uno WiFi*. Printing to the serial monitor on your PC is done by initializing `Serial.begin(baud)`. You'll also have to choose **microUPDI/Uno Wifi** as your programmer to upload code. Uno WiFi Rev2 does not support a bootloader, so select *No bootloader* in the tools menu. For more information about this board please see the product page and its schematic.
 
 Click to enlarge:
 
@@ -309,21 +328,21 @@ Click to enlarge:
 <img src="https://i.imgur.com/ykebGW7.png" width="400">
 
 ### Curiosity Nano
-[The Curiosity Nano](https://www.microchip.com/developmenttools/ProductDetails/DM320115) uses an ATmega4809 but has a different pinout than the Uno Wifi Rev2. The recommended pinout for this board is *48 pin standard*. The on-board LED is connected t pin PF5 (digital pin 39). Note that UART3 is connected to the nEDBG chip (often referred to as the debug serial port). This means you'll have to use `Serial3.begin(baud)` to print to the serial monitor. You'll also have to choose **Atmel nEDBG (ATSAMD21E18)** as your programmer to upload code. For more information about this board please refer to the user guide and its schematic.
+[The Curiosity Nano](https://www.microchip.com/developmenttools/ProductDetails/DM320115) uses an ATmega4809 but has a different pinout than the Uno Wifi Rev2. The recommended pinout for this board is *48 pin standard*. The on-board LED is connected t pin PF5 (digital pin 39). Note that UART3 is connected to the nEDBG chip (often referred to as the debug serial port). This means you'll have to use `Serial3.begin(baud)` to print to the serial monitor. You'll also have to choose **Curiosity Nano** as your programmer to upload code. For more information about this board please refer to the user guide and its schematic.
 
 Click to enlarge:
 
 <img src="https://i.imgur.com/wg1HFam.jpg" width="350">
 
 ### AVR-IOT WG
-[The AVR-IOT WG](https://www.microchip.com/developmenttools/ProductDetails/AC164160) uses the ATmega4808 in a 32 pin package. *32 pin standard* is the correct pinout for this board. Note that UART2 is connected to the nEDBG chip (often referred to as the debug serial port). This means you'll have to use `Serial2.begin(baud)` to print to the serial monitor. You'll also have to choose **Atmel nEDBG (ATSAMD21E18)** as your programmer to upload code. For more information about this board please refer to the user guide and its schematic.
+[The AVR-IOT WG](https://www.microchip.com/developmenttools/ProductDetails/AC164160) uses the ATmega4808 in a 32 pin package. *32 pin standard* is the correct pinout for this board. Note that UART2 is connected to the nEDBG chip (often referred to as the debug serial port). This means you'll have to use `Serial2.begin(baud)` to print to the serial monitor. You'll also have to choose **Curiosity Nano** as your programmer to upload code. For more information about this board please refer to the user guide and its schematic.
 
 Click to enlarge:
 
 <img src="https://i.imgur.com/IwHHZHx.png" width="350">
 
 ### ATmega4809 Xplained Pro
-[The ATmega4809 Xplained Pro](https://www.microchip.com/developmenttools/ProductDetails/atmega4809-xpro) uses an ATmega4809. The recommended pinout for this board is *48 pin standard*. Note that the UART1 is connected to the EDBG chip (often referred to as the debug serial port). This means you'll have to use `Serial1.begin(baud)` to print to the serial monitor. You'll also have to choose **Atmel EDBG (AT32UC3A4256)** as your programmer to upload code. For more information about this board please refer to the user guide and its schematic.
+[The ATmega4809 Xplained Pro](https://www.microchip.com/developmenttools/ProductDetails/atmega4809-xpro) uses an ATmega4809. The recommended pinout for this board is *48 pin standard*. Note that the UART1 is connected to the EDBG chip (often referred to as the debug serial port). This means you'll have to use `Serial1.begin(baud)` to print to the serial monitor. You'll also have to choose **Xplained Pro** as your programmer to upload code. For more information about this board please refer to the user guide and its schematic.
 
 Click to enlarge:
 
