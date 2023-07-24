@@ -1,7 +1,7 @@
 # PlatformIO
 
-[PlatformIO](https://platformio.org) is an open source ecosystem for embedded development.
-It has a built-in library manager and is Arduino compatible. It supports most operating systems; Windows, MacOS, Linux 32 and 64-bit, ARM and X86. And best of all, MegaCoreX is supported!
+[PlatformIO](https://platformio.org) is an open-source ecosystem for embedded development.
+It has a built-in library manager and is Arduino-compatible. It supports most operating systems; Windows, MacOS, Linux 32 and 64-bit, ARM, and X86. And best of all, MegaCoreX is supported!
 
 * [What is PlatformIO?](http://docs.platformio.org/en/latest/what-is-platformio.html)
 * [PlatformIO IDE](https://platformio.org/platformio-ide)
@@ -11,7 +11,7 @@ It has a built-in library manager and is Arduino compatible. It supports most op
 
 
 ## MegaCoreX + PlatformIO
-MegaCoreX and PlatformIO goes great together. You can do serial uploads and upload using a dedicated UPDI programmer, but you can also let PlatformIO calulate the fuses and load the correct bootloader file, just like Arduino IDE does!
+MegaCoreX and PlatformIO go great together. You can do serial uploads and upload using a dedicated UPDI programmer, but you can also let PlatformIO calculate the fuses and load the correct bootloader file, just like Arduino IDE does!
 
 PlatformIO uses the information provided in platformio.ini to calculate what fuse bits and what bootloader file to load.
 Simply provide enough information and run the following commands:
@@ -21,18 +21,18 @@ Simply provide enough information and run the following commands:
 pio run -t fuses -e fuses_bootloader
 ; Set fuses and burn bootloader
 pio run -t bootloader -e fuses_bootloader
-; (where "fuses_bootloader" can be replace with a different environment to match your build configuration)
+; (where "fuses_bootloader" can be replaced with a different environment to match your build configuration)
 ```
 
-You can find a platformio.ini template you can use when creating a project for a MegaCoreX compatible device below.
+You can find a platformio.ini template you can use when creating a project for a MegaCoreX-compatible device below.
 The most common functionality is available in this template. As you can see, the templated is divided into multiple environments.
 
-* The default build environment are defined under *[platformio]*.
+* The default build environment is defined under *[platformio]*.
 * All parameters that are common for all environments are defined under *[env]*.
 * Use the *[env:Upload_UPDI]* or *[env:Upload_UART]* to upload to your target.
 * Use *[env:fuses_bootloader]* to set the fuses or burn the bootloader.
 
-More information on what each line means can be found futher down on this page.
+More information on what each line means can be found further down on this page.
 
 
 ## platformio.ini templates
@@ -48,7 +48,7 @@ All these templates are very similar, but I've created a few ones for different 
 ;   Build options: build flags, source filter
 ;   Hardware options: oscillator type, BOD, UART number, EEPROM retain
 ;   Upload options: custom upload port, speed, and extra flags
-;   Library options: dependencies, extra library storages
+;   Library options: dependencies, extra library storage
 ;   Advanced options: extra scripting
 ;
 ; Please visit documentation for the other options
@@ -129,7 +129,7 @@ board_hardware.rstpin = reset
 ;   Build options: build flags, source filter
 ;   Hardware options: oscillator type, BOD, UART number, EEPROM retain
 ;   Upload options: custom upload port, speed, and extra flags
-;   Library options: dependencies, extra library storages
+;   Library options: dependencies, extra library storage
 ;   Advanced options: extra scripting
 ;
 ; Please visit documentation for the other options
@@ -160,7 +160,7 @@ build_unflags =
 ; Extra build flags
 build_flags =
 
-; Monitor port is auto detected. Override here
+; Monitor port is auto-detected. Override here
 ;monitor_port = ${env:Upload_UPDI.upload_port}
 monitor_speed = 9600
 monitor_dtr = 0
@@ -214,7 +214,7 @@ board_hardware.rstpin = reset
 ;   Build options: build flags, source filter
 ;   Hardware options: oscillator type, BOD, UART number, EEPROM retain
 ;   Upload options: custom upload port, speed, and extra flags
-;   Library options: dependencies, extra library storages
+;   Library options: dependencies, extra library storage
 ;   Advanced options: extra scripting
 ;
 ; Please visit documentation for the other options
@@ -245,7 +245,7 @@ build_unflags =
 ; Extra build flags
 build_flags =
 
-; Monitor port is auto detected. Override here
+; Monitor port is auto-detected. Override here
 ;monitor_port = ${env:Upload_UPDI.upload_port}
 monitor_speed = 9600
 monitor_dtr = 0
@@ -326,7 +326,7 @@ Below is a table with supported clocks for MegaCoreX. Defaults to 16 MHz interna
 
 
 ### `board_hardware.oscillator`
-Spefices to use the internal or an external oscillator.
+Specifies to use the internal or an external oscillator.
 
 | Oscillator option    |
 |----------------------|
@@ -379,7 +379,7 @@ Specifies what functionality the reset pin should have. Note that the option `re
 
 
 ### `board_build.variant`
-Holds the current pinout in use. PlatformIO automatocally selects the *default* one if not specified.
+Holds the current pinout in use. PlatformIO automatically selects the *default* one if not specified.
 See [pinout pics](https://github.com/MCUdude/MegaCoreX#pinout) for more info.
 
 | Pinouts 48 pin parts       | Pinouts 40 pin parts               | Pinouts 32 pin parts       | Pinouts 28 pin parts       |
@@ -420,7 +420,7 @@ build_flags =
 
 
 ### `upload_port`
-Holds the serial port used for uploading. Only needed if you're uploading using a SerialUPDI or JTAG2UPDI programmer, or with a USB to serial adapter using the Optiboot bootloader. PlatformIO automatically detects the serial port. However, if you want to override this you can uncomment `upload_port`. Use `/dev/[port]` on Unix compatible systems, and use `COMx` on Windows.
+Holds the serial port used for uploading. Only needed if you're uploading using a SerialUPDI or JTAG2UPDI programmer or with a USB-to-serial adapter using the Optiboot bootloader. PlatformIO automatically detects the serial port. However, if you want to override this you can uncomment `upload_port`. Use `/dev/[port]` on Unix-compatible systems, and use `COMx` on Windows.
 
 
 ### `upload_protocol`
@@ -430,7 +430,7 @@ Programmer used for uploading.
 |---------------------------------------|------------------------------------------------------------------------------------------------------------------|
 | [`serialupdi`](https://www.tindie.com/products/mcudude/serialupdi-programmer/)   | Requires upload serial port. Change the baud rate in `upload_speed` to increase or decrease upload speed |
 | `xplainedmini_updi`                   | Xplained Mini and [microUPDI](https://www.tindie.com/products/MCUdude/microupdi-programmer/) programmers         |
-| `jtag2updi`                           | Requires serial upload port. Newer JTAG2UPDI firmware versions supports baud rates higher than 115200 baud       |                                                                                             |
+| `jtag2updi`                           | Requires serial upload port. Newer JTAG2UPDI firmware versions support baud rates higher than 115200 baud        |
 | `arduino`                             | Used when uploading using the Optiboot bootloader. Requires upload port                                          |
 | `pkobn_updi`                          | On-board Curiosity nano programmer                                                                               |
 | `pickit4_updi`                        | PICkit4 programmer in UPDI mode                                                                                  |
@@ -451,8 +451,29 @@ upload_flags =
 
 
 ### `monitor_port`
-PlatformIO detects serial ports automatically. However, if you want to override this you can uncomment `monitor_port`. Use `/dev/[port]` on Unix compatible systems, and use `COMx` on Windows.
+PlatformIO detects serial ports automatically. However, if you want to override this you can uncomment `monitor_port`. Use `/dev/[port]` on Unix-compatible systems, and use `COMx` on Windows.
 
 
 ### `monitor_speed`
 Sets the serial monitor baud rate. Defaults to 9600 if not defined.
+
+
+## User-defined fuses
+Even though PlatformIO can calculate fuse values depending on the user-specified data in platformio.ini, there may be applications where the fuses have to be set to known values. This can be done like so:
+```ini
+; run the following command to set fuses
+; pio run -e custom_fuses -t fuses
+[env:custom_fuses]
+; Inherit upload settings from the Upload_UPDI environment
+extends = env:Upload_UPDI
+
+; Fuse settings
+board_fuses.wdtcfg = 0x00
+board_fuses.bodcfg = 0x00
+board_fuses.osccfg = 0x01
+board_fuses.tcd0cfg = 0x00
+board_fuses.syscfg0 = 0xC9
+board_fuses.syscfg1 = 0x06
+board_fuses.append = 0x00
+board_fuses.bootend = 0x00
+```
