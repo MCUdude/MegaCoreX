@@ -1,9 +1,3 @@
-xplainedmini.name=microUPDI/Uno Wifi
-xplainedmini.communication=usb
-xplainedmini.protocol=xplainedmini_updi
-xplainedmini.program.protocol=xplainedmini_updi
-xplainedmini.program.tool=avrdude
-xplainedmini.program.extra_params=
 
 serialupdi_57600.name=SerialUPDI (57600 baud)
 serialupdi_57600.communication=serial
@@ -29,6 +23,13 @@ serialupdi_460800.protocol=serialupdi
 serialupdi_460800.program.tool=avrdude
 serialupdi_460800.program.extra_params=-P{serial.port} -b460800 -xrtsdtr=high 
 
+xplainedmini.name=microUPDI/Uno Wifi
+xplainedmini.communication=usb
+xplainedmini.protocol=xplainedmini_updi
+xplainedmini.program.protocol=xplainedmini_updi
+xplainedmini.program.tool=avrdude
+xplainedmini.program.extra_params=
+
 jtag2updi.name=JTAG2UPDI
 jtag2updi.communication=serial
 jtag2updi.protocol=jtag2updi
@@ -49,30 +50,37 @@ xplainedpro.program.protocol=xplainedpro_updi
 xplainedpro.program.tool=avrdude
 xplainedpro.program.extra_params=
 
+pickit5_updi.name=PICkit5 UPDI
+pickit5_updi.communication=usb
+pickit5_updi.protocol=pickit5_updi
+pickit5_updi.program.protocol=pickit5_updi
+pickit5_updi.program.tool=avrdude
+pickit5_updi.program.extra_params=
+
 pickit4_updi.name=PICkit4 UPDI
 pickit4_updi.communication=usb
 pickit4_updi.protocol=pickit4_updi
-pickit4_updi.program.protocol=jtagice3_updi
+pickit4_updi.program.protocol=pickit4_updi
 pickit4_updi.program.tool=avrdude
 pickit4_updi.program.extra_params=
 
 snap_updi.name=MPLAB SNAP UPDI
 snap_updi.communication=usb
 snap_updi.protocol=snap_updi
-snap_updi.program.protocol=jtagice3_updi
+snap_updi.program.protocol=snap_updi
 snap_updi.program.tool=avrdude
 snap_updi.program.extra_params=
 
 atmelice_updi.name=Atmel-ICE UPDI
 atmelice_updi.communication=usb
 atmelice_updi.protocol=atmelice_updi
-atmelice_updi.program.protocol=jtagice3_updi
+atmelice_updi.program.protocol=atmelice_updi
 atmelice_updi.program.tool=avrdude
 atmelice_updi.program.extra_params=
 
 jtagice3_updi.name=JTAGICE3 UPDI
 jtagice3_updi.communication=usb
 jtagice3_updi.protocol=jtag3updi
-jtagice3_updi.program.protocol=jtagice3_updi
+jtagice3_updi.program.protocol=jtag3updi
 jtagice3_updi.program.tool=avrdude
 atmelice_updi.program.extra_params=
