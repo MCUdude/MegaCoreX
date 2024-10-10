@@ -21,7 +21,7 @@
 
 #include "IPAddress.h"
 #include "Stream.h"
-
+namespace arduino {
 class Client : public Stream
 {
  public:
@@ -41,3 +41,6 @@ class Client : public Stream
  protected:
   uint8_t *rawIPAddress(IPAddress &addr) { return addr.raw_address(); };
 };
+}
+using arduino::Client;
+
