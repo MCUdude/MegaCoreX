@@ -88,7 +88,7 @@ jq -r                                   \
     {
       "packager": "MegaCoreX",
       "name": "avrdude",
-      "version": "7.1-arduino.1"
+      "version": "8.0-arduino.1"
     },
     {
       "packager": "arduino",
