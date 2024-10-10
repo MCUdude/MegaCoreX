@@ -115,7 +115,7 @@ recipe.preproc.macros="{compiler.path}{compiler.cpp.cmd}" {compiler.cpp.flags} {
 
 tools.avrdude.path={runtime.tools.avrdude.path}
 tools.avrdude.cmd.path={runtime.tools.avrdude.path}/bin/avrdude
-tools.avrdude.config.path={runtime.tools.avrdude.path}/bin/avrdude.conf
+tools.avrdude.config.path={runtime.tools.avrdude.path}/etc/avrdude.conf
 
 tools.avrdude.network_cmd={runtime.tools.arduinoOTA.path}/bin/arduinoOTA
 
