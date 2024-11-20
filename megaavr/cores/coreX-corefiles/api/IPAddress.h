@@ -24,6 +24,10 @@
 #include "Printable.h"
 #include "String.h"
 
+class EthernetClass;
+class DhcpClass;
+class DNSClient;
+
 namespace arduino {
 // A class to make it easier to handle and pass around IP addresses
 
@@ -67,12 +71,13 @@ class IPAddress : public Printable
 
   virtual size_t printTo(Print& p) const;
 
-  friend class EthernetClass;
   friend class UDP;
   friend class Client;
   friend class Server;
-  friend class DhcpClass;
-  friend class DNSClient;
+
+  friend ::EthernetClass;
+  friend ::DhcpClass;
+  friend ::DNSClient;
 };
 
 extern const IPAddress INADDR_NONE;
