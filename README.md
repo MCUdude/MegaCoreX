@@ -1,5 +1,4 @@
 # MegaCoreX
-[![Build Status](https://travis-ci.com/MCUdude/MegaCoreX.svg?branch=master)](https://travis-ci.com/MCUdude/MegaCoreX)
 
 An Arduino core for ATmega4809, ATmega4808, ATmega3209, ATmega3208, ATmega1609, ATmega1608, ATmega809 and ATmega808. This megaAVR-0 chip family offers lots of features and peripherals at an incredible price point. The largest one, the ATmega4809 can be found in products like the Arduino Uno WiFi Rev2 and the Arduino Nano Every. Some of their key features include multiple serial ports, SPI and i2c interfaces, built-in programmable logic, up to 16 analog input pins, and an analog comparator with a built-in programmable voltage reference and hysteresis and much more!
 
