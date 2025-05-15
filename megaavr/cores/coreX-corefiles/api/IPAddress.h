@@ -80,6 +80,7 @@ class IPAddress : public Printable
   friend ::DNSClient;
 };
 
-extern const IPAddress INADDR_NONE;
 }
 using arduino::IPAddress;
+
+extern const IPAddress INADDR_NONE;
