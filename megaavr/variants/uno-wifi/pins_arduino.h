@@ -98,6 +98,25 @@
 // PWM pins
 #define digitalPinHasPWM(p)            ((p) == 3 || (p) == 5 || (p) == 6 || (p) == 9 || (p) == 10 || (p) == 27)
 
+// Timer enums
+#ifdef __cplusplus
+enum pwm_timers_t : uint8_t
+#else
+enum pwm_timers_t
+#endif
+{
+  TCA0_0 = 0,
+  TCA0_1 = 1,
+  TCA0_2 = 2,
+  TCA0_3 = 3,
+  TCA0_4 = 4,
+  TCA0_5 = 5,
+  TCB_0  = 6,
+  TCB_1  = 7,
+  TCB_2  = 8,
+  TCB_3  = 9,
+} pwm_timers_t;
+
 // Timer pin mapping
 #define TCA0_PINS            PORTMUX_TCA0_PORTB_gc
 #define TCB0_PINS            PORTMUX_TCB0_bm
