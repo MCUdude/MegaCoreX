@@ -33,12 +33,6 @@ void yield(void);
 
 typedef void (*voidFuncPtr)(void);
 
-#ifdef __cplusplus
-enum pwm_timers_t : uint8_t;
-#else
-typedef uint8_t pwm_timers_t;
-#endif
-
 // interrupts() / noInterrupts() must be defined by the core
 
 #define lowByte(w) ((uint8_t) ((w) & 0xff))

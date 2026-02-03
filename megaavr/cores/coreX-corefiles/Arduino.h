@@ -26,6 +26,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
+
 #ifdef __cplusplus
 extern "C"{
 #endif
@@ -134,6 +135,9 @@ void setup_timers();
 #if defined(HAVE_HWSERIAL0) && defined(HAVE_CDCSERIAL)
 #error "Targets with both UART0 and CDC serial not supported"
 #endif
+
+
+void pwmWrite(pwm_timers_t pwmTimer, uint16_t value, timers_route_t timerRoute = ROUTE_UNTOUCHED);
 
 // These are used as the second to N argument to pinConfigure(pin, ...)
 // Directives are handled in the order they show up on this list, by pin function:
