@@ -2,6 +2,9 @@
 #include "pins_arduino.h"
 #include "wiring_private.h"
 
+
+
+
 void pwmWrite(pwm_timers_t pwmTimer, uint16_t val, timers_route_t timerRoute) {
   // Set PORTMUX to route PWM to the correct pin
   if (timerRoute != ROUTE_UNTOUCHED) {
@@ -109,5 +112,15 @@ void pwmWrite(pwm_timers_t pwmTimer, uint16_t val, timers_route_t timerRoute) {
         timer_B->CTRLB |= (TCB_CCMPEN_bm);
         break;
     }
+  }
+}
+
+void pwmPrescaler(pwm_timers_t pwmTimer, timers_prescaler_t prescaler) {
+  if(pwmTimer <= TCA0_5)
+    TCA0.SPLIT.CTRLA = prescaler | TCA_SPLIT_ENABLE_bm;
+  else {
+    TCB_t *timer_B = &TCB0 + (pwmTimer-TCB_0);
+    uint8_t p = (prescaler >> 4) & TCB_CLKSEL_gm;
+    timer_B->CTRLA = ((timer_B->CTRLA & ~TCB_CLKSEL_gm) | p);
   }
 }

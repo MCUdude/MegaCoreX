@@ -100,11 +100,7 @@
 
 // Timer enums
 #ifdef __cplusplus
-enum pwm_timers_t : uint8_t
-#else
-enum pwm_timers_t
-#endif
-{
+enum pwm_timers_t : uint8_t {
   TCA0_0 = 0,
   TCA0_1 = 1,
   TCA0_2 = 2,
@@ -115,7 +111,8 @@ enum pwm_timers_t
   TCB_1  = 7,
   TCB_2  = 8,
   TCB_3  = 9,
-} pwm_timers_t;
+};
+#endif
 
 // Timer pin mapping
 #define TCA0_PINS            PORTMUX_TCA0_PORTB_gc

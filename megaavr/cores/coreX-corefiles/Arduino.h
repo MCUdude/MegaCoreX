@@ -136,8 +136,22 @@ void setup_timers();
 #error "Targets with both UART0 and CDC serial not supported"
 #endif
 
+enum timers_prescaler_t : uint8_t {
+  TCA_DIV1    = 0x00,
+  TCA_DIV2    = 0x02,
+  TCA_DIV4    = 0x04,
+  TCA_DIV8    = 0x06,
+  TCA_DIV16   = 0x08,
+  TCA_DIV64   = 0x0A,
+  TCA_DIV256  = 0x0C,
+  TCA_DIV1024 = 0x0E,
+  TCB_DIV1    = 0x00,
+  TCB_DIV2    = 0x20,
+  TCB_CLKTCA  = 0x40,
+};
 
 void pwmWrite(pwm_timers_t pwmTimer, uint16_t value, timers_route_t timerRoute = ROUTE_UNTOUCHED);
+void pwmPrescaler(pwm_timers_t pwmTimer, timers_prescaler_t prescaler);
 
 // These are used as the second to N argument to pinConfigure(pin, ...)
 // Directives are handled in the order they show up on this list, by pin function:
