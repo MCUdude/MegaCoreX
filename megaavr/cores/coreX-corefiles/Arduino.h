@@ -152,6 +152,7 @@ enum timers_prescaler_t : uint8_t {
 
 void pwmWrite(pwm_timers_t pwmTimer, uint16_t value, timers_route_t timerRoute = ROUTE_UNTOUCHED);
 void pwmPrescaler(pwm_timers_t pwmTimer, timers_prescaler_t prescaler);
+void pwmSetResolution(pwm_timers_t pwmTimer, uint8_t maxValue);
 
 // These are used as the second to N argument to pinConfigure(pin, ...)
 // Directives are handled in the order they show up on this list, by pin function:
