@@ -2,7 +2,7 @@
 
 MegaCoreX is Arduino compatible out of the box, but also includes extra functionality that's not available on the official Arduino "megaavr" core. This is functionality that I personally have been missing in the official Arduino API, and have added to MegaCoreX instead.
 
-My goal isn't to "Arduino wrap" all hardware functionality the megaAVR-0 series brings to the table, but to expose functionality advanced users may benefit from and actually use. If you have a very niche application that utilizes one of the more obscure features the chip has, you're probably better off writing the low-level code yourself. Very spesific needs for ADC readings? Obscure timer needs? Read the approperiate Microchip application note w!
+My goal isn't to "Arduino wrap" all hardware functionality the megaAVR-0 series brings to the table, but to expose functionality advanced users may benefit from and actually use. If you have a very niche application that utilizes one of the more obscure features the chip has, you're probably better off writing the low-level code yourself. Very spesific needs for ADC readings? Obscure timer needs? Read the approperiate Microchip application note!
 
 
 ## Table of contents
@@ -145,7 +145,7 @@ Note that the default printf implementation will NOT print floats or doubles by 
 If you're using a serial port, simply use `Serial.printf("Milliseconds since start: %ld\n", millis());`. Other common libraries that inherit the Print class (and thus supports printf) are SoftwareSerial, the LiquidCrystal LCD library and the u8g2 graphical LCD library.
 
 
-# pwmWrite - flexible PWM routing
+## pwmWrite - flexible PWM routing
 The Arduino pinout definition and the `analogWrite` function have the PWM output pins pre-defined, and can't be moved or routed to different pins using the default Arduino API, even though the chip itself supports this. The `pwmWrite` function lets to use every supported PWM output pin, and you can route the PWM signals as you like. Note that the chip limits which timer output can be routed to which pins, and you also need to make sure you don't route the PWM signal to a pins that's used for something else, like UART or SPI. Also keep in mind that the timer used for millis/micros is occupied and can not be used for PWM generation. For the Nano Every 4809 and Uno Wifi Rev2 this means timer TCB2, and for all the other pinouts TCB2. Also note that low-pinout parts does not have timer TCB3 and all the routing pin options due to the lack of physical IO.
 
 ### Declaration
@@ -196,7 +196,7 @@ pwmWrite(TCA0_2, 128, ROUTE_TCA0_PORTA);
 | `ROUTE_TCB3_PC1`   | Route the TCB3 PWM output to pin PC1 (not present on low pincount parts)        |
 
 
-# pwmPrescaler - PWM frequency setting
+## pwmPrescaler - PWM frequency setting
 `pwmPrescaler` sets the clock source that drives timer. Timer TCA0 has the most options, while the TCB timers have fewer.
 The prescaler direcly affects the PWM frequency, and this is the formula that determines the frequency:
 `F_CPU / resolution / prescaler`. For instance, the default TCB PWM prescaler with a system clock of 16 MHz is 1/64, which results in a PWM frequency of just under 1 kHz.
@@ -233,7 +233,7 @@ pwmPrescaler(TCB_1, TCB_DIV2);
 | `TCA_DIV1024` | TCA0    | Runs TCA0 at 1/1024 the system clock               |                                                 |
 
 
-# pwmSetResolution
+## pwmSetResolution
 This function lets you change the PWM resolution in favour of increased PWM frequency. The default PWM range is 0-255, but the upper limit can be set to anything between 1 and 254. The resolution also affects the PWM frequency. The frequency can be calculated using this formula:  
 `F_CPU / resolution / prescaler`
 
