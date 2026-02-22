@@ -27,6 +27,7 @@ They're small programmers with excellent software support, and can be used with 
 * [Reset pin](#reset-pin)
 * [Printf support](#printf-support)
 * [Fast IO](#fast-io)
+* [Flexible PWM setup and routing](#flexible-pwm-setup-and-routing)
 * [Pin macros](#pin-macros)
 * [Write to own flash](#write-to-own-flash)
 * [Memory-mapped flash](#memory-mapped-flash)
@@ -141,6 +142,21 @@ Unlike the official Arduino core, MegaCoreX has printf support out of the box. I
 For timing critical applications the standard `digitalRead()` and `digitalWrite()` functions may be too slow. To solve this, MegaCoreX also incorporates `digitalReadFast(myPin)` and `digitalWriteFast(mypin, state)` which compiles down to a single instruction.
 
 [**See the extended API documentation for more information!**](https://github.com/MCUdude/MegaCoreX/tree/master/Extended-API.md#fast-io)
+
+
+## Flexible PWM setup and routing
+
+The various pinout this core provides are optimized to expose as many features on the available IO pins as possible. This is great where you want to have as many options as possible. For instance, I've tried my best to route various peripherals around so they don't share the same pins as other, frequencly used peripherals.  
+By default, PWM pins can't be moved around using the Arduino framework. And the megaAVR-0 family of chips only allows you to route a PWM output to a few pin options. To overcome this limitation and provide greater flexibility, I've added a few functions that makes PWM setup and routing much easier! Here's an example of how you would re-route the PWM output from timer TCB0 to a different pin:
+
+```c
+// Route timer TCB0 PWM output to pin PF4 and set the duty cycle to 50% (128/255)
+pwmWrite(TCB_0, 128, ROUTE_TCB0_PF4);
+// Set the timer TCB0 duty cycle to 30% but leave the routing as is
+pwmWrite(TCB_0, 76);
+```
+
+[**See the PWM section in the extended API documentation for more information!**](https://github.com/MCUdude/MegaCoreX/tree/master/Extended-API.md#pwmwrite---flexible-pwm-routing)
 
 
 ## Pin macros
