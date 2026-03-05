@@ -43,12 +43,16 @@ void pwmWrite(pwm_timers_t pwmTimer, uint16_t val, timers_route_t timerRoute) {
     pin_bp = route? PIN4_bp: PIN0_bp;
     vport  = route? &VPORTB: &VPORTC;
     d_max  = TCB2.CCMPL;
-  } else if(pwmTimer == TCB_3) {
+  }
+  #if defined(TCB3)
+  else if(pwmTimer == TCB_3) {
     route  = PORTMUX.TCBROUTEA & 0x08;
     pin_bp = route? PIN1_bp: PIN5_bp;
     vport  = route? &VPORTC: &VPORTB;
     d_max  = TCB3.CCMPL;
-  } else {
+  }
+  #endif
+  else {
     return;
   }
 
@@ -68,7 +72,9 @@ void pwmWrite(pwm_timers_t pwmTimer, uint16_t val, timers_route_t timerRoute) {
       case TCB_0:
       case TCB_1:
       case TCB_2:
+      #if defined(TCB3)
       case TCB_3:
+      #endif
         timer_B = &TCB0 + (pwmTimer-TCB_0);
         timer_B->CTRLB &= ~(TCB_CCMPEN_bm);
         break;
@@ -105,7 +111,9 @@ void pwmWrite(pwm_timers_t pwmTimer, uint16_t val, timers_route_t timerRoute) {
       case TCB_0:
       case TCB_1:
       case TCB_2:
+      #if defined(TCB3)
       case TCB_3:
+      #endif
         timer_B = &TCB0 + (pwmTimer-TCB_0);
         savedSREG = SREG;
         cli();
