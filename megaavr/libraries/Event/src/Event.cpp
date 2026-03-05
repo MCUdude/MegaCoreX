@@ -858,7 +858,7 @@ void Event::long_soft_event(uint8_t length) {
 event::gen::generator_t Event::gen_from_peripheral(AC_t& comp)
 {
   #if defined(TINY_1_SERIES) && PROGMEM_SIZE > 8192
-    badCall("gen_from_peripheral() does not support channel-specific generators. The AC's larger 1-series are.");
+    // badCall("gen_from_peripheral() does not support channel-specific generators. The AC's larger 1-series are.");
   #else
     #if defined(AC0)
       if(&comp == &AC0) {
@@ -1018,7 +1018,7 @@ event::user::user_t Event::user_from_peripheral(TCA_t& timer, uint8_t user_type)
 event::gen::generator_t Event::gen_from_peripheral(TCB_t& timer, uint8_t event_type) {
   int8_t gentype = -1;
   #if defined(TINY_0_OR_1_SERIES)
-    badCall("gen_from_peripheral() does not support channel-specific generators. The TCBs on 0/1-series are.");
+    // badCall("gen_from_peripheral() does not support channel-specific generators. The TCBs on 0/1-series are.");
   #else
     #if defined(MEGACOREX)  // Dx-series and 2-series have ovf event, others don't.
       if(event_type != 1) {
