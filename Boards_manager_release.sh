@@ -11,15 +11,47 @@
 # Change these to match your repo
 AUTHOR=MCUdude       # Github username
 REPOSITORY=MegaCoreX # Github repo name
+REPOWNER=felias-fogg # Repository owner (not necessarily author)
+PAOOWNER=felias-fogg # Github owner of PyAvrOCD
+
+# Get the version number of most recent (or specified) PyAvrOCD version
+PAOVERSION=$1
+if [ -z "${PAOVERSION}" ]; then
+    PAOVERSION=$(curl -s https://api.github.com/repos/$PAOOWNER/PyAvrOCD/releases/latest | grep "tag_name" |  awk -F\" '{print $4}')
+fi
+
+AVROCDVERSION=${PAOVERSION#"v"}
+
+AVRDUDE_VERSION="8.0-arduino.1"
 
 # Get the download URL for the latest release from Github
-DOWNLOAD_URL=$(curl -s https://api.github.com/repos/$AUTHOR/$REPOSITORY/releases/latest | grep "tarball_url" | awk -F\" '{print $4}')
+DOWNLOAD_URL=$(curl -s https://api.github.com/repos/$REPOWNER/$REPOSITORY/releases/latest | grep "tarball_url" | awk -F\" '{print $4}')
 
-# Download file
-wget --no-verbose $DOWNLOAD_URL
+echo "Download URL: ${DOWNLOAD_URL}"
 
 # Get filename
 DOWNLOADED_FILE=$(echo $DOWNLOAD_URL | awk -F/ '{print $8}')
+
+echo "Downloaded file: ${DOWNLOADED_FILE}"
+
+
+# Check whether most recent board file is already in the index
+if grep -q ${REPOSITORY}-${DOWNLOADED_FILE#"v"} package_${AUTHOR}_${REPOSITORY}_index.json; then
+    echo "Most recent board version is already in the index file. Nothing to do."
+    exit 1
+fi
+
+# Check whether current PyAvrOCD is already part of the index
+if grep -q "avrocd-tools-"${AVROCDVERSION} package_${AUTHOR}_${REPOSITORY}_index.json; then
+    echo "Current PyAvrOCD version is in index. Continue ..."
+else
+    echo "Current PyAvrOCD version is not in index. Add it first."
+    exit 1
+fi
+
+
+# Download file
+wget --no-verbose $DOWNLOAD_URL
 
 # Add .tar.bz2 extension to downloaded file
 mv $DOWNLOADED_FILE ${DOWNLOADED_FILE}.tar.bz2
@@ -47,7 +79,7 @@ FILE_SIZE=$(wc -c "$REPOSITORY-${DOWNLOADED_FILE#"v"}.tar.bz2" | awk '{print $1}
 SHA256="SHA-256:$(shasum -a 256 "$REPOSITORY-${DOWNLOADED_FILE#"v"}.tar.bz2" | awk '{print $1}')"
 
 # Create Github download URL
-URL="https://${AUTHOR}.github.io/${REPOSITORY}/$REPOSITORY-${DOWNLOADED_FILE#"v"}.tar.bz2"
+URL="https://${REPOWNER}.github.io/${REPOSITORY}/$REPOSITORY-${DOWNLOADED_FILE#"v"}.tar.bz2"
 
 cp "package_${AUTHOR}_${REPOSITORY}_index.json" "package_${AUTHOR}_${REPOSITORY}_index.json.tmp"
 
@@ -58,6 +90,8 @@ jq -r                                   \
 --arg url        $URL                   \
 --arg checksum   $SHA256                \
 --arg file_size  $FILE_SIZE             \
+--arg avrdude_ver $AVRDUDE_VERSION      \
+--arg avrocdversion $AVROCDVERSION      \
 --arg file_name  $REPOSITORY-${DOWNLOADED_FILE#"v"}.tar.bz2  \
 '.packages[].platforms[.packages[].platforms | length] |= . +
 {
@@ -88,13 +122,18 @@ jq -r                                   \
     {
       "packager": "MegaCoreX",
       "name": "avrdude",
-      "version": "8.0-arduino.1"
+      "version":  $avrdude_ver
     },
     {
       "packager": "arduino",
       "name": "arduinoOTA",
       "version": "1.3.0"
-    }
+    },
+    {
+      "packager": "MegaCoreX",
+      "name": "avrocd-tools",
+      "version": $avrocdversion
+    }   
   ]
 }' "package_${AUTHOR}_${REPOSITORY}_index.json.tmp" > "package_${AUTHOR}_${REPOSITORY}_index.json"
 
