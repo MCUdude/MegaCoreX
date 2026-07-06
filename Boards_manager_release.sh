@@ -11,7 +11,7 @@
 # Change these to match your repo
 AUTHOR=MCUdude       # Github username
 REPOSITORY=MegaCoreX # Github repo name
-REPOWNER=felias-fogg # Repository owner (not necessarily author)
+REPOWNER=MCUdude     # Repository owner (not necessarily author)
 PAOOWNER=felias-fogg # Github owner of PyAvrOCD
 
 # Get the version number of most recent (or specified) PyAvrOCD version
