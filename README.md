@@ -220,7 +220,7 @@ The default timer can be changed by adding `-DMILLIS_USE_TIMERBx` to the platfor
 
 | Pinout          | Timer used for millis and micros |
 |-----------------|----------------------------------|
-| 48 pin standard | TCB3                             |
+| 48 pin standard | TCB2                             |
 | 40 pin standard | TCB2                             |
 | 32 pin standard | TCB2                             |
 | 28 pin standard | TCB2                             |
