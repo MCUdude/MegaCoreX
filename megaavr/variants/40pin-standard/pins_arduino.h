@@ -77,7 +77,7 @@
 #define digitalOrAnalogPinToDigital(p) ((p <= 11) ? ((p) + ANALOG_INPUT_OFFSET) : ((p) <= 15) ? ((p) + ANALOG_INPUT_OFFSET + 2) : (((p) >= 26 && (p) <= 31)) ? (p) :  NOT_A_PIN)
 
 // Timer to use for millis/micros
-#if !defined(MILLIS_USE_TIMERB0) || !defined(MILLIS_USE_TIMERB1) || !defined(MILLIS_USE_TIMERB2) || !defined(MILLIS_USE_TIMERB3)
+#if !defined(MILLIS_USE_TIMERB0) && !defined(MILLIS_USE_TIMERB1) && !defined(MILLIS_USE_TIMERB2) && !defined(MILLIS_USE_TIMERB3)
 #define MILLIS_USE_TIMERB2 // Use TCB2 for millis generation
 #endif
 

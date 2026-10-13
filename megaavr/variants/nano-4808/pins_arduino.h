@@ -83,7 +83,7 @@
                                        ((p) >= 18  && (p) <= 21) ? ((p) - 6)  : NOT_A_PIN)
 
 // Timer to use for millis/micros
-#if !defined(MILLIS_USE_TIMERB0) || !defined(MILLIS_USE_TIMERB1) || !defined(MILLIS_USE_TIMERB2)
+#if !defined(MILLIS_USE_TIMERB0) && !defined(MILLIS_USE_TIMERB1) && !defined(MILLIS_USE_TIMERB2)
 #define MILLIS_USE_TIMERB2 // Use TCB2 if nothing else if defined
 #endif
 
