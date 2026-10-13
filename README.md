@@ -37,6 +37,7 @@ They're small programmers with excellent software support, and can be used with 
 * [Timer used for millis and micros](#timer-used-for-millis-and-micros)
 * [Pinout](#pinout)
 * [Hardware features](#hardware-features)
+  - [Hardware serial(#hardware-serial)
   - [PWM output](#pwm-output)
   - [Configurable Custom Logic (CCL)](#configurable-custom-logic-ccl)
   - [Analog Comparator (AC)](#analog-comparator-ac)
@@ -136,6 +137,8 @@ None of the megaAVR-0 microcontrollers needs the reset line to be reprogrammed o
 
 ## Printf support
 Unlike the official Arduino core, MegaCoreX has printf support out of the box. If you're not familiar with printf you should probably [read this first](https://www.tutorialspoint.com/c_standard_library/c_function_printf.htm). It's added to the Print class and will work with all libraries that inherit Print. Printf is a standard C function that lets you format text much easier than using Arduino's built-in print and println. 
+
+If you're using a serial port, simply use `Serial.printf("Milliseconds since start: %ld\n", millis());`.
 
 [**See the extended API documentation for more information!**](https://github.com/MCUdude/MegaCoreX/tree/master/Extended-API.md#printf-support)
 
@@ -246,6 +249,10 @@ Please have a look at the pins_arduino.h files for detailed info.<br/> <br/>
 
 ## Hardware features
 Here's some hardware specific features that differ from the older AVR families.
+
+### Hardware serial
+The ATmega809/1609/3209/4809 chips have four hardware serial ports, while the ATmega808/1608/3208/4808 have three. The ports can be used by calling `Serial`, `Serial1`, `Serial2` or `Serial3`. The RX and TX pins can also be swapped to alternative GPIO pins.  
+[See the extended API documentation for more information](https://github.com/MCUdude/MegaCoreX/tree/master/Extended-API.md#peripheral-pin-swapping).
 
 ### Interrupt pins
 Unlike older AVRs the megaAVR-0 microcontrollers have fully featured interrupts on every pin.
