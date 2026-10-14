@@ -12,10 +12,10 @@ For programming, these chips use a UPDI programming interface. This is a bi-dire
 If you're looking for well-designed, reliable UPDI programmers that also acts as a USB to serial adapters, check out the [microUPDI](https://www.tindie.com/products/MCUdude/microupdi-programmer/) and the [SerialUPDI](https://www.tindie.com/products/mcudude/serialupdi-programmer/) programmers I sell on [Tindie](https://www.tindie.com/stores/mcudude/)!
 They're small programmers with excellent software support, and can be used with Arduino IDE or PlatformIO. The SerialUPDI programmer comes fully assembled (except for the 6-pin programming connector), but the microUPDI needs to be soldered to an Arduino Pro Micro board.
 
-| [microUPDI](https://www.tindie.com/products/MCUdude/microupdi-programmer/) | [SerialUPDI](https://www.tindie.com/products/mcudude/serialupdi-programmer/) | Pinout                                                   |
-|----------------------------------------------------------------------------|------------------------------------------------------------------------------|----------------------------------------------------------|
-| <img src="https://i.imgur.com/Xn0pMuk.jpg" width="250">                    | <img src="https://i.imgur.com/fBV4Jfy.jpg" width="250">                      | <img src="https://i.imgur.com/12xKn3P.png" width="270">  |
-| <img src="https://i.imgur.com/tF0KQS9.jpg" width="250">                    | <img src="https://i.imgur.com/SfP6ym8.jpg" width="250">                      |                                                          |
+| [microUPDI](https://www.tindie.com/products/MCUdude/microupdi-programmer/) | [SerialUPDI](https://www.tindie.com/products/mcudude/serialupdi-programmer/) | Pinout                                                             |
+|----------------------------------------------------------------------------|------------------------------------------------------------------------------|--------------------------------------------------------------------|
+| <img src="megaavr/images/microUPDI_programmer_front.png" width="250">      | <img src="megaavr/images/SerialUPDI_programmer_front.png" width="250">       | <img src="megaavr/images/UPDI_programmer_pinout.png" width="270">  |
+| <img src="megaavr/images/microUPDI_programmer_back.png" width="250">       | <img src="megaavr/images/SerialUPDI_programmer_back.png" width="250">        |                                                                    |
 
 # Table of contents
 * [Supported microcontrollers](#supported-microcontrollers)
@@ -136,7 +136,7 @@ None of the megaAVR-0 microcontrollers needs the reset line to be reprogrammed o
 
 
 ## Printf support
-Unlike the official Arduino core, MegaCoreX has printf support out of the box. If you're not familiar with printf you should probably [read this first](https://www.tutorialspoint.com/c_standard_library/c_function_printf.htm). It's added to the Print class and will work with all libraries that inherit Print. Printf is a standard C function that lets you format text much easier than using Arduino's built-in print and println. 
+Unlike the official Arduino core, MegaCoreX has printf support out of the box. If you're not familiar with printf you should probably [read this first](https://www.tutorialspoint.com/c_standard_library/c_function_printf.htm). It's added to the Print class and will work with all libraries that inherit Print. Printf is a standard C function that lets you format text much easier than using Arduino's built-in print and println.
 
 If you're using a serial port, simply use `Serial.printf("Milliseconds since start: %ld\n", millis());`.
 
@@ -151,7 +151,7 @@ For timing critical applications the standard `digitalRead()` and `digitalWrite(
 
 ## Flexible PWM setup and routing
 
-The various pinout this core provides are optimized to expose as many features on the available IO pins as possible. This is great where you want to have as many options as possible. For instance, I've tried my best to route various peripherals around so they don't share the same pins as other, frequencly used peripherals.  
+The various pinout this core provides are optimized to expose as many features on the available IO pins as possible. This is great where you want to have as many options as possible. For instance, I've tried my best to route various peripherals around so they don't share the same pins as other, frequencly used peripherals.
 By default, PWM pins can't be moved around using the Arduino framework. And the megaAVR-0 family of chips only allows you to route a PWM output to a few pin options. To overcome this limitation and provide greater flexibility, I've added a few functions that makes PWM setup and routing much easier! Here's an example of how you would re-route the PWM output from timer TCB0 to a different pin:
 
 ```c
@@ -215,7 +215,7 @@ Usage:
 
 
 # Timer used for millis and micros
-The 28 and 32 pin part have a total of three TCB timers, while the 40 and 48 pin parts have four. In order to create default pinouts with as may PWM output pins as possible, different pinout uses different timers for millis and micros.  
+The 28 and 32 pin part have a total of three TCB timers, while the 40 and 48 pin parts have four. In order to create default pinouts with as may PWM output pins as possible, different pinout uses different timers for millis and micros.
 The default timer can be changed by adding `-DMILLIS_USE_TIMERBx` to the platformio.ini build flags, where *x* represents the TCB timer number from 0 to 3. Alternativey, the respective *pins_arduino.h* file can be modified if using Arduino IDE.
 
 | Pinout          | Timer used for millis and micros |
@@ -244,14 +244,14 @@ Please have a look at the pins_arduino.h files for detailed info.<br/> <br/>
 
 | **MegaCoreX ATmega809/1609/3209/4809 pinout**                                                                                                                                 | **MegaCoreX ATmega808/1608/3208/4808 pinout**                                                                                                                                                                                        |
 |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|<img src="https://i.imgur.com/3PUBB6H.jpg" width="350"><br/><img src="https://i.imgur.com/QbOOOTd.png" width="350"><br/><img src="https://i.imgur.com/Hp21SXJ.jpg" width="350">|<img src="https://i.imgur.com/2YlmE8p.png" width="350"><br/><br/><br/><br/><img src="https://i.imgur.com/zXyWvi1.png" width="350"><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>|
+|<img src="megaavr/images/MegaCoreX_48pin_standard_pinout.png" width="350"><br/><img src="megaavr/images/MegaCoreX_40pin_standard_pinout.png" width="350"><br/><img src="megaavr/images/MegaCoreX_Uno_WiFi_pinout.png" width="350">|<img src="megaavr/images/MegaCoreX_32pin_standard_pinout.png" width="350"><br/><br/><br/><br/><img src="megaavr/images/MegaCoreX_28pin_standard_pinout.png" width="350"><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>|
 
 
 ## Hardware features
 Here's some hardware specific features that differ from the older AVR families.
 
 ### Hardware serial
-The ATmega809/1609/3209/4809 chips have four hardware serial ports, while the ATmega808/1608/3208/4808 have three. The ports can be used by calling `Serial`, `Serial1`, `Serial2` or `Serial3`. The RX and TX pins can also be swapped to alternative GPIO pins.  
+The ATmega809/1609/3209/4809 chips have four hardware serial ports, while the ATmega808/1608/3208/4808 have three. The ports can be used by calling `Serial`, `Serial1`, `Serial2` or `Serial3`. The RX and TX pins can also be swapped to alternative GPIO pins.
 [See the extended API documentation for more information](https://github.com/MCUdude/MegaCoreX/tree/master/Extended-API.md#peripheral-pin-swapping).
 
 ### Interrupt pins
@@ -326,9 +326,9 @@ Open Arduino IDE and a new category in the boards menu called "MightyCoreX" will
 Here are some simple schematics that show a minimal setup. The straight 6-pin header may in the future be used for serial uploads without having to use a UPDI programmer. As of today, we're still waiting for a stable version of Optiboot.
 <b>Click to enlarge:</b> <br/>
 
-| 48-pin *ATmega809/1609/3209/4809*                     | 40-pin *ATmega4809*                                   | 32-pin *ATmega808/1608/3208/4808*                     |
-|-------------------------------------------------------|-------------------------------------------------------|-------------------------------------------------------|
-|<img src="https://i.imgur.com/xNgxbzX.png" width="270">|<img src="https://i.imgur.com/WnjFIEG.png" width="270">|<img src="https://i.imgur.com/yoGETML.png" width="270">|
+| 48-pin *ATmega809/1609/3209/4809*                                      | 40-pin *ATmega4809*                                                    | 32-pin *ATmega808/1608/3208/4808*                                      |
+|------------------------------------------------------------------------|------------------------------------------------------------------------|------------------------------------------------------------------------|
+|<img src="megaavr/images/Minimal_setup_MegaCoreX_48pin.png" width="270">|<img src="megaavr/images/Minimal_setup_MegaCoreX_40pin.png" width="270">|<img src="megaavr/images/Minimal_setup_MegaCoreX_32pin.png" width="270">|
 
 ## Getting your hardware working
 ### Arduino Uno WiFi Rev2
@@ -336,38 +336,38 @@ Here are some simple schematics that show a minimal setup. The straight 6-pin he
 
 Click to enlarge:
 
-<img src="https://i.imgur.com/UzDYb9f.png" width="400">
+<img src="megaavr/images/Arduino_Uno_WiFi_Rev2_pinout.png" width="400">
 
 ### Arduino Nano Every
 [The Arduino Nano Every](https://store.arduino.cc/arduino-nano-every) is one of the few megaAVR-0 based boards that's officially supported by Arduino. It uses an ATmega4809 and the *only* supported pinout is *Nano Every*. Printing to the serial monitor on your PC is done by initializing `Serial.begin(baud)`. The Nano Every does not support a bootloader, so select *No bootloader* in the tools menu. Burning bootloader or upload using programmer will not work either. However, all fuses are set every time you upload our program. For more information about this board please see the product page and its schematic.
 
 Click to enlarge:
 
-<img src="https://i.imgur.com/KyRef6p.png" width="400">
+<img src="megaavr/images/Arduino_Nano_Every_pinout.png" width="400">
 
 ### Nano 4808
 The Nano 4808, also known as the Thinary Nano 4808 a third-party Arduino compatible board with the Nano form factor. It uses an ATmega4808 and the *only* supported pinout is *Nano 4808*. Printing to the serial monitor on your PC is done by initializing `Serial.begin(baud)`. The Nano 4808 does not support a bootloader, so select *No bootloader* in the tools menu. The on-board JTAG2UPDI programmer is known to be difficult to enter programming mode when printing to the serial monitor. If you're having upload issues, connect a dedicated UPDI programmer to the UPDI pin, select it in the programmers menu and upload using the programmer.
 Click to enlarge:
 
-<img src="https://i.imgur.com/ykebGW7.png" width="400">
+<img src="megaavr/images/Nano_4808_pinout.png" width="400">
 
 ### Curiosity Nano
 [The Curiosity Nano](https://www.microchip.com/developmenttools/ProductDetails/DM320115) uses an ATmega4809 but has a different pinout than the Uno Wifi Rev2. The recommended pinout for this board is *48 pin standard*. The on-board LED is connected t pin PF5 (digital pin 39). Note that UART3 is connected to the nEDBG chip (often referred to as the debug serial port). This means you'll have to use `Serial3.begin(baud)` to print to the serial monitor. You'll also have to choose **Curiosity Nano** as your programmer to upload code. For more information about this board please refer to the user guide and its schematic.
 
 Click to enlarge:
 
-<img src="https://i.imgur.com/wg1HFam.jpg" width="350">
+<img src="megaavr/images/Curiosity_Nano_pinout.png" width="350">
 
 ### AVR-IOT WG
 [The AVR-IOT WG](https://www.microchip.com/developmenttools/ProductDetails/AC164160) uses the ATmega4808 in a 32 pin package. *32 pin standard* is the correct pinout for this board. Note that UART2 is connected to the nEDBG chip (often referred to as the debug serial port). This means you'll have to use `Serial2.begin(baud)` to print to the serial monitor. You'll also have to choose **Curiosity Nano** as your programmer to upload code. For more information about this board please refer to the user guide and its schematic.
 
 Click to enlarge:
 
-<img src="https://i.imgur.com/IwHHZHx.png" width="350">
+<img src="megaavr/images/AVR-IOT_WG_pinout.png" width="350">
 
 ### ATmega4809 Xplained Pro
 [The ATmega4809 Xplained Pro](https://www.microchip.com/developmenttools/ProductDetails/atmega4809-xpro) uses an ATmega4809. The recommended pinout for this board is *48 pin standard*. Note that the UART1 is connected to the EDBG chip (often referred to as the debug serial port). This means you'll have to use `Serial1.begin(baud)` to print to the serial monitor. You'll also have to choose **Xplained Pro** as your programmer to upload code. For more information about this board please refer to the user guide and its schematic.
 
 Click to enlarge:
 
-<img src="https://i.imgur.com/gQv8sv6.jpg" width="400">
+<img src="megaavr/images/ATmega4809_Xplained_Pro_pinout.png" width="400">
